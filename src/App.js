@@ -1,26 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import FeedbackGroup from './components/FeedbackGroup/FeedbackGroup';
+import FeedbackRequestForm from './components/FeedbackRequestForm/FeedbackRequestForm';
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div>
+            <FeedbackGroup
+                feedbackResponseForms={[
+                    {
+                        initialFeedbackText: '',
+                        soundcloudUrl: 'https://soundcloud.com/ruairidx/waiting-for-bad-news',
+                        feedbackPrompt: 'does this sound good lol',
+                    },
+                    {
+                        initialFeedbackText: 'one thing i think you should try is',
+                        soundcloudUrl: 'https://soundcloud.com/ruairidx/bruno',
+                        feedbackPrompt: '',
+                    },
+                ]}
+                feedbackReceived={['your bass is shit', 'give up man lol']}
+            />
+
+            <FeedbackRequestForm 
+                onSubmit={
+                    (soundcloudUrl, feedbackPrompt) => {
+                        console.log(soundcloudUrl, feedbackPrompt)
+                    }
+                }
+            />
+        </div>
+    )
 }
 
 export default App;
