@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Rate, Typography } from 'antd';
+import { Card, Col, Rate, Row, Typography } from 'antd';
 
 type Props = {
     feedbackText: string,
@@ -37,14 +37,23 @@ class FeedbackResponse extends React.Component<Props, State> {
 
     render() {
         return (
-            <div>
-                <Typography.Text>"{this.props.feedbackText}"</Typography.Text>
-                <Rate
-                    value={this.state.feedbackRating}
-                    disabled={!!this.state.feedbackRating}
-                    onChange={this.onRatingChange}
-                />
-            </div>
+            <Card>
+                <Row gutter={[16, 16]}>
+                    <Col>
+                        <Typography.Text>"{this.props.feedbackText}"</Typography.Text>
+                    </Col>
+                </Row>
+                <Row gutter={[16, 16]}>
+                    <Col>
+                        <Typography.Text strong>How helpful was this feedback?</Typography.Text>
+                        <Rate
+                            value={this.state.feedbackRating}
+                            disabled={!!this.state.feedbackRating}
+                            onChange={this.onRatingChange}
+                        />
+                    </Col>
+                </Row>
+            </Card>
         );
     }
 }
