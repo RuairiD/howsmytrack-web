@@ -1,98 +1,38 @@
 import React from 'react';
 
-import { Col, Divider, Empty, Row, Typography } from 'antd';
+import GenericPage from '../GenericPage/GenericPage';
+import FeedbackGroup from '../FeedbackGroup/FeedbackGroup';
 
-import FeedbackResponseForm from '../FeedbackResponseForm/FeedbackResponseForm';
-import type { FeedbackResponseFormProps } from '../FeedbackResponseForm/FeedbackResponseForm';
-
-import FeedbackResponse from '../FeedbackResponse/FeedbackResponse';
-
-type Props = {
-    feedbackResponseForms: Array<FeedbackResponseFormProps>,
-    feedbackReceived: Array<string>,
-};
-
-type State = {
-    feedbackReceived: Array<string>,
-};
-
-class FeedbackGroupPage extends React.Component<Props, State> {
-    /*
-     * Component without docs
-     */
-    state = {
-        feedbackReceived: this.props.feedbackReceived,
-    };
-
-    renderReceivedFeedback = () => {
-        if (this.state.feedbackReceived === null || this.state.feedbackReceived === undefined) {
-            return (
-                <Empty
-                    image={Empty.PRESENTED_IMAGE_DEFAULT}
-                    description="Feedback for your submission will appear here once you have submitted feedback for everyone else in your group."
+function FeedbackGroupPage() {
+    return (
+        <div>
+            <GenericPage
+                username="ruairidx"
+                rating={4.8876567}
+            >
+                <FeedbackGroup
+                    feedbackResponseForms={[
+                        {
+                            initialFeedbackText: '',
+                            soundcloudUrl: 'https://soundcloud.com/ruairidx/waiting-for-bad-news',
+                            feedbackPrompt: 'does this sound good lol',
+                        },
+                        {
+                            initialFeedbackText: 'one thing i think you should try is',
+                            soundcloudUrl: 'https://soundcloud.com/ruairidx/bruno',
+                            feedbackPrompt: '',
+                        },
+                        {
+                            initialFeedbackText: 'TODO: mention chord voicings',
+                            soundcloudUrl: 'https://soundcloud.com/ruairidx/the-ice-beneath-his-feet-master-2020-01-27/s-QlPhS',
+                            feedbackPrompt: 'Not sure about the chord voicings in the middle section; too much range.',
+                        },
+                    ]}
+                    feedbackReceived={['your bass is shit', 'give up man lol']}
                 />
-            )
-        }
-
-        if (this.state.feedbackReceived.length === 0) {
-            return (
-                <Empty
-                    image={Empty.PRESENTED_IMAGE_SIMPLE}
-                    description="Nobody in your group has submitted feedback yet..."
-                />
-            )
-        }
-
-        return (
-            <div>
-                {this.state.feedbackReceived.map(
-                    (feedbackReceived, i) => (
-                        <Col span={8} key={i}>
-                            <FeedbackResponse
-                                feedbackText={feedbackReceived}
-                            />
-                        </Col>
-                    )
-                )}
-            </div>
-        )
-    }
-
-    render() {
-        return (
-            <div>
-                <Typography.Title level={2}>Your Feedback Group</Typography.Title>
-
-                <Row gutter={[16, 16]}>
-                    <Col>
-                        <Typography.Title level={3}>Feedback requests for you</Typography.Title>
-                    </Col>
-                </Row>
-                <Row gutter={[16, 16]}>
-                    {this.props.feedbackResponseForms.map(
-                        (feedbackResponseForm, i) => (
-                            <Col span={8} key={i}>
-                                <FeedbackResponseForm
-                                    {...feedbackResponseForm}
-                                />
-                            </Col>
-                        )
-                    )}
-                </Row>
-
-                <Divider />
-
-                <Row gutter={[16, 16]}>
-                    <Col>
-                        <Typography.Title level={3}>Feedback for your submission</Typography.Title>
-                    </Col>
-                </Row>
-                <Row gutter={[16, 16]}>
-                    {this.renderReceivedFeedback()}
-                </Row>
-            </div>
-        );
-    }
+            </GenericPage>
+        </div>
+    )
 }
 
 export default FeedbackGroupPage;
