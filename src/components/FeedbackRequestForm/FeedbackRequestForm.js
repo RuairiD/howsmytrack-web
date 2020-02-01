@@ -12,6 +12,14 @@ type State = {
     submitted: boolean,
 };
 
+var CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($soundcloudUrl: String!, $feedbackPrompt: String) {
+    createFeedbackRequest(soundcloudUrl: $soundcloudUrl, feedbackPrompt: $feedbackPrompt) {
+        success
+        error
+    }
+}`;
+  
+
 class UnwrappedFeedbackRequestForm extends React.Component<Props, State> {
     /*
      * Component for displaying feedback request form. Enforces URL existence check locally
@@ -21,21 +29,32 @@ class UnwrappedFeedbackRequestForm extends React.Component<Props, State> {
         requestSent: false,
         errorMessage: null,
         submitted: false,
-    };
-
+    }
+    
     submitForm = (soundcloudUrl, feedbackPrompt) => {
         this.setState({
             requestSent: true,
         })
-        return new Promise(function(resolve, reject) {
-            // TODO: AJAX request
-            const error = false;
-            if (!error) {
-                setTimeout(resolve, 1000);
-            } else {
-                reject('You have already submitted a feedback request. Please wait before submitting another.');
-            }
-        })
+        return fetch('http://localhost:8000/graphql/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query: CREATE_FEEDBACK_REQUEST_MUTATION,
+                variables: { soundcloudUrl, feedbackPrompt },
+            }),
+            credentials: 'include',
+        }).then(result =>
+            result.json()
+        ).then((data) => {
+            this.setState({
+                requestSent: false,
+                submitted: data['data']['createFeedbackRequest'].success,
+                errorMessage: data['data']['createFeedbackRequest'].error,
+            });
+        });
     };
 
     onSubmit = (event) => {
@@ -45,19 +64,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<Props, State> {
                 this.submitForm(
                     values.soundcloudUrl,
                     values.feedbackPrompt
-                ).then(() => {
-                    this.setState({
-                        requestSent: false,
-                        submitted: true,
-                        errorMessage: null,
-                    });
-                }).catch(errorMessage => {
-                    this.setState({
-                        requestSent: false,
-                        submitted: false,
-                        errorMessage: errorMessage,
-                    });
-                })
+                )
             }
         });
     };

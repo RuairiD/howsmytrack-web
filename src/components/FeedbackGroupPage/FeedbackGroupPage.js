@@ -3,9 +3,82 @@ import React from 'react';
 import GenericPage from '../GenericPage/GenericPage';
 import FeedbackGroup from '../FeedbackGroup/FeedbackGroup';
 
-function FeedbackGroupPage() {
-    return (
-        <div>
+type State = {
+    hasProps: boolean,
+    username: string,
+    rating: number,
+    feedbackResponseForms: Array<object>,
+    feedbackReceived: Array<string>,
+};
+
+var VERIFY_TOKEN_QUERY = `query VerifyToken($token: String!) {
+    verifyToken(token: $token) {
+        payload
+    }
+}`; // use to get username
+
+/*
+query {
+  feedbackRequests {
+    id
+    soundcloudUrl
+    feedbackPrompt
+    feedbackGroup {
+      id
+      name
+    }
+    feedbackResponses {
+      id
+      feedback
+    }
+  }
+}
+
+# mutation {
+#   registerUser(email: "ruairidx@gmail.com", password: "asdqwertyfgh", passwordRepeat: "asdqwertyfgh") {
+#     success,
+#     errors
+#   }
+# }
+
+# mutation {
+#   tokenAuth(username: "ruairidx@gmail.com", password: "asdqwertyfgh") {
+#     token
+#   }
+# }
+
+# mutation {
+#   verifyToken(token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJ1YWlyaWR4QGdtYWlsLmNvbSIsImV4cCI6MTU4MDUxMjg1NSwib3JpZ0lhdCI6MTU4MDUxMjU1NX0.VwWgXwe1pJZlpk3FZf8ymdzcwiM918FKAbA9PVWYDZs") {
+#     payload
+#   }
+# }
+
+# mutation {
+#   createFeedbackRequest(soundcloudUrl: "https://soundcloud.com/ruairidx/bruno", feedbackPrompt: "hhhhh") {
+#     success
+#     errors
+#   }
+# }
+
+# mutation {
+#   rateFeedbackResponse(feedbackResponseId: 1, rating:4) {
+#     success
+#     errors
+#   }
+# }
+*/
+
+class FeedbackGroupPage extends React.Component<State> {
+    state = {
+        hasProps: false,
+    };
+
+    componentDidMount() {
+        
+    }
+
+    render() {
+        return this.state.hasProps && (
             <GenericPage
                 username="ruairidx"
                 rating={4.8876567}
@@ -31,8 +104,8 @@ function FeedbackGroupPage() {
                     feedbackReceived={['your bass is shit', 'give up man lol']}
                 />
             </GenericPage>
-        </div>
-    )
+        )
+    }
 }
 
 export default FeedbackGroupPage;
