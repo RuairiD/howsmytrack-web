@@ -5,8 +5,6 @@ import Sidebar from '../Sidebar/Sidebar';
 
 type Props = {
     title: string,
-    username: string,
-    rating: number,
 };
 
 type State = {
@@ -28,11 +26,8 @@ class GenericPage extends React.Component<Props, State> {
                 </Layout.Header>
                 <Layout.Content>
                     <Layout>
-                        <Layout.Sider>
-                            <Sidebar
-                                username={this.props.username}
-                                rating={this.props.rating}
-                            />
+                        <Layout.Sider theme="light">
+                            <Sidebar />
                         </Layout.Sider>
                         <Layout.Content>
                             <Layout>

@@ -3,105 +3,113 @@ import React from 'react';
 import GenericPage from '../GenericPage/GenericPage';
 import FeedbackGroup from '../FeedbackGroup/FeedbackGroup';
 
+import type { FeedbackResponseFormProps } from '../FeedbackResponseForm/FeedbackResponseForm';
+
+type Props = {
+    feedbackGroupId: number,
+};
+
 type State = {
     hasProps: boolean,
-    username: string,
-    rating: number,
-    feedbackResponseForms: Array<object>,
+    feedbackResponseForms: Array<FeedbackResponseFormProps>,
     feedbackReceived: Array<string>,
 };
 
-var VERIFY_TOKEN_QUERY = `query VerifyToken($token: String!) {
-    verifyToken(token: $token) {
-        payload
-    }
-}`; // use to get username
-
-/*
-query {
-  feedbackRequests {
+const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
+  feedbackGroup(feedbackGroupId: $feedbackGroupId) {
     id
-    soundcloudUrl
-    feedbackPrompt
-    feedbackGroup {
-      id
-      name
-    }
+    name
     feedbackResponses {
       id
       feedback
+      submitted
+      feedbackRequest {
+        feedbackPrompt
+        soundcloudUrl
+      }
+    }
+    userFeedbackResponses {
+      id
+      feedback
+      rating
     }
   }
-}
+}`;
 
-# mutation {
-#   registerUser(email: "ruairidx@gmail.com", password: "asdqwertyfgh", passwordRepeat: "asdqwertyfgh") {
-#     success,
-#     errors
-#   }
-# }
-
-# mutation {
-#   tokenAuth(username: "ruairidx@gmail.com", password: "asdqwertyfgh") {
-#     token
-#   }
-# }
-
-# mutation {
-#   verifyToken(token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InJ1YWlyaWR4QGdtYWlsLmNvbSIsImV4cCI6MTU4MDUxMjg1NSwib3JpZ0lhdCI6MTU4MDUxMjU1NX0.VwWgXwe1pJZlpk3FZf8ymdzcwiM918FKAbA9PVWYDZs") {
-#     payload
-#   }
-# }
-
-# mutation {
-#   createFeedbackRequest(soundcloudUrl: "https://soundcloud.com/ruairidx/bruno", feedbackPrompt: "hhhhh") {
-#     success
-#     errors
-#   }
-# }
-
-# mutation {
-#   rateFeedbackResponse(feedbackResponseId: 1, rating:4) {
-#     success
-#     errors
-#   }
-# }
-*/
-
-class FeedbackGroupPage extends React.Component<State> {
+class FeedbackGroupPage extends React.Component<Props, State> {
     state = {
         hasProps: false,
     };
 
+    formatQueryResponse = (data) => {
+        const feedbackGroupProps = {
+            'feedbackResponseForms': [],
+        }
+
+        for (const feedbackResponse of data['feedbackResponses']) {
+            feedbackGroupProps['feedbackResponseForms'].push({
+                'feedbackResponseId': feedbackResponse['id'],
+                'feedback': feedbackResponse['feedback'],
+                'soundcloudUrl': feedbackResponse['feedbackRequest']['soundcloudUrl'],
+                'feedbackPrompt': feedbackResponse['feedbackRequest']['feedbackPrompt'],
+                'submitted': feedbackResponse['submitted'],
+            });
+        }
+
+        if (data['userFeedbackResponses']) {
+            feedbackGroupProps['feedbackReceived'] = []
+            for (var userFeedbackResponse of data['userFeedbackResponses']) {
+                feedbackGroupProps['feedbackReceived'].push({
+                    'feedbackResponseId': userFeedbackResponse['id'],
+                    'feedback': userFeedbackResponse['feedback'],
+                    'rating': userFeedbackResponse['rating']
+                })
+            }
+        }
+
+        return feedbackGroupProps
+    };
+
     componentDidMount() {
-        
+        fetch('http://localhost:8000/graphql/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query: FEEDBACK_GROUP_QUERY,
+                variables: { feedbackGroupId: this.props.feedbackGroupId },
+            }),
+            credentials: 'include',
+        }).then(result =>
+            result.json()
+        ).then((data) => {
+            if (!data['data']['feedbackGroup']) {
+                // Could not get group, either because user isn't member of the group
+                // or because group doesn't exist.
+                this.setState({
+                    hasProps: true,
+                })
+                return
+            }
+            const feedbackGroup = this.formatQueryResponse(
+                data['data']['feedbackGroup'],
+            )
+            this.setState({
+                hasProps: true,
+                feedbackResponseForms: feedbackGroup['feedbackResponseForms'],
+                feedbackReceived: feedbackGroup['feedbackReceived'],
+            });
+        });
     }
 
     render() {
         return this.state.hasProps && (
-            <GenericPage
-                username="ruairidx"
-                rating={4.8876567}
-            >
+            <GenericPage>
                 <FeedbackGroup
-                    feedbackResponseForms={[
-                        {
-                            initialFeedbackText: '',
-                            soundcloudUrl: 'https://soundcloud.com/ruairidx/waiting-for-bad-news',
-                            feedbackPrompt: 'does this sound good lol',
-                        },
-                        {
-                            initialFeedbackText: 'one thing i think you should try is',
-                            soundcloudUrl: 'https://soundcloud.com/ruairidx/bruno',
-                            feedbackPrompt: '',
-                        },
-                        {
-                            initialFeedbackText: 'TODO: mention chord voicings',
-                            soundcloudUrl: 'https://soundcloud.com/ruairidx/the-ice-beneath-his-feet-master-2020-01-27/s-QlPhS',
-                            feedbackPrompt: 'Not sure about the chord voicings in the middle section; too much range.',
-                        },
-                    ]}
-                    feedbackReceived={['your bass is shit', 'give up man lol']}
+                    feedbackResponseForms={this.state.feedbackResponseForms}
+                    feedbackReceived={this.state.feedbackReceived}
                 />
             </GenericPage>
         )

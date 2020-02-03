@@ -5,25 +5,33 @@ import { Alert, Button, Card, Col, Input, Result, Row, Typography } from 'antd';
 import SoundcloudEmbed from '../SoundcloudEmbed/SoundcloudEmbed';
 
 export type FeedbackResponseFormProps = {
-    initialFeedbackText: string,
+    feedbackResponseId: number,
+    feedback: string,
     soundcloudUrl: string,
     feedbackPrompt: string,
     submitted: boolean,
 };
 
 type State = {
-    feedbackText: string,
+    feedback: string,
     requestSent: boolean,
     errorMessage: string,
     submitted: boolean,
 };
 
+const SUBMIT_FEEDBACK_RESPONSE_MUTATION = `mutation SubmitFeedbackResponse($feedbackResponseId: Int!, $feedback: String!) {
+    submitFeedbackResponse(feedbackResponseId: $feedbackResponseId, feedback: $feedback) {
+        success
+        error
+    }
+}`;
+
 class FeedbackResponseForm extends React.Component<Props, State> {
     /*
-     * Component for displayed feedback form for a group member to complete.
+     * Component for displaying feedback form for a group member to complete.
      */
     state = {
-        feedbackText: this.props.initialFeedbackText,
+        feedback: this.props.feedback,
         requestSent: false,
         errorMessage: null,
         submitted: this.props.submitted,
@@ -31,41 +39,43 @@ class FeedbackResponseForm extends React.Component<Props, State> {
 
     onFeedbackTextChange = (event) => {
         this.setState({
-            feedbackText: event.target.value,
+            feedback: event.target.value,
         })
     };
 
-    submitForm = (feedbackText) => {
+    submitForm = (feedback) => {
         this.setState({
             requestSent: true,
         })
-        return new Promise(function(resolve, reject) {
-            // TODO: AJAX request
-            const error = false;
-            if (!error) {
-                setTimeout(resolve, 1000);
-            } else {
-                reject('You have already submitted feedback for this track.');
-            }
-        })
+        return fetch('http://localhost:8000/graphql/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query: SUBMIT_FEEDBACK_RESPONSE_MUTATION,
+                variables: {
+                    feedbackResponseId: this.props.feedbackResponseId,
+                    feedback: feedback,
+                },
+            }),
+            credentials: 'include',
+        }).then(result =>
+            result.json()
+        ).then((data) => {
+            this.setState({
+                requestSent: false,
+                submitted: data['data']['submitFeedbackResponse'].success,
+                errorMessage: data['data']['submitFeedbackResponse'].error,
+            });
+        });
     };
 
     onSubmit = () => {
         this.submitForm(
-            this.state.feedbackText,
-        ).then(() => {
-            this.setState({
-                requestSent: false,
-                submitted: true,
-                errorMessage: null,
-            });
-        }).catch(errorMessage => {
-            this.setState({
-                requestSent: false,
-                submitted: false,
-                errorMessage: errorMessage,
-            });
-        })
+            this.state.feedback,
+        )
     };
 
     render() {
@@ -89,7 +99,7 @@ class FeedbackResponseForm extends React.Component<Props, State> {
                     <Row gutter={[16, 16]}>
                         <Col>
                             <Input.TextArea
-                                value={this.state.feedbackText}
+                                value={this.state.feedback}
                                 onChange={this.onFeedbackTextChange}
                                 rows={4}
                             />
@@ -101,7 +111,7 @@ class FeedbackResponseForm extends React.Component<Props, State> {
                             <Button
                                 type="primary"
                                 loading={this.state.requestSent}
-                                disabled={!this.state.feedbackText}
+                                disabled={!this.state.feedback}
                                 onClick={this.onSubmit}
                             >
                                 Submit Feedback

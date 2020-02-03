@@ -1,19 +1,20 @@
 import React from 'react';
 
-import { Col, Divider, Empty, Row, Typography } from 'antd';
+import { Col, Divider, Empty, Result, Row, Typography } from 'antd';
 
 import FeedbackResponseForm from '../FeedbackResponseForm/FeedbackResponseForm';
 import type { FeedbackResponseFormProps } from '../FeedbackResponseForm/FeedbackResponseForm';
 
 import FeedbackResponse from '../FeedbackResponse/FeedbackResponse';
+import type { FeedbackResponseProps } from '../FeedbackResponse/FeedbackResponse';
 
 type Props = {
     feedbackResponseForms: Array<FeedbackResponseFormProps>,
-    feedbackReceived: Array<string>,
+    feedbackReceived: Array<FeedbackResponseProps>,
 };
 
 type State = {
-    feedbackReceived: Array<string>,
+    feedbackReceived: Array<FeedbackResponseProps>,
 };
 
 class FeedbackGroup extends React.Component<Props, State> {
@@ -49,7 +50,7 @@ class FeedbackGroup extends React.Component<Props, State> {
                     (feedbackReceived, i) => (
                         <Col span={8} key={i}>
                             <FeedbackResponse
-                                feedbackText={feedbackReceived}
+                                {...feedbackReceived}
                             />
                         </Col>
                     )
@@ -59,38 +60,46 @@ class FeedbackGroup extends React.Component<Props, State> {
     }
 
     render() {
+        if (this.props.feedbackResponseForms) {
+            return (
+                <div>
+                    <Typography.Title level={2}>Your Feedback Group</Typography.Title>
+
+                    <Row gutter={[16, 16]}>
+                        <Col>
+                            <Typography.Title level={3}>Feedback requests for you</Typography.Title>
+                        </Col>
+                    </Row>
+                    <Row gutter={[16, 16]}>
+                        {this.props.feedbackResponseForms.map(
+                            (feedbackResponseForm, i) => (
+                                <Col span={8} key={i}>
+                                    <FeedbackResponseForm
+                                        {...feedbackResponseForm}
+                                    />
+                                </Col>
+                            )
+                        )}
+                    </Row>
+
+                    <Divider />
+
+                    <Row gutter={[16, 16]}>
+                        <Col>
+                            <Typography.Title level={3}>Feedback for your submission</Typography.Title>
+                        </Col>
+                    </Row>
+                    <Row gutter={[16, 16]}>
+                        {this.renderReceivedFeedback()}
+                    </Row>
+                </div>
+            )
+        }
         return (
-            <div>
-                <Typography.Title level={2}>Your Feedback Group</Typography.Title>
-
-                <Row gutter={[16, 16]}>
-                    <Col>
-                        <Typography.Title level={3}>Feedback requests for you</Typography.Title>
-                    </Col>
-                </Row>
-                <Row gutter={[16, 16]}>
-                    {this.props.feedbackResponseForms.map(
-                        (feedbackResponseForm, i) => (
-                            <Col span={8} key={i}>
-                                <FeedbackResponseForm
-                                    {...feedbackResponseForm}
-                                />
-                            </Col>
-                        )
-                    )}
-                </Row>
-
-                <Divider />
-
-                <Row gutter={[16, 16]}>
-                    <Col>
-                        <Typography.Title level={3}>Feedback for your submission</Typography.Title>
-                    </Col>
-                </Row>
-                <Row gutter={[16, 16]}>
-                    {this.renderReceivedFeedback()}
-                </Row>
-            </div>
+            <Result
+                status="error"
+                title="You are not authorised to view this group."
+            />
         );
     }
 }

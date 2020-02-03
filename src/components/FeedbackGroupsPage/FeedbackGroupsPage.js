@@ -3,42 +3,93 @@ import React from 'react';
 import GenericPage from '../GenericPage/GenericPage';
 import FeedbackGroups from '../FeedbackGroups/FeedbackGroups';
 
-function FeedbackGroupsPage() {
-    return (
-        <div>
-            <GenericPage
-                username="ruairidx"
-                rating={4.8876567}
-            >
-                <FeedbackGroups
-                    username="ruairidx"
-                    feedbackGroups={[
-                        {
-                            feedbackGroupId: 13,
-                            soundcloudUrl: 'https://soundcloud.com/ruairidx/grey',
-                            userCount: 4,
-                            userFeedbackCount: 0,
-                            feedbackResponseCount: 1,
-                        },
-                        {
-                            feedbackGroupId: 8,
-                            soundcloudUrl: 'https://soundcloud.com/ruairidx/waiting-for-bad-news',
-                            userCount: 4,
-                            userFeedbackCount: 2,
-                            feedbackResponseCount: 3,
-                        },
-                        {
-                            feedbackGroupId: 4,
-                            soundcloudUrl: 'https://soundcloud.com/ruairidx/bruno',
-                            userCount: 4,
-                            userFeedbackCount: 3,
-                            feedbackResponseCount: 3,
-                        },
-                    ]}
-                />
-            </GenericPage>
-        </div>
-    )
+import type { FeedbackGroupPreviewProps } from '../FeedbackGroupPreview/FeedbackGroupPreview';
+
+type State = {
+    hasProps: boolean,
+    feedbackGroups: Array<FeedbackGroupPreviewProps>,
+};
+
+const FEEDBACK_GROUPS_QUERY = `query FeedbackGroups {
+  feedbackGroups {
+    id
+    name
+    members
+    soundcloudUrl
+    feedbackResponses {
+      submitted
+    }
+    userFeedbackResponses {
+      submitted
+    }
+  }
+}`;
+
+class FeedbackGroupsPage extends React.Component<State> {
+
+    state = {
+        hasProps: false,
+    };
+
+    formatQueryResponse = (data) => {
+        console.log(data);
+        const feedbackGroups = []
+
+        for (const feedbackGroup of data) {
+            feedbackGroups.push({
+                'feedbackGroupId': feedbackGroup['id'],
+                'soundcloudUrl': feedbackGroup['soundcloudUrl'],
+                'userCount': feedbackGroup['members'],
+                'userFeedbackCount': feedbackGroup['feedbackResponses'].length,
+                'feedbackResponseCount': feedbackGroup['userFeedbackResponses'].length,
+            });
+        }
+
+        return feedbackGroups
+    };
+
+    componentDidMount() {
+        fetch('http://localhost:8000/graphql/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query: FEEDBACK_GROUPS_QUERY,
+            }),
+            credentials: 'include',
+        }).then(result =>
+            result.json()
+        ).then((data) => {
+            if (!data['data']['feedbackGroups']) {
+                // Could not get groups because user is not logged in.
+                this.setState({
+                    hasProps: true,
+                })
+                return
+            }
+            const feedbackGroups = this.formatQueryResponse(
+                data['data']['feedbackGroups'],
+            )
+            this.setState({
+                hasProps: true,
+                feedbackGroups: feedbackGroups,
+            });
+        });
+    }
+
+    render() {
+        return this.state.hasProps && (
+            <div>
+                <GenericPage>
+                    <FeedbackGroups
+                        feedbackGroups={this.state.feedbackGroups}
+                    />
+                </GenericPage>
+            </div>
+        )
+    }
 }
 
 export default FeedbackGroupsPage;

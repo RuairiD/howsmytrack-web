@@ -5,7 +5,6 @@ import SoundcloudEmbed from '../SoundcloudEmbed/SoundcloudEmbed';
 
 export type FeedbackGroupPreviewProps = {
     feedbackGroupId: number,
-    feedbackGroupUrl: string,
     soundcloudUrl: string,
     // Number of users in the group
     userCount: number,
@@ -35,9 +34,13 @@ class FeedbackGroupPreview extends React.Component<Props> {
         return this.props.feedbackResponseCount + '/' + (this.props.userCount - 1)
     }
 
+    buildFeedbackGroupUrl = () => {
+        return '/group/' + this.props.feedbackGroupId;
+    }
+
     render() {
         return (
-            <a href={this.props.feedbackGroupUrl}>
+            <a href={this.buildFeedbackGroupUrl()}>
                 <Card title={"Feedback Group #"+ this.props.feedbackGroupId}>
                     <Row gutter={[16, 16]} type="flex" justify="space-around" align="middle">
                         <Col span={16}>

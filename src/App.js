@@ -7,14 +7,22 @@ import FeedbackGroupsPage from './components/FeedbackGroupsPage/FeedbackGroupsPa
 import FaqPage from './components/FaqPage/FaqPage';
 
 
+function renderFeedbackGroup({ match} ) {
+    let { feedbackGroupId } = match.params;
+    return (
+        <FeedbackGroupPage feedbackGroupId={feedbackGroupId} />
+    )
+}
+
+
 function App() {
     return (
         <BrowserRouter>
             <Suspense fallback={<div>Loading...</div>}>
                 <Switch>
-                    <Route exact path="/" component={FaqPage}/>
-                    <Route path="/groups" component={FeedbackGroupsPage}/>
-                    <Route path="/group" component={FeedbackGroupPage}/>
+                    <Route exact path="/" component={FaqPage} />
+                    <Route path="/groups" component={FeedbackGroupsPage} />
+                    <Route path="/group/:feedbackGroupId" render={renderFeedbackGroup} />
                 </Switch>
             </Suspense>
         </BrowserRouter>

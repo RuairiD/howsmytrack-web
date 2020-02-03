@@ -2,35 +2,60 @@ import React from 'react';
 
 import { Card, Col, Rate, Row, Typography } from 'antd';
 
-type Props = {
-    feedbackText: string,
-    feedbackRating: number,
+export type FeedbackResponseProps = {
+    feedbackReponseId: number,
+    feedback: string,
+    rating: number,
 };
 
 type State = {
-    feedbackRating: number,
+    rating: number,
 };
+
+const RATE_FEEDBACK_RESPONSE_MUTATION = `mutation RateFeedbackResponse($feedbackResponseId: Int!, $rating: Int!) {
+    rateFeedbackResponse(feedbackResponseId: $feedbackResponseId, rating: $rating) {
+        success
+        error
+    }
+}`;
 
 class FeedbackResponse extends React.Component<Props, State> {
     /*
-     * Component without docs
+     * Component for showing user the feedback they have received from another user.
+     * Only displayed in a feedback group onc ehte user who received the feedback has
+     * left feedback for everyone else in the group.
      */
     state = {
-        feedbackRating: this.props.feedbackRating,
+        rating: this.props.rating,
     };
 
-    submitRating = (soundcloudUrl, feedbackPrompt) => {
-        return new Promise(function(resolve, reject) {
-            // TODO: AJAX request
-            resolve();
-        })
+    submitRating = (feedbackResponseId, rating) => {
+        fetch('http://localhost:8000/graphql/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query: RATE_FEEDBACK_RESPONSE_MUTATION,
+                variables: {
+                    feedbackResponseId: feedbackResponseId,
+                    rating: rating,
+                },
+            }),
+            credentials: 'include',
+        }).then(result =>
+            result.json()
+        ).then((data) => {
+            // TODO: acknowledge result, show errors etc.
+        });
     };
 
     onRatingChange = (rating) => {
-        if (!this.state.feedbackRating) {
-            this.submitRating(rating)
+        if (!this.state.rating) {
+            this.submitRating(this.props.feedbackResponseId, rating)
             this.setState({
-                feedbackRating: rating,
+                rating: rating,
             })
         }
     };
@@ -40,15 +65,19 @@ class FeedbackResponse extends React.Component<Props, State> {
             <Card>
                 <Row gutter={[16, 16]}>
                     <Col>
-                        <Typography.Text>"{this.props.feedbackText}"</Typography.Text>
+                        <Typography.Text>"{this.props.feedback}"</Typography.Text>
                     </Col>
                 </Row>
                 <Row gutter={[16, 16]}>
                     <Col>
                         <Typography.Text strong>How helpful was this feedback?</Typography.Text>
+                    </Col>
+                </Row>
+                <Row gutter={[16, 16]}>
+                    <Col>
                         <Rate
-                            value={this.state.feedbackRating}
-                            disabled={!!this.state.feedbackRating}
+                            value={this.state.rating}
+                            disabled={!!this.state.rating}
                             onChange={this.onRatingChange}
                         />
                     </Col>

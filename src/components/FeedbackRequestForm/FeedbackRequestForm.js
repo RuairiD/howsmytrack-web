@@ -12,13 +12,12 @@ type State = {
     submitted: boolean,
 };
 
-var CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($soundcloudUrl: String!, $feedbackPrompt: String) {
+const CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($soundcloudUrl: String!, $feedbackPrompt: String) {
     createFeedbackRequest(soundcloudUrl: $soundcloudUrl, feedbackPrompt: $feedbackPrompt) {
         success
         error
     }
 }`;
-  
 
 class UnwrappedFeedbackRequestForm extends React.Component<Props, State> {
     /*
@@ -49,6 +48,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<Props, State> {
         }).then(result =>
             result.json()
         ).then((data) => {
+            console.log(data);
             this.setState({
                 requestSent: false,
                 submitted: data['data']['createFeedbackRequest'].success,
@@ -74,7 +74,6 @@ class UnwrappedFeedbackRequestForm extends React.Component<Props, State> {
             <div>
                 <Row gutter={[16, 16]}>
                     <Col>
-                        <Typography.Title level={2}>New Feedback Request</Typography.Title>
                         <Typography.Text>
                             Users are allowed to submit feedback requests once per 24 hours.
                         </Typography.Text>
