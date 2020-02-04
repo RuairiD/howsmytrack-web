@@ -1,3 +1,4 @@
+import HttpsRedirect from 'react-https-redirect';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import React, { Suspense } from 'react';
 import './App.css';
@@ -17,15 +18,17 @@ function renderFeedbackGroup({ match} ) {
 
 function App() {
     return (
-        <BrowserRouter>
-            <Suspense fallback={<div>Loading...</div>}>
-                <Switch>
-                    <Route exact path="/" component={FaqPage} />
-                    <Route path="/groups" component={FeedbackGroupsPage} />
-                    <Route path="/group/:feedbackGroupId" render={renderFeedbackGroup} />
-                </Switch>
-            </Suspense>
-        </BrowserRouter>
+        <HttpsRedirect>
+            <BrowserRouter>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <Switch>
+                        <Route exact path="/" component={FaqPage} />
+                        <Route path="/groups" component={FeedbackGroupsPage} />
+                        <Route path="/group/:feedbackGroupId" render={renderFeedbackGroup} />
+                    </Switch>
+                </Suspense>
+            </BrowserRouter>
+        </HttpsRedirect>
     )
 }
 
