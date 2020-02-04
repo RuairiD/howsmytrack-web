@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Alert, Button, Col, Icon, Input, Form, Result, Row, Spin, Typography } from 'antd';
+import { Alert, Button, Col, Icon, Input, Form, Result, Row, Spin } from 'antd';
 
 type State = {
     requestSent: boolean,

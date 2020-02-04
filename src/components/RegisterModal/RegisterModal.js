@@ -10,7 +10,8 @@ type Props = {
 
 class RegisterModal extends React.Component<Props> {
     /*
-     * Component without docs
+     * Component for displaying modal containing RegisterForm for
+     * signing up new users.
      */
     render() {
         return (

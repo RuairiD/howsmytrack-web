@@ -38,7 +38,7 @@ class GenericPage extends React.Component<Props, State> {
                                     <Divider />
                                     <Typography.Paragraph>
                                         <Typography.Text strong>
-                                            <a href="https://ruairidorrity.com">ruairi dorrity</a> // <a href="https://ruairidx.com">ruairi dx</a>
+                                            <a href="https://ruairidorrity.com">ruairi dorrity</a> &#47;&#47; <a href="https://ruairidx.com">ruairi dx</a>
                                         </Typography.Text>
                                     </Typography.Paragraph>
                                 </Layout.Footer>

@@ -10,7 +10,7 @@ type Props = {
 
 class LoginModal extends React.Component<Props> {
     /*
-     * Component without docs
+     * Component for displaying modal containing LoginForm for users to sign in.
      */
 
     render() {

@@ -10,15 +10,8 @@ type Props = {
 
 class FeedbackRequestModal extends React.Component<Props> {
     /*
-     * Component without docs
+     * Component for displaying modal for submitting a feedback request.
      */
-    submitRequest = (soundcloudUrl, feedbackPrompt) => {
-        return new Promise(function(resolve, reject) {
-            // TODO: AJAX request
-            resolve();
-        })
-    };
-
     render() {
         return (
             <Modal
@@ -28,9 +21,7 @@ class FeedbackRequestModal extends React.Component<Props> {
                 footer={null}
                 destroyOnClose
             >
-                <FeedbackRequestForm
-                    onSubmit={this.submitRequest}
-                />
+                <FeedbackRequestForm />
             </Modal>
         );
     }

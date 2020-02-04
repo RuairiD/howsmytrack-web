@@ -2,10 +2,6 @@ import React from 'react';
 
 import { Alert, Button, Col, Input, Form, Result, Row, Spin, Typography } from 'antd';
 
-type Props = {
-    onSubmit: (soundcloudUrl: string, feedbackPrompt: string) => void,
-};
-
 type State = {
     requestSent: boolean,
     errorMessage: string,
@@ -19,7 +15,7 @@ const CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($soundc
     }
 }`;
 
-class UnwrappedFeedbackRequestForm extends React.Component<Props, State> {
+class UnwrappedFeedbackRequestForm extends React.Component<State> {
     /*
      * Component for displaying feedback request form. Enforces URL existence check locally
      * but relies on backend to check user is eligible to make a request.
@@ -48,7 +44,6 @@ class UnwrappedFeedbackRequestForm extends React.Component<Props, State> {
         }).then(result =>
             result.json()
         ).then((data) => {
-            console.log(data);
             this.setState({
                 requestSent: false,
                 submitted: data['data']['createFeedbackRequest'].success,
