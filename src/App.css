@@ -1,7 +1,7 @@
 @import '~antd/dist/antd.css';
 
-html, body, #root, #root>div, .ant-layout {
-  height: 100%
+html, body, #root, #root>div {
+  height: 100vh;
 }
 
 .App {

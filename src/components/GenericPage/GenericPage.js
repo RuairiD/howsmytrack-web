@@ -29,7 +29,7 @@ class GenericPage extends React.Component<Props, State> {
                         <Layout.Sider theme="light">
                             <Sidebar />
                         </Layout.Sider>
-                        <Layout.Content>
+                        <Layout.Content style={{ minHeight: '100vh' }}>
                             <Layout>
                                 <Layout.Content style={{ padding: '4em' }}>
                                     {this.props.children}
