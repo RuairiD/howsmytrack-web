@@ -1,1 +1,1 @@
-export default 'https://feedbackgroups.herokuapp.com';
+export default 'https://feedbackgroups-backend.herokuapp.com';
