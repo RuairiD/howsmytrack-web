@@ -13,6 +13,7 @@ type Props = {
 
 type State = {
     hasProps: boolean,
+    name: string,
     feedbackResponseForms: Array<FeedbackResponseFormProps>,
     feedbackReceived: Array<string>,
 };
@@ -73,6 +74,7 @@ class FeedbackGroupPage extends React.Component<Props, State> {
     };
 
     componentDidMount() {
+        document.title = 'FeedbackGroups';
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -100,9 +102,11 @@ class FeedbackGroupPage extends React.Component<Props, State> {
             )
             this.setState({
                 hasProps: true,
+                name: data['data']['feedbackGroup']['name'],
                 feedbackResponseForms: feedbackGroup['feedbackResponseForms'],
                 feedbackReceived: feedbackGroup['feedbackReceived'],
             });
+            document.title = 'FeedbackGroups - ' + data['data']['feedbackGroup']['name'];
         });
     }
 
