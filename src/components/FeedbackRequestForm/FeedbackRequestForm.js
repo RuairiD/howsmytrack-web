@@ -1,5 +1,7 @@
 import React from 'react';
 
+import apiRoot from '../../apiRoot';
+
 import { Alert, Button, Col, Input, Form, Result, Row, Spin, Typography } from 'antd';
 
 type State = {
@@ -30,7 +32,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
         this.setState({
             requestSent: true,
         })
-        return fetch('http://localhost:8000/graphql/', {
+        return fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

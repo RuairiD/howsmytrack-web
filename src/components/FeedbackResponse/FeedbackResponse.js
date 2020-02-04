@@ -1,5 +1,7 @@
 import React from 'react';
 
+import apiRoot from '../../apiRoot';
+
 import { Card, Col, Rate, Row, Typography } from 'antd';
 
 export type FeedbackResponseProps = {
@@ -30,7 +32,7 @@ class FeedbackResponse extends React.Component<Props, State> {
     };
 
     submitRating = (feedbackResponseId, rating) => {
-        fetch('http://localhost:8000/graphql/', {
+        fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

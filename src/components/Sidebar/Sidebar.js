@@ -1,5 +1,7 @@
 import React from 'react';
 
+import apiRoot from '../../apiRoot';
+
 import { Menu, Icon, Spin, Typography } from 'antd';
 import FeedbackRequestModal from '../FeedbackRequestModal/FeedbackRequestModal';
 import LoginModal from '../LoginModal/LoginModal';
@@ -34,7 +36,7 @@ class Sidebar extends React.Component<Props, State> {
     };
 
     componentDidMount() {
-        fetch('http://localhost:8000/graphql/', {
+        fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

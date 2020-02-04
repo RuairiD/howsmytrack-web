@@ -1,5 +1,7 @@
 import React from 'react';
 
+import apiRoot from '../../apiRoot';
+
 import { Alert, Button, Col, Icon, Input, Form, Result, Row, Spin } from 'antd';
 
 type State = {
@@ -29,7 +31,7 @@ class UnwrappedRegisterForm extends React.Component<Props, State> {
         this.setState({
             requestSent: true,
         })
-        return fetch('http://localhost:8000/graphql/', {
+        return fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -43,7 +45,6 @@ class UnwrappedRegisterForm extends React.Component<Props, State> {
         }).then(result =>
             result.json()
         ).then((data) => {
-            console.log(data);
             this.setState({
                 requestSent: false,
                 submitted: data['data']['registerUser'].success,

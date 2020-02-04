@@ -1,5 +1,7 @@
 import React from 'react';
 
+import apiRoot from '../../apiRoot';
+
 import GenericPage from '../GenericPage/GenericPage';
 import FeedbackGroup from '../FeedbackGroup/FeedbackGroup';
 
@@ -71,7 +73,7 @@ class FeedbackGroupPage extends React.Component<Props, State> {
     };
 
     componentDidMount() {
-        fetch('http://localhost:8000/graphql/', {
+        fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

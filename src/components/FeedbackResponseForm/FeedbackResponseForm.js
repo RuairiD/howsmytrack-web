@@ -1,5 +1,7 @@
 import React from 'react';
 
+import apiRoot from '../../apiRoot';
+
 import { Alert, Button, Card, Col, Input, Result, Row, Typography } from 'antd';
 
 import SoundcloudEmbed from '../SoundcloudEmbed/SoundcloudEmbed';
@@ -47,7 +49,7 @@ class FeedbackResponseForm extends React.Component<Props, State> {
         this.setState({
             requestSent: true,
         })
-        return fetch('http://localhost:8000/graphql/', {
+        return fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

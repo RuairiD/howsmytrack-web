@@ -1,5 +1,7 @@
 import React from 'react';
 
+import apiRoot from '../../apiRoot';
+
 import { Alert, Button, Col, Icon, Input, Form, Result, Row, Spin } from 'antd';
 
 type State = {
@@ -28,7 +30,7 @@ class UnwrappedLoginForm extends React.Component<Props, State> {
         this.setState({
             requestSent: true,
         })
-        return fetch('http://localhost:8000/graphql/', {
+        return fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +44,6 @@ class UnwrappedLoginForm extends React.Component<Props, State> {
         }).then(result =>
             result.json()
         ).then((data) => {
-            console.log(data)
             if (data['errors']) {
                 this.setState({
                     requestSent: false,

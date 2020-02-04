@@ -1,5 +1,7 @@
 import React from 'react';
 
+import apiRoot from '../../apiRoot';
+
 import GenericPage from '../GenericPage/GenericPage';
 import FeedbackGroups from '../FeedbackGroups/FeedbackGroups';
 
@@ -32,7 +34,6 @@ class FeedbackGroupsPage extends React.Component<State> {
     };
 
     formatQueryResponse = (data) => {
-        console.log(data);
         const feedbackGroups = []
 
         for (const feedbackGroup of data) {
@@ -49,7 +50,7 @@ class FeedbackGroupsPage extends React.Component<State> {
     };
 
     componentDidMount() {
-        fetch('http://localhost:8000/graphql/', {
+        fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
