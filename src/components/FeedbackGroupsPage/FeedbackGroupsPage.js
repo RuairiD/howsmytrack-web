@@ -37,12 +37,29 @@ class FeedbackGroupsPage extends React.Component<State> {
         const feedbackGroups = []
 
         for (const feedbackGroup of data) {
+            let userFeedbackCount = 0;
+            if (feedbackGroup['feedbackResponses']) {
+                for (var feedbackResponse of feedbackGroup['feedbackResponses']) {
+                    if (feedbackResponse['submitted']) {
+                        userFeedbackCount++;
+                    }
+                }
+            }
+
+            let feedbackResponseCount = 0;
+            if (feedbackGroup['userFeedbackResponses']) {
+                for (var feedbackResponse of feedbackGroup['userFeedbackResponses']) {
+                    if (feedbackResponse['submitted']) {
+                        feedbackResponseCount++;
+                    }
+                }
+            }
             feedbackGroups.push({
                 'feedbackGroupId': feedbackGroup['id'],
                 'soundcloudUrl': feedbackGroup['soundcloudUrl'],
                 'userCount': feedbackGroup['members'],
-                'userFeedbackCount': feedbackGroup['feedbackResponses'].length,
-                'feedbackResponseCount': feedbackGroup['userFeedbackResponses'].length,
+                'userFeedbackCount': userFeedbackCount,
+                'feedbackResponseCount': feedbackResponseCount,
             });
         }
 
