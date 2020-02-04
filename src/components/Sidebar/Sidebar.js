@@ -78,6 +78,18 @@ class Sidebar extends React.Component<Props, State> {
                 isRegisterModalVisible: true,
             })
         },
+        logout: () => {
+            fetch('http://localhost:8000/logout/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                credentials: 'include',
+            }).then(result =>
+                window.location.reload()
+            )
+        }
     };
 
     onMenuClick = (event) => {
