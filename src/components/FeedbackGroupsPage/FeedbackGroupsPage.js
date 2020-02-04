@@ -39,7 +39,7 @@ class FeedbackGroupsPage extends React.Component<State> {
         for (const feedbackGroup of data) {
             let userFeedbackCount = 0;
             if (feedbackGroup['feedbackResponses']) {
-                for (var feedbackResponse of feedbackGroup['feedbackResponses']) {
+                for (let feedbackResponse of feedbackGroup['feedbackResponses']) {
                     if (feedbackResponse['submitted']) {
                         userFeedbackCount++;
                     }
@@ -48,7 +48,7 @@ class FeedbackGroupsPage extends React.Component<State> {
 
             let feedbackResponseCount = 0;
             if (feedbackGroup['userFeedbackResponses']) {
-                for (var feedbackResponse of feedbackGroup['userFeedbackResponses']) {
+                for (let feedbackResponse of feedbackGroup['userFeedbackResponses']) {
                     if (feedbackResponse['submitted']) {
                         feedbackResponseCount++;
                     }
