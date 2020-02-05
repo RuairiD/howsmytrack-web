@@ -80,7 +80,7 @@ class Sidebar extends React.Component<Props, State> {
             })
         },
         logout: () => {
-            fetch('http://localhost:8000/logout/', {
+            fetch(apiRoot + '/logout/', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
