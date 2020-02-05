@@ -4,20 +4,26 @@ import apiRoot from '../../apiRoot';
 
 import { Alert, Button, Col, Input, Form, Result, Row, Spin, Typography } from 'antd';
 
+type Props = {
+    feedbackRequestId: number,
+    soundcloudUrl: string,
+    feedbackPrompt: string,
+};
+
 type State = {
     requestSent: boolean,
     errorMessage: string,
     submitted: boolean,
 };
 
-const CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($soundcloudUrl: String!, $feedbackPrompt: String) {
-    createFeedbackRequest(soundcloudUrl: $soundcloudUrl, feedbackPrompt: $feedbackPrompt) {
+const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRequestId: Int!, $soundcloudUrl: String!, $feedbackPrompt: String) {
+    editFeedbackRequest(feedbackRequestId: $feedbackRequestId, soundcloudUrl: $soundcloudUrl, feedbackPrompt: $feedbackPrompt) {
         success
         error
     }
 }`;
 
-class UnwrappedFeedbackRequestForm extends React.Component<State> {
+class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
     /*
      * Component for displaying feedback request form. Enforces URL existence check locally
      * but relies on backend to check user is eligible to make a request.
@@ -39,17 +45,22 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
                 'Accept': 'application/json',
             },
             body: JSON.stringify({
-                query: CREATE_FEEDBACK_REQUEST_MUTATION,
-                variables: { soundcloudUrl, feedbackPrompt },
+                query: EDIT_FEEDBACK_REQUEST_MUTATION,
+                variables: {
+                    feedbackRequestId: this.props.feedbackRequestId,
+                    soundcloudUrl,
+                    feedbackPrompt
+                },
             }),
             credentials: 'include',
         }).then(result =>
             result.json()
         ).then((data) => {
+            console.log(data);
             this.setState({
                 requestSent: false,
-                submitted: data['data']['createFeedbackRequest'].success,
-                errorMessage: data['data']['createFeedbackRequest'].error,
+                submitted: data['data']['editFeedbackRequest'].success,
+                errorMessage: data['data']['editFeedbackRequest'].error,
             });
         });
     };
@@ -69,14 +80,11 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
     render() {
         return (
             <div>
-                <Row gutter={[16, 16]}>
+                {this.state.errorMessage && <Row gutter={[16, 16]}>
                     <Col>
-                        <Typography.Text>
-                            Users are allowed to submit feedback requests once per 24 hours.
-                        </Typography.Text>
-                        {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" />}
+                        <Alert message={this.state.errorMessage} type="error" />
                     </Col>
-                </Row>
+                </Row>}
                 <Row gutter={[16, 16]}>
                     <Col>
                         {!this.state.submitted && <Spin spinning={this.state.requestSent}>
@@ -91,6 +99,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
                                                         message: 'Please provide a Soundcloud track URL',
                                                     },
                                                 ],
+                                                initialValue: this.props.soundcloudUrl,
                                             }
                                         )(<Input />)
                                     }
@@ -102,6 +111,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
                                                 rules: [
                                                     {},
                                                 ],
+                                                initialValue: this.props.feedbackPrompt,
                                             }
                                         )(<Input.TextArea rows={4} />)
                                     }
@@ -112,15 +122,14 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
                                         htmlType="submit"
                                         disabled={this.state.submitted}
                                     >
-                                        Submit Feedback Request
+                                        Update Feedback Request
                                     </Button>
                                 </Form.Item>
                             </Form>
                         </Spin>}
                         {this.state.submitted && <Result
                             status="success"
-                            title="Your feedback request has been submitted!"
-                            subTitle="You will receive an email within the next 24 hours with your group assignment. If you wish to edit your request, you may do so on 'Your Groups' until the request has been assigned to a feedback group."
+                            title="Your feedback request has been updated!"
                         />}
                     </Col>
                 </Row>
@@ -129,4 +138,4 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
     }
 }
 
-export default Form.create({ name: 'feedbackRequest' })(UnwrappedFeedbackRequestForm);;
+export default Form.create({ name: 'editFeedbackRequest' })(UnwrappedEditFeedbackRequestForm);;
