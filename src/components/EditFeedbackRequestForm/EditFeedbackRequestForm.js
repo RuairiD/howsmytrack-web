@@ -2,7 +2,7 @@ import React from 'react';
 
 import apiRoot from '../../apiRoot';
 
-import { Alert, Button, Col, Input, Form, Result, Row, Spin, Typography } from 'antd';
+import { Alert, Button, Col, Input, Form, Result, Row, Spin } from 'antd';
 
 type Props = {
     feedbackRequestId: number,

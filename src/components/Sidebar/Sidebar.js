@@ -16,7 +16,6 @@ type State = {
     isRegisterModalVisible: boolean,
 };
 
-
 const USER_DETAILS_QUERY = `query UserDetails {
   userDetails {
     username

@@ -11,7 +11,7 @@ type Props = {
     feedbackPrompt: string,
 };
 
-class FeedbackRequestModal extends React.Component<Props> {
+class EditFeedbackRequestModal extends React.Component<Props> {
     /*
      * Component for displaying modal for editing a feedback request.
      */
@@ -34,4 +34,4 @@ class FeedbackRequestModal extends React.Component<Props> {
     }
 }
 
-export default FeedbackRequestModal;
+export default EditFeedbackRequestModal;
