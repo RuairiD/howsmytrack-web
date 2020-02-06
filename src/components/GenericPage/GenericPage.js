@@ -5,17 +5,13 @@ import apiRoot from '../../apiRoot';
 import { Divider, Layout, Typography } from 'antd';
 import Sidebar from '../Sidebar/Sidebar';
 
-type Props = {
-    title: string,
-};
-
 const REFRESH_TOKEN_FROM_COOKIE_MUTATION = `mutation RefreshTokenFromCookie {
     refreshTokenFromCookie {
         token
     }
 }`;
 
-class GenericPage extends React.Component<Props> {
+class GenericPage extends React.Component {
     /*
      * Component for displaying generic page with children.
      * Also responsible for refreshing JWT token on pageload.
