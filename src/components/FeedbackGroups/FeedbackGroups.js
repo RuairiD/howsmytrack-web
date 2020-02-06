@@ -54,8 +54,8 @@ class FeedbackGroups extends React.Component<Props> {
                     <FeedbackRequestSummary
                         {...this.props.unassignedRequest}
                     />
+                    <Divider />
                 </React.Fragment>}
-                <Divider />
                 {this.renderFeedbackGroups()}
             </div>
         )
