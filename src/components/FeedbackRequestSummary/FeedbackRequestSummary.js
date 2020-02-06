@@ -56,6 +56,9 @@ class FeedbackRequestSummary extends React.Component<Props, State> {
                             <Typography.Text strong>You said: </Typography.Text>
                             <Typography.Text>"{this.props.feedbackPrompt}"</Typography.Text>
                         </Col>}
+                        {!this.props.feedbackPrompt && <Col>
+                            <Typography.Text strong>You did not provide any additional information.</Typography.Text>
+                        </Col>}
                     </Row>
                 </Card>
                 <EditFeedbackRequestModal

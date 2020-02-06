@@ -52,11 +52,6 @@ class GenericPage extends React.Component<Props, State> {
         if (this.state.tokenRefreshed) {
             return (
                 <Layout>
-                    <Layout.Header style={{ padding: '0.5em 1em' }}>
-                        <Typography.Title level={1} style={{ color: '#FFFFFF' }}>
-                            how's my track?
-                        </Typography.Title>
-                    </Layout.Header>
                     <Layout.Content>
                         <Layout>
                             <Layout.Sider theme="light">

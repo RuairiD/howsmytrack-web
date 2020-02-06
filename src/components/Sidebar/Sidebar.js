@@ -126,9 +126,11 @@ class Sidebar extends React.Component<Props, State> {
                     mode="inline"
                     onClick={this.onMenuClick}
                 >
-                    <Menu.Item>
+                    <Menu.Divider />
+                    <Menu.Item disabled>
                         <Typography.Text>Welcome!</Typography.Text>
                     </Menu.Item>
+                    <Menu.Divider />
                     <Menu.Item key="login">
                         <Icon type="user" />
                         <span>Sign In</span>
@@ -155,13 +157,15 @@ class Sidebar extends React.Component<Props, State> {
                 mode="inline"
                 onClick={this.onMenuClick}
             >
-                {this.state.rating && <Menu.Item>
+                <Menu.Divider />
+                {this.state.rating && <Menu.Item disabled>
                     <Typography.Text>{this.state.username} - </Typography.Text>
                     <Typography.Text strong>{this.state.rating.toFixed(2)}<Icon type="star" /></Typography.Text>
                 </Menu.Item>}
                 {!this.state.rating && <Menu.Item>
                     <Typography.Text>{this.state.username}</Typography.Text>
                 </Menu.Item>}
+                <Menu.Divider />
                 <Menu.Item key="newRequest">
                     <Icon type="plus" />
                     <span>New Request</span>
@@ -189,6 +193,11 @@ class Sidebar extends React.Component<Props, State> {
     render() {
         return (
             <div>
+                <div className="logo" style={{ padding: '2em' }}>
+                    <Typography.Title level={1} style={{ marginBottom: 0 }}>
+                        how's<br />my<br />track?
+                    </Typography.Title>
+                </div>
                 {this.state.username && this.renderLoggedInMenu()}
                 {!this.state.username && this.renderLoggedOutMenu()}
                 <FeedbackRequestModal onCancel={this.onFeedbackRequestModalCancel} isVisible={this.state.isFeedbackRequestModalVisible} />

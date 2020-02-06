@@ -74,7 +74,7 @@ class FeedbackGroupPage extends React.Component<Props, State> {
     };
 
     componentDidMount() {
-        document.title = 'FeedbackGroups';
+        document.title = "how's my track?";
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -106,7 +106,7 @@ class FeedbackGroupPage extends React.Component<Props, State> {
                 feedbackResponseForms: feedbackGroup['feedbackResponseForms'],
                 feedbackReceived: feedbackGroup['feedbackReceived'],
             });
-            document.title = 'FeedbackGroups - ' + data['data']['feedbackGroup']['name'];
+            document.title = "how's my track? - " + data['data']['feedbackGroup']['name'];
         });
     }
 

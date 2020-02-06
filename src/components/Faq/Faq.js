@@ -6,16 +6,16 @@ type Props = {};
 
 class Faq extends React.Component<Props> {
     /*
-     * Component for displaying FAQ page explaining what FeedbackGroups is etc.
+     * Component for displaying FAQ page explaining what How's My Track? is etc.
      */
 
     faqs = [
         {
-            question: "What is FeedbackGroups?",
-            answer: (<Typography.Paragraph>FeedbackGroups is a website for musicians to share their work and solicit feedback from eachother. Users may submit one track for feedback per day. Users are then put into groups of 4. Each user can then listen to each other's submitted track and leave feedback. Once a user has left feedback for everyone in their group, the feedback left for their own track will be visible to them. </Typography.Paragraph>)
+            question: "What is How's My Track?",
+            answer: (<Typography.Paragraph>How's My Track? is a website for musicians to share their work and solicit feedback from eachother. Users may submit one track for feedback per day. Users are then put into groups of 4. Each user can then listen to each other's submitted track and leave feedback. Once a user has left feedback for everyone in their group, the feedback left for their own track will be visible to them. </Typography.Paragraph>)
         },
         {
-            question: "Why does FeedbackGroups exist?",
+            question: "Why does How's My Track? exist?",
             answer: (<React.Fragment>
                 <Typography.Paragraph>
                     I noticed there were two primary ways musicians would solicit feedback in Discord channels.
@@ -27,7 +27,7 @@ class Faq extends React.Component<Props> {
                     The second method was via feedback streams (co-ordinated conference calls where users would play their tracks one-by-one, with feedback to follow). While more effective than tit-for-tat channels, feedback streams are logistically impractical and require a lot of organisation. In addition, there was often an asymmetrical element that made things a bit weird e.g. some 'senior' users having microphone privileges, but not others. 
                 </Typography.Paragraph>
                 <Typography.Paragraph>
-                    FeedbackGroups was designed to take the group mentality of a feedback stream but make it decentralised, avoiding the logistical nonsense, and enforce feedback standards via a rating system. 
+                    How's My Track? was designed to take the group mentality of a feedback stream but make it decentralised, avoiding the logistical nonsense, and enforce feedback standards via a rating system. 
                 </Typography.Paragraph>
             </React.Fragment>)
         },
@@ -49,7 +49,7 @@ class Faq extends React.Component<Props> {
         },
         {
             question: "Can I add links to my Soundcloud/Spotify/Bandcamp etc. in case people like my stuff?",
-            answer: (<Typography.Paragraph>No. FeedbackGroups is about one thing: feedback. I don't want it being used for anything resembling promotion. </Typography.Paragraph>)
+            answer: (<Typography.Paragraph>No. How's My Track? is about one thing: feedback. I don't want it being used for anything resembling promotion. </Typography.Paragraph>)
         },
         {
             question: "How can my feedback be anonymous if my track is linked from my Soundcloud account?",
@@ -60,7 +60,7 @@ class Faq extends React.Component<Props> {
     render() {
         return (
             <div>
-                <Typography.Title level={2}>FAQ/About FeedbackGroups</Typography.Title>
+                <Typography.Title level={2}>FAQ/About How's My Track?</Typography.Title>
                 <List
                     itemLayout="vertical"
                     dataSource={this.faqs}
