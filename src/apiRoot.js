@@ -1,1 +1,1 @@
-export default 'https://feedbackgroups-backend.herokuapp.com';
+export default 'https://howsmytrack-api.herokuapp.com';
