@@ -8,6 +8,7 @@ type State = {
     requestSent: boolean,
     errorMessage: string,
     submitted: boolean,
+    feedbackPromptPlaceholder: string,
 };
 
 const CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($soundcloudUrl: String!, $feedbackPrompt: String) {
@@ -31,10 +32,18 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
      * Component for displaying feedback request form. Enforces URL existence check locally
      * but relies on backend to check user is eligible to make a request.
      */
+
+    getFeedbackPromptPlaceholder = () => {
+        return '"' + FEEDBACK_PROMPT_PLACEHOLDERS[
+            Math.floor(Math.random() * FEEDBACK_PROMPT_PLACEHOLDERS.length)
+        ] + '"';
+    };
+
     state = {
         requestSent: false,
         errorMessage: null,
         submitted: false,
+        feedbackPromptPlaceholder: this.getFeedbackPromptPlaceholder(),
     }
     
     submitForm = (soundcloudUrl, feedbackPrompt) => {
@@ -75,12 +84,6 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
         });
     };
 
-    getFeedbackPromptPlaceholder = () => {
-        return '"' + FEEDBACK_PROMPT_PLACEHOLDERS[
-            Math.floor(Math.random() * FEEDBACK_PROMPT_PLACEHOLDERS.length)
-        ] + '"';
-    }
-
     render() {
         return (
             <div>
@@ -120,7 +123,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
                                             }
                                         )(<Input.TextArea
                                             rows={4}
-                                            placeholder={this.getFeedbackPromptPlaceholder()}
+                                            placeholder={this.state.feedbackPromptPlaceholder}
                                         />)
                                     }
                                 </Form.Item>
