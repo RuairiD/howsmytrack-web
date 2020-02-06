@@ -48,7 +48,13 @@ class GenericPage extends React.Component {
                                     <Divider />
                                     <Typography.Paragraph>
                                         <Typography.Text strong>
-                                            <a href="https://ruairidorrity.com">ruairi dorrity</a> &#47;&#47; <a href="https://ruairidx.com">ruairi dx</a>
+                                            <a target="_blank" href="http://ruairidorrity.com">ruairi dorrity</a> &#47;&#47; <a target="_blank" href="http://ruairidx.com">ruairi dx</a>
+                                        </Typography.Text>
+                                    </Typography.Paragraph>
+                                    <Typography.Paragraph>
+                                        <Typography.Text strong>source</Typography.Text><br />
+                                        <Typography.Text>
+                                            <a target="_blank" href="https://github.com/ruairid/howsmytrack-api">api</a> &#47;&#47; <a target="_blank" href="https://github.com/ruairid/howsmytrack-web">web</a>
                                         </Typography.Text>
                                     </Typography.Paragraph>
                                 </Layout.Footer>
