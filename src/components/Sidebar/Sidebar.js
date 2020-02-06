@@ -194,7 +194,7 @@ class Sidebar extends React.Component<Props, State> {
         return (
             <div>
                 <a href="/">
-                    <img src="/logo400.png" width="200px" style={{ padding: '1em'}} />
+                    <img alt="how's my track" src="/logo400.png" width="200px" style={{ padding: '1em'}} />
                 </a>
                 {this.state.username && this.renderLoggedInMenu()}
                 {!this.state.username && this.renderLoggedOutMenu()}
