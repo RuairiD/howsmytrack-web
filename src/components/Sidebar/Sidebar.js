@@ -162,7 +162,7 @@ class Sidebar extends React.Component<Props, State> {
                     <Typography.Text>{this.state.username} - </Typography.Text>
                     <Typography.Text strong>{this.state.rating.toFixed(2)}<Icon type="star" /></Typography.Text>
                 </Menu.Item>}
-                {!this.state.rating && <Menu.Item>
+                {!this.state.rating && <Menu.Item disabled>
                     <Typography.Text>{this.state.username}</Typography.Text>
                 </Menu.Item>}
                 <Menu.Divider />
@@ -193,11 +193,9 @@ class Sidebar extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                <div className="logo" style={{ padding: '2em' }}>
-                    <Typography.Title level={1} style={{ marginBottom: 0 }}>
-                        how's<br />my<br />track?
-                    </Typography.Title>
-                </div>
+                <a href="/">
+                    <img src="/logo400.png" width="200px" style={{ padding: '1em'}} />
+                </a>
                 {this.state.username && this.renderLoggedInMenu()}
                 {!this.state.username && this.renderLoggedOutMenu()}
                 <FeedbackRequestModal onCancel={this.onFeedbackRequestModalCancel} isVisible={this.state.isFeedbackRequestModalVisible} />
