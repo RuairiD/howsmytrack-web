@@ -114,6 +114,9 @@ class UnwrappedLoginForm extends React.Component<Props, State> {
                                     >
                                         Sign In
                                     </Button>
+                                    <a href={apiRoot + '/accounts/password_reset'} style={{ float: 'right'}}>
+                                        Forgot password?
+                                    </a>
                                 </Form.Item>
                             </Form>
                         </Spin>}
