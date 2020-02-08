@@ -11,8 +11,8 @@ type State = {
     feedbackPromptPlaceholder: string,
 };
 
-const CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($soundcloudUrl: String!, $feedbackPrompt: String) {
-    createFeedbackRequest(soundcloudUrl: $soundcloudUrl, feedbackPrompt: $feedbackPrompt) {
+const CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($mediaUrl: String!, $feedbackPrompt: String) {
+    createFeedbackRequest(mediaUrl: $mediaUrl, feedbackPrompt: $feedbackPrompt) {
         success
         error
     }
@@ -46,7 +46,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
         feedbackPromptPlaceholder: this.getFeedbackPromptPlaceholder(),
     }
     
-    submitForm = (soundcloudUrl, feedbackPrompt) => {
+    submitForm = (mediaUrl, feedbackPrompt) => {
         this.setState({
             requestSent: true,
         })
@@ -58,7 +58,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
             },
             body: JSON.stringify({
                 query: CREATE_FEEDBACK_REQUEST_MUTATION,
-                variables: { soundcloudUrl, feedbackPrompt },
+                variables: { mediaUrl, feedbackPrompt },
             }),
             credentials: 'include',
         }).then(result =>
@@ -77,7 +77,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 this.submitForm(
-                    values.soundcloudUrl,
+                    values.mediaUrl,
                     values.feedbackPrompt
                 )
             }
@@ -101,7 +101,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
                             <Form onSubmit={this.onSubmit}>
                                 <Form.Item label="Soundcloud URL">
                                     {
-                                        this.props.form.getFieldDecorator('soundcloudUrl',
+                                        this.props.form.getFieldDecorator('mediaUrl',
                                             {
                                                 rules: [
                                                     {

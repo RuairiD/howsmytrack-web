@@ -9,7 +9,8 @@ import SoundcloudEmbed from '../SoundcloudEmbed/SoundcloudEmbed';
 export type FeedbackResponseFormProps = {
     feedbackResponseId: number,
     feedback: string,
-    soundcloudUrl: string,
+    mediaUrl: string,
+    mediaType: string, // Unused until multiple media types are supported.
     feedbackPrompt: string,
     submitted: boolean,
 };
@@ -85,7 +86,7 @@ class FeedbackResponseForm extends React.Component<Props, State> {
             <Card>
                 <Row gutter={[16, 16]}>
                     <Col>
-                        <SoundcloudEmbed soundcloudUrl={this.props.soundcloudUrl} />
+                        <SoundcloudEmbed soundcloudUrl={this.props.mediaUrl} />
                     </Col>
                 </Row>
                 {

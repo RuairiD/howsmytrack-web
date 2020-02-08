@@ -6,7 +6,7 @@ import { Alert, Button, Col, Input, Form, Result, Row, Spin } from 'antd';
 
 type Props = {
     feedbackRequestId: number,
-    soundcloudUrl: string,
+    mediaUrl: string,
     feedbackPrompt: string,
 };
 
@@ -16,8 +16,8 @@ type State = {
     submitted: boolean,
 };
 
-const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRequestId: Int!, $soundcloudUrl: String!, $feedbackPrompt: String) {
-    editFeedbackRequest(feedbackRequestId: $feedbackRequestId, soundcloudUrl: $soundcloudUrl, feedbackPrompt: $feedbackPrompt) {
+const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRequestId: Int!, $mediaUrl: String!, $feedbackPrompt: String) {
+    editFeedbackRequest(feedbackRequestId: $feedbackRequestId, mediaUrl: $mediaUrl, feedbackPrompt: $feedbackPrompt) {
         success
         error
     }
@@ -34,7 +34,7 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
         submitted: false,
     }
     
-    submitForm = (soundcloudUrl, feedbackPrompt) => {
+    submitForm = (mediaUrl, feedbackPrompt) => {
         this.setState({
             requestSent: true,
         })
@@ -48,7 +48,7 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
                 query: EDIT_FEEDBACK_REQUEST_MUTATION,
                 variables: {
                     feedbackRequestId: this.props.feedbackRequestId,
-                    soundcloudUrl,
+                    mediaUrl,
                     feedbackPrompt
                 },
             }),
@@ -70,7 +70,7 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 this.submitForm(
-                    values.soundcloudUrl,
+                    values.mediaUrl,
                     values.feedbackPrompt
                 )
             }
@@ -91,7 +91,7 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
                             <Form onSubmit={this.onSubmit}>
                                 <Form.Item label="Soundcloud URL">
                                     {
-                                        this.props.form.getFieldDecorator('soundcloudUrl',
+                                        this.props.form.getFieldDecorator('mediaUrl',
                                             {
                                                 rules: [
                                                     {
@@ -99,7 +99,7 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
                                                         message: 'Please provide a Soundcloud track URL',
                                                     },
                                                 ],
-                                                initialValue: this.props.soundcloudUrl,
+                                                initialValue: this.props.mediaUrl,
                                             }
                                         )(<Input />)
                                     }

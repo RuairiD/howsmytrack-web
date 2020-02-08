@@ -5,7 +5,8 @@ import SoundcloudEmbed from '../SoundcloudEmbed/SoundcloudEmbed';
 
 export type FeedbackGroupPreviewProps = {
     feedbackGroupId: number,
-    soundcloudUrl: string,
+    mediaUrl: string,
+    mediaType: string, // Unused until multiple media types are supported
     // Number of users in the group
     userCount: number,
     // Number of submissions in the group for which the logged-in user has submitted feedback
@@ -49,7 +50,7 @@ class FeedbackGroupPreview extends React.Component<Props> {
                                     <Typography.Text strong>You submitted:</Typography.Text>
                                 </Col>
                                 <Col>
-                                    <SoundcloudEmbed soundcloudUrl={this.props.soundcloudUrl} size="small" />
+                                    <SoundcloudEmbed soundcloudUrl={this.props.mediaUrl} size="small" />
                                 </Col>
                             </Row>
                         </Col>

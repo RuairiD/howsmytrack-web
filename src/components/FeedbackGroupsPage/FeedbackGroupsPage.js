@@ -20,7 +20,8 @@ const FEEDBACK_GROUPS_QUERY = `query FeedbackGroups {
     id
     name
     members
-    soundcloudUrl
+    mediaUrl
+    mediaType
     feedbackResponses {
       submitted
     }
@@ -33,7 +34,8 @@ const FEEDBACK_GROUPS_QUERY = `query FeedbackGroups {
 const UNASSIGNED_REQUEST_QUERY = `query UnassignedRequest {
   unassignedRequest {
     id
-    soundcloudUrl
+    mediaUrl
+    mediaType
     feedbackPrompt
   }
 }`;
@@ -68,7 +70,8 @@ class FeedbackGroupsPage extends React.Component<State> {
             }
             feedbackGroups.push({
                 'feedbackGroupId': feedbackGroup['id'],
-                'soundcloudUrl': feedbackGroup['soundcloudUrl'],
+                'mediaUrl': feedbackGroup['mediaUrl'],
+                'mediaType': feedbackGroup['mediaType'],
                 'userCount': feedbackGroup['members'],
                 'userFeedbackCount': userFeedbackCount,
                 'feedbackResponseCount': feedbackResponseCount,
@@ -81,7 +84,8 @@ class FeedbackGroupsPage extends React.Component<State> {
     formatUnassignedQueryResponse = (data) => {
         return {
             feedbackRequestId: data['id'],
-            soundcloudUrl: data['soundcloudUrl'],
+            mediaUrl: data['mediaUrl'],
+            mediaType: data['mediaType'],
             feedbackPrompt: data['feedbackPrompt'],
         }
     };

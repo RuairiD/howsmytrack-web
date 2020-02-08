@@ -6,7 +6,8 @@ import EditFeedbackRequestModal from '../EditFeedbackRequestModal/EditFeedbackRe
 
 export type FeedbackRequestSummaryProps = {
     feedbackRequestId: number,
-    soundcloudUrl: string,
+    mediaUrl: string,
+    mediaType: string, // Unused until multiple media types are supported
     feedbackPrompt: string,
 };
 
@@ -50,7 +51,7 @@ class FeedbackRequestSummary extends React.Component<Props, State> {
                             <Typography.Text strong>You submitted:</Typography.Text>
                         </Col>
                         <Col>
-                            <SoundcloudEmbed soundcloudUrl={this.props.soundcloudUrl} size="small" />
+                            <SoundcloudEmbed soundcloudUrl={this.props.mediaUrl} size="small" />
                         </Col>
                         {this.props.feedbackPrompt && <Col>
                             <Typography.Text strong>You said: </Typography.Text>
@@ -65,7 +66,7 @@ class FeedbackRequestSummary extends React.Component<Props, State> {
                     onCancel={this.hideEditFeedbackRequestModal}
                     isVisible={this.state.isEditFeedbackRequestModalVisible}
                     feedbackRequestId={this.props.feedbackRequestId}
-                    soundcloudUrl={this.props.soundcloudUrl}
+                    mediaUrl={this.props.mediaUrl}
                     feedbackPrompt={this.props.feedbackPrompt}
                 />
             </div>

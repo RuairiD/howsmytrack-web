@@ -28,7 +28,8 @@ const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
       submitted
       feedbackRequest {
         feedbackPrompt
-        soundcloudUrl
+        mediaUrl
+        mediaType
       }
     }
     userFeedbackResponses {
@@ -53,7 +54,8 @@ class FeedbackGroupPage extends React.Component<Props, State> {
             feedbackGroupProps['feedbackResponseForms'].push({
                 'feedbackResponseId': feedbackResponse['id'],
                 'feedback': feedbackResponse['feedback'],
-                'soundcloudUrl': feedbackResponse['feedbackRequest']['soundcloudUrl'],
+                'mediaUrl': feedbackResponse['feedbackRequest']['mediaUrl'],
+                'mediaType': feedbackResponse['feedbackRequest']['mediaType'],
                 'feedbackPrompt': feedbackResponse['feedbackRequest']['feedbackPrompt'],
                 'submitted': feedbackResponse['submitted'],
             });

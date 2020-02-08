@@ -7,7 +7,7 @@ type Props = {
     onCancel: () => void,
     isVisible: boolean,
     feedbackRequestId: number,
-    soundcloudUrl: string,
+    mediaUrl: string,
     feedbackPrompt: string,
 };
 
@@ -26,7 +26,7 @@ class EditFeedbackRequestModal extends React.Component<Props> {
             >
                 <EditFeedbackRequestForm
                     feedbackRequestId={this.props.feedbackRequestId}
-                    soundcloudUrl={this.props.soundcloudUrl}
+                    mediaUrl={this.props.mediaUrl}
                     feedbackPrompt={this.props.feedbackPrompt}
                 />
             </Modal>
