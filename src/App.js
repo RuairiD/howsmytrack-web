@@ -23,6 +23,7 @@ function App() {
                 <Suspense fallback={<div>Loading...</div>}>
                     <Switch>
                         <Route exact path="/" component={FaqPage} />
+                        <Route exact path="/faq" component={FaqPage} />
                         <Route path="/groups" component={FeedbackGroupsPage} />
                         <Route path="/group/:feedbackGroupId" render={renderFeedbackGroup} />
                     </Switch>

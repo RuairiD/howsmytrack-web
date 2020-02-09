@@ -155,15 +155,13 @@ class FeedbackGroupsPage extends React.Component<State> {
     render() {
         if (this.state.hasFeedbackGroupsProps && this.state.hasUnassignedRequestProps) {
             return (
-                <div>
-                    <GenericPage>
-                        <FeedbackGroups
-                            feedbackGroups={this.state.feedbackGroups}
-                            unassignedRequest={this.state.unassignedRequest}
-                        />
-                    </GenericPage>
-                </div>
-            )
+                <GenericPage>
+                    <FeedbackGroups
+                        feedbackGroups={this.state.feedbackGroups}
+                        unassignedRequest={this.state.unassignedRequest}
+                    />
+                </GenericPage>
+            );
         }
         return null;
     }

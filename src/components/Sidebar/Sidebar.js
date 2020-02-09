@@ -140,7 +140,7 @@ class Sidebar extends React.Component<Props, State> {
                         <span>Register</span>
                     </Menu.Item>
                     <Menu.Item key="faq">
-                        <a href="/">
+                        <a href="/faq">
                             <Icon type="question-circle" />
                             <span>FAQ</span>
                         </a>
@@ -177,7 +177,7 @@ class Sidebar extends React.Component<Props, State> {
                     </a>
                 </Menu.Item>
                 <Menu.Item key="faq">
-                    <a href="/">
+                    <a href="/faq">
                         <Icon type="question-circle" />
                         <span>FAQ</span>
                     </a>

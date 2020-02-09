@@ -51,7 +51,7 @@ class FeedbackRequestSummary extends React.Component<Props, State> {
                             <Typography.Text strong>You submitted:</Typography.Text>
                         </Col>
                         <Col>
-                            <SoundcloudEmbed soundcloudUrl={this.props.mediaUrl} size="small" />
+                            <SoundcloudEmbed soundcloudUrl={this.props.mediaUrl} />
                         </Col>
                         {this.props.feedbackPrompt && <Col>
                             <Typography.Text strong>You said: </Typography.Text>
