@@ -4,13 +4,13 @@ import apiRoot from '../../apiRoot';
 
 import { Alert, Button, Card, Col, Input, Result, Row, Typography } from 'antd';
 
-import SoundcloudEmbed from '../SoundcloudEmbed/SoundcloudEmbed';
+import MediaEmbed from '../MediaEmbed/MediaEmbed';
 
 export type FeedbackResponseFormProps = {
     feedbackResponseId: number,
     feedback: string,
     mediaUrl: string,
-    mediaType: string, // Unused until multiple media types are supported.
+    mediaType: string,
     feedbackPrompt: string,
     submitted: boolean,
 };
@@ -86,7 +86,7 @@ class FeedbackResponseForm extends React.Component<Props, State> {
             <Card>
                 <Row gutter={[16, 16]}>
                     <Col>
-                        <SoundcloudEmbed soundcloudUrl={this.props.mediaUrl} />
+                        <MediaEmbed mediaUrl={this.props.mediaUrl} mediaType={this.props.mediaType} />
                     </Col>
                 </Row>
                 {

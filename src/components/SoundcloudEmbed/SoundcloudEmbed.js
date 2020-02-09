@@ -1,24 +1,24 @@
 import React from 'react';
 
 type Props = {
-    soundcloudUrl: string,
+    mediaUrl: string,
     size: string,
 };
 
 class SoundcloudEmbed extends React.Component<Props> {
-    createIframeUrl = (soundcloudUrl) => {
-        return 'https://w.soundcloud.com/player/?url=' + soundcloudUrl + '&color=%23ff5500&inverse=false&auto_play=false&show_user=true'
+    createIframeUrl = (mediaUrl) => {
+        return 'https://w.soundcloud.com/player/?url=' + mediaUrl + '&color=%23ff5500&inverse=false&auto_play=false&show_user=true'
     }
 
-    formatTrackUrl = (soundcloudUrl) => {
+    formatMediaUrl = (mediaUrl) => {
         /*
          * Format track URL for embedded iframe by separating out secret token.
          */
-        let urlParts = soundcloudUrl.split('/')
+        let urlParts = mediaUrl.split('/')
         let secretToken = urlParts[urlParts.length - 1] 
         if (secretToken.length !== 7) {
             // Not a valid secret token, probably just a public track that doesn't need a secret token.
-            return soundcloudUrl
+            return mediaUrl
         }
         let secretlessUrl = ''
         for (var i = 0; i < urlParts.length - 1; i++) {
@@ -46,8 +46,8 @@ class SoundcloudEmbed extends React.Component<Props> {
                     allow="autoplay"
                     src={
                         this.createIframeUrl(
-                            this.formatTrackUrl(
-                                this.props.soundcloudUrl
+                            this.formatMediaUrl(
+                                this.props.mediaUrl
                             )
                         )
                     }   

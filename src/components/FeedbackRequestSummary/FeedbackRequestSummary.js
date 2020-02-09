@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { Button, Card, Row, Col, Typography } from 'antd';
-import SoundcloudEmbed from '../SoundcloudEmbed/SoundcloudEmbed';
+import MediaEmbed from '../MediaEmbed/MediaEmbed';
 import EditFeedbackRequestModal from '../EditFeedbackRequestModal/EditFeedbackRequestModal';
 
 export type FeedbackRequestSummaryProps = {
     feedbackRequestId: number,
     mediaUrl: string,
-    mediaType: string, // Unused until multiple media types are supported
+    mediaType: string,
     feedbackPrompt: string,
 };
 
@@ -51,7 +51,7 @@ class FeedbackRequestSummary extends React.Component<Props, State> {
                             <Typography.Text strong>You submitted:</Typography.Text>
                         </Col>
                         <Col>
-                            <SoundcloudEmbed soundcloudUrl={this.props.mediaUrl} />
+                            <MediaEmbed mediaUrl={this.props.mediaUrl} mediaType={this.props.mediaType} />
                         </Col>
                         {this.props.feedbackPrompt && <Col>
                             <Typography.Text strong>You said: </Typography.Text>

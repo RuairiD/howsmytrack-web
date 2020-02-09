@@ -53,7 +53,11 @@ class Faq extends React.Component<Props> {
         },
         {
             question: "How can my feedback be anonymous if my track is linked from my Soundcloud account?",
-            answer: (<Typography.Paragraph>Unfortunately, anonymity cannot be 100% guaranteed if you use tracks from your main Soundcloud account. Feedback is still anonymised within the group though i.e. users can't tell which member of their group left the feedback. You're also welcome to use a burner Soundcloud account if true anonymity is important to you. Furthermore, I hope to add other streaming options in future which would allow true anonymity. </Typography.Paragraph>)
+            answer: (<Typography.Paragraph>Unfortunately, anonymity cannot be 100% guaranteed if you use tracks from your main Soundcloud account. Feedback is still anonymised within the group though i.e. users can't tell which member of their group left the feedback. You're also welcome to use a burner Soundcloud account if true anonymity is important to you, or use a Google Drive or Dropbox link. </Typography.Paragraph>)
+        },
+        {
+            question: "Why isn't my favourite streaming platform supported?",
+            answer: (<Typography.Paragraph>You're welcome to suggest alternative platforms, but I'll only support platforms that allow embedding of some form.</Typography.Paragraph>)
         }
     ]
 

@@ -89,14 +89,14 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
                     <Col>
                         {!this.state.submitted && <Spin spinning={this.state.requestSent}>
                             <Form onSubmit={this.onSubmit}>
-                                <Form.Item label="Soundcloud URL">
+                                <Form.Item label="Soundcloud/Google Drive/Dropbox URL">
                                     {
                                         this.props.form.getFieldDecorator('mediaUrl',
                                             {
                                                 rules: [
                                                     {
                                                         required: true,
-                                                        message: 'Please provide a Soundcloud track URL',
+                                                        message: 'Please provide a track URL',
                                                     },
                                                 ],
                                                 initialValue: this.props.mediaUrl,
