@@ -91,7 +91,7 @@ class FeedbackGroupsPage extends React.Component<State> {
     };
 
     componentDidMount() {
-        document.title = 'FeedbackGroups - Your Groups';
+        document.title = "how's my track? - Your Groups";
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
