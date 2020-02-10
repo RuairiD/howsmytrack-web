@@ -10,10 +10,16 @@ type State = {
     submitted: boolean,
 };
 
-const REGISTER_USER_QUERY = `mutation RegisterUser($email: String!, $password: String!, $passwordRepeat: String!) {
+const REGISTER_USER_MUTATION = `mutation RegisterUser($email: String!, $password: String!, $passwordRepeat: String!) {
   registerUser(email: $email, password: $password, passwordRepeat: $passwordRepeat) {
     success
     error
+  }
+}`;
+
+const TOKEN_AUTH_MUTATION = `mutation TokenAuth($username: String!, $password: String!) {
+  tokenAuth(username: $username, password: $password) {
+    token
   }
 }`;
 
@@ -38,7 +44,7 @@ class UnwrappedRegisterForm extends React.Component<Props, State> {
                 'Accept': 'application/json',
             },
             body: JSON.stringify({
-                query: REGISTER_USER_QUERY,
+                query: REGISTER_USER_MUTATION,
                 variables: { email, password, passwordRepeat },
             }),
             credentials: 'include',
@@ -50,6 +56,27 @@ class UnwrappedRegisterForm extends React.Component<Props, State> {
                 submitted: data['data']['registerUser'].success,
                 errorMessage: data['data']['registerUser'].error,
             });
+
+            // If the user successfully registers, log them in as well.
+            if (data['data']['registerUser'].success) {
+                fetch(apiRoot +'/graphql/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: TOKEN_AUTH_MUTATION,
+                        variables: {
+                            username: email,
+                            password: password,
+                        },
+                    }),
+                    credentials: 'include',
+                }).then(() => {
+                    window.location.reload();
+                });
+            }
         });
     };
 
@@ -124,7 +151,7 @@ class UnwrappedRegisterForm extends React.Component<Props, State> {
                         {this.state.submitted && <Result
                             status="success"
                             title="You have been registered."
-                            subtitle="Please wait to be redirected."
+                            subTitle="Please wait to be signed in and redirected."
                         />}
                     </Col>
                 </Row>

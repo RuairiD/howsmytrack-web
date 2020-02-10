@@ -123,7 +123,7 @@ class UnwrappedLoginForm extends React.Component<Props, State> {
                         {this.state.submitted && <Result
                             status="success"
                             title="You have been signed in."
-                            subtitle="Please wait to be redirected."
+                            subTitle="Please wait to be redirected."
                         />}
                     </Col>
                 </Row>
