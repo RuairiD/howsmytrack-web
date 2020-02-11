@@ -1,10 +1,12 @@
 import React from 'react';
+import dateFormat from 'dateformat';
 
 import { Card, Row, Col, Progress, Typography } from 'antd';
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
 
 export type FeedbackGroupPreviewProps = {
     feedbackGroupId: number,
+    name: string,
     timeCreated: string,
     mediaUrl: string,
     mediaType: string,
@@ -44,14 +46,17 @@ class FeedbackGroupPreview extends React.Component<Props> {
         if (!this.props.timeCreated) {
             return null;
         }
-        return new Date(Date.parse(this.props.timeCreated)).toDateString();
+        return dateFormat(
+            new Date(Date.parse(this.props.timeCreated)),
+            'mmmm dS yyyy',
+        );
     };
 
     render() {
         return (
             <a href={this.buildFeedbackGroupUrl()}>
                 <Card
-                    title={"Feedback Group #"+ this.props.feedbackGroupId}
+                    title={this.props.name}
                     extra={this.getTimeCreated()}
                 >
                     <Row gutter={[16, 16]} type="flex" justify="space-around" align="middle">

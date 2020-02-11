@@ -1,4 +1,5 @@
 import React from 'react';
+import dateFormat from 'dateformat';
 
 import { Col, Divider, Empty, Result, Row, Typography } from 'antd';
 
@@ -9,6 +10,8 @@ import FeedbackResponse from '../FeedbackResponse/FeedbackResponse';
 import type { FeedbackResponseProps } from '../FeedbackResponse/FeedbackResponse';
 
 type Props = {
+    name: string,
+    timeCreated: string,
     feedbackResponseForms: Array<FeedbackResponseFormProps>,
     feedbackReceived: Array<FeedbackResponseProps>,
 };
@@ -23,6 +26,16 @@ class FeedbackGroup extends React.Component<Props, State> {
      */
     state = {
         feedbackReceived: this.props.feedbackReceived,
+    };
+
+    getTimeCreated = () => {
+        if (!this.props.timeCreated) {
+            return null;
+        }
+        return dateFormat(
+            new Date(Date.parse(this.props.timeCreated)),
+            'mmmm dS yyyy',
+        );
     };
 
     renderReceivedFeedback = () => {
@@ -63,7 +76,14 @@ class FeedbackGroup extends React.Component<Props, State> {
         if (this.props.feedbackResponseForms) {
             return (
                 <div>
-                    <Typography.Title level={2}>Your Feedback Group</Typography.Title>
+                    <Row gutter={[16, 16]}>
+                        <Col>
+                            <Typography.Title style={{ marginBottom: 0 }} level={2}>{this.props.name}</Typography.Title>
+                            <Typography.Title type="secondary" style={{ marginTop: 0 }} level={4}>{this.getTimeCreated()}</Typography.Title>
+                        </Col>
+                    </Row>
+
+                    <Divider />
 
                     <Row gutter={[16, 16]}>
                         <Col>

@@ -14,6 +14,7 @@ type Props = {
 type State = {
     hasProps: boolean,
     name: string,
+    timeCreated: string,
     feedbackResponseForms: Array<FeedbackResponseFormProps>,
     feedbackReceived: Array<string>,
 };
@@ -22,6 +23,7 @@ const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
   feedbackGroup(feedbackGroupId: $feedbackGroupId) {
     id
     name
+    timeCreated
     feedbackResponses {
       id
       feedback
@@ -105,6 +107,7 @@ class FeedbackGroupPage extends React.Component<Props, State> {
             this.setState({
                 hasProps: true,
                 name: data['data']['feedbackGroup']['name'],
+                timeCreated: data['data']['feedbackGroup']['timeCreated'],
                 feedbackResponseForms: feedbackGroup['feedbackResponseForms'],
                 feedbackReceived: feedbackGroup['feedbackReceived'],
             });
@@ -116,6 +119,8 @@ class FeedbackGroupPage extends React.Component<Props, State> {
         return this.state.hasProps && (
             <GenericPage>
                 <FeedbackGroup
+                    name={this.state.name}
+                    timeCreated={this.state.timeCreated}
                     feedbackResponseForms={this.state.feedbackResponseForms}
                     feedbackReceived={this.state.feedbackReceived}
                 />

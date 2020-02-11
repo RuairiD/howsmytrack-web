@@ -71,6 +71,7 @@ class FeedbackGroupsPage extends React.Component<State> {
             }
             feedbackGroups.push({
                 'feedbackGroupId': feedbackGroup['id'],
+                'name': feedbackGroup['name'],
                 'timeCreated': feedbackGroup['timeCreated'],
                 'mediaUrl': feedbackGroup['mediaUrl'],
                 'mediaType': feedbackGroup['mediaType'],
