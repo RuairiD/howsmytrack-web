@@ -19,6 +19,7 @@ const FEEDBACK_GROUPS_QUERY = `query FeedbackGroups {
   feedbackGroups {
     id
     name
+    timeCreated
     members
     mediaUrl
     mediaType
@@ -70,6 +71,7 @@ class FeedbackGroupsPage extends React.Component<State> {
             }
             feedbackGroups.push({
                 'feedbackGroupId': feedbackGroup['id'],
+                'timeCreated': feedbackGroup['timeCreated'],
                 'mediaUrl': feedbackGroup['mediaUrl'],
                 'mediaType': feedbackGroup['mediaType'],
                 'userCount': feedbackGroup['members'],

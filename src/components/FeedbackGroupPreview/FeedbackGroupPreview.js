@@ -5,6 +5,7 @@ import MediaEmbed from '../MediaEmbed/MediaEmbed';
 
 export type FeedbackGroupPreviewProps = {
     feedbackGroupId: number,
+    timeCreated: string,
     mediaUrl: string,
     mediaType: string,
     // Number of users in the group
@@ -21,28 +22,38 @@ class FeedbackGroupPreview extends React.Component<Props> {
      */
     getUserFeedbackPercent = () => {
         return 100 * (this.props.userFeedbackCount/(this.props.userCount - 1))
-    }
+    };
 
     getUserFeedbackText = () => {
         return this.props.userFeedbackCount + '/' + (this.props.userCount - 1)
-    }
+    };
 
     getFeedbackResponsePercent = () => {
         return 100 * (this.props.feedbackResponseCount/(this.props.userCount - 1))
-    }
+    };
 
     getFeedbackResponseText = () => {
         return this.props.feedbackResponseCount + '/' + (this.props.userCount - 1)
-    }
+    };
 
     buildFeedbackGroupUrl = () => {
         return '/group/' + this.props.feedbackGroupId;
-    }
+    };
+
+    getTimeCreated = () => {
+        if (!this.props.timeCreated) {
+            return null;
+        }
+        return new Date(Date.parse(this.props.timeCreated)).toDateString();
+    };
 
     render() {
         return (
             <a href={this.buildFeedbackGroupUrl()}>
-                <Card title={"Feedback Group #"+ this.props.feedbackGroupId}>
+                <Card
+                    title={"Feedback Group #"+ this.props.feedbackGroupId}
+                    extra={this.getTimeCreated()}
+                >
                     <Row gutter={[16, 16]} type="flex" justify="space-around" align="middle">
                         <Col span={16}>
                             <Row>

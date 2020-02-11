@@ -19,14 +19,14 @@ class MediaEmbed extends React.Component<Props> {
     render() {
         return (
             <div>
-                {this.props.mediaType === 'MediaTypeChoice.SOUNDCLOUD' && <SoundcloudEmbed
+                {this.props.mediaType === 'SOUNDCLOUD' && <SoundcloudEmbed
                     mediaUrl={this.props.mediaUrl}
                     size={this.props.size}
                 />}
-                {this.props.mediaType === 'MediaTypeChoice.GOOGLEDRIVE' && <GoogleDriveEmbed
+                {this.props.mediaType === 'GOOGLEDRIVE' && <GoogleDriveEmbed
                     mediaUrl={this.props.mediaUrl}
                 />}
-                {this.props.mediaType === 'MediaTypeChoice.DROPBOX' && <DropboxEmbed
+                {this.props.mediaType === 'DROPBOX' && <DropboxEmbed
                     mediaUrl={this.props.mediaUrl}
                 />}
             </div>
