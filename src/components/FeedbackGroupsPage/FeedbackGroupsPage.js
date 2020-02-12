@@ -38,6 +38,7 @@ const UNASSIGNED_REQUEST_QUERY = `query UnassignedRequest {
     mediaUrl
     mediaType
     feedbackPrompt
+    emailWhenGrouped
   }
 }`;
 
@@ -90,6 +91,7 @@ class FeedbackGroupsPage extends React.Component<State> {
             mediaUrl: data['mediaUrl'],
             mediaType: data['mediaType'],
             feedbackPrompt: data['feedbackPrompt'],
+            emailWhenGrouped: data['emailWhenGrouped'],
         }
     };
 
