@@ -53,6 +53,8 @@ class Sidebar extends React.Component<Props, State> {
                 this.setState({
                     hasProps: true,
                 })
+                // Clear the JWT cookie in case it was mangled somehow.
+                this.logout();
                 return
             }
             this.setState({
@@ -62,6 +64,17 @@ class Sidebar extends React.Component<Props, State> {
             });
         });
     }
+
+    logout = () => {
+        return fetch(apiRoot + '/logout/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            credentials: 'include',
+        })
+    };
 
     menuActions = {
         newRequest: () => {
@@ -80,17 +93,10 @@ class Sidebar extends React.Component<Props, State> {
             })
         },
         logout: () => {
-            fetch(apiRoot + '/logout/', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                credentials: 'include',
-            }).then(result =>
+            this.logout().then(result =>
                 window.location.reload()
-            )
-        }
+            );
+        },
     };
 
     onMenuClick = (event) => {

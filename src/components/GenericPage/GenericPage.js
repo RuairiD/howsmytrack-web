@@ -1,8 +1,9 @@
 import React from 'react';
+import cookie from 'react-cookies'
 
 import apiRoot from '../../apiRoot';
 
-import { Divider, Layout, Typography } from 'antd';
+import { Divider, Layout, notification, Typography } from 'antd';
 import Sidebar from '../Sidebar/Sidebar';
 
 const REFRESH_TOKEN_FROM_COOKIE_MUTATION = `mutation RefreshTokenFromCookie {
@@ -10,6 +11,8 @@ const REFRESH_TOKEN_FROM_COOKIE_MUTATION = `mutation RefreshTokenFromCookie {
         token
     }
 }`;
+
+const SAFARI_NOTIFICATION_COOKIE_NAME = 'sn';
 
 class GenericPage extends React.Component {
     /*
@@ -29,7 +32,44 @@ class GenericPage extends React.Component {
             }),
             credentials: 'include',
         });
+
+        // Show warning to user that Safari will not work if
+        // cookies cannot be set.
+        if (this.isSafari() && !cookie.load(SAFARI_NOTIFICATION_COOKIE_NAME)) {
+            notification.warning({
+                message: 'Using Safari?',
+                description: (
+                    <Typography.Paragraph>
+                        Users may not be able to sign in on Safari if <Typography.Text strong>'Prevent cross-site tracking'</Typography.Text> is enabled. If you are unable to sign in successfully, go to <Typography.Text strong>Preferences > Privacy</Typography.Text> in Safari and ensure <Typography.Text strong>'Prevent cross-site tracking'</Typography.Text> is unchecked.
+                    </Typography.Paragraph>
+                ),
+                duration: 0,
+                onClose: this.onSafariNotificationClose,
+            });
+        }
     }
+
+    isSafari = () => {
+        const userAgent = navigator.userAgent.toLowerCase(); 
+        if (userAgent.indexOf('safari') != -1) { 
+            if (!(userAgent.indexOf('chrome') > -1)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    onSafariNotificationClose = () => {
+        // Set a cookie to prevent the notification being shown to the user again.
+        cookie.save(
+            SAFARI_NOTIFICATION_COOKIE_NAME,
+            true,
+            {
+                path: '/',
+                maxAge: 604800, // 1 week in seconds
+            },
+        )
+    };
 
     render() {
         return (
