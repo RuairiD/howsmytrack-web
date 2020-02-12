@@ -44,7 +44,7 @@ class FeedbackGroupPreview extends React.Component<Props> {
 
     getTimeCreated = () => {
         if (!this.props.timeCreated) {
-            return null;
+            return '';
         }
         return dateFormat(
             new Date(Date.parse(this.props.timeCreated)),
@@ -52,12 +52,19 @@ class FeedbackGroupPreview extends React.Component<Props> {
         );
     };
 
+    getCardExtra = () => {
+        return <Typography.Text>
+            {this.getTimeCreated() + ' - '}
+            <a href={this.buildFeedbackGroupUrl()}>View Group</a>
+        </Typography.Text>
+    };
+
     render() {
         return (
             <a href={this.buildFeedbackGroupUrl()}>
                 <Card
                     title={this.props.name}
-                    extra={this.getTimeCreated()}
+                    extra={this.getCardExtra()}
                 >
                     <Row gutter={[16, 16]} type="flex" justify="space-around" align="middle">
                         <Col span={16}>
