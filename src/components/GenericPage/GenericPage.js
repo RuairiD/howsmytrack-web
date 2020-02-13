@@ -14,7 +14,11 @@ const REFRESH_TOKEN_FROM_COOKIE_MUTATION = `mutation RefreshTokenFromCookie {
 
 const SAFARI_NOTIFICATION_COOKIE_NAME = 'sn';
 
-class GenericPage extends React.Component {
+type Props = {
+    isMobile: boolean,
+}
+
+class GenericPage extends React.Component<Props> {
     /*
      * Component for displaying generic page with children.
      * Also responsible for refreshing JWT token on pageload.
@@ -51,7 +55,7 @@ class GenericPage extends React.Component {
 
     isSafari = () => {
         const userAgent = navigator.userAgent.toLowerCase(); 
-        if (userAgent.indexOf('safari') != -1) { 
+        if (userAgent.indexOf('safari') !== -1) { 
             if (!(userAgent.indexOf('chrome') > -1)) {
                 return true;
             }
@@ -74,16 +78,20 @@ class GenericPage extends React.Component {
     render() {
         return (
             <Layout>
+                {this.props.isMobile && <Sidebar isMobile={this.props.isMobile} />}
                 <Layout.Content>
                     <Layout>
-                        <Layout.Sider theme="light">
+                        {!this.props.isMobile && <Layout.Sider theme="light">
                             <Sidebar />
-                        </Layout.Sider>
+                        </Layout.Sider>}
                         <Layout.Content style={{ minHeight: '100vh' }}>
                             <Layout>
-                                <Layout.Content style={{ padding: '4em' }}>
+                                {!this.props.isMobile && <Layout.Content style={{ padding: '4em' }}>
                                     {this.props.children}
-                                </Layout.Content>
+                                </Layout.Content>}
+                                {this.props.isMobile && <Layout.Content style={{ padding: '2em' }}>
+                                    {this.props.children}
+                                </Layout.Content>}
                                 <Layout.Footer style={{ textAlign: 'center' }}>
                                     <Divider />
                                     <Typography.Paragraph>

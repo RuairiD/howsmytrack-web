@@ -14,6 +14,7 @@ type Props = {
     timeCreated: string,
     feedbackResponseForms: Array<FeedbackResponseFormProps>,
     feedbackReceived: Array<FeedbackResponseProps>,
+    isMobile: boolean,
 };
 
 type State = {
@@ -57,8 +58,23 @@ class FeedbackGroup extends React.Component<Props, State> {
             )
         }
 
+        if (this.props.isMobile) {
+            return (<div>
+                {this.state.feedbackReceived.map(
+                    (feedbackReceived, i) => (
+                        <Row gutter={[8, 8]} key={i}>
+                            <Col>
+                                <FeedbackResponse
+                                    {...feedbackReceived}
+                                />
+                            </Col>
+                        </Row>
+                    )
+                )}
+            </div>)
+        }
         return (
-            <div>
+            <Row gutter={[16, 16]}>
                 {this.state.feedbackReceived.map(
                     (feedbackReceived, i) => (
                         <Col span={8} key={i}>
@@ -68,7 +84,8 @@ class FeedbackGroup extends React.Component<Props, State> {
                         </Col>
                     )
                 )}
-            </div>
+            
+            </Row>
         )
     }
 
@@ -90,17 +107,30 @@ class FeedbackGroup extends React.Component<Props, State> {
                             <Typography.Title level={3}>Feedback requests for you</Typography.Title>
                         </Col>
                     </Row>
-                    <Row gutter={[16, 16]}>
+                    {!this.props.isMobile && <Row gutter={[16, 16]}>
                         {this.props.feedbackResponseForms.map(
+                            // For mobile devices, put each form on a different row.
                             (feedbackResponseForm, i) => (
-                                <Col span={8} key={i}>
+                                <Col span={24 / (this.props.feedbackResponseForms.length)} key={i}>
                                     <FeedbackResponseForm
                                         {...feedbackResponseForm}
                                     />
                                 </Col>
                             )
                         )}
-                    </Row>
+                    </Row>}
+                    {this.props.isMobile &&
+                        this.props.feedbackResponseForms.map(
+                            (feedbackResponseForm, i) => (
+                                // For desktop devices, put each form in a different column.
+                                <Row gutter={[8, 8]} key={i}>
+                                    <Col>
+                                        <FeedbackResponseForm
+                                            {...feedbackResponseForm}
+                                        />
+                                    </Col>
+                                </Row>))
+                    }
 
                     <Divider />
 
@@ -109,9 +139,7 @@ class FeedbackGroup extends React.Component<Props, State> {
                             <Typography.Title level={3}>Feedback for your submission</Typography.Title>
                         </Col>
                     </Row>
-                    <Row gutter={[16, 16]}>
-                        {this.renderReceivedFeedback()}
-                    </Row>
+                    {this.renderReceivedFeedback()}
                 </div>
             )
         }

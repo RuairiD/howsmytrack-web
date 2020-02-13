@@ -3,10 +3,14 @@ import React from 'react';
 import GenericPage from '../GenericPage/GenericPage';
 import Faq from '../Faq/Faq';
 
-class FaqPage extends React.Component {
+type Props = {
+    isMobile: boolean,
+}
+
+class FaqPage extends React.Component<Props> {
     render() {
         return (
-            <GenericPage>
+            <GenericPage isMobile={this.props.isMobile}>
                 <Faq />
             </GenericPage>
         )

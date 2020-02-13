@@ -8,6 +8,10 @@ import FeedbackGroups from '../FeedbackGroups/FeedbackGroups';
 import type { FeedbackGroupPreviewProps } from '../FeedbackGroupPreview/FeedbackGroupPreview';
 import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/FeedbackRequestSummary';
 
+type Props = {
+    isMobile: boolean,
+}
+
 type State = {
     hasFeedbackGroupsProps: boolean,
     hasUnassignedRequestProps: boolean,
@@ -42,7 +46,7 @@ const UNASSIGNED_REQUEST_QUERY = `query UnassignedRequest {
   }
 }`;
 
-class FeedbackGroupsPage extends React.Component<State> {
+class FeedbackGroupsPage extends React.Component<Props, State> {
 
     state = {
         hasFeedbackGroupsProps: false,
@@ -160,7 +164,7 @@ class FeedbackGroupsPage extends React.Component<State> {
     render() {
         if (this.state.hasFeedbackGroupsProps && this.state.hasUnassignedRequestProps) {
             return (
-                <GenericPage>
+                <GenericPage isMobile={this.props.isMobile}>
                     <FeedbackGroups
                         feedbackGroups={this.state.feedbackGroups}
                         unassignedRequest={this.state.unassignedRequest}

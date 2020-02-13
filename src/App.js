@@ -8,10 +8,20 @@ import FeedbackGroupsPage from './components/FeedbackGroupsPage/FeedbackGroupsPa
 import FaqPage from './components/FaqPage/FaqPage';
 
 
+function isMobile() {
+    // TODO: this is the root of some mobile friendly fixes added in about
+    // half an hour. the isMobile prop is passed down to anything that needs 
+    // it and leads to some weird conditional rendering (FeedbackGroup is
+    // a highlight). This should ideally be refactored into something that
+    // makes more sense, both from a design and implementation standpoint.
+    return window.screen.width < 600;
+}
+
+
 function renderFeedbackGroup({ match} ) {
     let { feedbackGroupId } = match.params;
     return (
-        <FeedbackGroupPage feedbackGroupId={feedbackGroupId} />
+        <FeedbackGroupPage feedbackGroupId={feedbackGroupId} isMobile={isMobile()} />
     )
 }
 
@@ -22,10 +32,24 @@ function App() {
             <BrowserRouter>
                 <Suspense fallback={<div>Loading...</div>}>
                     <Switch>
-                        <Route exact path="/" component={FaqPage} />
-                        <Route exact path="/faq" component={FaqPage} />
-                        <Route path="/groups" component={FeedbackGroupsPage} />
-                        <Route path="/group/:feedbackGroupId" render={renderFeedbackGroup} />
+                        <Route
+                            exact
+                            path="/"
+                            render={() => <FaqPage isMobile={isMobile()} />}
+                        />
+                        <Route
+                            exact
+                            path="/faq"
+                            render={() => <FaqPage isMobile={isMobile()} />}
+                        />
+                        <Route
+                            path="/groups"
+                            render={() => <FeedbackGroupsPage isMobile={isMobile()} />}
+                        />
+                        <Route
+                            path="/group/:feedbackGroupId"
+                            render={renderFeedbackGroup}
+                        />
                     </Switch>
                 </Suspense>
             </BrowserRouter>

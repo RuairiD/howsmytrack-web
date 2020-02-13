@@ -7,6 +7,10 @@ import FeedbackRequestModal from '../FeedbackRequestModal/FeedbackRequestModal';
 import LoginModal from '../LoginModal/LoginModal';
 import RegisterModal from '../RegisterModal/RegisterModal';
 
+type Props = {
+    isMobile: boolean,
+};
+
 type State = {
     hasProps: boolean,
     username: string,
@@ -23,9 +27,12 @@ const USER_DETAILS_QUERY = `query UserDetails {
   }
 }`;
 
+// TODO: Sidebar isn't a good name anymore as this component renders both a Sidebar for
+// desktop and also a top menu for mobile.
 class Sidebar extends React.Component<Props, State> {
     /*
-     * Component for displaying page sidebar with menu links.
+     * Component for displaying page sidebar with menu links, or for mobile,
+     * displaying a menu at the top of the screen. See TODO above.
      */
     state = {
         hasProps: false,
@@ -199,9 +206,9 @@ class Sidebar extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                <a href="/">
+                {!this.props.isMobile && <a href="/">
                     <img alt="how's my track" src="/logo400.png" width="200px" style={{ padding: '1em'}} />
-                </a>
+                </a>}
                 {this.state.username && this.renderLoggedInMenu()}
                 {!this.state.username && this.renderLoggedOutMenu()}
                 <FeedbackRequestModal onCancel={this.onFeedbackRequestModalCancel} isVisible={this.state.isFeedbackRequestModalVisible} />
