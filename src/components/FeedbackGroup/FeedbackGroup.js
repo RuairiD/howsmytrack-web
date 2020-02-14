@@ -9,11 +9,15 @@ import type { FeedbackResponseFormProps } from '../FeedbackResponseForm/Feedback
 import FeedbackResponse from '../FeedbackResponse/FeedbackResponse';
 import type { FeedbackResponseProps } from '../FeedbackResponse/FeedbackResponse';
 
+import FeedbackRequestSummary from '../FeedbackRequestSummary/FeedbackRequestSummary';
+import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/FeedbackRequestSummary';
+
 type Props = {
     name: string,
     timeCreated: string,
     feedbackResponseForms: Array<FeedbackResponseFormProps>,
     feedbackReceived: Array<FeedbackResponseProps>,
+    feedbackRequestSummary: FeedbackRequestSummaryProps,
 };
 
 type State = {
@@ -110,6 +114,9 @@ class FeedbackGroup extends React.Component<Props, State> {
                         </Col>
                     </Row>
                     <Row gutter={[16, 16]}>
+                        <FeedbackRequestSummary
+                            feedbackRequestSummary={this.props.unassignedRequest}
+                        />
                         {this.renderReceivedFeedback()}
                     </Row>
                 </div>

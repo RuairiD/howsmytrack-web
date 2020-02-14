@@ -24,6 +24,12 @@ const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
     id
     name
     timeCreated
+    feedbackRequest {
+      id
+      mediaUrl
+      mediaType
+      feedbackPrompt
+    }
     feedbackResponses {
       id
       feedback
@@ -74,6 +80,8 @@ class FeedbackGroupPage extends React.Component<Props, State> {
             }
         }
 
+        feedbackGroupProps['feedbackRequestSummary'] = data['feedbackRequestSummary']
+
         return feedbackGroupProps
     };
 
@@ -110,6 +118,7 @@ class FeedbackGroupPage extends React.Component<Props, State> {
                 timeCreated: data['data']['feedbackGroup']['timeCreated'],
                 feedbackResponseForms: feedbackGroup['feedbackResponseForms'],
                 feedbackReceived: feedbackGroup['feedbackReceived'],
+                feedbackRequestSummary: feedbackGroup['feedbackRequestSummary'],
             });
             document.title = "how's my track? - " + data['data']['feedbackGroup']['name'];
         });
@@ -123,6 +132,7 @@ class FeedbackGroupPage extends React.Component<Props, State> {
                     timeCreated={this.state.timeCreated}
                     feedbackResponseForms={this.state.feedbackResponseForms}
                     feedbackReceived={this.state.feedbackReceived}
+                    feedbackRequestSummary={this.state.feedbackRequestSummary}
                 />
             </GenericPage>
         )

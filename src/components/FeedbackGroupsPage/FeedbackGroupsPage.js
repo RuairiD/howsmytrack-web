@@ -23,6 +23,12 @@ const FEEDBACK_GROUPS_QUERY = `query FeedbackGroups {
     members
     mediaUrl
     mediaType
+    feedbackRequest {
+      id
+      mediaUrl
+      mediaType
+      feedbackPrompt
+    }
     feedbackResponses {
       submitted
     }

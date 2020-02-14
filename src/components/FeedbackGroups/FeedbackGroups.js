@@ -52,7 +52,8 @@ class FeedbackGroups extends React.Component<Props> {
                 {this.props.unassignedRequest && <React.Fragment>
                     <Typography.Title level={2}>Your Unassigned Request</Typography.Title>
                     <FeedbackRequestSummary
-                        {...this.props.unassignedRequest}
+                        feedbackRequestSummary={this.props.unassignedRequest}
+                        showEditButton
                     />
                     <Divider />
                 </React.Fragment>}

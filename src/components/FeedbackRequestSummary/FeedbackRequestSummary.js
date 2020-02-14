@@ -11,9 +11,14 @@ export type FeedbackRequestSummaryProps = {
     feedbackPrompt: string,
 };
 
+type Props = {
+    feedbackRequestSummary: FeedbackRequestSummaryProps,
+    showEditButton: boolean,
+};
+
 type State = {
     isEditFeedbackRequestModalVisible: boolean,
-}
+};
 
 class FeedbackRequestSummary extends React.Component<Props, State> {
     /*
@@ -40,7 +45,7 @@ class FeedbackRequestSummary extends React.Component<Props, State> {
         return (
             <div>
                 <Card
-                    extra={<Button
+                    extra={this.props.showEditButton && <Button
                         shape="circle"
                         icon="edit"
                         onClick={this.showEditFeedbackRequestModal}
