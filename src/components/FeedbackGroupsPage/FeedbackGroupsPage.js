@@ -25,13 +25,9 @@ const FEEDBACK_GROUPS_QUERY = `query FeedbackGroups {
     name
     timeCreated
     members
-    mediaUrl
-    mediaType
     feedbackRequest {
-      id
       mediaUrl
       mediaType
-      feedbackPrompt
     }
     feedbackResponses {
       submitted
@@ -53,7 +49,6 @@ const UNASSIGNED_REQUEST_QUERY = `query UnassignedRequest {
 }`;
 
 class FeedbackGroupsPage extends React.Component<Props, State> {
-
     state = {
         hasFeedbackGroupsProps: false,
         hasUnassignedRequestProps: false,
@@ -84,8 +79,7 @@ class FeedbackGroupsPage extends React.Component<Props, State> {
                 'feedbackGroupId': feedbackGroup['id'],
                 'name': feedbackGroup['name'],
                 'timeCreated': feedbackGroup['timeCreated'],
-                'mediaUrl': feedbackGroup['mediaUrl'],
-                'mediaType': feedbackGroup['mediaType'],
+                'feedbackRequestSummary': feedbackGroup['feedbackRequest'],
                 'userCount': feedbackGroup['members'],
                 'userFeedbackCount': userFeedbackCount,
                 'feedbackResponseCount': feedbackResponseCount,

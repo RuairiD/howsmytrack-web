@@ -3,13 +3,14 @@ import dateFormat from 'dateformat';
 
 import { Card, Row, Col, Progress, Typography } from 'antd';
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
+import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/FeedbackRequestSummary';
 
 export type FeedbackGroupPreviewProps = {
     feedbackGroupId: number,
     name: string,
     timeCreated: string,
-    mediaUrl: string,
-    mediaType: string,
+    // The user's original request for the group
+    feedbackRequestSummary: FeedbackRequestSummaryProps,
     // Number of users in the group
     userCount: number,
     // Number of submissions in the group for which the logged-in user has submitted feedback
@@ -61,11 +62,11 @@ class FeedbackGroupPreview extends React.Component<Props> {
 
     render() {
         return (
-            <a href={this.buildFeedbackGroupUrl()}>
-                <Card
-                    title={this.props.name}
-                    extra={this.getCardExtra()}
-                >
+            <Card
+                title={this.props.name}
+                extra={this.getCardExtra()}
+            >
+                <a href={this.buildFeedbackGroupUrl()}>
                     <Row gutter={[16, 16]} type="flex" justify="space-around" align="middle">
                         <Col span={16}>
                             <Row>
@@ -73,7 +74,7 @@ class FeedbackGroupPreview extends React.Component<Props> {
                                     <Typography.Text strong>You submitted:</Typography.Text>
                                 </Col>
                                 <Col>
-                                    <MediaEmbed mediaUrl={this.props.mediaUrl} mediaType={this.props.mediaType} size="small" />
+                                    <MediaEmbed mediaUrl={this.props.feedbackRequestSummary.mediaUrl} mediaType={this.props.feedbackRequestSummary.mediaType} size="small" />
                                 </Col>
                             </Row>
                         </Col>
@@ -86,8 +87,8 @@ class FeedbackGroupPreview extends React.Component<Props> {
                             <Progress type="circle" percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={64} />
                         </Col>
                     </Row>
-                </Card>
-            </a>
+                </a>
+            </Card>
         );
     }
 }
