@@ -9,6 +9,7 @@ import type { FeedbackResponseFormProps } from '../FeedbackResponseForm/Feedback
 
 type Props = {
     feedbackGroupId: number,
+    isMobile: boolean,
 };
 
 type State = {
@@ -126,13 +127,14 @@ class FeedbackGroupPage extends React.Component<Props, State> {
 
     render() {
         return this.state.hasProps && (
-            <GenericPage>
+            <GenericPage isMobile={this.props.isMobile}>
                 <FeedbackGroup
                     name={this.state.name}
                     timeCreated={this.state.timeCreated}
                     feedbackResponseForms={this.state.feedbackResponseForms}
                     feedbackReceived={this.state.feedbackReceived}
                     feedbackRequestSummary={this.state.feedbackRequestSummary}
+                    isMobile={this.props.isMobile}
                 />
             </GenericPage>
         )

@@ -2,12 +2,13 @@ import React from 'react';
 
 import apiRoot from '../../apiRoot';
 
-import { Alert, Button, Col, Input, Form, Result, Row, Spin } from 'antd';
+import { Alert, Button, Checkbox, Col, Input, Form, Result, Row, Spin } from 'antd';
 
 type Props = {
     feedbackRequestId: number,
     mediaUrl: string,
     feedbackPrompt: string,
+    emailWhenGrouped: boolean,
 };
 
 type State = {
@@ -16,8 +17,8 @@ type State = {
     submitted: boolean,
 };
 
-const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRequestId: Int!, $mediaUrl: String!, $feedbackPrompt: String) {
-    editFeedbackRequest(feedbackRequestId: $feedbackRequestId, mediaUrl: $mediaUrl, feedbackPrompt: $feedbackPrompt) {
+const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRequestId: Int!, $mediaUrl: String!, $emailWhenGrouped: Boolean!, $feedbackPrompt: String) {
+    editFeedbackRequest(feedbackRequestId: $feedbackRequestId, mediaUrl: $mediaUrl, emailWhenGrouped: $emailWhenGrouped, feedbackPrompt: $feedbackPrompt) {
         success
         error
     }
@@ -34,7 +35,7 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
         submitted: false,
     }
     
-    submitForm = (mediaUrl, feedbackPrompt) => {
+    submitForm = (mediaUrl, feedbackPrompt, emailWhenGrouped) => {
         this.setState({
             requestSent: true,
         })
@@ -49,7 +50,8 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
                 variables: {
                     feedbackRequestId: this.props.feedbackRequestId,
                     mediaUrl,
-                    feedbackPrompt
+                    feedbackPrompt,
+                    emailWhenGrouped,
                 },
             }),
             credentials: 'include',
@@ -71,7 +73,8 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
             if (!err) {
                 this.submitForm(
                     values.mediaUrl,
-                    values.feedbackPrompt
+                    values.feedbackPrompt,
+                    values.emailWhenGrouped,
                 )
             }
         });
@@ -114,6 +117,14 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
                                                 initialValue: this.props.feedbackPrompt,
                                             }
                                         )(<Input.TextArea rows={4} />)
+                                    }
+                                </Form.Item>
+                                <Form.Item>
+                                    {
+                                        this.props.form.getFieldDecorator('emailWhenGrouped', {
+                                            valuePropName: 'checked',
+                                            initialValue: this.props.emailWhenGrouped,
+                                        })(<Checkbox>Email me when this request is added to a group.</Checkbox>)
                                     }
                                 </Form.Item>
                                 <Form.Item>

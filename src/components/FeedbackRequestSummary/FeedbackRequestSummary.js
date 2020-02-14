@@ -9,6 +9,7 @@ export type FeedbackRequestSummaryProps = {
     mediaUrl: string,
     mediaType: string,
     feedbackPrompt: string,
+    emailWhenGrouped: boolean,
 };
 
 type Props = {
@@ -73,6 +74,7 @@ class FeedbackRequestSummary extends React.Component<Props, State> {
                     feedbackRequestId={this.props.feedbackRequestId}
                     mediaUrl={this.props.mediaUrl}
                     feedbackPrompt={this.props.feedbackPrompt}
+                    emailWhenGrouped={this.props.emailWhenGrouped}
                 />
             </div>
         );
