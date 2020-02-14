@@ -46,6 +46,7 @@ class FeedbackRequestSummary extends React.Component<Props, State> {
         return (
             <div>
                 <Card
+                    title="You submitted:"
                     extra={this.props.showEditButton && <Button
                         shape="circle"
                         icon="edit"
@@ -54,16 +55,13 @@ class FeedbackRequestSummary extends React.Component<Props, State> {
                 >
                     <Row>
                         <Col>
-                            <Typography.Text strong>You submitted:</Typography.Text>
+                            <MediaEmbed mediaUrl={this.props.feedbackRequestSummary.mediaUrl} mediaType={this.props.feedbackRequestSummary.mediaType} />
                         </Col>
-                        <Col>
-                            <MediaEmbed mediaUrl={this.props.mediaUrl} mediaType={this.props.mediaType} />
-                        </Col>
-                        {this.props.feedbackPrompt && <Col>
+                        {this.props.feedbackRequestSummary.feedbackPrompt && <Col>
                             <Typography.Text strong>You said: </Typography.Text>
-                            <Typography.Text>"{this.props.feedbackPrompt}"</Typography.Text>
+                            <Typography.Text>"{this.props.feedbackRequestSummary.feedbackPrompt}"</Typography.Text>
                         </Col>}
-                        {!this.props.feedbackPrompt && <Col>
+                        {!this.props.feedbackRequestSummary.feedbackPrompt && <Col>
                             <Typography.Text strong>You did not provide any additional information for feedback.</Typography.Text>
                         </Col>}
                     </Row>
@@ -71,10 +69,10 @@ class FeedbackRequestSummary extends React.Component<Props, State> {
                 <EditFeedbackRequestModal
                     onCancel={this.hideEditFeedbackRequestModal}
                     isVisible={this.state.isEditFeedbackRequestModalVisible}
-                    feedbackRequestId={this.props.feedbackRequestId}
-                    mediaUrl={this.props.mediaUrl}
-                    feedbackPrompt={this.props.feedbackPrompt}
-                    emailWhenGrouped={this.props.emailWhenGrouped}
+                    feedbackRequestId={this.props.feedbackRequestSummary.feedbackRequestId}
+                    mediaUrl={this.props.feedbackRequestSummary.mediaUrl}
+                    feedbackPrompt={this.props.feedbackRequestSummary.feedbackPrompt}
+                    emailWhenGrouped={this.props.feedbackRequestSummary.emailWhenGrouped}
                 />
             </div>
         );

@@ -6,6 +6,7 @@ import GenericPage from '../GenericPage/GenericPage';
 import FeedbackGroup from '../FeedbackGroup/FeedbackGroup';
 
 import type { FeedbackResponseFormProps } from '../FeedbackResponseForm/FeedbackResponseForm';
+import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/FeedbackRequestSummary';
 
 type Props = {
     feedbackGroupId: number,
@@ -18,6 +19,7 @@ type State = {
     timeCreated: string,
     feedbackResponseForms: Array<FeedbackResponseFormProps>,
     feedbackReceived: Array<string>,
+    feedbackRequestSummary: FeedbackRequestSummaryProps,
 };
 
 const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
@@ -26,7 +28,6 @@ const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
     name
     timeCreated
     feedbackRequest {
-      id
       mediaUrl
       mediaType
       feedbackPrompt
@@ -81,7 +82,7 @@ class FeedbackGroupPage extends React.Component<Props, State> {
             }
         }
 
-        feedbackGroupProps['feedbackRequestSummary'] = data['feedbackRequestSummary']
+        feedbackGroupProps['feedbackRequestSummary'] = data['feedbackRequest'];
 
         return feedbackGroupProps
     };
