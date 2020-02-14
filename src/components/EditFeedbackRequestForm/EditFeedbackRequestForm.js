@@ -92,7 +92,7 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
                     <Col>
                         {!this.state.submitted && <Spin spinning={this.state.requestSent}>
                             <Form onSubmit={this.onSubmit}>
-                                <Form.Item label="Soundcloud/Google Drive/Dropbox URL">
+                                <Form.Item label="Soundcloud/Google Drive/Dropbox/OneDrive URL">
                                     {
                                         this.props.form.getFieldDecorator('mediaUrl',
                                             {

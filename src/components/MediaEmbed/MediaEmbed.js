@@ -2,6 +2,7 @@ import React from 'react';
 
 import DropboxEmbed from '../DropboxEmbed/DropboxEmbed';
 import GoogleDriveEmbed from '../GoogleDriveEmbed/GoogleDriveEmbed';
+import OneDriveEmbed from '../OneDriveEmbed/OneDriveEmbed';
 import SoundcloudEmbed from '../SoundcloudEmbed/SoundcloudEmbed';
 
 type Props = {
@@ -27,6 +28,9 @@ class MediaEmbed extends React.Component<Props> {
                     mediaUrl={this.props.mediaUrl}
                 />}
                 {this.props.mediaType === 'DROPBOX' && <DropboxEmbed
+                    mediaUrl={this.props.mediaUrl}
+                />}
+                {this.props.mediaType === 'ONEDRIVE' && <OneDriveEmbed
                     mediaUrl={this.props.mediaUrl}
                 />}
             </div>
