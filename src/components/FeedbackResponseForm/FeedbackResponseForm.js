@@ -98,13 +98,14 @@ class FeedbackResponseForm extends React.Component<Props, State> {
                         </Col>
                     </Row>
                 }
-                {!this.state.submitted && <div>
+                <div>
                     <Row gutter={[16, 16]}>
                         <Col>
                             <Input.TextArea
                                 value={this.state.feedback}
                                 onChange={this.onFeedbackTextChange}
                                 rows={4}
+                                disabled={this.state.submitted}
                             />
                             {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" />}
                         </Col>
@@ -114,18 +115,15 @@ class FeedbackResponseForm extends React.Component<Props, State> {
                             <Button
                                 type="primary"
                                 loading={this.state.requestSent}
-                                disabled={!this.state.feedback}
+                                disabled={this.state.submitted || !this.state.feedback}
                                 onClick={this.onSubmit}
                             >
-                                Submit Feedback
+                                {!this.state.submitted && 'Submit Feedback'}
+                                {this.state.submitted && 'Submitted'}
                             </Button>
                         </Col>
                     </Row>
-                </div>}
-                {this.state.submitted && <Result
-                    status="success"
-                    title="Your feedback for this track has been submitted!"
-                />}
+                </div>
             </Card>
         );
     }
