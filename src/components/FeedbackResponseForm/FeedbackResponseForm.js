@@ -2,7 +2,7 @@ import React from 'react';
 
 import apiRoot from '../../apiRoot';
 
-import { Alert, Button, Card, Col, Input, Result, Row, Typography } from 'antd';
+import { Alert, Button, Card, Col, Input, Row, Typography } from 'antd';
 
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
 

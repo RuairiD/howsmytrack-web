@@ -168,6 +168,7 @@ class FeedbackGroupsPage extends React.Component<Props, State> {
                     <FeedbackGroups
                         feedbackGroups={this.state.feedbackGroups}
                         unassignedRequest={this.state.unassignedRequest}
+                        isMobile={this.props.isMobile}
                     />
                 </GenericPage>
             );
