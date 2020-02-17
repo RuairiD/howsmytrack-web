@@ -39,6 +39,10 @@ class HomePage extends React.Component<Props, State> {
         }).then(result =>
             result.json()
         ).then((data) => {
+            if (!data['data']['userDetails']) {
+                // User isn't logged in or has an unreadable token, skip.
+                return
+            }
             this.setState({
                 isLoggedIn: !!data['data']['userDetails']['username'],
             });

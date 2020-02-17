@@ -208,7 +208,11 @@ class Sidebar extends React.Component<Props, State> {
             <Collapse
                 className="mobile-menu-collapse"
                 bordered={false}
-                expandIcon={() => <Icon type="menu" />}
+                expandIcon={
+                    ({ isActive }) => (
+                        <Icon type="menu" rotate={isActive ? 90 : 0} />
+                    )
+                }
             >
                 <Collapse.Panel
                     header="how's my track?"
