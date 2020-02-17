@@ -43,6 +43,14 @@ html, body, #root, #root>div {
   }
 }
 
+.mobile-menu-collapse .ant-collapse-item {
+  padding: 0.5em 0;
+}
+
+.mobile-menu-collapse .ant-collapse-header {
+  font-size: 18px;
+}
+
 .mobile-menu-collapse .ant-collapse-content-box {
   padding: 0;
 }
