@@ -1,1 +1,1 @@
-export default 'https://howsmytrack-api.herokuapp.com';
+export default 'https://api.howsmytrack.com';
