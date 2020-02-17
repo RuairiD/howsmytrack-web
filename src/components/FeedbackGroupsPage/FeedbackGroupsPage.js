@@ -10,7 +10,7 @@ import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/Feed
 
 type Props = {
     isMobile: boolean,
-}
+};
 
 type State = {
     hasFeedbackGroupsProps: boolean,

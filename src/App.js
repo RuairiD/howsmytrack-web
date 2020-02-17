@@ -7,6 +7,7 @@ import FeedbackGroupPage from './components/FeedbackGroupPage/FeedbackGroupPage'
 import FeedbackGroupsPage from './components/FeedbackGroupsPage/FeedbackGroupsPage';
 import FaqPage from './components/FaqPage/FaqPage';
 import TrackUrlHelpPage from './components/TrackUrlHelpPage/TrackUrlHelpPage';
+import HomePage from './components/HomePage/HomePage';
 
 
 function isMobile() {
@@ -36,7 +37,7 @@ function App() {
                         <Route
                             exact
                             path="/"
-                            render={() => <FaqPage isMobile={isMobile()} />}
+                            render={() => <HomePage isMobile={isMobile()} />}
                         />
                         <Route
                             exact
