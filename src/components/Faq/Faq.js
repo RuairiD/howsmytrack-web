@@ -32,6 +32,10 @@ class Faq extends React.Component<Props> {
             </React.Fragment>)
         },
         {
+            question: "How can get the correct track URL for my platform of choice?",
+            answer: (<Typography.Paragraph><a href="/trackurlhelp">Check out our guide.</a></Typography.Paragraph>)
+        },
+        {
             question: "How is my rating calculated?",
             answer: (<Typography.Paragraph>Users can rate your feedback after reading it. The rating you see when logged in is the mean of your last 15 ratings, or all of your ratings if you have fewer than than 15 (bear in mind that 15 ratings will be all your ratings from your past 5 groups). User ratings are only re-calculated once per day to obfuscate the source of ratings. </Typography.Paragraph>)
         },

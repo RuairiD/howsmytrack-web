@@ -6,6 +6,7 @@ import './App.css';
 import FeedbackGroupPage from './components/FeedbackGroupPage/FeedbackGroupPage';
 import FeedbackGroupsPage from './components/FeedbackGroupsPage/FeedbackGroupsPage';
 import FaqPage from './components/FaqPage/FaqPage';
+import TrackUrlHelpPage from './components/TrackUrlHelpPage/TrackUrlHelpPage';
 
 
 function isMobile() {
@@ -41,6 +42,11 @@ function App() {
                             exact
                             path="/faq"
                             render={() => <FaqPage isMobile={isMobile()} />}
+                        />
+                        <Route
+                            exact
+                            path="/trackurlhelp"
+                            render={() => <TrackUrlHelpPage isMobile={isMobile()} />}
                         />
                         <Route
                             path="/groups"

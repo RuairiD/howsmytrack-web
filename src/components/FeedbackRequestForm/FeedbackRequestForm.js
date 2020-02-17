@@ -8,6 +8,7 @@ type State = {
     requestSent: boolean,
     errorMessage: string,
     submitted: boolean,
+    invalidMediaUrl: boolean,
     feedbackPromptPlaceholder: string,
 };
 
@@ -15,6 +16,7 @@ const CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($mediaU
     createFeedbackRequest(mediaUrl: $mediaUrl, emailWhenGrouped: $emailWhenGrouped, feedbackPrompt: $feedbackPrompt) {
         success
         error
+        invalidMediaUrl
     }
 }`;
 
@@ -43,6 +45,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
         requestSent: false,
         errorMessage: null,
         submitted: false,
+        invalidMediaUrl: false,
         feedbackPromptPlaceholder: this.getFeedbackPromptPlaceholder(),
     }
     
@@ -68,6 +71,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
                 requestSent: false,
                 submitted: data['data']['createFeedbackRequest'].success,
                 errorMessage: data['data']['createFeedbackRequest'].error,
+                invalidMediaUrl: data['data']['createFeedbackRequest'].invalidMediaUrl,
             });
         });
     };
@@ -85,6 +89,15 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
         });
     };
 
+    getErrorMessage = () => {
+        if (this.state.invalidMediaUrl) {
+            return (
+                <Typography.Text>Please submit a valid Soundcloud, Google Drive, Dropbox or OneDrive URL. If you are unsure how to get the correct URL, <a href="/trackurlhelp" target="_blank" rel="noopener noreferrer">please consult our guide.</a></Typography.Text>
+            )
+        }
+        return this.state.errorMessage
+    };
+
     render() {
         return (
             <div>
@@ -93,7 +106,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
                         <Typography.Text>
                             Users are allowed to submit feedback requests once per 24 hours.
                         </Typography.Text>
-                        {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" />}
+                        {this.state.errorMessage && <Alert message={this.getErrorMessage()} type="error" />}
                     </Col>
                 </Row>
                 <Row gutter={[16, 16]}>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import apiRoot from '../../apiRoot';
 
-import { Alert, Button, Checkbox, Col, Input, Form, Result, Row, Spin } from 'antd';
+import { Alert, Button, Checkbox, Col, Input, Form, Result, Row, Spin, Typography } from 'antd';
 
 type Props = {
     feedbackRequestId: number,
@@ -15,12 +15,14 @@ type State = {
     requestSent: boolean,
     errorMessage: string,
     submitted: boolean,
+    invalidMediaUrl: boolean,
 };
 
 const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRequestId: Int!, $mediaUrl: String!, $emailWhenGrouped: Boolean!, $feedbackPrompt: String) {
     editFeedbackRequest(feedbackRequestId: $feedbackRequestId, mediaUrl: $mediaUrl, emailWhenGrouped: $emailWhenGrouped, feedbackPrompt: $feedbackPrompt) {
         success
         error
+        invalidMediaUrl
     }
 }`;
 
@@ -33,6 +35,7 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
         requestSent: false,
         errorMessage: null,
         submitted: false,
+        invalidMediaUrl: false,
     }
     
     submitForm = (mediaUrl, feedbackPrompt, emailWhenGrouped) => {
@@ -63,6 +66,7 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
                 requestSent: false,
                 submitted: data['data']['editFeedbackRequest'].success,
                 errorMessage: data['data']['editFeedbackRequest'].error,
+                invalidMediaUrl: data['data']['editFeedbackRequest'].invalidMediaUrl,
             });
         });
     };
@@ -80,12 +84,21 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
         });
     };
 
+    getErrorMessage = () => {
+        if (this.state.invalidMediaUrl) {
+            return (
+                <Typography.Text>Please submit a valid Soundcloud, Google Drive, Dropbox or OneDrive URL. If you are unsure how to get the correct URL, <a href="/trackurlhelp" target="_blank" rel="noopener noreferrer">please consult our guide.</a></Typography.Text>
+            )
+        }
+        return this.state.errorMessage
+    };
+
     render() {
         return (
             <div>
                 {this.state.errorMessage && <Row gutter={[16, 16]}>
                     <Col>
-                        <Alert message={this.state.errorMessage} type="error" />
+                        <Alert message={this.getErrorMessage()} type="error" />
                     </Col>
                 </Row>}
                 <Row gutter={[16, 16]}>
