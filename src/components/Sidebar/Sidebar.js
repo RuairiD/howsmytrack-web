@@ -2,7 +2,7 @@ import React from 'react';
 
 import apiRoot from '../../apiRoot';
 
-import { Menu, Icon, Spin, Typography } from 'antd';
+import { Collapse, Menu, Icon, Spin, Typography } from 'antd';
 import FeedbackRequestModal from '../FeedbackRequestModal/FeedbackRequestModal';
 import LoginModal from '../LoginModal/LoginModal';
 import RegisterModal from '../RegisterModal/RegisterModal';
@@ -161,7 +161,7 @@ class Sidebar extends React.Component<Props, State> {
                 </Menu>
             </Spin>
         )
-    }
+    };
 
     renderLoggedInMenu = () => {
         return (
@@ -201,7 +201,31 @@ class Sidebar extends React.Component<Props, State> {
                 </Menu.Item>
             </Menu>
         )
-    }
+    };
+
+    renderMobileMenu = () => {
+        return (
+            <Collapse
+                className="mobile-menu-collapse"
+                bordered={false}
+                expandIcon={() => <Icon type="menu" />}
+            >
+                <Collapse.Panel
+                    header="how's my track?"
+                    key="1"
+                >
+                    {this.renderDefaultDeviceMenu()}
+                </Collapse.Panel>
+            </Collapse>
+        );
+    };
+
+    renderDefaultDeviceMenu = () => {
+        if (this.state.username) {
+            return this.renderLoggedInMenu();
+        }
+        return this.renderLoggedOutMenu();
+    };
 
     render() {
         return (
@@ -209,8 +233,9 @@ class Sidebar extends React.Component<Props, State> {
                 {!this.props.isMobile && <a href="/">
                     <img alt="how's my track" src="/logo400.png" width="200px" style={{ padding: '1em'}} />
                 </a>}
-                {this.state.username && this.renderLoggedInMenu()}
-                {!this.state.username && this.renderLoggedOutMenu()}
+                {this.props.isMobile && this.renderMobileMenu()}
+                {!this.props.isMobile && this.renderDefaultDeviceMenu()}
+
                 <FeedbackRequestModal onCancel={this.onFeedbackRequestModalCancel} isVisible={this.state.isFeedbackRequestModalVisible} />
                 <LoginModal onCancel={this.onLoginModalCancel} isVisible={this.state.isLoginModalVisible} />
                 <RegisterModal onCancel={this.onRegisterModalCancel} isVisible={this.state.isRegisterModalVisible} />

@@ -42,3 +42,7 @@ html, body, #root, #root>div {
     transform: rotate(360deg);
   }
 }
+
+.mobile-menu-collapse .ant-collapse-content-box {
+  padding: 0;
+}
