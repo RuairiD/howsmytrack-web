@@ -41,8 +41,9 @@ class FeedbackGroups extends React.Component<Props> {
             <div>
                 <Typography.Title level={2}>Your Feedback Groups</Typography.Title>
                 <Empty
+                    style={{ color: '#444444' }}
                     image={Empty.PRESENTED_IMAGE_SIMPLE}
-                    description="You haven't been assigned any groups yet."
+                    description="You haven't been assigned any groups yet. Perhaps you should make a request?"
                 />
             </div>
         );
