@@ -2,9 +2,9 @@ import React from 'react';
 
 import apiRoot from '../../apiRoot';
 
-import { Button, Card, Row, Col, message, Popconfirm, Result, Spin, Typography } from 'antd';
-import MediaEmbed from '../MediaEmbed/MediaEmbed';
+import { Button, Card, message, Popconfirm, Result, Spin } from 'antd';
 import EditFeedbackRequestModal from '../EditFeedbackRequestModal/EditFeedbackRequestModal';
+import FeedbackRequestSummaryContent from './FeedbackRequestSummaryContent';
 
 export type FeedbackRequestSummaryProps = {
     feedbackRequestId: number,
@@ -126,18 +126,9 @@ class FeedbackRequestSummary extends React.Component<Props, State> {
                     title="You submitted:"
                     extra={this.props.showButtons && this.renderButtons()}
                 >
-                    <Row>
-                        <Col>
-                            <MediaEmbed mediaUrl={this.props.feedbackRequestSummary.mediaUrl} mediaType={this.props.feedbackRequestSummary.mediaType} />
-                        </Col>
-                        {this.props.feedbackRequestSummary.feedbackPrompt && <Col>
-                            <Typography.Text strong>You said: </Typography.Text>
-                            <Typography.Text>"{this.props.feedbackRequestSummary.feedbackPrompt}"</Typography.Text>
-                        </Col>}
-                        {!this.props.feedbackRequestSummary.feedbackPrompt && <Col>
-                            <Typography.Text strong>You did not provide any additional information for feedback.</Typography.Text>
-                        </Col>}
-                    </Row>
+                    <FeedbackRequestSummaryContent
+                        feedbackRequestSummary={this.props.feedbackRequestSummary}
+                    />
                 </Card>
                 <EditFeedbackRequestModal
                     onCancel={this.hideEditFeedbackRequestModal}

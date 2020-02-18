@@ -3,6 +3,19 @@ import React from 'react';
 import apiRoot from '../../apiRoot';
 
 import { Alert, Button, Checkbox, Col, Input, Form, Result, Row, Spin, Typography } from 'antd';
+import FeedbackRequestSummaryContent from '../FeedbackRequestSummary/FeedbackRequestSummaryContent';
+
+const MEDIA_INFO_TIMEOUT = 500;
+
+type Props = {
+    form: object,
+    feedbackRequestId: number,
+    mediaUrl: string,
+    feedbackPrompt: string,
+    emailWhenGrouped: boolean,
+    makeRequest: (object) => object,
+    responseName: string,
+};
 
 type State = {
     requestSent: boolean,
@@ -10,13 +23,13 @@ type State = {
     submitted: boolean,
     invalidMediaUrl: boolean,
     feedbackPromptPlaceholder: string,
+    // Used to display inline preview to verify mediaUrl
+    mediaType: string,
 };
 
-const CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($mediaUrl: String!, $emailWhenGrouped: Boolean!, $feedbackPrompt: String) {
-    createFeedbackRequest(mediaUrl: $mediaUrl, emailWhenGrouped: $emailWhenGrouped, feedbackPrompt: $feedbackPrompt) {
-        success
-        error
-        invalidMediaUrl
+const MEDIA_INFO_QUERY = `query MediaInfo($mediaUrl: String!) {
+    mediaInfo(mediaUrl: $mediaUrl) {
+        mediaType
     }
 }`;
 
@@ -29,11 +42,12 @@ const FEEDBACK_PROMPT_PLACEHOLDERS = [
     "This is for a beat challenge. The rules were 90bpm, must use at least three saxophone samples...",
 ];
 
-class UnwrappedFeedbackRequestForm extends React.Component<State> {
+class FeedbackRequestForm extends React.Component<Props, State> {
     /*
-     * Component for displaying feedback request form. Enforces URL existence check locally
-     * but relies on backend to check user is eligible to make a request.
+     * Component for displaying generic feedback request form for both creation and editing.
+     * Enforces URL existence check locally but relies on backend to check user is eligible to make a request.
      */
+    mediaUrlTimeout = null;
 
     getFeedbackPromptPlaceholder = () => {
         return '"' + FEEDBACK_PROMPT_PLACEHOLDERS[
@@ -47,31 +61,32 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
         submitted: false,
         invalidMediaUrl: false,
         feedbackPromptPlaceholder: this.getFeedbackPromptPlaceholder(),
+    };
+
+    componentDidMount() {
+        if (this.props.mediaUrl) {
+            this.getMediaInfo();
+        }
     }
     
     submitForm = (mediaUrl, feedbackPrompt, emailWhenGrouped) => {
+        console.log('lllll')
         this.setState({
             requestSent: true,
         })
-        return fetch(apiRoot +'/graphql/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify({
-                query: CREATE_FEEDBACK_REQUEST_MUTATION,
-                variables: { mediaUrl, feedbackPrompt, emailWhenGrouped },
-            }),
-            credentials: 'include',
+        return this.props.makeRequest({
+            feedbackRequestId: this.props.feedbackRequestId,
+            mediaUrl: mediaUrl,
+            feedbackPrompt: feedbackPrompt,
+            emailWhenGrouped: emailWhenGrouped,
         }).then(result =>
             result.json()
         ).then((data) => {
             this.setState({
                 requestSent: false,
-                submitted: data['data']['createFeedbackRequest'].success,
-                errorMessage: data['data']['createFeedbackRequest'].error,
-                invalidMediaUrl: data['data']['createFeedbackRequest'].invalidMediaUrl,
+                submitted: data['data'][this.props.responseName].success,
+                errorMessage: data['data'][this.props.responseName].error,
+                invalidMediaUrl: data['data'][this.props.responseName].invalidMediaUrl,
             });
         });
     };
@@ -98,7 +113,54 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
         return this.state.errorMessage
     };
 
+    getMediaInfo = () => {
+        fetch(apiRoot +'/graphql/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query: MEDIA_INFO_QUERY,
+                variables: {
+                    mediaUrl: this.props.form.getFieldValue('mediaUrl'),
+                },
+            }),
+            credentials: 'include',
+        }).then(result =>
+            result.json()
+        ).then((data) => {
+            this.setState({
+                mediaType: data['data']['mediaInfo'].mediaType,
+            });
+        });
+    };
+
+    onMediaUrlChange = () => {
+        if (this.mediaUrlTimeout) {
+            clearTimeout(this.mediaUrlTimeout);
+        }
+        this.mediaUrlTimeout = setTimeout(
+            () => {
+                this.getMediaInfo()
+            },
+            MEDIA_INFO_TIMEOUT,
+        )
+    };
+
     render() {
+        if (this.state.submitted) {
+            return (<Result
+                status="success"
+                title={this.props.submittedText.title}
+                subTitle={this.props.submittedText.subTitle}
+            />)
+        }
+
+        let emailWhenGrouped = this.props.emailWhenGrouped;
+        if (emailWhenGrouped === undefined) {
+            emailWhenGrouped = true;
+        }
         return (
             <div>
                 <Row gutter={[16, 16]}>
@@ -111,7 +173,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
                 </Row>
                 <Row gutter={[16, 16]}>
                     <Col>
-                        {!this.state.submitted && <Spin spinning={this.state.requestSent}>
+                        <Spin spinning={this.state.requestSent}>
                             <Form onSubmit={this.onSubmit}>
                                 <Form.Item label="Soundcloud/Google Drive/Dropbox/OneDrive URL">
                                     {
@@ -123,17 +185,16 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
                                                         message: 'Please provide a track URL',
                                                     },
                                                 ],
+                                                initialValue: this.props.mediaUrl,
                                             }
-                                        )(<Input />)
+                                        )(<Input onChange={this.onMediaUrlChange} />)
                                     }
                                 </Form.Item>
                                 <Form.Item label="Is there anything you would like specific feedback on? (optional)">
                                     {
                                         this.props.form.getFieldDecorator('feedbackPrompt',
                                             {
-                                                rules: [
-                                                    {},
-                                                ],
+                                                initialValue: this.props.feedbackPrompt,
                                             }
                                         )(<Input.TextArea
                                             rows={4}
@@ -145,7 +206,7 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
                                     {
                                         this.props.form.getFieldDecorator('emailWhenGrouped', {
                                             valuePropName: 'checked',
-                                            initialValue: true,
+                                            initialValue: emailWhenGrouped,
                                         })(<Checkbox>Email me when this request is added to a group.</Checkbox>)
                                     }
                                 </Form.Item>
@@ -159,17 +220,25 @@ class UnwrappedFeedbackRequestForm extends React.Component<State> {
                                     </Button>
                                 </Form.Item>
                             </Form>
-                        </Spin>}
-                        {this.state.submitted && <Result
-                            status="success"
-                            title="Your feedback request has been submitted!"
-                            subTitle="You will receive an email within the next 24 hours with your group assignment. If you wish to edit your request, you may do so on 'Your Groups' until the request has been assigned to a feedback group."
-                        />}
+                        </Spin>
                     </Col>
                 </Row>
+                {this.props.form.getFieldValue('mediaUrl') && <Row gutter={[16, 16]}>
+                    <Col>
+                        <Typography.Title level={4}>Preview</Typography.Title>
+                        <Typography.Text>Is your media URL correct? Is it playing correctly?</Typography.Text>
+                        <FeedbackRequestSummaryContent
+                            feedbackRequestSummary={{
+                                mediaUrl: this.props.form.getFieldValue('mediaUrl'),
+                                mediaType: this.state.mediaType,
+                                feedbackPrompt: this.props.form.getFieldValue('feedbackPrompt'),
+                            }}
+                        />
+                    </Col>
+                </Row>}
             </div>
         );
     }
 }
 
-export default Form.create({ name: 'feedbackRequest' })(UnwrappedFeedbackRequestForm);;
+export default FeedbackRequestForm;

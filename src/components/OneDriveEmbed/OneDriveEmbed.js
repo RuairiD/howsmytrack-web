@@ -19,7 +19,6 @@ class OneDriveEmbed extends React.Component<Props> {
             'cid=' + cid +
             '&resid=' + resid +
             '&authkey=' + authkey;
-        console.log(formattedUrl);
         return formattedUrl;
     }
 

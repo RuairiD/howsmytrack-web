@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Modal } from 'antd';
-import FeedbackRequestForm from '../FeedbackRequestForm/FeedbackRequestForm';
+import CreateFeedbackRequestForm from '../CreateFeedbackRequestForm/CreateFeedbackRequestForm';
 
 type Props = {
     onCancel: () => void,
@@ -21,7 +21,7 @@ class FeedbackRequestModal extends React.Component<Props> {
                 footer={null}
                 destroyOnClose
             >
-                <FeedbackRequestForm />
+                <CreateFeedbackRequestForm />
             </Modal>
         );
     }
