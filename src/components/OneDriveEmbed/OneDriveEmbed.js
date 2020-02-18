@@ -26,7 +26,8 @@ class OneDriveEmbed extends React.Component<Props> {
         return (
             <div>
                 <audio
-                    controls 
+                    style={{ width: "100%" }}
+                    controls
                     src={this.formatMediaUrl(this.props.mediaUrl)}
                 >
                 </audio>

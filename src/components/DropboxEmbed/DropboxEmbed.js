@@ -13,7 +13,11 @@ class DropboxEmbed extends React.Component<Props> {
     render() {
         return (
             <div>
-                <audio controls src={this.formatMediaUrl(this.props.mediaUrl)}></audio>
+                <audio
+                    style={{ width: "100%" }}
+                    controls
+                    src={this.formatMediaUrl(this.props.mediaUrl)}
+                ></audio>
             </div>
         );
     }
