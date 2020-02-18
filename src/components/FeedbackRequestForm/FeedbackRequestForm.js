@@ -2,10 +2,16 @@ import React from 'react';
 
 import apiRoot from '../../apiRoot';
 
-import { Alert, Button, Checkbox, Col, Input, Form, Result, Row, Spin, Typography } from 'antd';
+import { Alert, Button, Checkbox, Col, Icon, Input, Form, Result, Row, Select, Spin, Tooltip, Typography } from 'antd';
 import FeedbackRequestSummaryContent from '../FeedbackRequestSummary/FeedbackRequestSummaryContent';
 
 const MEDIA_INFO_TIMEOUT = 500;
+
+const GENRE_OPTIONS = {
+    NO_GENRE: 'No Genre',
+    ELECTRONIC: 'Electronic',
+    HIPHOP: 'Hip-Hop/Rap',
+};
 
 type Props = {
     form: object,
@@ -69,13 +75,14 @@ class FeedbackRequestForm extends React.Component<Props, State> {
         }
     }
     
-    submitForm = (mediaUrl, feedbackPrompt, emailWhenGrouped) => {
+    submitForm = (mediaUrl, feedbackPrompt, genre, emailWhenGrouped) => {
         console.log('lllll')
         this.setState({
             requestSent: true,
         })
         return this.props.makeRequest({
             feedbackRequestId: this.props.feedbackRequestId,
+            // TODO add genre
             mediaUrl: mediaUrl,
             feedbackPrompt: feedbackPrompt,
             emailWhenGrouped: emailWhenGrouped,
@@ -98,6 +105,7 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                 this.submitForm(
                     values.mediaUrl,
                     values.feedbackPrompt,
+                    values.genre,
                     values.emailWhenGrouped,
                 )
             }
@@ -177,7 +185,7 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                 <Row gutter={[16, 16]}>
                     <Col>
                         <Spin spinning={this.state.requestSent}>
-                            <Form onSubmit={this.onSubmit}>
+                            <Form onSubmit={this.onSubmit} className="feedback-request-form">
                                 <Form.Item label="Soundcloud/Google Drive/Dropbox/OneDrive URL">
                                     {
                                         this.props.form.getFieldDecorator('mediaUrl',
@@ -203,6 +211,33 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                                             rows={4}
                                             placeholder={this.state.feedbackPromptPlaceholder}
                                         />)
+                                    }
+                                </Form.Item>
+                                <Form.Item
+                                    colon={false}
+                                    label={
+                                        <React.Fragment>
+                                             Genre (optional):
+                                            <Tooltip
+                                                title="Requests of the same genre are assigned to the same groups in order to provide feedback that's as relevant as possible. Don't worry if your genre isn't listed; you can just submit under 'No Genre'."
+                                            >
+                                                <Button type="link"><Icon type="question-circle" />What is this for?</Button>
+                                            </Tooltip>
+                                        </React.Fragment>
+                                    }
+                                >
+                                    {
+                                        this.props.form.getFieldDecorator('genre',
+                                            {
+                                                initialValue: 'NO_GENRE',
+                                            }
+                                        )(<Select>
+                                            {Object.keys(GENRE_OPTIONS).map((genre, i) => (
+                                                 <Select.Option key={i} value={genre}>
+                                                    {GENRE_OPTIONS[genre]}
+                                                </Select.Option>
+                                            ))}
+                                        </Select>)
                                     }
                                 </Form.Item>
                                 <Form.Item>
