@@ -43,6 +43,10 @@ html, body, #root, #root>div {
   }
 }
 
+.hmt-form .ant-form-item {
+  margin-bottom: 0.75em;
+}
+
 .mobile-menu-collapse .ant-collapse-item {
   padding: 0.5em 0;
 }

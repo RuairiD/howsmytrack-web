@@ -85,7 +85,7 @@ class UnwrappedLoginForm extends React.Component<Props, State> {
                 <Row gutter={[16, 16]}>
                     <Col>
                         {!this.state.submitted && <Spin spinning={this.state.requestSent}>
-                            <Form onSubmit={this.onSubmit}>
+                            <Form onSubmit={this.onSubmit} className="hmt-form">
                                 <Form.Item>
                                     {this.props.form.getFieldDecorator('username', {
                                         rules: [{ required: true, message: 'Please enter your username.' }],
@@ -110,6 +110,7 @@ class UnwrappedLoginForm extends React.Component<Props, State> {
                                 </Form.Item>
                                 <Form.Item>
                                     <Button
+                                        block
                                         type="primary"
                                         htmlType="submit"
                                         disabled={this.state.submitted}
