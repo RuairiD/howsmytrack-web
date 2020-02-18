@@ -190,7 +190,7 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                                                 ],
                                                 initialValue: this.props.mediaUrl,
                                             }
-                                        )(<Input onChange={this.onMediaUrlChange} />)
+                                        )(<Input onChange={this.onMediaUrlChange} autoFocus />)
                                     }
                                 </Form.Item>
                                 <Form.Item label="Is there anything you would like specific feedback on? (optional)">

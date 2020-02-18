@@ -91,8 +91,9 @@ class UnwrappedLoginForm extends React.Component<Props, State> {
                                         rules: [{ required: true, message: 'Please enter your username.' }],
                                     })(
                                         <Input
-                                          prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                          placeholder="Email"
+                                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                            placeholder="Email"
+                                            autoFocus
                                         />,
                                     )}
                                 </Form.Item>
@@ -101,9 +102,9 @@ class UnwrappedLoginForm extends React.Component<Props, State> {
                                         rules: [{ required: true, message: 'Please enter your password.' }],
                                     })(
                                         <Input
-                                          prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                          type="password"
-                                          placeholder="Password"
+                                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                            type="password"
+                                            placeholder="Password"
                                         />,
                                     )}
                                 </Form.Item>
