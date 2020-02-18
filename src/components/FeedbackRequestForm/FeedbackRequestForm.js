@@ -166,7 +166,10 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                 <Row gutter={[16, 16]}>
                     <Col>
                         <Typography.Text>
-                            Users are allowed to submit feedback requests once per 24 hours.
+                            Users are allowed to submit feedback requests once per 24 hours.<br />
+                            <a href="/trackurlhelp" target="_blank" rel="noopener noreferrer">
+                                Unsure how to find the correct track URL?
+                            </a>
                         </Typography.Text>
                         {this.state.errorMessage && <Alert message={this.getErrorMessage()} type="error" />}
                     </Col>
