@@ -171,12 +171,16 @@ class Sidebar extends React.Component<Props, State> {
                 onClick={this.onMenuClick}
             >
                 <Menu.Divider />
-                {this.state.rating && <Menu.Item disabled>
-                    <Typography.Text>{this.state.username} - </Typography.Text>
-                    <Typography.Text strong>{this.state.rating.toFixed(2)}<Icon type="star" /></Typography.Text>
+                {this.state.rating && <Menu.Item disabled style={{ height: "auto" }}>
+                    <Typography.Text style={{ lineHeight: '24px' }}>
+                        {this.state.username}<br />
+                        <Typography.Text strong>{this.state.rating.toFixed(2)}<Icon type="star" /></Typography.Text>
+                    </Typography.Text>
                 </Menu.Item>}
                 {!this.state.rating && <Menu.Item disabled>
-                    <Typography.Text>{this.state.username}</Typography.Text>
+                    <Typography.Paragraph>
+                        {this.state.username}
+                    </Typography.Paragraph>
                 </Menu.Item>}
                 <Menu.Divider />
                 <Menu.Item key="newRequest">
