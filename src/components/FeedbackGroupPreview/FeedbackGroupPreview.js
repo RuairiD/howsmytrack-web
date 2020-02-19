@@ -1,7 +1,7 @@
 import React from 'react';
 import dateFormat from 'dateformat';
 
-import { Card, Row, Col, Progress, Typography } from 'antd';
+import { Card, Divider, Row, Col, Progress, Typography } from 'antd';
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
 import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/FeedbackRequestSummary';
 
@@ -66,10 +66,12 @@ class FeedbackGroupPreview extends React.Component<Props> {
             <React.Fragment>
                 <Col span={4} style={{ textAlign: 'center' }}>
                     <Typography.Text strong>For them</Typography.Text>
+                    <Divider style={{ margin: '0.25em 0' }} />
                     <Progress type="circle" percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={64} />
                 </Col>
                 <Col span={4} style={{ textAlign: 'center' }}>
                     <Typography.Text strong>For you</Typography.Text>
+                    <Divider style={{ margin: '0.25em 0' }} />
                     <Progress type="circle" percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={64} />
                 </Col>
             </React.Fragment>
