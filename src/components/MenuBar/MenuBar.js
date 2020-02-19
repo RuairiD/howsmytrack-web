@@ -196,6 +196,38 @@ class MenuBar extends React.Component<Props, State> {
         )
     };
 
+    renderUserDetails = () => {
+        if (this.state.rating) {
+            return (
+                <Menu.Item disabled>
+                    <div style={{ display: 'flex' }}>
+                        <Typography.Text ellipsis style={{
+                            marginRight: 'auto',
+                            marginTop: 'auto',
+                            marginBottom: 'auto',
+                        }}>
+                            {this.state.username}
+                        </Typography.Text>
+                        <Typography.Text strong style={{
+                            marginLeft: 'auto',
+                            marginTop: 'auto',
+                            marginBottom: 'auto',
+                        }}>
+                            {this.state.rating.toFixed(2)}<Icon type="star" />
+                        </Typography.Text>
+                    </div>
+                </Menu.Item>
+            )
+        }
+        return (
+            <Menu.Item disabled>
+                <Typography.Paragraph>
+                    {this.state.username}
+                </Typography.Paragraph>
+            </Menu.Item>
+        )
+    }
+
     renderLoggedInMenu = () => {
         return (
             <Menu
@@ -204,17 +236,7 @@ class MenuBar extends React.Component<Props, State> {
                 onClick={this.onMenuClick}
             >
                 <Menu.Divider />
-                {this.state.rating && <Menu.Item disabled style={{ height: "auto" }}>
-                    <Typography.Text style={{ lineHeight: '24px' }}>
-                        {this.state.username}<br />
-                        <Typography.Text strong>{this.state.rating.toFixed(2)}<Icon type="star" /></Typography.Text>
-                    </Typography.Text>
-                </Menu.Item>}
-                {!this.state.rating && <Menu.Item disabled>
-                    <Typography.Paragraph>
-                        {this.state.username}
-                    </Typography.Paragraph>
-                </Menu.Item>}
+                {this.renderUserDetails()}
                 <Menu.Divider />
                 <Menu.Item key="newRequest">
                     <Icon type="plus" />
