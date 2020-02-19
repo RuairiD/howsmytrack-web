@@ -35,6 +35,7 @@ const FEEDBACK_GROUPS_QUERY = `query FeedbackGroups {
     userFeedbackResponses {
       submitted
     }
+    userFeedbackResponseCount
   }
 }`;
 
@@ -67,14 +68,6 @@ class FeedbackGroupsPage extends React.Component<Props, State> {
                 }
             }
 
-            let feedbackResponseCount = 0;
-            if (feedbackGroup['userFeedbackResponses']) {
-                for (let feedbackResponse of feedbackGroup['userFeedbackResponses']) {
-                    if (feedbackResponse['submitted']) {
-                        feedbackResponseCount++;
-                    }
-                }
-            }
             feedbackGroups.push({
                 'feedbackGroupId': feedbackGroup['id'],
                 'name': feedbackGroup['name'],
@@ -82,7 +75,7 @@ class FeedbackGroupsPage extends React.Component<Props, State> {
                 'feedbackRequestSummary': feedbackGroup['feedbackRequest'],
                 'userCount': feedbackGroup['members'],
                 'userFeedbackCount': userFeedbackCount,
-                'feedbackResponseCount': feedbackResponseCount,
+                'feedbackResponseCount': feedbackGroup['userFeedbackResponseCount'],
             });
         }
 
