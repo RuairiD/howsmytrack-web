@@ -191,18 +191,14 @@ class Sidebar extends React.Component<Props, State> {
                     <span>New Request</span>
                 </Menu.Item>
                 <Menu.Item key="feedbackGroups">
-                    <Badge
-                        count={this.state.incompleteResponses}
-                        offset={
-                            // TODO: using specific pixel offsets to get badge inline instead of in the cornerseems a bit hacky and brittle.
-                            [16,7]
-                        }
-                    >
-                        <a href="/groups">
-                            <Icon type="team" />
-                            <span>Your Groups</span>
-                        </a>
-                    </Badge>
+                    <a href="/groups">
+                        <Icon type="team" />
+                        <span>Your Groups</span>
+                        <Badge
+                            count={this.state.incompleteResponses}
+                            style={{ marginLeft: '0.5em' }}
+                        />
+                    </a>
                 </Menu.Item>
                 <Menu.Item key="faq">
                     <a href="/faq">
