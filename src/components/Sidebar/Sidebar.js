@@ -2,7 +2,7 @@ import React from 'react';
 
 import apiRoot from '../../apiRoot';
 
-import { Collapse, Menu, Icon, Spin, Typography } from 'antd';
+import { Badge, Collapse, Menu, Icon, Spin, Typography } from 'antd';
 import FeedbackRequestModal from '../FeedbackRequestModal/FeedbackRequestModal';
 import LoginModal from '../LoginModal/LoginModal';
 import RegisterModal from '../RegisterModal/RegisterModal';
@@ -15,6 +15,7 @@ type State = {
     hasProps: boolean,
     username: string,
     rating: number,
+    incompleteResponses: number,
     isFeedbackRequestModalVisible: boolean,
     isLoginModalVisible: boolean,
     isRegisterModalVisible: boolean,
@@ -24,6 +25,7 @@ const USER_DETAILS_QUERY = `query UserDetails {
   userDetails {
     username
     rating
+    incompleteResponses
   }
 }`;
 
@@ -68,6 +70,7 @@ class Sidebar extends React.Component<Props, State> {
                 hasProps: true,
                 username: data['data']['userDetails']['username'],
                 rating: data['data']['userDetails']['rating'],
+                incompleteResponses: data['data']['userDetails']['incompleteResponses'],
             });
         });
     }
@@ -171,12 +174,16 @@ class Sidebar extends React.Component<Props, State> {
                 onClick={this.onMenuClick}
             >
                 <Menu.Divider />
-                {this.state.rating && <Menu.Item disabled>
-                    <Typography.Text>{this.state.username} - </Typography.Text>
-                    <Typography.Text strong>{this.state.rating.toFixed(2)}<Icon type="star" /></Typography.Text>
+                {this.state.rating && <Menu.Item disabled style={{ height: "auto" }}>
+                    <Typography.Text style={{ lineHeight: '24px' }}>
+                        {this.state.username}<br />
+                        <Typography.Text strong>{this.state.rating.toFixed(2)}<Icon type="star" /></Typography.Text>
+                    </Typography.Text>
                 </Menu.Item>}
                 {!this.state.rating && <Menu.Item disabled>
-                    <Typography.Text>{this.state.username}</Typography.Text>
+                    <Typography.Paragraph>
+                        {this.state.username}
+                    </Typography.Paragraph>
                 </Menu.Item>}
                 <Menu.Divider />
                 <Menu.Item key="newRequest">
@@ -187,6 +194,10 @@ class Sidebar extends React.Component<Props, State> {
                     <a href="/groups">
                         <Icon type="team" />
                         <span>Your Groups</span>
+                        <Badge
+                            count={this.state.incompleteResponses}
+                            style={{ marginLeft: '0.5em' }}
+                        />
                     </a>
                 </Menu.Item>
                 <Menu.Item key="faq">
