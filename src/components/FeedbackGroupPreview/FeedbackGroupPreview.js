@@ -1,7 +1,7 @@
 import React from 'react';
 import dateFormat from 'dateformat';
 
-import { Card, Divider, Row, Col, Progress, Typography } from 'antd';
+import { Button, Card, Divider, Row, Col, Progress, Typography } from 'antd';
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
 import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/FeedbackRequestSummary';
 
@@ -55,10 +55,24 @@ class FeedbackGroupPreview extends React.Component<Props> {
     };
 
     getCardExtra = () => {
-        return <Typography.Text>
-            {this.getTimeCreated() + ' - '}
-            <a href={this.buildFeedbackGroupUrl()}>View Group</a>
-        </Typography.Text>
+        return (
+            <div style={{ display: 'flex', marginTop: '1em' }}>
+                <Typography.Text style={{
+                    marginRight: 'auto',
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                }}>
+                    {this.getTimeCreated()}
+                </Typography.Text>
+                <Typography.Text style={{
+                    marginLeft: 'auto',
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                }}>
+                    <Button type="link">View Group</Button>
+                </Typography.Text>
+            </div>
+        )
     };
 
     renderCircularProgress = () => {
@@ -108,7 +122,6 @@ class FeedbackGroupPreview extends React.Component<Props> {
         return (
             <Card
                 title={this.props.name}
-                extra={this.getCardExtra()}
             >
                 <a href={this.buildFeedbackGroupUrl()}>
                     <Row gutter={[16, 16]} type="flex" justify="space-around" align="middle">
@@ -125,6 +138,7 @@ class FeedbackGroupPreview extends React.Component<Props> {
                         {!this.props.isMobile && this.renderCircularProgress()}
                     </Row>
                     {this.props.isMobile && this.renderLinearProgress()}
+                    <Card.Meta description={this.getCardExtra()} />
                 </a>
             </Card>
         );

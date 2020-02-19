@@ -130,7 +130,7 @@ class FeedbackResponseForm extends React.Component<Props, State> {
                             <Input.TextArea
                                 value={this.state.feedback}
                                 onChange={this.onFeedbackTextChange}
-                                rows={4}
+                                rows={8}
                                 disabled={this.state.submitted}
                             />
                             {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" />}
@@ -139,6 +139,7 @@ class FeedbackResponseForm extends React.Component<Props, State> {
                     <Row gutter={[16, 16]}>
                         <Col>
                             <Button
+                                block
                                 type="primary"
                                 loading={this.state.requestSent}
                                 disabled={this.state.submitted || !this.state.feedback}
