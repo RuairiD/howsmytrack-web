@@ -2,7 +2,7 @@ import React from 'react';
 
 import apiRoot from '../../apiRoot';
 
-import { Collapse, Menu, Icon, Spin, Typography } from 'antd';
+import { Badge, Collapse, Menu, Icon, Spin, Typography } from 'antd';
 import FeedbackRequestModal from '../FeedbackRequestModal/FeedbackRequestModal';
 import LoginModal from '../LoginModal/LoginModal';
 import RegisterModal from '../RegisterModal/RegisterModal';
@@ -15,6 +15,7 @@ type State = {
     hasProps: boolean,
     username: string,
     rating: number,
+    incompleteResponses: number,
     isFeedbackRequestModalVisible: boolean,
     isLoginModalVisible: boolean,
     isRegisterModalVisible: boolean,
@@ -24,6 +25,7 @@ const USER_DETAILS_QUERY = `query UserDetails {
   userDetails {
     username
     rating
+    incompleteResponses
   }
 }`;
 
@@ -68,6 +70,7 @@ class Sidebar extends React.Component<Props, State> {
                 hasProps: true,
                 username: data['data']['userDetails']['username'],
                 rating: data['data']['userDetails']['rating'],
+                incompleteResponses: data['data']['userDetails']['incompleteResponses'],
             });
         });
     }
@@ -188,10 +191,18 @@ class Sidebar extends React.Component<Props, State> {
                     <span>New Request</span>
                 </Menu.Item>
                 <Menu.Item key="feedbackGroups">
-                    <a href="/groups">
-                        <Icon type="team" />
-                        <span>Your Groups</span>
-                    </a>
+                    <Badge
+                        count={this.state.incompleteResponses}
+                        offset={
+                            // TODO: using specific pixel offsets to get badge inline instead of in the cornerseems a bit hacky and brittle.
+                            [16,7]
+                        }
+                    >
+                        <a href="/groups">
+                            <Icon type="team" />
+                            <span>Your Groups</span>
+                        </a>
+                    </Badge>
                 </Menu.Item>
                 <Menu.Item key="faq">
                     <a href="/faq">
