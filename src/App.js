@@ -1,6 +1,8 @@
 import HttpsRedirect from 'react-https-redirect';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import React, { Suspense } from 'react';
+import ReactGA from 'react-ga';
+import { createBrowserHistory } from 'history';
 import './App.css';
 
 import FeedbackGroupPage from './components/FeedbackGroupPage/FeedbackGroupPage';
@@ -8,6 +10,20 @@ import FeedbackGroupsPage from './components/FeedbackGroupsPage/FeedbackGroupsPa
 import FaqPage from './components/FaqPage/FaqPage';
 import TrackUrlHelpPage from './components/TrackUrlHelpPage/TrackUrlHelpPage';
 import HomePage from './components/HomePage/HomePage';
+
+
+// Initialize google analytics page view tracking (lifted from https://levelup.gitconnected.com/using-google-analytics-with-react-3d98d709399b)
+const gaTrackingId = "UA-158779731-1";
+ReactGA.initialize(gaTrackingId);
+const history = createBrowserHistory();
+history.listen(location => {
+    // Not sure this actually does anything since all navigation in the site
+    // is done using traditional URLs to the page reloads every time.
+    ReactGA.set({
+        page: location.pathname
+    });
+    ReactGA.pageview(location.pathname);
+});
 
 
 function isMobile() {
@@ -29,6 +45,7 @@ function renderFeedbackGroup({ match} ) {
 
 
 function App() {
+    ReactGA.pageview(window.location.pathname);
     return (
         <HttpsRedirect>
             <BrowserRouter>

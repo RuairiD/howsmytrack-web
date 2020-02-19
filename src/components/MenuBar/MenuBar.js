@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 
 import apiRoot from '../../apiRoot';
 
@@ -51,9 +52,9 @@ const MOBILE_HEADER = (
     </div>
 );
 
-// TODO: Sidebar isn't a good name anymore as this component renders both a Sidebar for
-// desktop and also a top menu for mobile.
-class Sidebar extends React.Component<Props, State> {
+const GA_MENU_BAR_CATEGORY = "menubar";
+
+class MenuBar extends React.Component<Props, State> {
     /*
      * Component for displaying page sidebar with menu links, or for mobile,
      * displaying a menu at the top of the screen. See TODO above.
@@ -94,6 +95,9 @@ class Sidebar extends React.Component<Props, State> {
                 rating: data['data']['userDetails']['rating'],
                 incompleteResponses: data['data']['userDetails']['incompleteResponses'],
             });
+            ReactGA.set({
+                username: data['data']['userDetails']['username'],
+            });
         });
     }
 
@@ -132,7 +136,11 @@ class Sidebar extends React.Component<Props, State> {
     };
 
     onMenuClick = (event) => {
-        let menuAction = this.menuActions[event.key]
+        let menuAction = this.menuActions[event.key];
+        ReactGA.event({
+            category: GA_MENU_BAR_CATEGORY,
+            action: event.key,
+        });
         if (menuAction) {
             menuAction();
         }
@@ -281,4 +289,4 @@ class Sidebar extends React.Component<Props, State> {
     }
 }
 
-export default Sidebar;
+export default MenuBar;

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 
 import apiRoot from '../../apiRoot';
 
@@ -23,6 +24,8 @@ const TOKEN_AUTH_MUTATION = `mutation TokenAuth($username: String!, $password: S
   }
 }`;
 
+const GA_REGISTER_CATEGORY = "register";
+
 class UnwrappedRegisterForm extends React.Component<Props, State> {
     /*
      * Component for displaying user registration form.
@@ -31,12 +34,23 @@ class UnwrappedRegisterForm extends React.Component<Props, State> {
         requestSent: false,
         errorMessage: null,
         submitted: false,
+    };
+
+    componentDidMount() {
+        ReactGA.event({
+            category: GA_REGISTER_CATEGORY,
+            action: "view",
+        });
     }
     
     submitForm = (email, password, passwordRepeat) => {
         this.setState({
             requestSent: true,
-        })
+        });
+        ReactGA.event({
+            category: GA_REGISTER_CATEGORY,
+            action: "submit",
+        });
         return fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -59,6 +73,10 @@ class UnwrappedRegisterForm extends React.Component<Props, State> {
 
             // If the user successfully registers, log them in as well.
             if (data['data']['registerUser'].success) {
+                ReactGA.event({
+                    category: GA_REGISTER_CATEGORY,
+                    action: "success",
+                });
                 fetch(apiRoot +'/graphql/', {
                     method: 'POST',
                     headers: {
@@ -75,6 +93,11 @@ class UnwrappedRegisterForm extends React.Component<Props, State> {
                     credentials: 'include',
                 }).then(() => {
                     window.location.reload();
+                });
+            } else {
+                ReactGA.event({
+                    category: GA_REGISTER_CATEGORY,
+                    action: "error",
                 });
             }
         });
