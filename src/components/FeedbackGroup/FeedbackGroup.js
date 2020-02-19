@@ -147,7 +147,11 @@ class FeedbackGroup extends React.Component<Props, State> {
                         </Col>
                     </Row>
 
-                    {this.renderReceivedFeedback()}
+                    <Row gutter={[16, 16]}>
+                        <Col>
+                            {this.renderReceivedFeedback()}
+                        </Col>
+                    </Row>
                 </div>
             )
         }

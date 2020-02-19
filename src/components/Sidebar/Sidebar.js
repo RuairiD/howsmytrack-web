@@ -29,6 +29,28 @@ const USER_DETAILS_QUERY = `query UserDetails {
   }
 }`;
 
+const MOBILE_HEADER = (
+    <div style={{   display: 'flex' }}>
+        <Typography.Text
+            style={{
+                marginTop: 'auto',
+                marginBottom: 'auto',
+            }}
+        >
+            how's my track?
+        </Typography.Text>
+        <img
+            alt=""
+            src="/logo128.png"
+            style={{
+                marginLeft: 'auto',
+                width: '32px',
+                height: '32px',
+            }}
+        />
+    </div>
+);
+
 // TODO: Sidebar isn't a good name anymore as this component renders both a Sidebar for
 // desktop and also a top menu for mobile.
 class Sidebar extends React.Component<Props, State> {
@@ -226,7 +248,7 @@ class Sidebar extends React.Component<Props, State> {
                 }
             >
                 <Collapse.Panel
-                    header="how's my track?"
+                    header={MOBILE_HEADER}
                     key="1"
                 >
                     {this.renderDefaultDeviceMenu()}
