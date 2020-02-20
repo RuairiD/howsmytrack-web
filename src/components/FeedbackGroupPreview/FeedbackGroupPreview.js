@@ -20,6 +20,8 @@ export type FeedbackGroupPreviewProps = {
     isMobile: boolean,
 };
 
+const CIRCULAR_PROGRESS_COLUMN_WIDTH = 5;
+
 class FeedbackGroupPreview extends React.Component<Props> {
     /*
      * Component for inline group preview shown on FeedbackGroupsPage
@@ -78,12 +80,12 @@ class FeedbackGroupPreview extends React.Component<Props> {
     renderCircularProgress = () => {
         return (
             <React.Fragment>
-                <Col span={4} style={{ textAlign: 'center' }}>
+                <Col span={CIRCULAR_PROGRESS_COLUMN_WIDTH} style={{ textAlign: 'center', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                     <Typography.Text strong>For them</Typography.Text>
                     <Divider style={{ margin: '0.25em 0' }} />
                     <Progress type="circle" percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={64} />
                 </Col>
-                <Col span={4} style={{ textAlign: 'center' }}>
+                <Col span={CIRCULAR_PROGRESS_COLUMN_WIDTH} style={{ textAlign: 'center', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                     <Typography.Text strong>For you</Typography.Text>
                     <Divider style={{ margin: '0.25em 0' }} />
                     <Progress type="circle" percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={64} />
@@ -98,13 +100,13 @@ class FeedbackGroupPreview extends React.Component<Props> {
                 <Row>
                     <Col>
                         <Typography.Text strong>For them</Typography.Text>
-                        <Progress percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={64} />
+                        <Progress percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={80} />
                     </Col>
                 </Row>
                 <Row>
                     <Col>
                         <Typography.Text strong>For you</Typography.Text>
-                        <Progress percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={64} />
+                        <Progress percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={80} />
                     </Col>
                 </Row>
             </React.Fragment>
@@ -115,7 +117,7 @@ class FeedbackGroupPreview extends React.Component<Props> {
         if (this.props.isMobile) {
             return 24;
         }
-        return 16;
+        return 24 - CIRCULAR_PROGRESS_COLUMN_WIDTH * 2;
     };
 
     render() {
@@ -126,14 +128,8 @@ class FeedbackGroupPreview extends React.Component<Props> {
                 <a href={this.buildFeedbackGroupUrl()}>
                     <Row gutter={[16, 16]} type="flex" justify="space-around" align="middle">
                         <Col span={this.getMediaEmbedColumnWidth()}>
-                            <Row>
-                                <Col>
-                                    <Typography.Text strong>You submitted:</Typography.Text>
-                                </Col>
-                                <Col>
-                                    <MediaEmbed mediaUrl={this.props.feedbackRequestSummary.mediaUrl} mediaType={this.props.feedbackRequestSummary.mediaType} size="small" />
-                                </Col>
-                            </Row>
+                            <Typography.Text strong>You submitted:</Typography.Text>
+                            <MediaEmbed mediaUrl={this.props.feedbackRequestSummary.mediaUrl} mediaType={this.props.feedbackRequestSummary.mediaType} size="small" />
                         </Col>
                         {!this.props.isMobile && this.renderCircularProgress()}
                     </Row>
