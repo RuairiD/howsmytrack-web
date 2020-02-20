@@ -20,6 +20,7 @@ type State = {
     isFeedbackRequestModalVisible: boolean,
     isLoginModalVisible: boolean,
     isRegisterModalVisible: boolean,
+    mobileMenuCollapsed: boolean,
 };
 
 const USER_DETAILS_QUERY = `query UserDetails {
@@ -29,28 +30,6 @@ const USER_DETAILS_QUERY = `query UserDetails {
     incompleteResponses
   }
 }`;
-
-const MOBILE_HEADER = (
-    <div style={{   display: 'flex' }}>
-        <Typography.Text
-            style={{
-                marginTop: 'auto',
-                marginBottom: 'auto',
-            }}
-        >
-            how's my track?
-        </Typography.Text>
-        <img
-            alt=""
-            src="/logo128.png"
-            style={{
-                marginLeft: 'auto',
-                width: '32px',
-                height: '32px',
-            }}
-        />
-    </div>
-);
 
 const GA_MENU_BAR_CATEGORY = "menubar";
 
@@ -64,6 +43,7 @@ class MenuBar extends React.Component<Props, State> {
         isFeedbackRequestModalVisible: false,
         isLoginModalVisible: false,
         isRegisterModalVisible: false,
+        mobileMenuCollapsed: true,
     };
 
     componentDidMount() {
@@ -162,6 +142,38 @@ class MenuBar extends React.Component<Props, State> {
         this.setState({
             isRegisterModalVisible: false,
         })
+    };
+
+    renderMobileHeader = () => {
+        return (
+            <div style={{ display: 'flex' }}>
+                <Typography.Text
+                    style={{
+                        marginTop: 'auto',
+                        marginBottom: 'auto',
+                    }}
+                >
+                    how's my track?
+                </Typography.Text>
+                {this.state.mobileMenuCollapsed && <Badge
+                    count={this.state.incompleteResponses}
+                    style={{
+                        marginLeft: '0.5em',
+                        marginTop: 'auto',
+                        marginBottom: 'auto',
+                    }}
+                />}
+                <img
+                    alt=""
+                    src="/logo128.png"
+                    style={{
+                        marginLeft: 'auto',
+                        width: '32px',
+                        height: '32px',
+                    }}
+                />
+            </div>
+        )
     };
 
     renderLoggedOutMenu = () => {
@@ -268,6 +280,18 @@ class MenuBar extends React.Component<Props, State> {
         )
     };
 
+    onCollapseChange = (key) => {
+        if (key.length > 0) {
+            this.setState({
+                mobileMenuCollapsed: false,
+            });
+        } else {
+            this.setState({
+                mobileMenuCollapsed: true,
+            });
+        }
+    };
+
     renderMobileMenu = () => {
         return (
             <Collapse
@@ -278,9 +302,10 @@ class MenuBar extends React.Component<Props, State> {
                         <Icon type="menu" rotate={isActive ? 90 : 0} />
                     )
                 }
+                onChange={this.onCollapseChange}
             >
                 <Collapse.Panel
-                    header={MOBILE_HEADER}
+                    header={this.renderMobileHeader()}
                     key="1"
                 >
                     {this.renderDefaultDeviceMenu()}
