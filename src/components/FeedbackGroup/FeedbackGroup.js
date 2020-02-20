@@ -1,7 +1,7 @@
 import React from 'react';
 import dateFormat from 'dateformat';
 
-import { Card, Col, Divider, Empty, Result, Row, Typography } from 'antd';
+import { Card, Col, Divider, Empty, List, Result, Row, Typography } from 'antd';
 
 import FeedbackResponseForm from '../FeedbackResponseForm/FeedbackResponseForm';
 import type { FeedbackResponseFormProps } from '../FeedbackResponseForm/FeedbackResponseForm';
@@ -18,11 +18,20 @@ type Props = {
     feedbackResponseForms: Array<FeedbackResponseFormProps>,
     feedbackReceived: Array<FeedbackResponseProps>,
     feedbackRequestSummary: FeedbackRequestSummaryProps,
-    isMobile: boolean,
 };
 
 type State = {
     feedbackReceived: Array<FeedbackResponseProps>,
+};
+
+const LIST_GRID_LAYOUT = {
+    gutter: 16,
+    xs: 1,
+    sm: 1,
+    md: 1,
+    lg: 1,
+    xl: 1,
+    xxl: 3,
 };
 
 class FeedbackGroup extends React.Component<Props, State> {
@@ -68,34 +77,18 @@ class FeedbackGroup extends React.Component<Props, State> {
             )
         }
 
-        if (this.props.isMobile) {
-            return (<div>
-                {this.state.feedbackReceived.map(
-                    (feedbackReceived, i) => (
-                        <Row gutter={[8, 8]} key={i}>
-                            <Col>
-                                <FeedbackResponse
-                                    {...feedbackReceived}
-                                />
-                            </Col>
-                        </Row>
-                    )
-                )}
-            </div>)
-        }
         return (
-            <Row gutter={[16, 16]}>
-                {this.state.feedbackReceived.map(
-                    (feedbackReceived, i) => (
-                        <Col span={8} key={i}>
-                            <FeedbackResponse
-                                {...feedbackReceived}
-                            />
-                        </Col>
-                    )
+            <List
+                grid={LIST_GRID_LAYOUT}
+                dataSource={this.state.feedbackReceived}
+                renderItem={feedbackReceived => (
+                    <List.Item>
+                        <FeedbackResponse
+                            {...feedbackReceived}
+                        />
+                    </List.Item>
                 )}
-            
-            </Row>
+            />
         )
     }
 
@@ -117,30 +110,17 @@ class FeedbackGroup extends React.Component<Props, State> {
                             <Typography.Title level={3}>Feedback requests for you</Typography.Title>
                         </Col>
                     </Row>
-                    {!this.props.isMobile && <Row gutter={[16, 16]}>
-                        {this.props.feedbackResponseForms.map(
-                            // For mobile devices, put each form on a different row.
-                            (feedbackResponseForm, i) => (
-                                <Col span={24 / (this.props.feedbackResponseForms.length)} key={i}>
-                                    <FeedbackResponseForm
-                                        {...feedbackResponseForm}
-                                    />
-                                </Col>
-                            )
+                    <List
+                        grid={LIST_GRID_LAYOUT}
+                        dataSource={this.props.feedbackResponseForms}
+                        renderItem={feedbackResponseForm => (
+                            <List.Item>
+                                <FeedbackResponseForm
+                                    {...feedbackResponseForm}
+                                />
+                            </List.Item>
                         )}
-                    </Row>}
-                    {this.props.isMobile &&
-                        this.props.feedbackResponseForms.map(
-                            (feedbackResponseForm, i) => (
-                                // For desktop devices, put each form in a different column.
-                                <Row gutter={[8, 8]} key={i}>
-                                    <Col>
-                                        <FeedbackResponseForm
-                                            {...feedbackResponseForm}
-                                        />
-                                    </Col>
-                                </Row>))
-                    }
+                    />
 
                     <Divider />
 

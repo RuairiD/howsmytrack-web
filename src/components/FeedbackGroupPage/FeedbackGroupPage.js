@@ -135,7 +135,6 @@ class FeedbackGroupPage extends React.Component<Props, State> {
                     feedbackResponseForms={this.state.feedbackResponseForms}
                     feedbackReceived={this.state.feedbackReceived}
                     feedbackRequestSummary={this.state.feedbackRequestSummary}
-                    isMobile={this.props.isMobile}
                 />
             </GenericPage>
         )
