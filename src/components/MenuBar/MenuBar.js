@@ -147,22 +147,20 @@ class MenuBar extends React.Component<Props, State> {
     renderMobileHeader = () => {
         return (
             <div style={{ display: 'flex' }}>
-                <Typography.Text
-                    style={{
-                        marginTop: 'auto',
-                        marginBottom: 'auto',
-                    }}
-                >
-                    how's my track?
-                </Typography.Text>
-                {this.state.mobileMenuCollapsed && <Badge
-                    count={this.state.incompleteResponses}
-                    style={{
-                        marginLeft: '0.5em',
-                        marginTop: 'auto',
-                        marginBottom: 'auto',
-                    }}
-                />}
+                <span style={{
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                }}>
+                    <Typography.Text>
+                        how's my track?
+                    </Typography.Text>
+                    {this.state.mobileMenuCollapsed && <Badge
+                        count={this.state.incompleteResponses}
+                        style={{
+                            marginLeft: '0.5em',
+                        }}
+                    />}
+                </span>
                 <img
                     alt=""
                     src="/logo128.png"
