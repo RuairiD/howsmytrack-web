@@ -172,7 +172,6 @@ class MenuBar extends React.Component<Props, State> {
                     mode="inline"
                     onClick={this.onMenuClick}
                 >
-                    <Menu.Divider />
                     <Menu.Item disabled>
                         <Typography.Text>Welcome!</Typography.Text>
                     </Menu.Item>
@@ -220,9 +219,15 @@ class MenuBar extends React.Component<Props, State> {
         }
         return (
             <Menu.Item disabled>
-                <Typography.Paragraph>
-                    {this.state.username}
-                </Typography.Paragraph>
+                <div style={{ display: 'flex' }}>
+                    <Typography.Text ellipsis style={{
+                        marginRight: 'auto',
+                        marginTop: 'auto',
+                        marginBottom: 'auto',
+                    }}>
+                        {this.state.username}
+                    </Typography.Text>
+                </div>
             </Menu.Item>
         )
     }
@@ -234,7 +239,6 @@ class MenuBar extends React.Component<Props, State> {
                 mode="inline"
                 onClick={this.onMenuClick}
             >
-                <Menu.Divider />
                 {this.renderUserDetails()}
                 <Menu.Item key="newRequest">
                     <Icon type="plus" />
@@ -296,7 +300,7 @@ class MenuBar extends React.Component<Props, State> {
         return (
             <div>
                 {!this.props.isMobile && <a href="/">
-                    <img alt="how's my track" src="/logo400.png" width="200px" style={{ padding: '1em'}} />
+                    <img alt="how's my track" src="/logo512.png" width="200px" style={{ padding: '0.5em'}} />
                 </a>}
                 {this.props.isMobile && this.renderMobileMenu()}
                 {!this.props.isMobile && this.renderDefaultDeviceMenu()}
