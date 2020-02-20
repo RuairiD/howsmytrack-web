@@ -176,7 +176,6 @@ class MenuBar extends React.Component<Props, State> {
                     <Menu.Item disabled>
                         <Typography.Text>Welcome!</Typography.Text>
                     </Menu.Item>
-                    <Menu.Divider />
                     <Menu.Item key="login">
                         <Icon type="user" />
                         <span>Sign In</span>
