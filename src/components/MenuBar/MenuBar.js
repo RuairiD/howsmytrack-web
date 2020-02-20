@@ -237,7 +237,6 @@ class MenuBar extends React.Component<Props, State> {
             >
                 <Menu.Divider />
                 {this.renderUserDetails()}
-                <Menu.Divider />
                 <Menu.Item key="newRequest">
                     <Icon type="plus" />
                     <span>New Request</span>
