@@ -48,6 +48,7 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
                 submittedText={{
                     title: "Your feedback request has been updated!",
                 }}
+                gaCategory="editFeedbackRequest"
             />
         );
     }

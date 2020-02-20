@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 
 import apiRoot from '../../apiRoot';
 
@@ -21,6 +22,7 @@ type Props = {
     emailWhenGrouped: boolean,
     makeRequest: (object) => object,
     responseName: string,
+    gaCategory: string,
 };
 
 type State = {
@@ -73,13 +75,20 @@ class FeedbackRequestForm extends React.Component<Props, State> {
         if (this.props.mediaUrl) {
             this.getMediaInfo();
         }
+        ReactGA.event({
+            category: this.props.gaCategory,
+            action: "view",
+        });
     }
     
     submitForm = (mediaUrl, feedbackPrompt, genre, emailWhenGrouped) => {
-        console.log('lllll')
         this.setState({
             requestSent: true,
         })
+        ReactGA.event({
+            category: this.props.gaCategory,
+            action: "submit",
+        });
         return this.props.makeRequest({
             feedbackRequestId: this.props.feedbackRequestId,
             // TODO add genre
@@ -95,6 +104,18 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                 errorMessage: data['data'][this.props.responseName].error,
                 invalidMediaUrl: data['data'][this.props.responseName].invalidMediaUrl,
             });
+
+            if (data['data'][this.props.responseName].success) {
+                ReactGA.event({
+                    category: this.props.gaCategory,
+                    action: "success",
+                });
+            } else {
+                ReactGA.event({
+                    category: this.props.gaCategory,
+                    action: "error",
+                });
+            }
         });
     };
 

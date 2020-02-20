@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 
 import apiRoot from '../../apiRoot';
 
@@ -16,6 +17,8 @@ const TOKEN_AUTH_MUTATION = `mutation TokenAuth($username: String!, $password: S
   }
 }`;
 
+const GA_LOGIN_CATEGORY = "login";
+
 class UnwrappedLoginForm extends React.Component<Props, State> {
     /*
      * Component for displaying login form.
@@ -24,12 +27,23 @@ class UnwrappedLoginForm extends React.Component<Props, State> {
         requestSent: false,
         errorMessage: null,
         submitted: false,
+    };
+
+    componentDidMount() {
+        ReactGA.event({
+            category: GA_LOGIN_CATEGORY,
+            action: "view",
+        });
     }
     
     submitForm = (username, password) => {
         this.setState({
             requestSent: true,
         })
+        ReactGA.event({
+            category: GA_LOGIN_CATEGORY,
+            action: "submit",
+        });
         return fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -45,12 +59,20 @@ class UnwrappedLoginForm extends React.Component<Props, State> {
             result.json()
         ).then((data) => {
             if (data['errors']) {
+                ReactGA.event({
+                    category: GA_LOGIN_CATEGORY,
+                    action: "error",
+                });
                 this.setState({
                     requestSent: false,
                     submitted: false,
                     errorMessage: data['errors'][0]['message'],
                 });
             } else {
+                ReactGA.event({
+                    category: GA_LOGIN_CATEGORY,
+                    action: "success",
+                });
                 this.setState({
                     requestSent: false,
                     submitted: true,

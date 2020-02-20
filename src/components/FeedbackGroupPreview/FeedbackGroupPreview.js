@@ -1,7 +1,7 @@
 import React from 'react';
 import dateFormat from 'dateformat';
 
-import { Card, Divider, Row, Col, Progress, Typography } from 'antd';
+import { Button, Card, Divider, Row, Col, Progress, Typography } from 'antd';
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
 import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/FeedbackRequestSummary';
 
@@ -19,6 +19,8 @@ export type FeedbackGroupPreviewProps = {
     feedbackResponseCount: number,
     isMobile: boolean,
 };
+
+const CIRCULAR_PROGRESS_COLUMN_WIDTH = 5;
 
 class FeedbackGroupPreview extends React.Component<Props> {
     /*
@@ -55,21 +57,35 @@ class FeedbackGroupPreview extends React.Component<Props> {
     };
 
     getCardExtra = () => {
-        return <Typography.Text>
-            {this.getTimeCreated() + ' - '}
-            <a href={this.buildFeedbackGroupUrl()}>View Group</a>
-        </Typography.Text>
+        return (
+            <div style={{ display: 'flex', marginTop: '1em' }}>
+                <Typography.Text style={{
+                    marginRight: 'auto',
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                }}>
+                    {this.getTimeCreated()}
+                </Typography.Text>
+                <Typography.Text style={{
+                    marginLeft: 'auto',
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                }}>
+                    <Button type="link">View Group</Button>
+                </Typography.Text>
+            </div>
+        )
     };
 
     renderCircularProgress = () => {
         return (
             <React.Fragment>
-                <Col span={4} style={{ textAlign: 'center' }}>
+                <Col span={CIRCULAR_PROGRESS_COLUMN_WIDTH} style={{ textAlign: 'center', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                     <Typography.Text strong>For them</Typography.Text>
                     <Divider style={{ margin: '0.25em 0' }} />
                     <Progress type="circle" percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={64} />
                 </Col>
-                <Col span={4} style={{ textAlign: 'center' }}>
+                <Col span={CIRCULAR_PROGRESS_COLUMN_WIDTH} style={{ textAlign: 'center', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                     <Typography.Text strong>For you</Typography.Text>
                     <Divider style={{ margin: '0.25em 0' }} />
                     <Progress type="circle" percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={64} />
@@ -84,13 +100,13 @@ class FeedbackGroupPreview extends React.Component<Props> {
                 <Row>
                     <Col>
                         <Typography.Text strong>For them</Typography.Text>
-                        <Progress percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={64} />
+                        <Progress percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={80} />
                     </Col>
                 </Row>
                 <Row>
                     <Col>
                         <Typography.Text strong>For you</Typography.Text>
-                        <Progress percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={64} />
+                        <Progress percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={80} />
                     </Col>
                 </Row>
             </React.Fragment>
@@ -101,30 +117,24 @@ class FeedbackGroupPreview extends React.Component<Props> {
         if (this.props.isMobile) {
             return 24;
         }
-        return 16;
+        return 24 - CIRCULAR_PROGRESS_COLUMN_WIDTH * 2;
     };
 
     render() {
         return (
             <Card
                 title={this.props.name}
-                extra={this.getCardExtra()}
             >
                 <a href={this.buildFeedbackGroupUrl()}>
                     <Row gutter={[16, 16]} type="flex" justify="space-around" align="middle">
                         <Col span={this.getMediaEmbedColumnWidth()}>
-                            <Row>
-                                <Col>
-                                    <Typography.Text strong>You submitted:</Typography.Text>
-                                </Col>
-                                <Col>
-                                    <MediaEmbed mediaUrl={this.props.feedbackRequestSummary.mediaUrl} mediaType={this.props.feedbackRequestSummary.mediaType} size="small" />
-                                </Col>
-                            </Row>
+                            <Typography.Text strong>You submitted:</Typography.Text>
+                            <MediaEmbed mediaUrl={this.props.feedbackRequestSummary.mediaUrl} mediaType={this.props.feedbackRequestSummary.mediaType} size="small" />
                         </Col>
                         {!this.props.isMobile && this.renderCircularProgress()}
                     </Row>
                     {this.props.isMobile && this.renderLinearProgress()}
+                    <Card.Meta description={this.getCardExtra()} />
                 </a>
             </Card>
         );

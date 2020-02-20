@@ -23,7 +23,15 @@ class FeedbackGroups extends React.Component<Props> {
                 <div>
                     <Typography.Title level={2}>Your Feedback Groups</Typography.Title>
                     <List
-                        itemLayout="horizontal"
+                        grid={{
+                            gutter: 16,
+                            xs: 1,
+                            sm: 1,
+                            md: 1,
+                            lg: 1,
+                            xl: 2,
+                            xxl: 2,
+                        }}
                         dataSource={this.props.feedbackGroups}
                         renderItem={feedbackGroup => (
                             <List.Item>

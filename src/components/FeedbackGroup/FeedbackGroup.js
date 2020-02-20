@@ -1,7 +1,7 @@
 import React from 'react';
 import dateFormat from 'dateformat';
 
-import { Col, Divider, Empty, Result, Row, Typography } from 'antd';
+import { Card, Col, Divider, Empty, Result, Row, Typography } from 'antd';
 
 import FeedbackResponseForm from '../FeedbackResponseForm/FeedbackResponseForm';
 import type { FeedbackResponseFormProps } from '../FeedbackResponseForm/FeedbackResponseForm';
@@ -46,19 +46,25 @@ class FeedbackGroup extends React.Component<Props, State> {
     renderReceivedFeedback = () => {
         if (this.state.feedbackReceived === null || this.state.feedbackReceived === undefined) {
             return (
-                <Empty
-                    image={Empty.PRESENTED_IMAGE_DEFAULT}
-                    description="Feedback for your submission will appear here once you have submitted feedback for everyone else in your group."
-                />
+                <Card>
+                    <Empty
+                        style={{ margin: '1em' }}
+                        image={Empty.PRESENTED_IMAGE_DEFAULT}
+                        description="Feedback for your submission will appear here once you have submitted feedback for everyone else in your group."
+                    />
+                </Card>
             )
         }
 
         if (this.state.feedbackReceived.length === 0) {
             return (
-                <Empty
-                    image={Empty.PRESENTED_IMAGE_SIMPLE}
-                    description="Nobody in your group has submitted feedback yet..."
-                />
+                <Card>
+                    <Empty
+                        style={{ margin: '1em' }}
+                        image={Empty.PRESENTED_IMAGE_SIMPLE}
+                        description="Nobody in your group has submitted feedback yet..."
+                    />
+                </Card>
             )
         }
 

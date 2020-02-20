@@ -3,7 +3,7 @@ import React from 'react';
 import apiRoot from '../../apiRoot';
 
 import { Divider, Layout, Typography } from 'antd';
-import Sidebar from '../Sidebar/Sidebar';
+import MenuBar from '../MenuBar/MenuBar';
 
 const REFRESH_TOKEN_FROM_COOKIE_MUTATION = `mutation RefreshTokenFromCookie {
     refreshTokenFromCookie {
@@ -38,11 +38,11 @@ class GenericPage extends React.Component<Props> {
     render() {
         return (
             <Layout>
-                {this.props.isMobile && <Sidebar isMobile={this.props.isMobile} />}
+                {this.props.isMobile && <MenuBar isMobile={this.props.isMobile} />}
                 <Layout.Content>
                     <Layout>
                         {!this.props.isMobile && <Layout.Sider theme="light">
-                            <Sidebar />
+                            <MenuBar />
                         </Layout.Sider>}
                         <Layout.Content style={{ minHeight: '100vh' }}>
                             <Layout>

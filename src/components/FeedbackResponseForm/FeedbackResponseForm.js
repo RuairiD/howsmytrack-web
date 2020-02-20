@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 
 import apiRoot from '../../apiRoot';
 
@@ -29,6 +30,8 @@ const SUBMIT_FEEDBACK_RESPONSE_MUTATION = `mutation SubmitFeedbackResponse($feed
     }
 }`;
 
+const GA_FEEDBACK_RESPONSE_CATEGORY = "feedbackResponse";
+
 class FeedbackResponseForm extends React.Component<Props, State> {
     /*
      * Component for displaying feedback form for a group member to complete.
@@ -40,6 +43,13 @@ class FeedbackResponseForm extends React.Component<Props, State> {
         submitted: this.props.submitted,
     };
 
+    componentDidMount() {
+        ReactGA.event({
+            category: GA_FEEDBACK_RESPONSE_CATEGORY,
+            action: "view",
+        });
+    }
+
     onFeedbackTextChange = (event) => {
         this.setState({
             feedback: event.target.value,
@@ -50,6 +60,10 @@ class FeedbackResponseForm extends React.Component<Props, State> {
         this.setState({
             requestSent: true,
         })
+        ReactGA.event({
+            category: GA_FEEDBACK_RESPONSE_CATEGORY,
+            action: "submit",
+        });
         return fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -72,6 +86,18 @@ class FeedbackResponseForm extends React.Component<Props, State> {
                 submitted: data['data']['submitFeedbackResponse'].success,
                 errorMessage: data['data']['submitFeedbackResponse'].error,
             });
+
+            if (data['data']['submitFeedbackResponse'].success) {
+                ReactGA.event({
+                    category: GA_FEEDBACK_RESPONSE_CATEGORY,
+                    action: "success",
+                });
+            } else {
+                ReactGA.event({
+                    category: GA_FEEDBACK_RESPONSE_CATEGORY,
+                    action: "error",
+                });
+            }
         });
     };
 
@@ -104,7 +130,7 @@ class FeedbackResponseForm extends React.Component<Props, State> {
                             <Input.TextArea
                                 value={this.state.feedback}
                                 onChange={this.onFeedbackTextChange}
-                                rows={4}
+                                rows={8}
                                 disabled={this.state.submitted}
                             />
                             {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" />}
@@ -113,6 +139,7 @@ class FeedbackResponseForm extends React.Component<Props, State> {
                     <Row gutter={[16, 16]}>
                         <Col>
                             <Button
+                                block
                                 type="primary"
                                 loading={this.state.requestSent}
                                 disabled={this.state.submitted || !this.state.feedback}

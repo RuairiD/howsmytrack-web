@@ -42,6 +42,7 @@ class UnwrappedCreateFeedbackRequestForm extends React.Component<State> {
                     title: "Your feedback request has been submitted!",
                     subTitle: "You will receive an email within the next 24 hours with your group assignment. If you wish to edit your request, you may do so on 'Your Groups' until the request has been assigned to a feedback group."
                 }}
+                gaCategory="createFeedbackRequest"
             />
         );
     }

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 
 import apiRoot from '../../apiRoot';
 
@@ -51,9 +52,9 @@ const MOBILE_HEADER = (
     </div>
 );
 
-// TODO: Sidebar isn't a good name anymore as this component renders both a Sidebar for
-// desktop and also a top menu for mobile.
-class Sidebar extends React.Component<Props, State> {
+const GA_MENU_BAR_CATEGORY = "menubar";
+
+class MenuBar extends React.Component<Props, State> {
     /*
      * Component for displaying page sidebar with menu links, or for mobile,
      * displaying a menu at the top of the screen. See TODO above.
@@ -94,6 +95,9 @@ class Sidebar extends React.Component<Props, State> {
                 rating: data['data']['userDetails']['rating'],
                 incompleteResponses: data['data']['userDetails']['incompleteResponses'],
             });
+            ReactGA.set({
+                username: data['data']['userDetails']['username'],
+            });
         });
     }
 
@@ -132,7 +136,11 @@ class Sidebar extends React.Component<Props, State> {
     };
 
     onMenuClick = (event) => {
-        let menuAction = this.menuActions[event.key]
+        let menuAction = this.menuActions[event.key];
+        ReactGA.event({
+            category: GA_MENU_BAR_CATEGORY,
+            action: event.key,
+        });
         if (menuAction) {
             menuAction();
         }
@@ -168,7 +176,6 @@ class Sidebar extends React.Component<Props, State> {
                     <Menu.Item disabled>
                         <Typography.Text>Welcome!</Typography.Text>
                     </Menu.Item>
-                    <Menu.Divider />
                     <Menu.Item key="login">
                         <Icon type="user" />
                         <span>Sign In</span>
@@ -188,6 +195,38 @@ class Sidebar extends React.Component<Props, State> {
         )
     };
 
+    renderUserDetails = () => {
+        if (this.state.rating) {
+            return (
+                <Menu.Item disabled>
+                    <div style={{ display: 'flex' }}>
+                        <Typography.Text ellipsis style={{
+                            marginRight: 'auto',
+                            marginTop: 'auto',
+                            marginBottom: 'auto',
+                        }}>
+                            {this.state.username}
+                        </Typography.Text>
+                        <Typography.Text strong style={{
+                            marginLeft: 'auto',
+                            marginTop: 'auto',
+                            marginBottom: 'auto',
+                        }}>
+                            {this.state.rating.toFixed(2)}<Icon type="star" />
+                        </Typography.Text>
+                    </div>
+                </Menu.Item>
+            )
+        }
+        return (
+            <Menu.Item disabled>
+                <Typography.Paragraph>
+                    {this.state.username}
+                </Typography.Paragraph>
+            </Menu.Item>
+        )
+    }
+
     renderLoggedInMenu = () => {
         return (
             <Menu
@@ -196,18 +235,7 @@ class Sidebar extends React.Component<Props, State> {
                 onClick={this.onMenuClick}
             >
                 <Menu.Divider />
-                {this.state.rating && <Menu.Item disabled style={{ height: "auto" }}>
-                    <Typography.Text style={{ lineHeight: '24px' }}>
-                        {this.state.username}<br />
-                        <Typography.Text strong>{this.state.rating.toFixed(2)}<Icon type="star" /></Typography.Text>
-                    </Typography.Text>
-                </Menu.Item>}
-                {!this.state.rating && <Menu.Item disabled>
-                    <Typography.Paragraph>
-                        {this.state.username}
-                    </Typography.Paragraph>
-                </Menu.Item>}
-                <Menu.Divider />
+                {this.renderUserDetails()}
                 <Menu.Item key="newRequest">
                     <Icon type="plus" />
                     <span>New Request</span>
@@ -281,4 +309,4 @@ class Sidebar extends React.Component<Props, State> {
     }
 }
 
-export default Sidebar;
+export default MenuBar;
