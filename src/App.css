@@ -47,11 +47,7 @@ html, body, #root, #root>div {
   margin-bottom: 0.75em;
 }
 
-.mobile-menu-collapse .ant-collapse-item {
-  padding: 0.5em 0;
-}
-
-.mobile-menu-collapse .ant-collapse-header {
+.mobile-menu-collapse > .ant-collapse-item > .ant-collapse-header {
   font-size: 18px;
 }
 

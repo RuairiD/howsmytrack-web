@@ -104,7 +104,7 @@ class FeedbackResponseForm extends React.Component<Props, State> {
     onSubmit = () => {
         this.submitForm(
             this.state.feedback,
-        )
+        );
     };
 
     render() {
