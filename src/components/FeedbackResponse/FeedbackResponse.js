@@ -78,6 +78,9 @@ class FeedbackResponse extends React.Component<Props, State> {
                 <Row gutter={[16, 16]}>
                     <Col>
                         <Rate
+                            style={{
+                                color: '#000000',
+                            }}
                             value={this.state.rating}
                             disabled={!!this.state.rating}
                             onChange={this.onRatingChange}
