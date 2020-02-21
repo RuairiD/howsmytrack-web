@@ -179,8 +179,10 @@ class MenuBar extends React.Component<Props, State> {
             <Spin spinning={!this.state.hasProps}>
                 <Menu
                     theme="light"
-                    mode="inline"
                     onClick={this.onMenuClick}
+                    style={{
+                        borderRight: 0,
+                    }}
                 >
                     <Menu.Item disabled>
                         <Typography.Text>Welcome!</Typography.Text>
@@ -246,8 +248,10 @@ class MenuBar extends React.Component<Props, State> {
         return (
             <Menu
                 theme="light"
-                mode="inline"
                 onClick={this.onMenuClick}
+                style={{
+                    borderRight: 0,
+                }}
             >
                 {this.renderUserDetails()}
                 <Menu.Item key="newRequest">
