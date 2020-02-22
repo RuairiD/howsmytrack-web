@@ -11,10 +11,12 @@ class Faq extends React.Component<Props> {
 
     faqs = [
         {
+            id: "what-is-hows-my-track",
             question: "What is How's My Track?",
-            answer: (<Typography.Paragraph>How's My Track? is a website for musicians to share their work and solicit feedback from eachother. Users may submit one track for feedback per day. Users are then put into groups of 4. Each user can then listen to each other's submitted track and leave feedback. Once a user has left feedback for everyone in their group, the feedback left for their own track will be visible to them. </Typography.Paragraph>)
+            answer: (<Typography.Paragraph><em>how's my track?</em> is a website for musicians to share their work and solicit feedback from eachother. Users may submit one track for feedback per day. Users are then put into groups of 4. Each user can then listen to each other's submitted track and leave feedback. Once a user has left feedback for everyone in their group, the feedback left for their own track will be visible to them. </Typography.Paragraph>)
         },
         {
+            id: "why-does-hows-my-track-exist",
             question: "Why does How's My Track? exist?",
             answer: (<React.Fragment>
                 <Typography.Paragraph>
@@ -32,10 +34,26 @@ class Faq extends React.Component<Props> {
             </React.Fragment>)
         },
         {
+            id: "how-can-i-get-the-correct-track-url",
             question: "How can get the correct track URL for my platform of choice?",
             answer: (<Typography.Paragraph><a href="/trackurlhelp">Check out our guide.</a></Typography.Paragraph>)
         },
         {
+            id: "why-is-my-tracks-genre-not-listed",
+            question: "Why is my track's genre not listed on the submission form?",
+            answer: (
+                <React.Fragment>
+                    <Typography.Paragraph>
+                        Firstly, <strong>all</strong> track submissions are welcome on <em>how's my track?</em>;if the genre you think best fits your track isn't listed, just pick <strong>No Genre</strong> and your submission will still be accepted and grouped.
+                    </Typography.Paragraph>
+                    <Typography.Paragraph>
+                        To answer the question, groups can only be formed if 3 or more feedback submissions are received, we restrict genres that don't have enough daily submissions to form at least one group. We regularly audit submissions to see if it's possible to add more genres, and we're always open to suggestions as well.
+                    </Typography.Paragraph>
+                </React.Fragment>
+            )
+        },
+        {
+            id: "how-is-my-rating-calculated",
             question: "How is my rating calculated?",
             answer: (<Typography.Paragraph>Users can rate your feedback after reading it. The rating you see when logged in is the mean of your last 15 ratings, or all of your ratings if you have fewer than than 15 (bear in mind that 15 ratings will be all your ratings from your past 5 groups). User ratings are only re-calculated once per day to obfuscate the source of ratings. </Typography.Paragraph>)
         },
@@ -49,7 +67,7 @@ class Faq extends React.Component<Props> {
         },
         {
             question: "Someone gave me feedback I don't agree with. How can I see who wrote it?",
-            answer: (<Typography.Paragraph>You can't, feedback is anonymous. I believe that people leave more honest and more constructive feedback if they are guaranteed anonymity. This may mean you get some feedback you don't like or agree with, but ultimately isn't that the point? </Typography.Paragraph>)
+            answer: (<Typography.Paragraph>You can't, feedback is anonymous. I believe that people leave more honest and more constructive feedback if they are guaranteed anonymity. This may mean you get some feedback you don't like or agree with, but ultimately isn't that the point?</Typography.Paragraph>)
         },
         {
             question: "Can I add links to my Soundcloud/Spotify/Bandcamp etc. in case people like my stuff?",
@@ -73,7 +91,7 @@ class Faq extends React.Component<Props> {
                     itemLayout="vertical"
                     dataSource={this.faqs}
                     renderItem={faq => (
-                        <List.Item>
+                        <List.Item id={faq.id}>
                             <List.Item.Meta
                                 title={faq.question}
                             />

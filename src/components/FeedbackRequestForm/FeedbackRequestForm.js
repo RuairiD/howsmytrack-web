@@ -173,6 +173,16 @@ class FeedbackRequestForm extends React.Component<Props, State> {
         )
     };
 
+    getGenreTooltipContent = () => {
+        return (
+            <span>
+                Requests of the same genre are assigned to the same groups in order to get you the most relevant and constructive feedback. Don't worry if your genre isn't listed though; just submit under <strong>No Genre</strong> and you'll still be grouped! <a target="_blank" rel="noopener noreferrer" href="/faq#why-is-my-tracks-genre-not-listed">
+                    Why is my genre not listed?
+                </a>
+            </span>
+        );
+    };
+
     render() {
         if (this.state.submitted) {
             return (<Result
@@ -224,7 +234,7 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                                         <React.Fragment>
                                              Genre :
                                             <Tooltip
-                                                title="Requests of the same genre are assigned to the same groups in order to get you the most relevant and constructive feedback. Don't worry if your genre isn't listed though; you can just submit under 'No Genre' and you'll still be grouped!"
+                                                title={this.getGenreTooltipContent()}
                                             >
                                                 <Button type="link"><Icon type="question-circle" />What is this for?</Button>
                                             </Tooltip>
