@@ -294,6 +294,7 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                                 mediaUrl: this.props.form.getFieldValue('mediaUrl'),
                                 mediaType: this.state.mediaType,
                                 feedbackPrompt: this.props.form.getFieldValue('feedbackPrompt'),
+                                genre: this.props.form.getFieldValue('genre'),
                             }}
                         />
                     </Col>
