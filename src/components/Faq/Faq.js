@@ -47,7 +47,7 @@ class Faq extends React.Component<Props> {
                         Firstly, <strong>all</strong> track submissions are welcome on <em>how's my track?</em>;if the genre you think best fits your track isn't listed, just pick <strong>No Genre</strong> and your submission will still be accepted and grouped.
                     </Typography.Paragraph>
                     <Typography.Paragraph>
-                        To answer the question, groups can only be formed if 3 or more feedback submissions are received, we restrict genres that don't have enough daily submissions to form at least one group. We regularly audit submissions to see if it's possible to add more genres, and we're always open to suggestions as well.
+                        To answer the question, groups can only be formed if 3 or more feedback submissions are received, we restrict genres that don't have enough daily submissions to form at least one group. In the event that genres only receive one submission, a multi-genre group will be formed to ensure that as many people as possible get a group within 24 hours. We also regularly audit submissions to see if it's possible to add more genres, and we're always open to suggestions as well.
                     </Typography.Paragraph>
                 </React.Fragment>
             )
