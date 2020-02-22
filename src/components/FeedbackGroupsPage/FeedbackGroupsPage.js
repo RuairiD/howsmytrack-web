@@ -46,6 +46,7 @@ const UNASSIGNED_REQUEST_QUERY = `query UnassignedRequest {
     mediaType
     feedbackPrompt
     emailWhenGrouped
+    genre
   }
 }`;
 
@@ -89,6 +90,7 @@ class FeedbackGroupsPage extends React.Component<Props, State> {
             mediaType: data['mediaType'],
             feedbackPrompt: data['feedbackPrompt'],
             emailWhenGrouped: data['emailWhenGrouped'],
+            genre: data['genre'],
         }
     };
 

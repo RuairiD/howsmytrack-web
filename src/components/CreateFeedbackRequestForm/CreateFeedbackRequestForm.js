@@ -5,8 +5,8 @@ import apiRoot from '../../apiRoot';
 import { Form } from 'antd';
 import FeedbackRequestForm from '../FeedbackRequestForm/FeedbackRequestForm';
 
-const CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($mediaUrl: String!, $emailWhenGrouped: Boolean!, $feedbackPrompt: String) {
-    createFeedbackRequest(mediaUrl: $mediaUrl, emailWhenGrouped: $emailWhenGrouped, feedbackPrompt: $feedbackPrompt) {
+const CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($mediaUrl: String!, $emailWhenGrouped: Boolean!, $genre: String!, $feedbackPrompt: String) {
+    createFeedbackRequest(mediaUrl: $mediaUrl, emailWhenGrouped: $emailWhenGrouped, genre: $genre, feedbackPrompt: $feedbackPrompt) {
         success
         error
         invalidMediaUrl

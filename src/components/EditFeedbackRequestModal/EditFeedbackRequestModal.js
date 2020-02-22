@@ -10,6 +10,7 @@ type Props = {
     mediaUrl: string,
     feedbackPrompt: string,
     emailWhenGrouped: boolean,
+    genre: string,
 };
 
 class EditFeedbackRequestModal extends React.Component<Props> {
@@ -30,6 +31,7 @@ class EditFeedbackRequestModal extends React.Component<Props> {
                     mediaUrl={this.props.mediaUrl}
                     feedbackPrompt={this.props.feedbackPrompt}
                     emailWhenGrouped={this.props.emailWhenGrouped}
+                    genre={this.props.genre}
                 />
             </Modal>
         );

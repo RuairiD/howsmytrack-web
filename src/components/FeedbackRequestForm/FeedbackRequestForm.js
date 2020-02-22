@@ -5,14 +5,9 @@ import apiRoot from '../../apiRoot';
 
 import { Alert, Button, Checkbox, Col, Icon, Input, Form, Result, Row, Select, Spin, Tooltip, Typography } from 'antd';
 import FeedbackRequestSummaryContent from '../FeedbackRequestSummary/FeedbackRequestSummaryContent';
+import GENRE_OPTIONS from '../../genres';
 
 const MEDIA_INFO_TIMEOUT = 500;
-
-const GENRE_OPTIONS = {
-    NO_GENRE: 'No Genre',
-    ELECTRONIC: 'Electronic',
-    HIPHOP: 'Hip-Hop/Rap',
-};
 
 type Props = {
     form: object,
@@ -20,6 +15,7 @@ type Props = {
     mediaUrl: string,
     feedbackPrompt: string,
     emailWhenGrouped: boolean,
+    genre: string,
     makeRequest: (object) => object,
     responseName: string,
     gaCategory: string,
@@ -91,7 +87,7 @@ class FeedbackRequestForm extends React.Component<Props, State> {
         });
         return this.props.makeRequest({
             feedbackRequestId: this.props.feedbackRequestId,
-            // TODO add genre
+            genre: genre,
             mediaUrl: mediaUrl,
             feedbackPrompt: feedbackPrompt,
             emailWhenGrouped: emailWhenGrouped,
@@ -222,6 +218,39 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                                         )(<Input onChange={this.onMediaUrlChange} autoFocus />)
                                     }
                                 </Form.Item>
+                                <Form.Item
+                                    colon={false}
+                                    label={
+                                        <React.Fragment>
+                                             Genre :
+                                            <Tooltip
+                                                title="Requests of the same genre are assigned to the same groups in order to get you the most relevant and constructive feedback. Don't worry if your genre isn't listed though; you can just submit under 'No Genre' and you'll still be grouped!"
+                                            >
+                                                <Button type="link"><Icon type="question-circle" />What is this for?</Button>
+                                            </Tooltip>
+                                        </React.Fragment>
+                                    }
+                                >
+                                    {
+                                        this.props.form.getFieldDecorator('genre',
+                                            {
+                                                initialValue: this.props.genre,
+                                                rules: [
+                                                    {
+                                                        required: true,
+                                                        message: "Please select a genre for this track. If you are unsure or do not see your genre listed, just select 'No Genre'.",
+                                                    },
+                                                ],
+                                            }
+                                        )(<Select>
+                                            {Object.keys(GENRE_OPTIONS).map((genre, i) => (
+                                                 <Select.Option key={i} value={genre}>
+                                                    {GENRE_OPTIONS[genre]}
+                                                </Select.Option>
+                                            ))}
+                                        </Select>)
+                                    }
+                                </Form.Item>
                                 <Form.Item label="Is there anything you would like specific feedback on? (optional)">
                                     {
                                         this.props.form.getFieldDecorator('feedbackPrompt',
@@ -232,33 +261,6 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                                             rows={4}
                                             placeholder={this.state.feedbackPromptPlaceholder}
                                         />)
-                                    }
-                                </Form.Item>
-                                <Form.Item
-                                    colon={false}
-                                    label={
-                                        <React.Fragment>
-                                             Genre (optional):
-                                            <Tooltip
-                                                title="Requests of the same genre are assigned to the same groups in order to provide feedback that's as relevant as possible. Don't worry if your genre isn't listed; you can just submit under 'No Genre'."
-                                            >
-                                                <Button type="link"><Icon type="question-circle" />What is this for?</Button>
-                                            </Tooltip>
-                                        </React.Fragment>
-                                    }
-                                >
-                                    {
-                                        this.props.form.getFieldDecorator('genre',
-                                            {
-                                                initialValue: 'NO_GENRE',
-                                            }
-                                        )(<Select>
-                                            {Object.keys(GENRE_OPTIONS).map((genre, i) => (
-                                                 <Select.Option key={i} value={genre}>
-                                                    {GENRE_OPTIONS[genre]}
-                                                </Select.Option>
-                                            ))}
-                                        </Select>)
                                     }
                                 </Form.Item>
                                 <Form.Item>

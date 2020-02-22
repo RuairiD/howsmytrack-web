@@ -12,8 +12,8 @@ type Props = {
     emailWhenGrouped: boolean,
 };
 
-const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRequestId: Int!, $mediaUrl: String!, $emailWhenGrouped: Boolean!, $feedbackPrompt: String) {
-    editFeedbackRequest(feedbackRequestId: $feedbackRequestId, mediaUrl: $mediaUrl, emailWhenGrouped: $emailWhenGrouped, feedbackPrompt: $feedbackPrompt) {
+const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRequestId: Int!, $mediaUrl: String!, $emailWhenGrouped: Boolean!, $genre: String!, $feedbackPrompt: String) {
+    editFeedbackRequest(feedbackRequestId: $feedbackRequestId, mediaUrl: $mediaUrl, emailWhenGrouped: $emailWhenGrouped, genre: $genre, feedbackPrompt: $feedbackPrompt) {
         success
         error
         invalidMediaUrl
