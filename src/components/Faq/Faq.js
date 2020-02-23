@@ -12,7 +12,7 @@ class Faq extends React.Component<Props> {
     faqs = [
         {
             id: "what-is-hows-my-track",
-            question: "What is How's My Track?",
+            question: "But actually, what is How's My Track?",
             answer: (<Typography.Paragraph><em>how's my track?</em> is a website for musicians to share their work and solicit feedback from eachother. Users may submit one track for feedback per day. Users are then put into groups of 4. Each user can then listen to each other's submitted track and leave feedback. Once a user has left feedback for everyone in their group, the feedback left for their own track will be visible to them. </Typography.Paragraph>)
         },
         {
@@ -86,7 +86,7 @@ class Faq extends React.Component<Props> {
     render() {
         return (
             <div>
-                <Typography.Title level={2}>FAQ/About How's My Track?</Typography.Title>
+                <Typography.Title level={2}>Frequently Asked Questions</Typography.Title>
                 <List
                     itemLayout="vertical"
                     dataSource={this.faqs}

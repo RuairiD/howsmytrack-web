@@ -2,8 +2,11 @@ import React from 'react';
 
 import apiRoot from '../../apiRoot';
 
+import { Divider } from 'antd';
 import FeedbackGroupsPage from '../FeedbackGroupsPage/FeedbackGroupsPage';
-import FaqPage from '../FaqPage/FaqPage';
+import Faq from '../Faq/Faq';
+import GenericPage from '../GenericPage/GenericPage';
+import LandingPitch from '../LandingPitch/LandingPitch';
 
 type Props = {
     isMobile: boolean,
@@ -53,7 +56,13 @@ class HomePage extends React.Component<Props, State> {
         if (this.state.isLoggedIn) {
             return (<FeedbackGroupsPage isMobile={this.props.isMobile} />);
         }
-        return (<FaqPage isMobile={this.props.isMobile} />);
+        return (
+            <GenericPage isMobile={this.props.isMobile}>
+                <LandingPitch isMobile={this.props.isMobile} />
+                <Divider />
+                <Faq />
+            </GenericPage>
+        );
     }
 }
 
