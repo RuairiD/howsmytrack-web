@@ -31,6 +31,7 @@ const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
       mediaUrl
       mediaType
       feedbackPrompt
+      genre
     }
     feedbackResponses {
       id
