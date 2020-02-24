@@ -21,6 +21,7 @@ class RegisterModal extends React.Component<Props> {
                 visible={this.props.isVisible}
                 footer={null}
                 destroyOnClose
+                className="responsive-modal"
             >
                 <RegisterForm />
             </Modal>

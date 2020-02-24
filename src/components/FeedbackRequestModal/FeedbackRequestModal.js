@@ -20,6 +20,7 @@ class FeedbackRequestModal extends React.Component<Props> {
                 visible={this.props.isVisible}
                 footer={null}
                 destroyOnClose
+                className="responsive-modal"
             >
                 <CreateFeedbackRequestForm />
             </Modal>

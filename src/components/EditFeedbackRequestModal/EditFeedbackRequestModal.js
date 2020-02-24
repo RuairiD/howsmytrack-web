@@ -25,6 +25,7 @@ class EditFeedbackRequestModal extends React.Component<Props> {
                 visible={this.props.isVisible}
                 footer={null}
                 destroyOnClose
+                className="responsive-modal"
             >
                 <EditFeedbackRequestForm
                     feedbackRequestId={this.props.feedbackRequestId}
