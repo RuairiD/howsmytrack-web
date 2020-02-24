@@ -110,7 +110,7 @@ class MenuBar extends React.Component<Props, State> {
         },
         logout: () => {
             this.logout().then(result =>
-                window.location.reload()
+                window.location.assign('/')
             );
         },
     };
