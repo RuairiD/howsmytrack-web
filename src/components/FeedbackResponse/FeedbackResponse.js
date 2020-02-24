@@ -82,38 +82,38 @@ class FeedbackResponse extends React.Component<Props, State> {
             <Card>
                 <Row gutter={[16, 16]}>
                     <Col>
-                        <Typography.Text>"{this.props.feedback}"</Typography.Text>
+                        <Typography.Paragraph>"{this.props.feedback}"</Typography.Paragraph>
                     </Col>
                 </Row>
-                <Row gutter={[16, 16]}>
-                    <Col>
-                        <Typography.Text strong>How helpful was this feedback?</Typography.Text>
-                    </Col>
-                </Row>
-                <Row gutter={[16, 16]}>
-                    <Col>
-                        <Rate
-                            style={{
-                                color: '#000000',
-                                marginRight: '1em',
-                            }}
-                            allowClear
-                            tooltips={RATING_TOOLTIP_TEXTS}
-                            value={this.state.rating}
-                            disabled={this.state.submitted || this.state.requestSent}
-                            onChange={this.onRatingChange}
-                        />
-                        <Button
-                            type="primary"
-                            loading={this.state.requestSent}
-                            disabled={this.state.submitted || !this.state.rating}
-                            onClick={this.submitRating}
-                        >
-                            {this.state.submitted && "Rated"}
-                            {!this.state.submitted && "Rate"}
-                        </Button>
-                    </Col>
-                </Row>
+                <Card.Meta
+                    title="How helpful was this feedback?"
+                    description={(
+                        <Row gutter={[16, 16]}>
+                            <Col>
+                                <Rate
+                                    style={{
+                                        color: '#000000',
+                                        marginRight: '1em',
+                                    }}
+                                    allowClear
+                                    tooltips={RATING_TOOLTIP_TEXTS}
+                                    value={this.state.rating}
+                                    disabled={this.state.submitted || this.state.requestSent}
+                                    onChange={this.onRatingChange}
+                                />
+                                <Button
+                                    type="primary"
+                                    loading={this.state.requestSent}
+                                    disabled={this.state.submitted || !this.state.rating}
+                                    onClick={this.submitRating}
+                                >
+                                    {this.state.submitted && "Rated"}
+                                    {!this.state.submitted && "Rate"}
+                                </Button>
+                            </Col>
+                        </Row>
+                    )}
+                />
             </Card>
         );
     }
