@@ -43,15 +43,15 @@ html, body, #root, #root>div {
 }
 
 .home-container {
-    display: 'inline-block';
-    text-align: 'left';
-    max-width: '800px';
+    display: inline-block;
+    text-align: left;
+    max-width: 800px;
 }
 
 @media only screen 
   and (max-device-width: 600px) {
     .home-container {
-        display: 'block';
+        display: block;
     }
 }
 

@@ -3,7 +3,7 @@ import ReactGA from 'react-ga';
 
 import apiRoot from '../../apiRoot';
 
-import { Badge, Collapse, Menu, Icon, Spin, Typography } from 'antd';
+import { Affix, Badge, Collapse, Menu, Icon, Spin, Typography } from 'antd';
 import FeedbackRequestModal from '../FeedbackRequestModal/FeedbackRequestModal';
 import LoginModal from '../LoginModal/LoginModal';
 import RegisterModal from '../RegisterModal/RegisterModal';
@@ -242,7 +242,7 @@ class MenuBar extends React.Component<Props, State> {
                 </div>
             </Menu.Item>
         )
-    }
+    };
 
     renderLoggedInMenu = () => {
         return (
@@ -323,7 +323,7 @@ class MenuBar extends React.Component<Props, State> {
         return this.renderLoggedOutMenu();
     };
 
-    render() {
+    renderMenuBarContent = () => {
         return (
             <div>
                 {!this.props.isMobile && <a href="/">
@@ -336,6 +336,17 @@ class MenuBar extends React.Component<Props, State> {
                 <LoginModal onCancel={this.onLoginModalCancel} isVisible={this.state.isLoginModalVisible} />
                 <RegisterModal onCancel={this.onRegisterModalCancel} isVisible={this.state.isRegisterModalVisible} />
             </div>
+        );
+    };
+
+    render() {
+        if (this.props.isMobile) {
+            return this.renderMenuBarContent();
+        }
+        return (
+            <Affix>
+                {this.renderMenuBarContent()}
+            </Affix>
         );
     }
 }
