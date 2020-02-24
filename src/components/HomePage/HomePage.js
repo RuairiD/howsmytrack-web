@@ -2,7 +2,7 @@ import React from 'react';
 
 import apiRoot from '../../apiRoot';
 
-import { Divider } from 'antd';
+import { Divider, Spin } from 'antd';
 import FeedbackGroupsPage from '../FeedbackGroupsPage/FeedbackGroupsPage';
 import Faq from '../Faq/Faq';
 import GenericPage from '../GenericPage/GenericPage';
@@ -25,7 +25,7 @@ const USER_DETAILS_QUERY = `query UserDetails {
 
 class HomePage extends React.Component<Props, State> {
     state = {
-        isLoggedIn: false,
+        isLoggedIn: null,
     };
 
     componentDidMount() {
@@ -44,23 +44,46 @@ class HomePage extends React.Component<Props, State> {
         ).then((data) => {
             if (!data['data']['userDetails']) {
                 // User isn't logged in or has an unreadable token, skip.
-                return
+                this.setState({
+                    isLoggedIn: false,
+                });
+            } else {
+                this.setState({
+                    isLoggedIn: !!data['data']['userDetails']['username'],
+                });
             }
-            this.setState({
-                isLoggedIn: !!data['data']['userDetails']['username'],
-            });
         });
     }
 
     render() {
+        if (this.state.isLoggedIn === null) {
+            return (
+                <div className="home-loading-container">
+                    <Spin 
+                        className="home-loading-spin"
+                        size="large"
+                        indicator={(
+                            <img
+                                alt=""
+                                src="/logo128.png"
+                            />
+                        )}
+                    />
+                </div>
+            );
+        }
         if (this.state.isLoggedIn) {
             return (<FeedbackGroupsPage isMobile={this.props.isMobile} />);
         }
         return (
-            <GenericPage isMobile={this.props.isMobile}>
-                <LandingPitch isMobile={this.props.isMobile} />
-                <Divider />
-                <Faq />
+            <GenericPage hideMenu isMobile={this.props.isMobile}>
+                <div style={{ textAlign: 'center' }}>
+                    <div className="home-container">
+                        <LandingPitch isMobile={this.props.isMobile} />
+                        <Divider />
+                        <Faq />
+                    </div>
+                </div>
             </GenericPage>
         );
     }

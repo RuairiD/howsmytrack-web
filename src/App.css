@@ -15,3 +15,64 @@ html, body, #root, #root>div {
 .mobile-menu-collapse .ant-collapse-content-box {
   padding: 0;
 }
+
+.home-loading-container {
+    display: flex;
+}
+
+.home-loading-spin {
+    margin: auto;
+}
+
+.home-loading-spin img {
+    animation-name: spin;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    width: 2em;
+    height: 2em;
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+
+.home-container {
+    display: 'inline-block';
+    text-align: 'left';
+    max-width: '800px';
+}
+
+@media only screen 
+  and (max-device-width: 600px) {
+    .home-container {
+        display: 'block';
+    }
+}
+
+.home-action-button {
+    color: #FFFFFF;
+    background-color: #000000;
+    margin: 0.5em;
+    margin-top: 0;
+    margin-bottom: 2em;
+    height: 100%;
+    width: 160px;
+    border-color: #FFFFFF;
+}
+
+.home-action-button:hover {
+    color: #000000;
+    background-color: #FFFFFF;
+    border-color: #000000;
+}
+
+.home-action-button span {
+    display: block;
+    padding: 0.5em;
+}

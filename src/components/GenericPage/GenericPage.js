@@ -12,8 +12,9 @@ const REFRESH_TOKEN_FROM_COOKIE_MUTATION = `mutation RefreshTokenFromCookie {
 }`;
 
 type Props = {
+    hideMenu: boolean,
     isMobile: boolean,
-}
+};
 
 class GenericPage extends React.Component<Props> {
     /*
@@ -33,15 +34,15 @@ class GenericPage extends React.Component<Props> {
             }),
             credentials: 'include',
         });
-    }
+    };
 
     render() {
         return (
             <Layout>
-                {this.props.isMobile && <MenuBar isMobile={this.props.isMobile} />}
+                {!this.props.hideMenu && this.props.isMobile && <MenuBar isMobile={this.props.isMobile} />}
                 <Layout.Content>
                     <Layout>
-                        {!this.props.isMobile && <Layout.Sider theme="light">
+                        {!this.props.hideMenu && !this.props.isMobile && <Layout.Sider theme="light">
                             <MenuBar />
                         </Layout.Sider>}
                         <Layout.Content style={{ minHeight: '100vh' }}>
