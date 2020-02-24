@@ -100,7 +100,6 @@ class UnwrappedLoginForm extends React.Component<Props, State> {
             <div>
                 <Row gutter={[16, 16]}>
                     <Col>
-                        <Alert message="A change to hows's my track?'s server and authentication system was made on February 16th to improve compatibility across browsers. If you are unable to sign in as a result, you may need to clear all cookies for all howsmytrack.com domains before trying again, or try signing in via an incognito/private window. We're sorry for any inconvenience this may cause." type="warning" />
                         {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" />}
                     </Col>
                 </Row>
