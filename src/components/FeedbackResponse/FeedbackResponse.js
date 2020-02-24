@@ -82,7 +82,12 @@ class FeedbackResponse extends React.Component<Props, State> {
             <Card>
                 <Row gutter={[16, 16]}>
                     <Col>
-                        <Typography.Paragraph>"{this.props.feedback}"</Typography.Paragraph>
+                        <Typography.Paragraph style={{
+                            overflowWrap: 'break-word',
+                            wordWrap: 'break-word',
+                        }}>
+                            "{this.props.feedback}"
+                        </Typography.Paragraph>
                     </Col>
                 </Row>
                 <Card.Meta

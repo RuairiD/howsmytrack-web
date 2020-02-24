@@ -44,8 +44,8 @@ html, body, #root, #root>div {
 
 .home-container {
     display: inline-block;
-    text-align: left;
-    max-width: 800px;
+    text-align: justify;
+    max-width: 720px;
 }
 
 @media only screen 
