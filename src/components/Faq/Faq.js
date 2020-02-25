@@ -84,15 +84,27 @@ class Faq extends React.Component<Props> {
     ]
 
     render() {
+        // 'textAlign: left' included as FAQ text is 'justify' by
+        // default on home page
         return (
             <div>
-                <Typography.Title level={2}>Frequently Asked Questions</Typography.Title>
+                <Typography.Title
+                    level={2}
+                    style={{
+                        textAlign: 'left',
+                    }}
+                >
+                    Frequently Asked Questions
+                </Typography.Title>
                 <List
                     itemLayout="vertical"
                     dataSource={this.faqs}
                     renderItem={faq => (
                         <List.Item id={faq.id}>
                             <List.Item.Meta
+                                style={{
+                                    textAlign: 'left',
+                                }}
                                 title={faq.question}
                             />
                             {faq.answer}
