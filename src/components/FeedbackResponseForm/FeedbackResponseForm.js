@@ -133,7 +133,7 @@ class FeedbackResponseForm extends React.Component<Props, State> {
                                 rows={8}
                                 disabled={this.state.submitted}
                             />
-                            {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" />}
+                            {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" showIcon />}
                         </Col>
                     </Row>
                     <Row gutter={[16, 16]}>

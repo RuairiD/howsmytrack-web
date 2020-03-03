@@ -220,7 +220,7 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                                 Unsure how to find the correct track URL?
                             </a>
                         </Typography.Text>
-                        {this.state.errorMessage && <Alert message={this.getErrorMessage()} type="error" />}
+                        {this.state.errorMessage && <Alert message={this.getErrorMessage()} type="error" showIcon />}
                     </Col>
                 </Row>
                 <Row gutter={[16, 16]}>
@@ -252,7 +252,7 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                                                                 // A media url isn't required if the user has declared that
                                                                 // they are making a 'trackless' request i.e. only giving
                                                                 // feedback, not receiving it.
-                                                                required: !this.props.form.getFieldValue('trackless'),
+                                                                required: this.props.form.getFieldValue('trackless') !== 'trackless',
                                                                 message: 'Please provide a track URL',
                                                             },
                                                         ],

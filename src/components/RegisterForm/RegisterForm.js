@@ -121,7 +121,7 @@ class UnwrappedRegisterForm extends React.Component<Props, State> {
             <div>
                 <Row gutter={[16, 16]}>
                     <Col>
-                        {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" />}
+                        {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" showIcon />}
                     </Col>
                 </Row>
                 <Row gutter={[16, 16]}>

@@ -18,7 +18,7 @@ class FeedbackRequestSummaryContent extends React.Component<Props> {
         if (!this.props.feedbackRequestSummary.mediaUrl) {
             return (
                 <Alert
-                    message="No track has been provided for this request. You'll be able to join a group and receive feedback, but you won't receive any feedback for yourself."
+                    message="No track has been provided for this request. You'll be able to join a group and provide feedback for others, but you won't receive any feedback for yourself."
                     type="info"
                     showIcon
                 />
