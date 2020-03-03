@@ -12,7 +12,7 @@ type Props = {
     emailWhenGrouped: boolean,
 };
 
-const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRequestId: Int!, $mediaUrl: String!, $emailWhenGrouped: Boolean!, $genre: String!, $feedbackPrompt: String) {
+const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRequestId: Int!, $mediaUrl: String, $emailWhenGrouped: Boolean, $genre: String, $feedbackPrompt: String) {
     editFeedbackRequest(feedbackRequestId: $feedbackRequestId, mediaUrl: $mediaUrl, emailWhenGrouped: $emailWhenGrouped, genre: $genre, feedbackPrompt: $feedbackPrompt) {
         success
         error
@@ -40,9 +40,11 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
     };
 
     render() {
+        // Request is trackless in the absence of a media_url
         return (
             <FeedbackRequestForm
                 {...this.props}
+                trackless={!this.props.mediaUrl}
                 makeRequest={this.makeEditFeedbackRequest}
                 responseName="editFeedbackRequest"
                 submittedText={{
@@ -54,4 +56,4 @@ class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
     }
 }
 
-export default Form.create({ name: 'editFeedbackRequest' })(UnwrappedEditFeedbackRequestForm);;
+export default Form.create({ name: 'editFeedbackRequest' })(UnwrappedEditFeedbackRequestForm);
