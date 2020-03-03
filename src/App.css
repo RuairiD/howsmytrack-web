@@ -77,6 +77,24 @@ html, body, #root, #root>div {
     padding: 0.5em;
 }
 
+.trackless-radio {
+    display: flex;
+    text-align: center;
+}
+
+.trackless-radio .ant-radio-button-wrapper {
+    width: 50%;
+    height: auto;
+    padding: 15px;
+    display: flex;
+}
+
+.ant-radio-button-wrapper span {
+    margin-top: auto;
+    margin-bottom: auto;
+    line-height: 2;
+}
+
 @media only screen 
   and (max-device-width: 600px) {
     /* styles to make modals fill screen on mobile devices */

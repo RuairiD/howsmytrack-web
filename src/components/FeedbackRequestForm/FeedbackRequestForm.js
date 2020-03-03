@@ -3,7 +3,7 @@ import ReactGA from 'react-ga';
 
 import apiRoot from '../../apiRoot';
 
-import { Alert, Button, Checkbox, Col, Icon, Input, Form, Result, Row, Select, Spin, Tooltip, Typography } from 'antd';
+import { Alert, Button, Checkbox, Col, Icon, Input, Form, Radio, Result, Row, Select, Spin, Tooltip, Typography } from 'antd';
 import FeedbackRequestSummaryContent from '../FeedbackRequestSummary/FeedbackRequestSummaryContent';
 import GENRE_OPTIONS from '../../genres';
 
@@ -45,6 +45,7 @@ const FEEDBACK_PROMPT_PLACEHOLDERS = [
     "Is the sub too loud?",
     "I don't have an intro yet. Any ideas?",
     "This is for a beat challenge. The rules were 90bpm, must use at least three saxophone samples...",
+    "Would you consider this a beat to study/chill/relax to?",
 ];
 
 class FeedbackRequestForm extends React.Component<Props, State> {
@@ -122,7 +123,7 @@ class FeedbackRequestForm extends React.Component<Props, State> {
             if (!err) {
                 let mediaUrl = null;
                 let feedbackPrompt = null;
-                if (!values.trackless) {
+                if (values.trackless !== 'trackless') {
                     mediaUrl = values.mediaUrl;
                     feedbackPrompt = values.feedbackPrompt;
                 }
@@ -204,9 +205,9 @@ class FeedbackRequestForm extends React.Component<Props, State> {
             emailWhenGrouped = true;
         }
 
-        let trackless = this.props.trackless;
-        if (trackless === undefined) {
-            trackless = false;
+        let tracklessValue = 'track'
+        if (this.props.trackless) {
+            tracklessValue = 'trackless'
         }
 
         return (
@@ -229,46 +230,55 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                                 <Form.Item>
                                     {
                                         this.props.form.getFieldDecorator('trackless', {
-                                            valuePropName: 'checked',
-                                            initialValue: trackless,
-                                        })(<Checkbox>I don't have anything to submit; I just want to give feedback to others.</Checkbox>)
+                                            initialValue: tracklessValue,
+                                        })(<Radio.Group className="trackless-radio" buttonStyle="solid">
+                                                <Radio.Button value="track">
+                                                    I have a track I would like feedback on
+                                                </Radio.Button>
+                                                <Radio.Button value="trackless">
+                                                    I don't have a track and would just like to provide feedback for others
+                                                </Radio.Button>
+                                            </Radio.Group>
+                                        )
                                     }
                                 </Form.Item>
-                                <Form.Item label="Soundcloud/Google Drive/Dropbox/OneDrive URL">
-                                    {
-                                        this.props.form.getFieldDecorator('mediaUrl',
+                                {this.props.form.getFieldValue('trackless') !== 'trackless' && <React.Fragment>
+                                        <Form.Item label="Soundcloud/Google Drive/Dropbox/OneDrive URL">
                                             {
-                                                rules: [
+                                                this.props.form.getFieldDecorator('mediaUrl',
                                                     {
-                                                        // A media url isn't required if the user has declared that
-                                                        // they are making a 'trackless' request i.e. only giving
-                                                        // feedback, not receiving it.
-                                                        required: !this.props.form.getFieldValue('trackless'),
-                                                        message: 'Please provide a track URL',
-                                                    },
-                                                ],
-                                                initialValue: this.props.mediaUrl,
+                                                        rules: [
+                                                            {
+                                                                // A media url isn't required if the user has declared that
+                                                                // they are making a 'trackless' request i.e. only giving
+                                                                // feedback, not receiving it.
+                                                                required: !this.props.form.getFieldValue('trackless'),
+                                                                message: 'Please provide a track URL',
+                                                            },
+                                                        ],
+                                                        initialValue: this.props.mediaUrl,
+                                                    }
+                                                )(<Input
+                                                    onChange={this.onMediaUrlChange}
+                                                    autoFocus
+                                                />)
                                             }
-                                        )(<Input
-                                            onChange={this.onMediaUrlChange}
-                                            autoFocus
-                                            disabled={this.props.form.getFieldValue('trackless')}
-                                        />)
-                                    }
-                                </Form.Item>
-                                <Form.Item label="Is there anything you would like specific feedback on? (optional)">
-                                    {
-                                        this.props.form.getFieldDecorator('feedbackPrompt',
+                                        </Form.Item>
+                                        <Form.Item label="Is there anything you would like specific feedback on? (optional)">
                                             {
-                                                initialValue: this.props.feedbackPrompt,
+                                                this.props.form.getFieldDecorator('feedbackPrompt',
+                                                    {
+                                                        initialValue: this.props.feedbackPrompt,
+                                                    }
+                                                )(<Input.TextArea
+                                                    rows={4}
+                                                    placeholder={this.state.feedbackPromptPlaceholder}
+                                                    disabled={this.props.form.getFieldValue('trackless') === 'trackless'}
+                                                />)
                                             }
-                                        )(<Input.TextArea
-                                            rows={4}
-                                            placeholder={this.state.feedbackPromptPlaceholder}
-                                            disabled={this.props.form.getFieldValue('trackless')}
-                                        />)
-                                    }
-                                </Form.Item>
+                                        </Form.Item>
+                                    </React.Fragment>
+                                }
                                 <Form.Item
                                     colon={false}
                                     label={
@@ -291,8 +301,8 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                                                         required: true,
                                                         message: (
                                                             <React.Fragment>
-                                                                {this.props.form.getFieldValue('trackless') && "Please select the genre you would like to provide feedback for."}
-                                                                {!this.props.form.getFieldValue('trackless') && "Please select a genre for this track. If you are unsure or do not see your genre listed, just select 'No Genre'."}
+                                                                {this.props.form.getFieldValue('trackless') === 'trackless' && "Please select the genre you would like to provide feedback for."}
+                                                                {this.props.form.getFieldValue('trackless') !== 'trackless' && "Please select a genre for this track. If you are unsure or do not see your genre listed, just select 'No Genre'."}
                                                             </React.Fragment>
                                                         ),
                                                     },
@@ -329,7 +339,7 @@ class FeedbackRequestForm extends React.Component<Props, State> {
                         </Spin>
                     </Col>
                 </Row>
-                {(!this.props.form.getFieldValue('trackless') && this.props.form.getFieldValue('mediaUrl')) && <Row gutter={[16, 16]}>
+                {(this.props.form.getFieldValue('trackless') !== 'trackless' && this.props.form.getFieldValue('mediaUrl')) && <Row gutter={[16, 16]}>
                     <Col>
                         <Typography.Title level={4}>Preview</Typography.Title>
                         <Typography.Text>Is your media URL correct? Is it playing correctly?</Typography.Text>
