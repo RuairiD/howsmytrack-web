@@ -25,6 +25,7 @@ const FEEDBACK_GROUPS_QUERY = `query FeedbackGroups {
     name
     timeCreated
     members
+    tracklessMembers
     feedbackRequest {
       mediaUrl
       mediaType
@@ -75,6 +76,7 @@ class FeedbackGroupsPage extends React.Component<Props, State> {
                 'timeCreated': feedbackGroup['timeCreated'],
                 'feedbackRequestSummary': feedbackGroup['feedbackRequest'],
                 'userCount': feedbackGroup['members'],
+                'tracklessUserCount': feedbackGroup['tracklessMembers'],
                 'userFeedbackCount': userFeedbackCount,
                 'feedbackResponseCount': feedbackGroup['userFeedbackResponseCount'],
             });

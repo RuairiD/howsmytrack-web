@@ -122,22 +122,24 @@ class FeedbackGroup extends React.Component<Props, State> {
                         )}
                     />
 
-                    <Divider />
+                    {this.props.feedbackRequestSummary.mediaUrl && <React.Fragment>
+                        <Divider />
 
-                    <Row gutter={[16, 16]}>
-                        <Col>
-                            <Typography.Title level={3}>Feedback for your submission</Typography.Title>
-                            <FeedbackRequestSummary
-                                feedbackRequestSummary={this.props.feedbackRequestSummary}
-                            />
-                        </Col>
-                    </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col>
+                                <Typography.Title level={3}>Feedback for your submission</Typography.Title>
+                                <FeedbackRequestSummary
+                                    feedbackRequestSummary={this.props.feedbackRequestSummary}
+                                />
+                            </Col>
+                        </Row>
 
-                    <Row gutter={[16, 16]}>
-                        <Col>
-                            {this.renderReceivedFeedback()}
-                        </Col>
-                    </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col>
+                                {this.renderReceivedFeedback()}
+                            </Col>
+                        </Row>
+                    </React.Fragment>}
                 </div>
             )
         }
