@@ -86,6 +86,13 @@ class FeedbackRequestSummary extends React.Component<Props, State> {
         });
     };
 
+    getDeleteConfirmationText = () => {
+        if (this.props.feedbackRequestSummary.mediaUrl) {
+            return "This request has not been assigned to a group. If you delete it, you will not receive any feedback on it. Are you sure you want to delete this request?";
+        }
+        return "This request has not been assigned to a group. Are you sure you want to delete this request?";
+    };
+
     renderButtons = () => {
         return (
             <React.Fragment>
@@ -98,7 +105,7 @@ class FeedbackRequestSummary extends React.Component<Props, State> {
                     }}
                 />
                 <Popconfirm
-                    title="This request has not been assigned to a group. If you delete it, you will not receive any feedback on it. Are you sure you want to delete this request?"
+                    title={this.getDeleteConfirmationText()}
                     onConfirm={this.deleteRequest}
                     okText="Yes"
                     cancelText="No"
