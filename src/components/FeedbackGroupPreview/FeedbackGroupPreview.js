@@ -105,12 +105,12 @@ class FeedbackGroupPreview extends React.Component<Props> {
                         <Progress percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={80} />
                     </Col>
                 </Row>
-                <Row>
+                {this.props.feedbackRequestSummary.mediaUrl && <Row>
                     <Col>
                         <Typography.Text strong>For you</Typography.Text>
                         <Progress percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={80} />
                     </Col>
-                </Row>
+                </Row>}
             </React.Fragment>
         )
     };
