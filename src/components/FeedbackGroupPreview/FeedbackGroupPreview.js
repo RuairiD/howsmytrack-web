@@ -29,19 +29,19 @@ class FeedbackGroupPreview extends React.Component<Props> {
      * Component for inline group preview shown on FeedbackGroupsPage
      */
     getUserFeedbackPercent = () => {
-        return 100 * (this.props.userFeedbackCount/(this.props.userCount - 1))
+        return 100 * (this.props.userFeedbackCount/(this.props.userCount))
     };
 
     getUserFeedbackText = () => {
-        return this.props.userFeedbackCount + '/' + (this.props.userCount - 1)
+        return this.props.userFeedbackCount + '/' + (this.props.userCount)
     };
 
     getFeedbackResponsePercent = () => {
-        return 100 * (this.props.feedbackResponseCount/(this.props.userCount + this.props.tracklessUserCount - 1))
+        return 100 * (this.props.feedbackResponseCount/(this.props.userCount + this.props.tracklessUserCount))
     };
 
     getFeedbackResponseText = () => {
-        return this.props.feedbackResponseCount + '/' + (this.props.userCount + this.props.tracklessUserCount - 1)
+        return this.props.feedbackResponseCount + '/' + (this.props.userCount + this.props.tracklessUserCount)
     };
 
     buildFeedbackGroupUrl = () => {
