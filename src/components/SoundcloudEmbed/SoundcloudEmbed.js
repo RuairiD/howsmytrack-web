@@ -14,8 +14,12 @@ class SoundcloudEmbed extends React.Component<Props> {
         /*
          * Format track URL for embedded iframe by separating out secret token.
          */
-        let urlParts = mediaUrl.split('/')
-        let secretToken = urlParts[urlParts.length - 1] 
+        let urlParts = mediaUrl.split('/');
+        if (urlParts.length < 6) {
+            // No secret token provided; leave it as a public track.
+            return mediaUrl
+        }
+        let secretToken = urlParts[5] 
         if (secretToken.length !== 7) {
             // Not a valid secret token, probably just a public track that doesn't need a secret token.
             return mediaUrl
