@@ -24,7 +24,7 @@ export type FeedbackGroupPreviewProps = {
 
 const CIRCULAR_PROGRESS_COLUMN_WIDTH = 5;
 
-class FeedbackGroupPreview extends React.Component<Props> {
+class FeedbackGroupPreview extends React.Component<FeedbackGroupPreviewProps> {
     /*
      * Component for inline group preview shown on FeedbackGroupsPage
      */

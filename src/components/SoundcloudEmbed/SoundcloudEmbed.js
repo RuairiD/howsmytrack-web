@@ -17,18 +17,18 @@ class SoundcloudEmbed extends React.Component<Props> {
         let urlParts = mediaUrl.split('/');
         if (urlParts.length < 6) {
             // No secret token provided; leave it as a public track.
-            return mediaUrl
+            return mediaUrl;
         }
-        let secretToken = urlParts[5] 
+        let secretToken = urlParts[5];
         if (secretToken.length !== 7) {
             // Not a valid secret token, probably just a public track that doesn't need a secret token.
-            return mediaUrl
+            return mediaUrl;
         }
-        let secretlessUrl = ''
+        let secretlessUrl = '';
         for (var i = 0; i < urlParts.length - 1; i++) {
-            secretlessUrl = secretlessUrl + urlParts[i] + '/'
+            secretlessUrl = secretlessUrl + urlParts[i] + '/';
         }
-        return secretlessUrl + '?secret_token=' + secretToken
+        return secretlessUrl + '?secret_token=' + secretToken;
     }
 
     getFrameHeight = () => {
