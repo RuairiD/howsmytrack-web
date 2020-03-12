@@ -4,16 +4,23 @@ import apiRoot from '../../apiRoot';
 
 import { Button, Card, Col, Rate, Row, Typography } from 'antd';
 
+import FeedbackResponseRepliesModal from '../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal';
+import { type FeedbackResponseReplyProps } from '../FeedbackResponseReply/FeedbackResponseReply';
+
 export type FeedbackResponseProps = {
     feedbackReponseId: number,
     feedback: string,
     rating: number,
+    allowReplies: boolean,
+    allowFurtherReplies: boolean,
+    replies: Array<FeedbackResponseReplyProps>,
 };
 
 type State = {
     requestSent: boolean,
     rating: number,
     submitted: boolean,
+    isRepliesModalVisible: boolean,
 };
 
 const RATE_FEEDBACK_RESPONSE_MUTATION = `mutation RateFeedbackResponse($feedbackResponseId: Int!, $rating: Int!) {
@@ -31,7 +38,7 @@ const RATING_TOOLTIP_TEXTS = [
     "This feedback is deeply thoughtful, well-written and very constructive.",
 ];
 
-class FeedbackResponse extends React.Component<Props, State> {
+class FeedbackResponse extends React.Component<FeedbackResponseProps, State> {
     /*
      * Component for showing user the feedback they have received from another user.
      * Only displayed in a feedback group once the user who received the feedback has
@@ -41,6 +48,7 @@ class FeedbackResponse extends React.Component<Props, State> {
         rating: this.props.rating,
         requestSent: false,
         submitted: !!this.props.rating,
+        isRepliesModalVisible: false,
     };
 
     submitRating = () => {
@@ -77,6 +85,18 @@ class FeedbackResponse extends React.Component<Props, State> {
         });
     };
 
+    showRepliesModal = () => {
+        this.setState({
+            isRepliesModalVisible: true,
+        })
+    };
+
+    onRepliesModalCancel = () => {
+        this.setState({
+            isRepliesModalVisible: false,
+        })
+    };
+
     render() {
         return (
             <Card>
@@ -93,32 +113,52 @@ class FeedbackResponse extends React.Component<Props, State> {
                 <Card.Meta
                     title="How helpful was this feedback?"
                     description={(
-                        <Row gutter={[16, 16]}>
-                            <Col>
-                                <Rate
-                                    style={{
-                                        color: '#000000',
-                                        marginRight: '1em',
-                                    }}
-                                    allowClear
-                                    tooltips={RATING_TOOLTIP_TEXTS}
-                                    value={this.state.rating}
-                                    disabled={this.state.submitted || this.state.requestSent}
-                                    onChange={this.onRatingChange}
-                                />
-                                <Button
-                                    type="primary"
-                                    loading={this.state.requestSent}
-                                    disabled={this.state.submitted || !this.state.rating}
-                                    onClick={this.submitRating}
-                                >
-                                    {this.state.submitted && "Rated"}
-                                    {!this.state.submitted && "Rate"}
-                                </Button>
-                            </Col>
-                        </Row>
+                        <div>
+                            <Row gutter={[16, 16]}>
+                                <Col>
+                                    <Rate
+                                        style={{
+                                            color: '#000000',
+                                            marginRight: '1em',
+                                        }}
+                                        allowClear
+                                        tooltips={RATING_TOOLTIP_TEXTS}
+                                        value={this.state.rating}
+                                        disabled={this.state.submitted || this.state.requestSent}
+                                        onChange={this.onRatingChange}
+                                    />
+                                    <Button
+                                        type="primary"
+                                        loading={this.state.requestSent}
+                                        disabled={this.state.submitted || !this.state.rating}
+                                        onClick={this.submitRating}
+                                    >
+                                        {this.state.submitted && "Rated"}
+                                        {!this.state.submitted && "Rate"}
+                                    </Button>
+                                </Col>
+                                {this.props.allowReplies && <Col style={{ float: 'right' }}>
+                                    <Button
+                                        type="link"
+                                        onClick={this.showRepliesModal}
+                                    >
+                                        {this.props.replies.length == 0 && "Leave a Reply"}
+                                        {this.props.replies.length == 1 && "View 1 Reply"}
+                                        {this.props.replies.length > 1 && ("View " + this.props.replies.length + " Replies")}
+                                    </Button>
+                                </Col>}
+                            </Row>
+                        </div>
                     )}
                 />
+                {this.props.allowReplies && <FeedbackResponseRepliesModal
+                    allowFurtherReplies={this.props.allowFurtherReplies}
+                    feedbackResponseId={this.props.feedbackResponseId}
+                    feedback={this.props.feedback}
+                    replies={this.props.replies}
+                    onCancel={this.onRepliesModalCancel}
+                    isVisible={this.state.isRepliesModalVisible}
+                />}
             </Card>
         );
     }

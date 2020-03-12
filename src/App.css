@@ -112,3 +112,14 @@ html, body, #root, #root>div {
         min-height: 100vh;
     }
 }
+
+.replies-container {
+    overflow-y: scroll;
+    max-height: 560px;
+}
+@media only screen 
+  and (max-device-width: 600px) {
+    .replies-container {
+        max-height: 75vh;
+    }
+}

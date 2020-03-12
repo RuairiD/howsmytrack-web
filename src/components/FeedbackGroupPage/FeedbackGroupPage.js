@@ -42,11 +42,25 @@ const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
         mediaUrl
         mediaType
       }
+      allowReplies
+      allowFurtherReplies
+      replies {
+        username
+        text
+        timeCreated
+      }
     }
     userFeedbackResponses {
       id
       feedback
       rating
+      allowReplies
+      allowFurtherReplies
+      replies {
+        username
+        text
+        timeCreated
+      }
     }
   }
 }`;
@@ -69,6 +83,9 @@ class FeedbackGroupPage extends React.Component<Props, State> {
                 'mediaType': feedbackResponse['feedbackRequest']['mediaType'],
                 'feedbackPrompt': feedbackResponse['feedbackRequest']['feedbackPrompt'],
                 'submitted': feedbackResponse['submitted'],
+                'allowReplies': feedbackResponse['allowReplies'],
+                'allowFurtherReplies': feedbackResponse['allowFurtherReplies'],
+                'replies': feedbackResponse['replies'],
             });
         }
 
@@ -78,7 +95,10 @@ class FeedbackGroupPage extends React.Component<Props, State> {
                 feedbackGroupProps['feedbackReceived'].push({
                     'feedbackResponseId': userFeedbackResponse['id'],
                     'feedback': userFeedbackResponse['feedback'],
-                    'rating': userFeedbackResponse['rating']
+                    'rating': userFeedbackResponse['rating'],
+                    'allowReplies': userFeedbackResponse['allowReplies'],
+                    'allowFurtherReplies': userFeedbackResponse['allowFurtherReplies'],
+                    'replies': userFeedbackResponse['replies'],
                 })
             }
         }

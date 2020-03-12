@@ -6,6 +6,8 @@ import apiRoot from '../../apiRoot';
 import { Alert, Button, Card, Col, Input, Row, Typography } from 'antd';
 
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
+import FeedbackResponseRepliesModal from '../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal';
+import { type FeedbackResponseReplyProps } from '../FeedbackResponseReply/FeedbackResponseReply';
 
 export type FeedbackResponseFormProps = {
     feedbackResponseId: number,
@@ -14,6 +16,9 @@ export type FeedbackResponseFormProps = {
     mediaType: string,
     feedbackPrompt: string,
     submitted: boolean,
+    allowReplies: boolean,
+    allowFurtherReplies: boolean,
+    replies: Array<FeedbackResponseReplyProps>,
 };
 
 type State = {
@@ -21,6 +26,7 @@ type State = {
     requestSent: boolean,
     errorMessage: string,
     submitted: boolean,
+    isRepliesModalVisible: boolean,
 };
 
 const SUBMIT_FEEDBACK_RESPONSE_MUTATION = `mutation SubmitFeedbackResponse($feedbackResponseId: Int!, $feedback: String!) {
@@ -32,7 +38,7 @@ const SUBMIT_FEEDBACK_RESPONSE_MUTATION = `mutation SubmitFeedbackResponse($feed
 
 const GA_FEEDBACK_RESPONSE_CATEGORY = "feedbackResponse";
 
-class FeedbackResponseForm extends React.Component<Props, State> {
+class FeedbackResponseForm extends React.Component<FeedbackResponseFormProps, State> {
     /*
      * Component for displaying feedback form for a group member to complete.
      */
@@ -41,6 +47,7 @@ class FeedbackResponseForm extends React.Component<Props, State> {
         requestSent: false,
         errorMessage: null,
         submitted: this.props.submitted,
+        isRepliesModalVisible: false,
     };
 
     componentDidMount() {
@@ -107,6 +114,18 @@ class FeedbackResponseForm extends React.Component<Props, State> {
         );
     };
 
+    showRepliesModal = () => {
+        this.setState({
+            isRepliesModalVisible: true,
+        })
+    };
+
+    onRepliesModalCancel = () => {
+        this.setState({
+            isRepliesModalVisible: false,
+        })
+    };
+
     render() {
         return (
             <Card>
@@ -150,7 +169,27 @@ class FeedbackResponseForm extends React.Component<Props, State> {
                             </Button>
                         </Col>
                     </Row>
+                    {this.props.allowReplies && <Row gutter={[16, 16]}>
+                        <Col style={{ float: 'right' }}>
+                            <Button
+                                type="link"
+                                onClick={this.showRepliesModal}
+                            >
+                                {this.props.replies.length == 0 && "Leave a Reply"}
+                                {this.props.replies.length == 1 && "View 1 Reply"}
+                                {this.props.replies.length > 1 && ("View " + this.props.replies.length + " Replies")}
+                            </Button>
+                        </Col>
+                    </Row>}
                 </div>
+                {this.props.allowReplies && <FeedbackResponseRepliesModal
+                    allowFurtherReplies={this.props.allowFurtherReplies}
+                    feedbackResponseId={this.props.feedbackResponseId}
+                    feedback={this.props.feedback}
+                    replies={this.props.replies}
+                    onCancel={this.onRepliesModalCancel}
+                    isVisible={this.state.isRepliesModalVisible}
+                />}
             </Card>
         );
     }
