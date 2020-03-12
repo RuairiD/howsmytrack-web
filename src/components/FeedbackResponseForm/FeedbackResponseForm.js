@@ -3,7 +3,7 @@ import ReactGA from 'react-ga';
 
 import apiRoot from '../../apiRoot';
 
-import { Alert, Button, Card, Col, Input, Row, Typography } from 'antd';
+import { Alert, Button, Card, Checkbox, Col, Input, Row, Typography } from 'antd';
 
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
 import FeedbackResponseRepliesModal from '../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal';
@@ -23,14 +23,15 @@ export type FeedbackResponseFormProps = {
 
 type State = {
     feedback: string,
+    allowReplies: boolean,
     requestSent: boolean,
     errorMessage: string,
     submitted: boolean,
     isRepliesModalVisible: boolean,
 };
 
-const SUBMIT_FEEDBACK_RESPONSE_MUTATION = `mutation SubmitFeedbackResponse($feedbackResponseId: Int!, $feedback: String!) {
-    submitFeedbackResponse(feedbackResponseId: $feedbackResponseId, feedback: $feedback) {
+const SUBMIT_FEEDBACK_RESPONSE_MUTATION = `mutation SubmitFeedbackResponse($feedbackResponseId: Int!, $feedback: String!, $allowReplies: Boolean!) {
+    submitFeedbackResponse(feedbackResponseId: $feedbackResponseId, feedback: $feedback, allowReplies: $allowReplies) {
         success
         error
     }
@@ -44,6 +45,7 @@ class FeedbackResponseForm extends React.Component<FeedbackResponseFormProps, St
      */
     state = {
         feedback: this.props.feedback,
+        allowReplies: this.props.allowReplies,
         requestSent: false,
         errorMessage: null,
         submitted: this.props.submitted,
@@ -63,7 +65,13 @@ class FeedbackResponseForm extends React.Component<FeedbackResponseFormProps, St
         })
     };
 
-    submitForm = (feedback) => {
+    onAllowRepliesChange = (event) => {
+        this.setState({
+            allowReplies: event.target.checked,
+        })
+    };
+
+    submitForm = (feedback, allowReplies) => {
         this.setState({
             requestSent: true,
         })
@@ -82,6 +90,7 @@ class FeedbackResponseForm extends React.Component<FeedbackResponseFormProps, St
                 variables: {
                     feedbackResponseId: this.props.feedbackResponseId,
                     feedback: feedback,
+                    allowReplies: allowReplies,
                 },
             }),
             credentials: 'include',
@@ -111,6 +120,7 @@ class FeedbackResponseForm extends React.Component<FeedbackResponseFormProps, St
     onSubmit = () => {
         this.submitForm(
             this.state.feedback,
+            this.state.allowReplies,
         );
     };
 
@@ -153,6 +163,17 @@ class FeedbackResponseForm extends React.Component<FeedbackResponseFormProps, St
                                 disabled={this.state.submitted}
                             />
                             {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" showIcon />}
+                        </Col>
+                    </Row>
+                    <Row gutter={[16, 16]}>
+                        <Col>
+                            <Checkbox
+                                checked={this.state.allowReplies}
+                                onChange={this.onAllowRepliesChange}
+                                disabled={this.state.submitted}
+                            >
+                                Allow the recipient to anonymously reply to your feedback.
+                            </Checkbox>
                         </Col>
                     </Row>
                     <Row gutter={[16, 16]}>

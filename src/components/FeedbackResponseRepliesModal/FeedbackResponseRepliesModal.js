@@ -6,6 +6,7 @@ import { Alert, Button, Checkbox, Col, Input, Modal, Row, Typography } from 'ant
 
 import FeedbackResponseReply from '../FeedbackResponseReply/FeedbackResponseReply';
 import { type FeedbackResponseReplyProps } from '../FeedbackResponseReply/FeedbackResponseReply';
+import { relative } from 'upath';
 
 type Props = {
     onCancel: () => void,
@@ -25,6 +26,7 @@ type State = {
     submitted: boolean,
     replyText: string,
     allowReplies: boolean,
+    shadowOpacity: number,
 };
 
 const ADD_FEEDBACK_RESPONSE_REPLY_MUTATION = `mutation AddFeedbackResponseReply($feedbackResponseId: Int!, $text: String!, $allowReplies: Boolean!) {
@@ -45,6 +47,7 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
         submitted: false,
         replyText: '',
         allowReplies: true,
+        shadowOpacity: 1,
     };
 
     scrollToBottomOfContainer = (container) => {
@@ -67,6 +70,12 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
             allowReplies: event.target.checked,
         })
     };
+
+    onContainerScroll = (event) => {
+        this.setState({
+            shadowOpacity: event.target.scrollTop/(event.target.scrollHeight - event.target.offsetHeight),
+        });
+    }
 
     onSubmit = () => {
         this.setState({
@@ -97,7 +106,8 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
             });
             
             // TODO: would probably be a nicer UX if the new message loaded
-            // in the modal rather than refreshing the page.
+            // in the modal rather than refreshing the page. Honestly this is
+            // probably just a good excuse for you to learn Redux, Ruairi.
             if (data['data']['addFeedbackResponseReply'].success) {
                 window.location.reload();
             }
@@ -113,7 +123,13 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
                 footer={null}
                 className="responsive-modal"
             >
-                <div>
+                <div className="scrollable-container">
+                    <div
+                        className="shadow shadow-top"
+                        style={{
+                            opacity: this.state.shadowOpacity,
+                        }}
+                    />
                     <div
                         onScroll={this.onContainerScroll}
                         className="replies-container"
@@ -123,7 +139,7 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
                             overflowWrap: 'break-word',
                             wordWrap: 'break-word',
                         }}>
-                            "{this.props.feedback}"
+                            <Typography.Text strong>Original Feedback: </Typography.Text>"{this.props.feedback}"
                         </Typography.Paragraph>
                         {this.props.replies.map((reply, i) => (
                             <FeedbackResponseReply
@@ -133,51 +149,62 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
                                 timeCreated={reply.timeCreated}
                             />
                         ))}
-                        {!this.props.allowFurtherReplies && <p>Further replies have been disabled for this conversation.</p>}
                     </div>
+                    <div
+                        className="shadow shadow-bottom"
+                        style={{
+                            opacity: 1 - this.state.shadowOpacity,
+                        }}
+                    />
                 </div>
-                {this.props.allowFurtherReplies && <div>
-                    <Row gutter={[16, 16]}>
-                        <Col>
-                            {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" showIcon />}
-                            {this.state.submitted && <Alert message="Reply Sent" type="success" showIcon />}
-                        </Col>
-                    </Row>
-                    <Row gutter={[16, 16]}>
-                        <Col>
-                            <Input.TextArea
-                                value={this.state.replyText}
-                                onChange={this.onReplyTextChange}
-                                rows={2}
-                                disabled={this.state.submitted || !this.props.allowFurtherReplies}
-                                autoFocus
-                            />
-                        </Col>
-                    </Row>
-                    <Row gutter={[16, 16]}>
-                        <Col style={{ display: 'flex' }}>
-                            <Checkbox
-                                checked={this.state.allowReplies}
-                                onChange={this.onAllowRepliesChange}
-                                style={{ marginRight: 'auto' }}
-                            >
-                                Allow additional replies.
-                            </Checkbox>
-                            <Button
-                                style={{
-                                    float: 'right',
-                                }}
-                                type="primary"
-                                loading={this.state.requestSent}
-                                disabled={this.state.submitted || !this.props.allowFurtherReplies || !this.state.replyText}
-                                onClick={this.onSubmit}
-                                style={{ marginLeft: 'auto' }}
-                            >
-                                Send Reply
-                            </Button>
-                        </Col>
-                    </Row>
-                </div>}
+                <div style={{ padding: '0.5em 0' }}>
+                    {this.props.allowFurtherReplies && <div>
+                        <Row gutter={[16, 16]}>
+                            <Col>
+                                {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" showIcon />}
+                                {this.state.submitted && <Alert message="Reply Sent" type="success" showIcon />}
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col>
+                                <Input.TextArea
+                                    placeholder="Write your reply..."
+                                    value={this.state.replyText}
+                                    onChange={this.onReplyTextChange}
+                                    rows={2}
+                                    disabled={this.state.submitted || !this.props.allowFurtherReplies}
+                                    autoFocus
+                                />
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col style={{ display: 'flex' }}>
+                                <Checkbox
+                                    checked={this.state.allowReplies}
+                                    onChange={this.onAllowRepliesChange}
+                                    style={{ marginRight: 'auto' }}
+                                >
+                                    Allow additional replies.
+                                </Checkbox>
+                                <Button
+                                    style={{
+                                        float: 'right',
+                                    }}
+                                    type="primary"
+                                    loading={this.state.requestSent}
+                                    disabled={this.state.submitted || !this.props.allowFurtherReplies || !this.state.replyText}
+                                    onClick={this.onSubmit}
+                                    style={{ marginLeft: 'auto' }}
+                                >
+                                    Send Reply
+                                </Button>
+                            </Col>
+                        </Row>
+                    </div>}
+                    {!this.props.allowFurtherReplies && <Typography.Text strong>
+                        Additional replies have been disabled for this conversation.
+                    </Typography.Text>}
+                </div>
             </Modal>
         );
     }

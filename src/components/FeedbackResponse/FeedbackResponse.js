@@ -115,38 +115,41 @@ class FeedbackResponse extends React.Component<FeedbackResponseProps, State> {
                     description={(
                         <div>
                             <Row gutter={[16, 16]}>
-                                <Col>
-                                    <Rate
-                                        style={{
-                                            color: '#000000',
-                                            marginRight: '1em',
-                                        }}
-                                        allowClear
-                                        tooltips={RATING_TOOLTIP_TEXTS}
-                                        value={this.state.rating}
-                                        disabled={this.state.submitted || this.state.requestSent}
-                                        onChange={this.onRatingChange}
-                                    />
-                                    <Button
-                                        type="primary"
-                                        loading={this.state.requestSent}
-                                        disabled={this.state.submitted || !this.state.rating}
-                                        onClick={this.submitRating}
-                                    >
-                                        {this.state.submitted && "Rated"}
-                                        {!this.state.submitted && "Rate"}
-                                    </Button>
+                                <Col style={{ display: 'flex' }}>
+                                    <div style={{ marginRight: 'auto' }}>
+                                        <Rate
+                                            style={{
+                                                color: '#000000',
+                                                marginRight: '1em',
+                                            }}
+                                            allowClear
+                                            tooltips={RATING_TOOLTIP_TEXTS}
+                                            value={this.state.rating}
+                                            disabled={this.state.submitted || this.state.requestSent}
+                                            onChange={this.onRatingChange}
+                                        />
+                                        <Button
+                                            type="primary"
+                                            loading={this.state.requestSent}
+                                            disabled={this.state.submitted || !this.state.rating}
+                                            onClick={this.submitRating}
+                                        >
+                                            {this.state.submitted && "Rated"}
+                                            {!this.state.submitted && "Rate"}
+                                        </Button>
+                                    </div>
+                                    {this.props.allowReplies &&
+                                        <Button
+                                            type="link"
+                                            onClick={this.showRepliesModal}
+                                            style={{ marginLeft: 'auto' }}
+                                        >
+                                            {this.props.replies.length == 0 && "Leave a Reply"}
+                                            {this.props.replies.length == 1 && "View 1 Reply"}
+                                            {this.props.replies.length > 1 && ("View " + this.props.replies.length + " Replies")}
+                                        </Button>
+                                    }
                                 </Col>
-                                {this.props.allowReplies && <Col style={{ float: 'right' }}>
-                                    <Button
-                                        type="link"
-                                        onClick={this.showRepliesModal}
-                                    >
-                                        {this.props.replies.length == 0 && "Leave a Reply"}
-                                        {this.props.replies.length == 1 && "View 1 Reply"}
-                                        {this.props.replies.length > 1 && ("View " + this.props.replies.length + " Replies")}
-                                    </Button>
-                                </Col>}
                             </Row>
                         </div>
                     )}
