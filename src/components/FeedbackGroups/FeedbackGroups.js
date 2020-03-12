@@ -9,7 +9,6 @@ import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/Feed
 type Props = {
     feedbackGroups: Array<FeedbackGroupPreviewProps>,
     unassignedRequest: FeedbackRequestSummaryProps,
-    isMobile: boolean,
 };
 
 class FeedbackGroups extends React.Component<Props> {
@@ -30,14 +29,13 @@ class FeedbackGroups extends React.Component<Props> {
                             md: 1,
                             lg: 1,
                             xl: 2,
-                            xxl: 2,
+                            xxl: 3,
                         }}
                         dataSource={this.props.feedbackGroups}
                         renderItem={feedbackGroup => (
                             <List.Item>
                                 <FeedbackGroupPreview
                                     {...feedbackGroup}
-                                    isMobile={this.props.isMobile}
                                 />
                             </List.Item>
                         )}

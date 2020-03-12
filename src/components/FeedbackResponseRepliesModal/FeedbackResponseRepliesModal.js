@@ -6,7 +6,6 @@ import { Alert, Button, Checkbox, Col, Input, Modal, Row, Typography } from 'ant
 
 import FeedbackResponseReply from '../FeedbackResponseReply/FeedbackResponseReply';
 import { type FeedbackResponseReplyProps } from '../FeedbackResponseReply/FeedbackResponseReply';
-import { relative } from 'upath';
 
 type Props = {
     onCancel: () => void,
@@ -36,6 +35,13 @@ const ADD_FEEDBACK_RESPONSE_REPLY_MUTATION = `mutation AddFeedbackResponseReply(
     }
 }`;
 
+const MARK_REPLIES_AS_READ_MUTATION = `mutation MarkRepliesAsRead($replyIds: [Int!]!) {
+    markRepliesAsRead(replyIds: $replyIds) {
+        success
+        error
+    }
+}`;
+
 class FeedbackResponseRepliesModal extends React.Component<Props, State> {
     /*
      * Component for displaying modal for submitting a feedback request.
@@ -53,6 +59,12 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
     scrollToBottomOfContainer = (container) => {
         if (container && this.props.isVisible && !this.state.scrolledToLastReply) {
             container.scrollTop = container.scrollHeight;
+            // Mark all replies as read when the modal is first visible.
+            // The backend will ensure that only replies sent *to* the
+            // logged-in user will be marked as read as obviously marking
+            // all replies as read (including the other user's) would be
+            // very confusing.
+            this.markRepliesAsRead();
             this.setState({
                 scrolledToLastReply: true,
             });
@@ -75,7 +87,7 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
         this.setState({
             shadowOpacity: event.target.scrollTop/(event.target.scrollHeight - event.target.offsetHeight),
         });
-    }
+    };
 
     onSubmit = () => {
         this.setState({
@@ -111,6 +123,27 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
             if (data['data']['addFeedbackResponseReply'].success) {
                 window.location.reload();
             }
+        });
+    };
+    
+    markRepliesAsRead = () => {
+        let replyIds = [];
+        for (let reply of this.props.replies) {
+            replyIds.push(reply.id);
+        }
+        return fetch(apiRoot +'/graphql/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query: MARK_REPLIES_AS_READ_MUTATION,
+                variables: {
+                    replyIds: replyIds,
+                },
+            }),
+            credentials: 'include',
         });
     };
 
@@ -187,9 +220,6 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
                                     Allow additional replies.
                                 </Checkbox>
                                 <Button
-                                    style={{
-                                        float: 'right',
-                                    }}
                                     type="primary"
                                     loading={this.state.requestSent}
                                     disabled={this.state.submitted || !this.props.allowFurtherReplies || !this.state.replyText}

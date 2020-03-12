@@ -32,9 +32,11 @@ const FEEDBACK_GROUPS_QUERY = `query FeedbackGroups {
     }
     feedbackResponses {
       submitted
+      unreadReplies
     }
     userFeedbackResponses {
       submitted
+      unreadReplies
     }
     userFeedbackResponseCount
   }
@@ -70,6 +72,18 @@ class FeedbackGroupsPage extends React.Component<Props, State> {
                 }
             }
 
+            let unreadReplies = 0;
+            if (feedbackGroup['feedbackResponses']) {
+                for (let feedbackResponse of feedbackGroup['feedbackResponses']) {
+                    unreadReplies += feedbackResponse['unreadReplies'];
+                }
+            }
+            if (feedbackGroup['userFeedbackResponses']) {
+                for (let feedbackResponse of feedbackGroup['userFeedbackResponses']) {
+                    unreadReplies += feedbackResponse['unreadReplies'];
+                }
+            }
+
             feedbackGroups.push({
                 'feedbackGroupId': feedbackGroup['id'],
                 'name': feedbackGroup['name'],
@@ -79,6 +93,7 @@ class FeedbackGroupsPage extends React.Component<Props, State> {
                 'tracklessUserCount': feedbackGroup['tracklessMembers'],
                 'userFeedbackCount': userFeedbackCount,
                 'feedbackResponseCount': feedbackGroup['userFeedbackResponseCount'],
+                'unreadReplies': unreadReplies,
             });
         }
 
@@ -165,7 +180,6 @@ class FeedbackGroupsPage extends React.Component<Props, State> {
                     <FeedbackGroups
                         feedbackGroups={this.state.feedbackGroups}
                         unassignedRequest={this.state.unassignedRequest}
-                        isMobile={this.props.isMobile}
                     />
                 </GenericPage>
             );

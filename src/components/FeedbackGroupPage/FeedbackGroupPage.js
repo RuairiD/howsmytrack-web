@@ -45,10 +45,12 @@ const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
       allowReplies
       allowFurtherReplies
       replies {
+        id
         username
         text
         timeCreated
       }
+      unreadReplies
     }
     userFeedbackResponses {
       id
@@ -57,10 +59,12 @@ const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
       allowReplies
       allowFurtherReplies
       replies {
+        id
         username
         text
         timeCreated
       }
+      unreadReplies
     }
   }
 }`;
@@ -86,6 +90,7 @@ class FeedbackGroupPage extends React.Component<Props, State> {
                 'allowReplies': feedbackResponse['allowReplies'],
                 'allowFurtherReplies': feedbackResponse['allowFurtherReplies'],
                 'replies': feedbackResponse['replies'],
+                'unreadReplies': feedbackResponse['unreadReplies'],
             });
         }
 
@@ -99,6 +104,7 @@ class FeedbackGroupPage extends React.Component<Props, State> {
                     'allowReplies': userFeedbackResponse['allowReplies'],
                     'allowFurtherReplies': userFeedbackResponse['allowFurtherReplies'],
                     'replies': userFeedbackResponse['replies'],
+                    'unreadReplies': userFeedbackResponse['unreadReplies'],
                 })
             }
         }

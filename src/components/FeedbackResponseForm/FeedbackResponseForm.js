@@ -5,6 +5,7 @@ import apiRoot from '../../apiRoot';
 
 import { Alert, Button, Card, Checkbox, Col, Input, Row, Typography } from 'antd';
 
+import ViewRepliesButton from '../ViewRepliesButton/ViewRepliesButton';
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
 import FeedbackResponseRepliesModal from '../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal';
 import { type FeedbackResponseReplyProps } from '../FeedbackResponseReply/FeedbackResponseReply';
@@ -19,6 +20,7 @@ export type FeedbackResponseFormProps = {
     allowReplies: boolean,
     allowFurtherReplies: boolean,
     replies: Array<FeedbackResponseReplyProps>,
+    unreadReplies: number,
 };
 
 type State = {
@@ -192,14 +194,11 @@ class FeedbackResponseForm extends React.Component<FeedbackResponseFormProps, St
                     </Row>
                     {this.props.allowReplies && <Row gutter={[16, 16]}>
                         <Col style={{ float: 'right' }}>
-                            <Button
-                                type="link"
+                            <ViewRepliesButton
+                                replies={this.props.replies.length}
+                                unreadReplies={this.props.unreadReplies}
                                 onClick={this.showRepliesModal}
-                            >
-                                {this.props.replies.length == 0 && "Leave a Reply"}
-                                {this.props.replies.length == 1 && "View 1 Reply"}
-                                {this.props.replies.length > 1 && ("View " + this.props.replies.length + " Replies")}
-                            </Button>
+                            />
                         </Col>
                     </Row>}
                 </div>

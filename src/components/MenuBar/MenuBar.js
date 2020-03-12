@@ -16,7 +16,7 @@ type State = {
     hasProps: boolean,
     username: string,
     rating: number,
-    incompleteResponses: number,
+    notifications: number,
     isFeedbackRequestModalVisible: boolean,
     isLoginModalVisible: boolean,
     isRegisterModalVisible: boolean,
@@ -27,7 +27,7 @@ const USER_DETAILS_QUERY = `query UserDetails {
   userDetails {
     username
     rating
-    incompleteResponses
+    notifications
   }
 }`;
 
@@ -73,7 +73,7 @@ class MenuBar extends React.Component<Props, State> {
                 hasProps: true,
                 username: data['data']['userDetails']['username'],
                 rating: data['data']['userDetails']['rating'],
-                incompleteResponses: data['data']['userDetails']['incompleteResponses'],
+                notifications: data['data']['userDetails']['notifications'],
             });
             ReactGA.set({
                 username: data['data']['userDetails']['username'],
@@ -155,7 +155,7 @@ class MenuBar extends React.Component<Props, State> {
                         how's my track?
                     </Typography.Text>
                     {this.state.mobileMenuCollapsed && <Badge
-                        count={this.state.incompleteResponses}
+                        count={this.state.notifications}
                         style={{
                             marginLeft: '0.5em',
                         }}
@@ -284,7 +284,7 @@ class MenuBar extends React.Component<Props, State> {
                         <Icon type="team" />
                         <span>Your Groups</span>
                         <Badge
-                            count={this.state.incompleteResponses}
+                            count={this.state.notifications}
                             style={{ marginLeft: '0.5em' }}
                         />
                     </a>

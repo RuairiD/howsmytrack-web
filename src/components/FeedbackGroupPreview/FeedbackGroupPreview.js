@@ -1,7 +1,7 @@
 import React from 'react';
 import dateFormat from 'dateformat';
 
-import { Button, Card, Divider, Row, Col, Progress, Typography } from 'antd';
+import { Badge, Button, Card, Row, Col, Progress, Typography } from 'antd';
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
 import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/FeedbackRequestSummary';
 
@@ -19,10 +19,9 @@ export type FeedbackGroupPreviewProps = {
     userFeedbackCount: number,
     // Number of group members who have submitted feedback for the user
     feedbackResponseCount: number,
-    isMobile: boolean,
+    // Number of replies sent to the user that haven't been read yet.
+    unreadReplies: number,
 };
-
-const CIRCULAR_PROGRESS_COLUMN_WIDTH = 5;
 
 class FeedbackGroupPreview extends React.Component<FeedbackGroupPreviewProps> {
     /*
@@ -79,49 +78,6 @@ class FeedbackGroupPreview extends React.Component<FeedbackGroupPreviewProps> {
         )
     };
 
-    renderCircularProgress = () => {
-        return (
-            <React.Fragment>
-                <Col span={CIRCULAR_PROGRESS_COLUMN_WIDTH} style={{ textAlign: 'center', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                    <Typography.Text strong>For them</Typography.Text>
-                    <Divider style={{ margin: '0.25em 0' }} />
-                    <Progress type="circle" percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={64} />
-                </Col>
-                {this.props.feedbackRequestSummary.mediaUrl && <Col span={CIRCULAR_PROGRESS_COLUMN_WIDTH} style={{ textAlign: 'center', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                    <Typography.Text strong>For you</Typography.Text>
-                    <Divider style={{ margin: '0.25em 0' }} />
-                    <Progress type="circle" percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={64} />
-                </Col>}
-            </React.Fragment>
-        )
-    };
-
-    renderLinearProgress = () => {
-        return (
-            <React.Fragment>
-                <Row>
-                    <Col>
-                        <Typography.Text strong>For them</Typography.Text>
-                        <Progress percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={80} />
-                    </Col>
-                </Row>
-                {this.props.feedbackRequestSummary.mediaUrl && <Row>
-                    <Col>
-                        <Typography.Text strong>For you</Typography.Text>
-                        <Progress percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={80} />
-                    </Col>
-                </Row>}
-            </React.Fragment>
-        )
-    };
-
-    getMediaEmbedColumnWidth = () => {
-        if (this.props.isMobile) {
-            return 24;
-        }
-        return 24 - CIRCULAR_PROGRESS_COLUMN_WIDTH * 2;
-    };
-
     renderMedia = () => {
         if (this.props.feedbackRequestSummary.mediaUrl) {
             return (
@@ -140,24 +96,44 @@ class FeedbackGroupPreview extends React.Component<FeedbackGroupPreviewProps> {
                 <Typography.Text strong>You did not submit a track for this group.</Typography.Text>
             </div>
         )
-    }
+    };
 
     render() {
         return (
-            <Card
-                title={this.props.name}
-            >
-                <a href={this.buildFeedbackGroupUrl()}>
-                    <Row gutter={[16, 16]} type="flex" justify="space-around" align="middle">
-                        <Col span={this.getMediaEmbedColumnWidth()}>
-                            {this.renderMedia()}
-                        </Col>
-                        {!this.props.isMobile && this.renderCircularProgress()}
-                    </Row>
-                    {this.props.isMobile && this.renderLinearProgress()}
-                    <Card.Meta description={this.getCardExtra()} />
-                </a>
-            </Card>
+            <div>
+                <Card
+                    title={(
+                        <div style={{ display: 'flex' }}>
+                            <span style={{ marginRight: 'auto' }}>{this.props.name}</span>
+                            <Badge
+                                count={this.props.unreadReplies}
+                                style={{ marginLeft: 'auto' }}
+                            />
+                        </div>
+                    )}
+                >
+                    <a href={this.buildFeedbackGroupUrl()}>
+                        <Row gutter={[16, 16]}>
+                            <Col>
+                                {this.renderMedia()}
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col>
+                                <Typography.Text strong>For them</Typography.Text>
+                                <Progress percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={80} />
+                            </Col>
+                        </Row>
+                        {this.props.feedbackRequestSummary.mediaUrl && <Row gutter={[16, 16]}>
+                            <Col>
+                                <Typography.Text strong>For you</Typography.Text>
+                                <Progress percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={80} />
+                            </Col>
+                        </Row>}
+                        <Card.Meta description={this.getCardExtra()} />
+                    </a>
+                </Card>
+            </div>
         );
     }
 }

@@ -4,6 +4,7 @@ import apiRoot from '../../apiRoot';
 
 import { Button, Card, Col, Rate, Row, Typography } from 'antd';
 
+import ViewRepliesButton from '../ViewRepliesButton/ViewRepliesButton';
 import FeedbackResponseRepliesModal from '../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal';
 import { type FeedbackResponseReplyProps } from '../FeedbackResponseReply/FeedbackResponseReply';
 
@@ -115,42 +116,40 @@ class FeedbackResponse extends React.Component<FeedbackResponseProps, State> {
                     description={(
                         <div>
                             <Row gutter={[16, 16]}>
-                                <Col style={{ display: 'flex' }}>
-                                    <div style={{ marginRight: 'auto' }}>
-                                        <Rate
-                                            style={{
-                                                color: '#000000',
-                                                marginRight: '1em',
-                                            }}
-                                            allowClear
-                                            tooltips={RATING_TOOLTIP_TEXTS}
-                                            value={this.state.rating}
-                                            disabled={this.state.submitted || this.state.requestSent}
-                                            onChange={this.onRatingChange}
-                                        />
-                                        <Button
-                                            type="primary"
-                                            loading={this.state.requestSent}
-                                            disabled={this.state.submitted || !this.state.rating}
-                                            onClick={this.submitRating}
-                                        >
-                                            {this.state.submitted && "Rated"}
-                                            {!this.state.submitted && "Rate"}
-                                        </Button>
-                                    </div>
-                                    {this.props.allowReplies &&
-                                        <Button
-                                            type="link"
-                                            onClick={this.showRepliesModal}
-                                            style={{ marginLeft: 'auto' }}
-                                        >
-                                            {this.props.replies.length == 0 && "Leave a Reply"}
-                                            {this.props.replies.length == 1 && "View 1 Reply"}
-                                            {this.props.replies.length > 1 && ("View " + this.props.replies.length + " Replies")}
-                                        </Button>
-                                    }
+                                <Col>
+                                    <Rate
+                                        style={{
+                                            color: '#000000',
+                                            marginRight: '1em',
+                                        }}
+                                        allowClear
+                                        tooltips={RATING_TOOLTIP_TEXTS}
+                                        value={this.state.rating}
+                                        disabled={this.state.submitted || this.state.requestSent}
+                                        onChange={this.onRatingChange}
+                                    />
+                                    <Button
+                                        type="primary"
+                                        loading={this.state.requestSent}
+                                        disabled={this.state.submitted || !this.state.rating}
+                                        onClick={this.submitRating}
+                                    >
+                                        {this.state.submitted && "Rated"}
+                                        {!this.state.submitted && "Rate"}
+                                    </Button>
                                 </Col>
                             </Row>
+                            {this.props.allowReplies && <Row gutter={[16, 16]}>
+                                <Col>
+                                    <div style={{ float: 'right' }}>
+                                        <ViewRepliesButton
+                                            replies={this.props.replies.length}
+                                            unreadReplies={this.props.unreadReplies}
+                                            onClick={this.showRepliesModal}
+                                        />
+                                    </div>
+                                </Col>
+                            </Row>}
                         </div>
                     )}
                 />
