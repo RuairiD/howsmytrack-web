@@ -103,13 +103,15 @@ class FeedbackGroupPreview extends React.Component<FeedbackGroupPreviewProps> {
             <div>
                 <Card
                     title={(
-                        <div style={{ display: 'flex' }}>
-                            <span style={{ marginRight: 'auto' }}>{this.props.name}</span>
-                            <Badge
-                                count={this.props.unreadReplies}
-                                style={{ marginLeft: 'auto' }}
-                            />
-                        </div>
+                        <a href={this.buildFeedbackGroupUrl()}>
+                            <div style={{ display: 'flex' }}>
+                                <Typography.Title level={4} style={{ marginRight: 'auto', marginBottom: 'auto', marginTop: 'auto' }}>{this.props.name}</Typography.Title>
+                                <Badge
+                                    count={this.props.unreadReplies}
+                                    style={{ marginLeft: 'auto', marginBottom: 'auto', marginTop: 'auto' }}
+                                />
+                            </div>
+                        </a>
                     )}
                 >
                     <a href={this.buildFeedbackGroupUrl()}>

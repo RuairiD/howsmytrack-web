@@ -25,7 +25,11 @@ type State = {
     submitted: boolean,
     replyText: string,
     allowReplies: boolean,
-    shadowOpacity: number,
+    // We don't need to show the scroll bar if there's not enough
+    // content to warrant scrolling.
+    allowingScrolling: boolean,
+    topShadowOpacity: number,
+    bottomShadowOpacity: number,
 };
 
 const ADD_FEEDBACK_RESPONSE_REPLY_MUTATION = `mutation AddFeedbackResponseReply($feedbackResponseId: Int!, $text: String!, $allowReplies: Boolean!) {
@@ -53,7 +57,9 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
         submitted: false,
         replyText: '',
         allowReplies: true,
-        shadowOpacity: 1,
+        allowingScrolling: true,
+        topShadowOpacity: 0,
+        bottomShadowOpacity: 0,
     };
 
     scrollToBottomOfContainer = (container) => {
@@ -65,6 +71,7 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
             // all replies as read (including the other user's) would be
             // very confusing.
             this.markRepliesAsRead();
+            this.onContainerScroll({ target: container });
             this.setState({
                 scrolledToLastReply: true,
             });
@@ -84,9 +91,24 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
     };
 
     onContainerScroll = (event) => {
-        this.setState({
-            shadowOpacity: event.target.scrollTop/(event.target.scrollHeight - event.target.offsetHeight),
-        });
+        // If there is content that isn't visible because it is being rendered above or
+        // below the visible portion of the scrollable container, display the shadows to
+        // make it clear there's content that's being hidden. Otherwise, hide them.
+        const scrollableHeight = event.target.scrollHeight - event.target.offsetHeight;
+        if (scrollableHeight > 0) {
+            const opacity = event.target.scrollTop/scrollableHeight;
+            this.setState({
+                allowingScrolling: true,
+                topShadowOpacity: opacity,
+                bottomShadowOpacity: 1 - opacity,
+            });
+        } else {
+            this.setState({
+                allowingScrolling: false,
+                topShadowOpacity: 0,
+                bottomShadowOpacity: 0,
+            });
+        }
     };
 
     onSubmit = () => {
@@ -160,12 +182,12 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
                     <div
                         className="shadow shadow-top"
                         style={{
-                            opacity: this.state.shadowOpacity,
+                            opacity: this.state.topShadowOpacity,
                         }}
                     />
                     <div
                         onScroll={this.onContainerScroll}
-                        className="replies-container"
+                        className={this.state.allowingScrolling && "replies-container"}
                         ref={(container) => { this.scrollToBottomOfContainer(container) }}
                     >
                         <Typography.Paragraph style={{
@@ -186,7 +208,7 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
                     <div
                         className="shadow shadow-bottom"
                         style={{
-                            opacity: 1 - this.state.shadowOpacity,
+                            opacity: this.state.bottomShadowOpacity,
                         }}
                     />
                 </div>

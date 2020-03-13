@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button } from 'antd';
+import { Badge, Button, Icon } from 'antd';
 
 type Props = {
     replies: number,
@@ -22,21 +22,20 @@ class ViewRepliesButton extends React.Component<Props> {
         if (this.props.replies === 1) {
             repliesText = "View 1 reply";
         }
-
-        if (this.props.unreadReplies) {
-            repliesText = repliesText + " (" + this.props.unreadReplies + " unread)";
-        }
         
         return repliesText;
     };
 
     render() {
         return (
-            <Button
-                onClick={this.props.onClick}
-            >
-                {this.renderRepliesText()}
-            </Button>
+            <div style={{ paddingRight: '20px' }}>
+                <Badge count={this.props.unreadReplies}>
+                    <Button onClick={this.props.onClick}>
+                        <Icon type="message" />
+                        {this.renderRepliesText()}
+                    </Button>
+                </Badge>
+            </div>
         );
     }
 }

@@ -114,42 +114,36 @@ class FeedbackResponse extends React.Component<FeedbackResponseProps, State> {
                 <Card.Meta
                     title="How helpful was this feedback?"
                     description={(
-                        <div>
-                            <Row gutter={[16, 16]}>
-                                <Col>
-                                    <Rate
-                                        style={{
-                                            color: '#000000',
-                                            marginRight: '1em',
-                                        }}
-                                        allowClear
-                                        tooltips={RATING_TOOLTIP_TEXTS}
-                                        value={this.state.rating}
-                                        disabled={this.state.submitted || this.state.requestSent}
-                                        onChange={this.onRatingChange}
-                                    />
-                                    <Button
-                                        type="primary"
-                                        loading={this.state.requestSent}
-                                        disabled={this.state.submitted || !this.state.rating}
-                                        onClick={this.submitRating}
-                                    >
-                                        {this.state.submitted && "Rated"}
-                                        {!this.state.submitted && "Rate"}
-                                    </Button>
-                                </Col>
-                            </Row>
-                            {this.props.allowReplies && <Row gutter={[16, 16]}>
-                                <Col>
-                                    <div style={{ float: 'right' }}>
-                                        <ViewRepliesButton
-                                            replies={this.props.replies.length}
-                                            unreadReplies={this.props.unreadReplies}
-                                            onClick={this.showRepliesModal}
-                                        />
-                                    </div>
-                                </Col>
-                            </Row>}
+                        <div style={{ display: 'inline' }}>
+                            <span style={{ float: 'left', paddingBottom: '0.25em' }}>
+                                <Rate
+                                    style={{
+                                        color: '#000000',
+                                        marginRight: '1em',
+                                    }}
+                                    allowClear
+                                    tooltips={RATING_TOOLTIP_TEXTS}
+                                    value={this.state.rating}
+                                    disabled={this.state.submitted || this.state.requestSent}
+                                    onChange={this.onRatingChange}
+                                />
+                                <Button
+                                    type="primary"
+                                    loading={this.state.requestSent}
+                                    disabled={this.state.submitted || !this.state.rating}
+                                    onClick={this.submitRating}
+                                >
+                                    {this.state.submitted && "Rated"}
+                                    {!this.state.submitted && "Rate"}
+                                </Button>
+                            </span>
+                            {this.props.allowReplies && <span style={{ float: 'right', paddingBottom: '0.25em' }}>
+                                <ViewRepliesButton
+                                    replies={this.props.replies.length}
+                                    unreadReplies={this.props.unreadReplies}
+                                    onClick={this.showRepliesModal}
+                                />
+                            </span>}
                         </div>
                     )}
                 />

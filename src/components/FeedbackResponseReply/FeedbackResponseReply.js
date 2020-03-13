@@ -17,9 +17,7 @@ class FeedbackResponseReply extends React.Component<FeedbackResponseReplyProps> 
         return (
             <Comment
                 author={this.props.username}
-                content={
-                    <p>{this.props.text}</p>
-                }
+                content={this.props.text}
                 datetime={dateFormat(
                     new Date(
                         Date.parse(this.props.timeCreated)

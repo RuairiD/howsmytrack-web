@@ -186,13 +186,13 @@ class MenuBar extends React.Component<Props, State> {
                 </Menu.Item>
                 <Menu.Item className="ant-menu-item">
                     <a href="https://discord.gg/6jGFP6N" target="_blank" rel="noopener noreferrer">
-                        <Icon type="message" />
+                        <Icon type="robot" />
                         <span>Discord</span>
                     </a>
                 </Menu.Item>
             </React.Fragment>
         );
-    }
+    };
 
     renderLoggedOutMenu = () => {
         return (
