@@ -10,7 +10,7 @@ type Props = {
 class TrackUrlHelpPage extends React.Component<Props> {
     render() {
         return (
-            <GenericPage isMobile={this.props.isMobile}>
+            <GenericPage title="How do I get the correct track URL?" isMobile={this.props.isMobile}>
                 <TrackUrlHelp />
             </GenericPage>
         )

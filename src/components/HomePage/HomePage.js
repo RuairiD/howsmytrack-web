@@ -76,15 +76,17 @@ class HomePage extends React.Component<Props, State> {
             return (<FeedbackGroupsPage isMobile={this.props.isMobile} />);
         }
         return (
-            <GenericPage hideMenu isMobile={this.props.isMobile}>
-                <div style={{ textAlign: 'center' }}>
-                    <div className="home-container">
-                        <LandingPitch isMobile={this.props.isMobile} />
-                        <Divider />
-                        <Faq />
+            <div className="home">
+                <GenericPage hideMenu isMobile={this.props.isMobile}>
+                    <div style={{ textAlign: 'center' }}>
+                        <div className="home-container">
+                            <LandingPitch isMobile={this.props.isMobile} />
+                            <Divider />
+                            <Faq />
+                        </div>
                     </div>
-                </div>
-            </GenericPage>
+                </GenericPage>
+            </div>
         );
     }
 }

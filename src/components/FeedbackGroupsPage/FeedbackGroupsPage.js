@@ -176,7 +176,7 @@ class FeedbackGroupsPage extends React.Component<Props, State> {
     render() {
         if (this.state.hasFeedbackGroupsProps && this.state.hasUnassignedRequestProps) {
             return (
-                <GenericPage isMobile={this.props.isMobile}>
+                <GenericPage title="Your Groups" isMobile={this.props.isMobile}>
                     <FeedbackGroups
                         feedbackGroups={this.state.feedbackGroups}
                         unassignedRequest={this.state.unassignedRequest}

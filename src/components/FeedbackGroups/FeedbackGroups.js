@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Empty, List, Typography, Divider } from 'antd';
+import { Col, Divider, Empty, List, Row, Typography } from 'antd';
 import FeedbackGroupPreview from '../FeedbackGroupPreview/FeedbackGroupPreview';
 import type { FeedbackGroupPreviewProps } from '../FeedbackGroupPreview/FeedbackGroupPreview';
 import FeedbackRequestSummary from '../FeedbackRequestSummary/FeedbackRequestSummary';
@@ -19,54 +19,56 @@ class FeedbackGroups extends React.Component<Props> {
     renderFeedbackGroups = () => {
         if (this.props.feedbackGroups && this.props.feedbackGroups.length > 0) {
             return (
-                <div>
-                    <Typography.Title level={2}>Your Feedback Groups</Typography.Title>
-                    <List
-                        grid={{
-                            gutter: 16,
-                            xs: 1,
-                            sm: 1,
-                            md: 1,
-                            lg: 1,
-                            xl: 2,
-                            xxl: 3,
-                        }}
-                        dataSource={this.props.feedbackGroups}
-                        renderItem={feedbackGroup => (
-                            <List.Item>
-                                <FeedbackGroupPreview
-                                    {...feedbackGroup}
-                                />
-                            </List.Item>
-                        )}
-                    />
-                </div>
+                <List
+                    grid={{
+                        gutter: 16,
+                        xs: 1,
+                        sm: 1,
+                        md: 1,
+                        lg: 1,
+                        xl: 2,
+                        xxl: 2,
+                    }}
+                    dataSource={this.props.feedbackGroups}
+                    renderItem={feedbackGroup => (
+                        <List.Item style={{ width: '100%' }}>
+                            <FeedbackGroupPreview
+                                {...feedbackGroup}
+                            />
+                        </List.Item>
+                    )}
+                />
             );
         }
         return (
-            <div>
-                <Typography.Title level={2}>Your Feedback Groups</Typography.Title>
-                <Empty
-                    style={{ color: '#444444' }}
-                    image={Empty.PRESENTED_IMAGE_SIMPLE}
-                    description="You haven't been assigned any groups yet. Perhaps you should make a request?"
-                />
-            </div>
+            <Empty
+                style={{ color: '#444444' }}
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description="You haven't been assigned any groups yet. Perhaps you should make a request?"
+            />
         );
-    }
+    };
 
     render() {
         return (
             <div>
                 {this.props.unassignedRequest && <React.Fragment>
-                    <Typography.Title level={2}>Your Unassigned Request</Typography.Title>
-                    <FeedbackRequestSummary
-                        feedbackRequestSummary={this.props.unassignedRequest}
-                        showButtons
-                    />
+                    <Row gutter={[16, 16]}>
+                        <Col>
+                            <Typography.Title level={3}>Your Unassigned Request</Typography.Title>
+                            <FeedbackRequestSummary
+                                feedbackRequestSummary={this.props.unassignedRequest}
+                                showButtons
+                            />
+                        </Col>
+                    </Row>
                     <Divider />
                 </React.Fragment>}
-                {this.renderFeedbackGroups()}
+                <Row gutter={[16, 16]}>
+                    <Col>
+                        {this.renderFeedbackGroups()}
+                    </Col>
+                </Row>
             </div>
         )
     }

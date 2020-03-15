@@ -1,4 +1,5 @@
 import React from 'react';
+import dateFormat from 'dateformat';
 
 import apiRoot from '../../apiRoot';
 
@@ -153,9 +154,19 @@ class FeedbackGroupPage extends React.Component<Props, State> {
         });
     }
 
+    getTimeCreated = () => {
+        if (!this.state.timeCreated) {
+            return null;
+        }
+        return dateFormat(
+            new Date(Date.parse(this.state.timeCreated)),
+            'mmmm dS yyyy',
+        );
+    };
+
     render() {
         return this.state.hasProps && (
-            <GenericPage isMobile={this.props.isMobile}>
+            <GenericPage title={this.state.name} subTitle={this.getTimeCreated()} isMobile={this.props.isMobile}>
                 <FeedbackGroup
                     name={this.state.name}
                     timeCreated={this.state.timeCreated}

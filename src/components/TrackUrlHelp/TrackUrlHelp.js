@@ -92,7 +92,6 @@ class TrackUrlHelp extends React.Component<Props> {
     render() {
         return (
             <div>
-                <Typography.Title level={2}>How do I get the correct track URL?</Typography.Title>
                 <Typography.Paragraph>These instructions are for desktop and may differ on mobile.</Typography.Paragraph>
                 <List
                     itemLayout="vertical"

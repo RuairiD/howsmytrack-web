@@ -1,5 +1,4 @@
 import React from 'react';
-import dateFormat from 'dateformat';
 
 import { Card, Col, Divider, Empty, List, Result, Row, Typography } from 'antd';
 
@@ -31,7 +30,7 @@ const LIST_GRID_LAYOUT = {
     md: 1,
     lg: 1,
     xl: 1,
-    xxl: 3,
+    xxl: 2,
 };
 
 class FeedbackGroup extends React.Component<Props, State> {
@@ -40,16 +39,6 @@ class FeedbackGroup extends React.Component<Props, State> {
      */
     state = {
         feedbackReceived: this.props.feedbackReceived,
-    };
-
-    getTimeCreated = () => {
-        if (!this.props.timeCreated) {
-            return null;
-        }
-        return dateFormat(
-            new Date(Date.parse(this.props.timeCreated)),
-            'mmmm dS yyyy',
-        );
     };
 
     renderReceivedFeedback = () => {
@@ -96,15 +85,6 @@ class FeedbackGroup extends React.Component<Props, State> {
         if (this.props.feedbackResponseForms) {
             return (
                 <div>
-                    <Row gutter={[16, 16]}>
-                        <Col>
-                            <Typography.Title style={{ marginBottom: 0 }} level={2}>{this.props.name}</Typography.Title>
-                            <Typography.Title type="secondary" style={{ marginTop: 0 }} level={4}>{this.getTimeCreated()}</Typography.Title>
-                        </Col>
-                    </Row>
-
-                    <Divider />
-
                     <Row gutter={[16, 16]}>
                         <Col>
                             <Typography.Title level={3}>Feedback requests for you</Typography.Title>

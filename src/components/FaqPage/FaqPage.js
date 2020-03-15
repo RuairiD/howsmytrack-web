@@ -10,7 +10,7 @@ type Props = {
 class FaqPage extends React.Component<Props> {
     render() {
         return (
-            <GenericPage isMobile={this.props.isMobile}>
+            <GenericPage title="Frequently Asked Questions" isMobile={this.props.isMobile}>
                 <Faq />
             </GenericPage>
         )
