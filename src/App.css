@@ -4,16 +4,50 @@ html, body, #root, #root>div {
   height: 100vh;
 }
 
+.page-container {
+    display: flex;
+}
+
+.page-content {
+    padding: 4em;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    border-left-width: 1px;
+    border-right-right: 1px;
+}
+
 .hmt-form .ant-form-item {
-  margin-bottom: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+.mobile-menu-collapse {
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.mobile-menu-collapse .ant-collapse-item {
+    border: 0;
+    max-width: 700px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .mobile-menu-collapse > .ant-collapse-item > .ant-collapse-header {
-  font-size: 18px;
+    font-size: 18px;
 }
 
 .mobile-menu-collapse .ant-collapse-content-box {
-  padding: 0;
+    padding: 0;
+}
+
+/* On desktop, don't show Collapse panels as Drawer will open instead. */
+.mobile-menu-collapse .ant-collapse-content {
+    height: 0;
+}
+
+.menu-drawer .ant-drawer-body {
+    padding: 0;
 }
 
 .home-loading-container {
@@ -122,6 +156,14 @@ html, body, #root, #root>div {
 /* Mobile styles */
 @media only screen 
   and (max-device-width: 600px) {
+    .page-content {
+        padding: 2em;
+    }
+
+    .mobile-menu-collapse .ant-collapse-content {
+        height: auto;
+    }
+
     .home-container {
         display: block;
     }

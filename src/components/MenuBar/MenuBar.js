@@ -3,7 +3,7 @@ import ReactGA from 'react-ga';
 
 import apiRoot from '../../apiRoot';
 
-import { Affix, Badge, Collapse, Menu, Icon, Spin, Typography } from 'antd';
+import { Affix, Badge, Collapse, Drawer, Menu, Icon, Spin, Typography } from 'antd';
 import FeedbackRequestModal from '../FeedbackRequestModal/FeedbackRequestModal';
 import LoginModal from '../LoginModal/LoginModal';
 import RegisterModal from '../RegisterModal/RegisterModal';
@@ -20,7 +20,7 @@ type State = {
     isFeedbackRequestModalVisible: boolean,
     isLoginModalVisible: boolean,
     isRegisterModalVisible: boolean,
-    mobileMenuCollapsed: boolean,
+    isMenuVisible: boolean,
 };
 
 const USER_DETAILS_QUERY = `query UserDetails {
@@ -43,7 +43,7 @@ class MenuBar extends React.Component<Props, State> {
         isFeedbackRequestModalVisible: false,
         isLoginModalVisible: false,
         isRegisterModalVisible: false,
-        mobileMenuCollapsed: true,
+        isMenuVisible: false,
     };
 
     componentDidMount() {
@@ -154,7 +154,7 @@ class MenuBar extends React.Component<Props, State> {
                     <Typography.Text>
                         how's my track?
                     </Typography.Text>
-                    {this.state.mobileMenuCollapsed && <Badge
+                    {!this.state.isMenuVisible && <Badge
                         count={this.state.notifications}
                         style={{
                             marginLeft: '0.5em',
@@ -307,13 +307,19 @@ class MenuBar extends React.Component<Props, State> {
     onCollapseChange = (key) => {
         if (key.length > 0) {
             this.setState({
-                mobileMenuCollapsed: false,
+                isMenuVisible: true,
             });
         } else {
             this.setState({
-                mobileMenuCollapsed: true,
+                isMenuVisible: false,
             });
         }
+    };
+
+    onDrawerMenuClose = () => {
+        this.setState({
+            isMenuVisible: false,
+        });
     };
 
     renderMobileMenu = () => {
@@ -327,12 +333,13 @@ class MenuBar extends React.Component<Props, State> {
                     )
                 }
                 onChange={this.onCollapseChange}
+                activeKey={this.state.isMenuVisible ? "1" : null}
             >
                 <Collapse.Panel
                     header={this.renderMobileHeader()}
                     key="1"
                 >
-                    {this.renderDefaultDeviceMenu()}
+                    {this.props.isMobile && this.renderDefaultDeviceMenu()}
                 </Collapse.Panel>
             </Collapse>
         );
@@ -348,11 +355,18 @@ class MenuBar extends React.Component<Props, State> {
     renderMenuBarContent = () => {
         return (
             <div>
-                {!this.props.isMobile && <a href="/">
-                    <img alt="how's my track" src="/logo512.png" width="200px" style={{ padding: '0.5em'}} />
-                </a>}
-                {this.props.isMobile && this.renderMobileMenu()}
-                {!this.props.isMobile && this.renderDefaultDeviceMenu()}
+                {this.renderMobileMenu()}
+
+                {!this.props.isMobile && <Drawer
+                    className="menu-drawer"
+                    title="Menu"
+                    placement="left"
+                    closable={true}
+                    onClose={this.onDrawerMenuClose}
+                    visible={this.state.isMenuVisible}
+                >
+                    {this.renderDefaultDeviceMenu()}
+                </Drawer>}
 
                 <FeedbackRequestModal onCancel={this.onFeedbackRequestModalCancel} isVisible={this.state.isFeedbackRequestModalVisible} />
                 <LoginModal onCancel={this.onLoginModalCancel} isVisible={this.state.isLoginModalVisible} />
@@ -362,14 +376,7 @@ class MenuBar extends React.Component<Props, State> {
     };
 
     render() {
-        if (this.props.isMobile) {
-            return this.renderMenuBarContent();
-        }
-        return (
-            <Affix>
-                {this.renderMenuBarContent()}
-            </Affix>
-        );
+        return this.renderMenuBarContent();
     }
 }
 
