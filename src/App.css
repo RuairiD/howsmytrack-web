@@ -59,6 +59,10 @@ html, body, #root, #root>div {
     position: relative;
 }
 
+.menu-bar .ant-menu-item .anticon {
+    font-size: inherit;
+}
+
 .full-logo {
     display: flex;
 }
