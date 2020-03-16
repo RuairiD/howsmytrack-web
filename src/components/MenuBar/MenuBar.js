@@ -176,8 +176,14 @@ class MenuBar extends React.Component<Props, State> {
 
     renderSocialLinks = () => {
         return (
-            <React.Fragment>
-                <Menu.Divider className="ant-menu-item-divider" />
+            <Menu
+                theme="light"
+                onClick={this.onMenuClick}
+                style={{
+                    borderRight: 0,
+                }}
+            >
+                {this.props.isMobile && <Menu.Divider />}
                 <Menu.Item className="ant-menu-item">
                     <a href="https://twitter.com/howsmytrackcom" target="_blank" rel="noopener noreferrer">
                         <Icon type="twitter" />
@@ -190,7 +196,7 @@ class MenuBar extends React.Component<Props, State> {
                         <span>Discord</span>
                     </a>
                 </Menu.Item>
-            </React.Fragment>
+            </Menu>
         );
     };
 
@@ -221,8 +227,8 @@ class MenuBar extends React.Component<Props, State> {
                             <span>FAQ</span>
                         </a>
                     </Menu.Item>
-                    {this.renderSocialLinks()}
                 </Menu>
+                {this.renderSocialLinks()}
             </Spin>
         )
     };
@@ -267,40 +273,49 @@ class MenuBar extends React.Component<Props, State> {
 
     renderLoggedInMenu = () => {
         return (
-            <Menu
-                theme="light"
-                onClick={this.onMenuClick}
-                style={{
-                    borderRight: 0,
-                }}
-            >
-                {this.renderUserDetails()}
-                <Menu.Item key="newRequest">
-                    <Icon type="plus" />
-                    <span>New Request</span>
-                </Menu.Item>
-                <Menu.Item key="feedbackGroups">
-                    <a href="/groups">
-                        <Icon type="team" />
-                        <span>Your Groups</span>
-                        <Badge
-                            count={this.state.notifications}
-                            style={{ marginLeft: '0.5em' }}
-                        />
-                    </a>
-                </Menu.Item>
-                <Menu.Item key="faq">
-                    <a href="/faq">
-                        <Icon type="question-circle" />
-                        <span>FAQ</span>
-                    </a>
-                </Menu.Item>
-                <Menu.Item key="logout">
-                    <Icon type="user-delete" />
-                    <span>Sign Out</span>
-                </Menu.Item>
-                {this.renderSocialLinks()}
-            </Menu>
+            <React.Fragment>
+                <Menu
+                    theme="light"
+                    onClick={this.onMenuClick}
+                    style={{
+                        marginBottom: 'auto',
+                        borderRight: 0,
+                    }}
+                >
+                    {this.renderUserDetails()}
+                    <Menu.Item key="newRequest">
+                        <Icon type="plus" />
+                        <span>New Request</span>
+                    </Menu.Item>
+                    <Menu.Item key="feedbackGroups">
+                        <a href="/groups">
+                            <Icon type="team" />
+                            <span>Your Groups</span>
+                            <Badge
+                                count={this.state.notifications}
+                                style={{ marginLeft: '0.5em' }}
+                            />
+                        </a>
+                    </Menu.Item>
+                    <Menu.Item key="faq">
+                        <a href="/faq">
+                            <Icon type="question-circle" />
+                            <span>FAQ</span>
+                        </a>
+                    </Menu.Item>
+                    <Menu.Item key="logout">
+                        <Icon type="user-delete" />
+                        <span>Sign Out</span>
+                    </Menu.Item>
+                </Menu>
+                {!this.props.isMobile && <div style={{
+                    position: 'absolute',
+                    bottom: '0px',
+                }}>
+                    {this.renderSocialLinks()}
+                </div>}
+                {this.props.isMobile && this.renderSocialLinks()}
+            </React.Fragment>
         )
     };
 
@@ -347,7 +362,7 @@ class MenuBar extends React.Component<Props, State> {
 
     renderMenuBarContent = () => {
         return (
-            <div>
+            <div className="menu-bar">
                 {!this.props.isMobile && <a href="/">
                     <img alt="how's my track" src="/logo512.png" width="200px" style={{ padding: '0.5em'}} />
                 </a>}
