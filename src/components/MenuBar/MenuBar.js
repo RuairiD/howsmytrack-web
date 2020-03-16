@@ -363,8 +363,8 @@ class MenuBar extends React.Component<Props, State> {
     renderMenuBarContent = () => {
         return (
             <div className="menu-bar">
-                {!this.props.isMobile && <a href="/">
-                    <img alt="how's my track" src="/logo512.png" width="200px" style={{ padding: '0.5em'}} />
+                {!this.props.isMobile && <a href="/" style={{ display: 'flex' }}>
+                    <img alt="how's my track" src="/logo512.png" width="200px" style={{ padding: '0.5em', marginLeft: 'auto', marginRight: 'auto' }} />
                 </a>}
                 {this.props.isMobile && this.renderMobileMenu()}
                 {!this.props.isMobile && this.renderDefaultDeviceMenu()}
