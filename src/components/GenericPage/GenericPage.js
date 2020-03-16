@@ -53,7 +53,7 @@ class GenericPage extends React.Component<Props> {
                     {!this.props.hideMenu && this.props.isMobile && <MenuBar isMobile={this.props.isMobile} />}
                     <Layout.Content>
                         <Layout>
-                            {!this.props.hideMenu && !this.props.isMobile && <Layout.Sider theme="light">
+                            {!this.props.hideMenu && !this.props.isMobile && <Layout.Sider theme="light" width="256px">
                                 <MenuBar />
                             </Layout.Sider>}
                             <Layout.Content className="page-content">

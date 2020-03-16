@@ -284,7 +284,7 @@ const MenuBarContent = ({
     <Spin spinning={!hasProps}>
         <div className="menu-bar">
             {!isMobile && <a href="/" className="full-logo">
-                <img alt="how's my track" src="/logo512.png" width="200px" style={{ padding: '0.5em'}} />
+                <img alt="how's my track" src="/logo512.png" width="200px" style={{ padding: '0.5em', marginLeft: 'auto', marginRight: 'auto' }} />
             </a>}
             {isMobile && <MobileMenu
                 isMobile={isMobile}

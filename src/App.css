@@ -1,7 +1,7 @@
 @import '~antd/dist/antd.css';
 
 html, body, #root, #root>div {
-  height: 100vh;
+    height: 100vh;
 }
 
 .page-container {
@@ -42,21 +42,20 @@ html, body, #root, #root>div {
     position: relative;
 }
 
-.menu-bar .ant-menu-item {
-    font-weight: bold;
-    font-size: 14px;
+.full-logo {
+    display: flex;
 }
 
 .hmt-form .ant-form-item {
-  margin-bottom: 0.75em;
+    margin-bottom: 0.75em;
 }
 
 .mobile-menu-collapse > .ant-collapse-item > .ant-collapse-header {
-  font-size: 18px;
+    font-size: 18px;
 }
 
 .mobile-menu-collapse .ant-collapse-content-box {
-  padding: 0;
+    padding: 0;
 }
 
 .home-loading-container {
@@ -160,6 +159,17 @@ html, body, #root, #root>div {
 
 .replies-container .ant-comment-inner {
     padding: 0.25em 0;
+}
+
+/* Desktop styles */
+@media only screen 
+  and (min-device-width: 601px) {
+    .menu-bar .ant-menu-item {
+        font-weight: bold;
+        font-size: 16px;
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
 }
 
 /* Mobile styles */
