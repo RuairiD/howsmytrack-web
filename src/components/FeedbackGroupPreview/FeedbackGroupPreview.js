@@ -122,13 +122,13 @@ class FeedbackGroupPreview extends React.Component<FeedbackGroupPreviewProps> {
                         </Row>
                         <Row gutter={[16, 16]}>
                             <Col>
-                                <Typography.Text strong>For them</Typography.Text>
+                                <Typography.Text strong>Feedback for them</Typography.Text>
                                 <Progress percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={80} />
                             </Col>
                         </Row>
                         {this.props.feedbackRequestSummary.mediaUrl && <Row gutter={[16, 16]}>
                             <Col>
-                                <Typography.Text strong>For you</Typography.Text>
+                                <Typography.Text strong>Feedback for you</Typography.Text>
                                 <Progress percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={80} />
                             </Col>
                         </Row>}
