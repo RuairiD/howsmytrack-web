@@ -10,7 +10,7 @@ html, body, #root, #root>div {
 }
 
 .home .page-container {
-    background-color: #f0f2f5;
+    background: #fafafa;
 }
 
 .page-container-inner {
