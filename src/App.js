@@ -9,6 +9,7 @@ import FeedbackGroupPage from './components/FeedbackGroupPage/FeedbackGroupPage'
 import FeedbackGroupsPage from './components/FeedbackGroupsPage/FeedbackGroupsPage';
 import FaqPage from './components/FaqPage/FaqPage';
 import TrackUrlHelpPage from './components/TrackUrlHelpPage/TrackUrlHelpPage';
+import UserSettingsPage from './components/UserSettingsPage/UserSettingsPage';
 import HomePage from './components/HomePage/HomePage';
 
 
@@ -73,6 +74,11 @@ function App() {
                         <Route
                             path="/group/:feedbackGroupId"
                             render={renderFeedbackGroup}
+                        />
+                        <Route
+                            exact
+                            path="/settings"
+                            render={() => <UserSettingsPage isMobile={isMobile()} />}
                         />
                     </Switch>
                 </Suspense>

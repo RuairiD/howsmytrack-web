@@ -195,6 +195,12 @@ const LoggedInMenu = ({ onMenuClick, username, rating, notifications }) => (
                 <span>FAQ</span>
             </a>
         </Menu.Item>
+        <Menu.Item key="settings">
+            <a href="/settings">
+                <Icon type="setting" />
+                <span>Settings</span>
+            </a>
+        </Menu.Item>
         <Menu.Item key="logout">
             <Icon type="user-delete" />
             <span>Sign Out</span>
