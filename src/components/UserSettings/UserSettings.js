@@ -81,7 +81,7 @@ class EmailSettings extends React.Component<EmailSettingsProps, EmailSettingsSta
     };
 
     onSubmit = (email) => {
-        if (email == this.state.email) {
+        if (email === this.state.email) {
             return;
         }
         this.setState({
