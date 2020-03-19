@@ -20,10 +20,6 @@ class SoundcloudEmbed extends React.Component<Props> {
             return mediaUrl;
         }
         let secretToken = urlParts[5];
-        if (secretToken.length !== 7) {
-            // Not a valid secret token, probably just a public track that doesn't need a secret token.
-            return mediaUrl;
-        }
         let secretlessUrl = '';
         for (var i = 0; i < urlParts.length - 1; i++) {
             secretlessUrl = secretlessUrl + urlParts[i] + '/';
