@@ -197,6 +197,10 @@ html, body, #root, #root>div {
 /* Mobile styles */
 @media only screen 
   and (max-device-width: 600px) {
+    .page-container {
+        min-width: 100vw;
+    }
+
     .content {
         padding: 2em;
     }
