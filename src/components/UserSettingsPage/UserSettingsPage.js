@@ -46,7 +46,10 @@ class UserSettingsPage extends React.Component<Props, State> {
                     hasProps: true,
                     userDetails: data['data']['userDetails'],
                 });
-            };
+            } else {
+                // Logged out, redirect.
+                window.location.assign('/');
+            }
         });
     }
 
