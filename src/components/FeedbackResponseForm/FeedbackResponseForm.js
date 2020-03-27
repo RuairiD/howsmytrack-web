@@ -8,7 +8,6 @@ import { Alert, Button, Card, Checkbox, Col, Input, Row, Typography } from 'antd
 import ViewRepliesButton from '../ViewRepliesButton/ViewRepliesButton';
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
 import FeedbackResponseRepliesModal from '../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal';
-import { type FeedbackResponseReplyProps } from '../FeedbackResponseReply/FeedbackResponseReply';
 
 export type FeedbackResponseFormProps = {
     feedbackResponseId: number,
@@ -18,8 +17,7 @@ export type FeedbackResponseFormProps = {
     feedbackPrompt: string,
     submitted: boolean,
     allowReplies: boolean,
-    allowFurtherReplies: boolean,
-    replies: Array<FeedbackResponseReplyProps>,
+    replies: number,
     unreadReplies: number,
 };
 
@@ -195,7 +193,7 @@ class FeedbackResponseForm extends React.Component<FeedbackResponseFormProps, St
                     {this.props.allowReplies && <Row gutter={[16, 16]}>
                         <Col style={{ float: 'right' }}>
                             <ViewRepliesButton
-                                replies={this.props.replies.length}
+                                replies={this.props.replies}
                                 unreadReplies={this.props.unreadReplies}
                                 onClick={this.showRepliesModal}
                             />
@@ -203,10 +201,8 @@ class FeedbackResponseForm extends React.Component<FeedbackResponseFormProps, St
                     </Row>}
                 </div>
                 {this.props.allowReplies && <FeedbackResponseRepliesModal
-                    allowFurtherReplies={this.props.allowFurtherReplies}
                     feedbackResponseId={this.props.feedbackResponseId}
                     feedback={this.props.feedback}
-                    replies={this.props.replies}
                     onCancel={this.onRepliesModalCancel}
                     isVisible={this.state.isRepliesModalVisible}
                 />}

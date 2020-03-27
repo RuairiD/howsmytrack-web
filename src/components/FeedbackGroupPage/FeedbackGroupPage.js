@@ -44,13 +44,7 @@ const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
         mediaType
       }
       allowReplies
-      allowFurtherReplies
-      replies {
-        id
-        username
-        text
-        timeCreated
-      }
+      replies
       unreadReplies
     }
     userFeedbackResponses {
@@ -58,13 +52,7 @@ const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
       feedback
       rating
       allowReplies
-      allowFurtherReplies
-      replies {
-        id
-        username
-        text
-        timeCreated
-      }
+      replies
       unreadReplies
     }
   }
@@ -89,7 +77,6 @@ class FeedbackGroupPage extends React.Component<Props, State> {
                 'feedbackPrompt': feedbackResponse['feedbackRequest']['feedbackPrompt'],
                 'submitted': feedbackResponse['submitted'],
                 'allowReplies': feedbackResponse['allowReplies'],
-                'allowFurtherReplies': feedbackResponse['allowFurtherReplies'],
                 'replies': feedbackResponse['replies'],
                 'unreadReplies': feedbackResponse['unreadReplies'],
             });
@@ -103,7 +90,6 @@ class FeedbackGroupPage extends React.Component<Props, State> {
                     'feedback': userFeedbackResponse['feedback'],
                     'rating': userFeedbackResponse['rating'],
                     'allowReplies': userFeedbackResponse['allowReplies'],
-                    'allowFurtherReplies': userFeedbackResponse['allowFurtherReplies'],
                     'replies': userFeedbackResponse['replies'],
                     'unreadReplies': userFeedbackResponse['unreadReplies'],
                 })

@@ -6,7 +6,6 @@ import { Button, Card, Col, Rate, Row, Typography } from 'antd';
 
 import ViewRepliesButton from '../ViewRepliesButton/ViewRepliesButton';
 import FeedbackResponseRepliesModal from '../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal';
-import { type FeedbackResponseReplyProps } from '../FeedbackResponseReply/FeedbackResponseReply';
 
 export type FeedbackResponseProps = {
     feedbackReponseId: number,
@@ -14,7 +13,7 @@ export type FeedbackResponseProps = {
     rating: number,
     allowReplies: boolean,
     allowFurtherReplies: boolean,
-    replies: Array<FeedbackResponseReplyProps>,
+    replies: number,
 };
 
 type State = {
@@ -137,9 +136,9 @@ class FeedbackResponse extends React.Component<FeedbackResponseProps, State> {
                                     {!this.state.submitted && "Rate"}
                                 </Button>
                             </span>
-                            {this.props.allowReplies && <span style={{ float: 'right', paddingBottom: '0.25em' }}>
+                            {(this.props.allowReplies && this.state.submitted) && <span style={{ float: 'right', paddingBottom: '0.25em' }}>
                                 <ViewRepliesButton
-                                    replies={this.props.replies.length}
+                                    replies={this.props.replies}
                                     unreadReplies={this.props.unreadReplies}
                                     onClick={this.showRepliesModal}
                                 />
@@ -148,10 +147,8 @@ class FeedbackResponse extends React.Component<FeedbackResponseProps, State> {
                     )}
                 />
                 {this.props.allowReplies && <FeedbackResponseRepliesModal
-                    allowFurtherReplies={this.props.allowFurtherReplies}
                     feedbackResponseId={this.props.feedbackResponseId}
                     feedback={this.props.feedback}
-                    replies={this.props.replies}
                     onCancel={this.onRepliesModalCancel}
                     isVisible={this.state.isRepliesModalVisible}
                 />}

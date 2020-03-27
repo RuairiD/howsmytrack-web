@@ -2,7 +2,7 @@ import React from 'react';
 
 import apiRoot from '../../apiRoot';
 
-import { Alert, Button, Checkbox, Col, Input, Modal, Row, Typography } from 'antd';
+import { Alert, Button, Checkbox, Col, Input, Modal, Row, Spin, Typography } from 'antd';
 
 import FeedbackResponseReply from '../FeedbackResponseReply/FeedbackResponseReply';
 import { type FeedbackResponseReplyProps } from '../FeedbackResponseReply/FeedbackResponseReply';
@@ -10,17 +10,18 @@ import { type FeedbackResponseReplyProps } from '../FeedbackResponseReply/Feedba
 type Props = {
     onCancel: () => void,
     isVisible: boolean,
-    allowFurtherReplies: boolean,
     feedbackResponseId: number,
     feedback: string,
-    replies: Array<FeedbackResponseReplyProps>,
 };
 
 type State = {
+    allowFurtherReplies: boolean,
+    replies: Array<FeedbackResponseReplyProps>,
+    getRepliesRequestSent: boolean,
+    addReplyRequestSent: boolean,
     // When the modal first loads, we want to scroll to the
     // most recent reply. Only once though; we don't care after that.
     scrolledToLastReply: boolean,
-    requestSent: boolean,
     errorMessage: string,
     submitted: boolean,
     replyText: string,
@@ -31,6 +32,18 @@ type State = {
     topShadowOpacity: number,
     bottomShadowOpacity: number,
 };
+
+const REPLIES_QUERY = `query Replies($feedbackResponseId: Int!) {
+    replies(feedbackResponseId: $feedbackResponseId) {
+        allowFurtherReplies
+        replies {
+            id
+            username
+            text
+            timeCreated
+        }
+    }
+}`;
 
 const ADD_FEEDBACK_RESPONSE_REPLY_MUTATION = `mutation AddFeedbackResponseReply($feedbackResponseId: Int!, $text: String!, $allowReplies: Boolean!) {
     addFeedbackResponseReply(feedbackResponseId: $feedbackResponseId, text: $text, allowReplies: $allowReplies) {
@@ -51,8 +64,11 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
      * Component for displaying modal for submitting a feedback request.
      */
     state = {
+        allowFurtherReplies: false,
+        replies: [],
         scrolledToLastReply: false,
-        requestSent: false,
+        getRepliesRequestSent: false,
+        addReplyRequestSent: false,
         errorMessage: null,
         submitted: false,
         replyText: '',
@@ -62,7 +78,7 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
         bottomShadowOpacity: 0,
     };
 
-    scrollToBottomOfContainer = (container) => {
+    onModalVisible = (container) => {
         if (container && this.props.isVisible && !this.state.scrolledToLastReply) {
             container.scrollTop = container.scrollHeight;
             // Mark all replies as read when the modal is first visible.
@@ -70,12 +86,46 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
             // logged-in user will be marked as read as obviously marking
             // all replies as read (including the other user's) would be
             // very confusing.
-            this.markRepliesAsRead();
+            this.getReplies();
             this.onContainerScroll({ target: container });
             this.setState({
                 scrolledToLastReply: true,
             });
         }
+    };
+
+    getReplies = () => {
+        this.setState({
+            getRepliesRequestSent: true,
+        });
+        fetch(apiRoot +'/graphql/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query: REPLIES_QUERY,
+                variables: { feedbackResponseId: this.props.feedbackResponseId },
+            }),
+            credentials: 'include',
+        }).then(result =>
+            result.json()
+        ).then((data) => {
+            this.setState({
+                getRepliesRequestSent: false,
+            });
+            // No data can be received when user has not rated the feedback they
+            // are attempting to read replies to.
+            if (!data['data']['replies']) {
+                return;
+            }
+            this.setState({
+                allowFurtherReplies: data['data']['replies']['allowFurtherReplies'],
+                replies: data['data']['replies']['replies'],
+            });
+            this.markRepliesAsRead();
+        });
     };
 
     onReplyTextChange = (event) => {
@@ -111,9 +161,9 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
         }
     };
 
-    onSubmit = () => {
+    onAddReplySubmit = () => {
         this.setState({
-            requestSent: true,
+            addReplyRequestSent: true,
         })
         return fetch(apiRoot +'/graphql/', {
             method: 'POST',
@@ -134,7 +184,7 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
             result.json()
         ).then((data) => {
             this.setState({
-                requestSent: false,
+                addReplyRequestSent: false,
                 submitted: data['data']['addFeedbackResponseReply'].success,
                 errorMessage: data['data']['addFeedbackResponseReply'].error,
             });
@@ -150,10 +200,10 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
     
     markRepliesAsRead = () => {
         let replyIds = [];
-        for (let reply of this.props.replies) {
+        for (let reply of this.state.replies) {
             replyIds.push(reply.id);
         }
-        return fetch(apiRoot +'/graphql/', {
+        return fetch(apiRoot + '/graphql/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -178,85 +228,87 @@ class FeedbackResponseRepliesModal extends React.Component<Props, State> {
                 footer={null}
                 className="responsive-modal"
             >
-                <div className="scrollable-container">
-                    <div
-                        className="shadow shadow-top"
-                        style={{
-                            opacity: this.state.topShadowOpacity,
-                        }}
-                    />
-                    <div
-                        onScroll={this.onContainerScroll}
-                        className={this.state.allowingScrolling && "replies-container"}
-                        ref={(container) => { this.scrollToBottomOfContainer(container) }}
-                    >
-                        <Typography.Paragraph style={{
-                            overflowWrap: 'break-word',
-                            wordWrap: 'break-word',
-                        }}>
-                            <Typography.Text strong>Original Feedback: </Typography.Text>"{this.props.feedback}"
-                        </Typography.Paragraph>
-                        {this.props.replies.map((reply, i) => (
-                            <FeedbackResponseReply
-                                key={i}
-                                username={reply.username}
-                                text={reply.text}
-                                timeCreated={reply.timeCreated}
-                            />
-                        ))}
-                    </div>
-                    <div
-                        className="shadow shadow-bottom"
-                        style={{
-                            opacity: this.state.bottomShadowOpacity,
-                        }}
-                    />
-                </div>
-                <div style={{ padding: '0.5em 0' }}>
-                    {this.props.allowFurtherReplies && <div>
-                        <Row gutter={[16, 16]}>
-                            <Col>
-                                {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" showIcon />}
-                                {this.state.submitted && <Alert message="Reply Sent" type="success" showIcon />}
-                            </Col>
-                        </Row>
-                        <Row gutter={[16, 16]}>
-                            <Col>
-                                <Input.TextArea
-                                    placeholder="Write your reply..."
-                                    value={this.state.replyText}
-                                    onChange={this.onReplyTextChange}
-                                    rows={2}
-                                    disabled={this.state.submitted || !this.props.allowFurtherReplies}
-                                    autoFocus
+                <Spin spinning={this.state.getRepliesRequestSent}>
+                    <div className="scrollable-container">
+                        <div
+                            className="shadow shadow-top"
+                            style={{
+                                opacity: this.state.topShadowOpacity,
+                            }}
+                        />
+                        <div
+                            onScroll={this.onContainerScroll}
+                            className={this.state.allowingScrolling ? "replies-container" : null}
+                            ref={(container) => { this.onModalVisible(container) }}
+                        >
+                            <Typography.Paragraph style={{
+                                overflowWrap: 'break-word',
+                                wordWrap: 'break-word',
+                            }}>
+                                <Typography.Text strong>Original Feedback: </Typography.Text>"{this.props.feedback}"
+                            </Typography.Paragraph>
+                            {this.state.replies.map((reply, i) => (
+                                <FeedbackResponseReply
+                                    key={i}
+                                    username={reply.username}
+                                    text={reply.text}
+                                    timeCreated={reply.timeCreated}
                                 />
-                            </Col>
-                        </Row>
-                        <Row gutter={[16, 16]}>
-                            <Col style={{ display: 'flex' }}>
-                                <Checkbox
-                                    checked={this.state.allowReplies}
-                                    onChange={this.onAllowRepliesChange}
-                                    style={{ marginRight: 'auto' }}
-                                >
-                                    Allow additional replies.
-                                </Checkbox>
-                                <Button
-                                    type="primary"
-                                    loading={this.state.requestSent}
-                                    disabled={this.state.submitted || !this.props.allowFurtherReplies || !this.state.replyText}
-                                    onClick={this.onSubmit}
-                                    style={{ marginLeft: 'auto' }}
-                                >
-                                    Send Reply
-                                </Button>
-                            </Col>
-                        </Row>
-                    </div>}
-                    {!this.props.allowFurtherReplies && <Typography.Text strong>
-                        Additional replies have been disabled for this conversation.
-                    </Typography.Text>}
-                </div>
+                            ))}
+                        </div>
+                        <div
+                            className="shadow shadow-bottom"
+                            style={{
+                                opacity: this.state.bottomShadowOpacity,
+                            }}
+                        />
+                    </div>
+                    <div style={{ padding: '0.5em 0' }}>
+                        {this.state.allowFurtherReplies && <div>
+                            <Row gutter={[16, 16]}>
+                                <Col>
+                                    {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" showIcon />}
+                                    {this.state.submitted && <Alert message="Reply Sent" type="success" showIcon />}
+                                </Col>
+                            </Row>
+                            <Row gutter={[16, 16]}>
+                                <Col>
+                                    <Input.TextArea
+                                        placeholder="Write your reply..."
+                                        value={this.state.replyText}
+                                        onChange={this.onReplyTextChange}
+                                        rows={2}
+                                        disabled={this.state.submitted || !this.state.allowFurtherReplies}
+                                        autoFocus
+                                    />
+                                </Col>
+                            </Row>
+                            <Row gutter={[16, 16]}>
+                                <Col style={{ display: 'flex' }}>
+                                    <Checkbox
+                                        checked={this.state.allowReplies}
+                                        onChange={this.onAllowRepliesChange}
+                                        style={{ marginRight: 'auto' }}
+                                    >
+                                        Allow additional replies.
+                                    </Checkbox>
+                                    <Button
+                                        type="primary"
+                                        loading={this.state.addReplyRequestSent}
+                                        disabled={this.state.submitted || !this.state.allowFurtherReplies || !this.state.replyText}
+                                        onClick={this.onAddReplySubmit}
+                                        style={{ marginLeft: 'auto' }}
+                                    >
+                                        Send Reply
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </div>}
+                        {!this.state.allowFurtherReplies && <Typography.Text strong>
+                            Additional replies have been disabled for this conversation.
+                        </Typography.Text>}
+                    </div>
+                </Spin>
             </Modal>
         );
     }
