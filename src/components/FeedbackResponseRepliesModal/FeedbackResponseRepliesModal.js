@@ -1,8 +1,6 @@
 import React from 'react';
 
-import apiRoot from '../../apiRoot';
-
-import { Alert, Button, Checkbox, Col, Input, Modal, Row, Spin, Typography } from 'antd';
+import { Modal } from 'antd';
 
 import FeedbackResponseReplies from '../FeedbackResponseReplies/FeedbackResponseReplies';
 
