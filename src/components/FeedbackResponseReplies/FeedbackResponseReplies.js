@@ -80,7 +80,7 @@ class FeedbackResponseReplies extends React.Component<Props, State> {
         bottomShadowOpacity: 0,
     };
 
-    containerRef = null;
+    repliesContainer = null;
 
     componentDidMount() {
         this.getReplies();
@@ -245,7 +245,7 @@ class FeedbackResponseReplies extends React.Component<Props, State> {
                         }}
                     />
                     <div
-                        onScroll={this.onContainerScroll}
+                        onScroll={this.onRepliesContainerScroll}
                         className={this.state.allowingScrolling ? "replies-container" : null}
                         ref={(container) => { this.setRepliesContainer(container) }}
                     >
@@ -311,7 +311,7 @@ class FeedbackResponseReplies extends React.Component<Props, State> {
                             </Col>
                         </Row>
                     </div>}
-                    {!this.state.allowFurtherReplies && <Typography.Text strong>
+                    {(!this.state.getRepliesRequestSent && !this.state.allowFurtherReplies) && <Typography.Text strong>
                         Additional replies have been disabled for this conversation.
                     </Typography.Text>}
                 </div>
