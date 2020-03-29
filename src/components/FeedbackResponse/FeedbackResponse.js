@@ -136,13 +136,11 @@ class FeedbackResponse extends React.Component<FeedbackResponseProps, State> {
                                     {!this.state.submitted && "Rate"}
                                 </Button>
                             </span>
-                            {(this.props.allowReplies && this.state.submitted) && <span style={{ float: 'right', paddingBottom: '0.25em' }}>
-                                <ViewRepliesButton
-                                    replies={this.props.replies}
-                                    unreadReplies={this.props.unreadReplies}
-                                    onClick={this.showRepliesModal}
-                                />
-                            </span>}
+                            {(this.props.allowReplies && this.state.submitted) && <ViewRepliesButton
+                                replies={this.props.replies}
+                                unreadReplies={this.props.unreadReplies}
+                                onClick={this.showRepliesModal}
+                            />}
                         </div>
                     )}
                 />

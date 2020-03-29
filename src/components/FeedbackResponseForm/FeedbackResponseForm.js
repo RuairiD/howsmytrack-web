@@ -191,7 +191,7 @@ class FeedbackResponseForm extends React.Component<FeedbackResponseFormProps, St
                         </Col>
                     </Row>
                     {this.props.allowReplies && <Row gutter={[16, 16]}>
-                        <Col style={{ float: 'right' }}>
+                        <Col>
                             <ViewRepliesButton
                                 replies={this.props.replies}
                                 unreadReplies={this.props.unreadReplies}

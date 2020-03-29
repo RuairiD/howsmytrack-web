@@ -26,16 +26,32 @@ class ViewRepliesButton extends React.Component<Props> {
         return repliesText;
     };
 
+    getBadgeTitle = () => {
+        if (this.unreadReplies === 1) {
+            return '1 unread reply';
+        }
+        return this.unreadReplies + ' unread replies';
+    };
+
     render() {
         return (
-            <div style={{ paddingRight: '20px' }}>
-                <Badge count={this.props.unreadReplies}>
-                    <Button onClick={this.props.onClick}>
-                        <Icon type="message" />
-                        {this.renderRepliesText()}
-                    </Button>
-                </Badge>
-            </div>
+            <Button
+                block
+                onClick={this.props.onClick}
+                style={{
+                    marginTop: '0.5em',
+                }}
+            >
+                <Icon type="message" />
+                {this.renderRepliesText()}
+                <Badge
+                    style={{
+                        marginLeft: '0.5em',
+                    }}
+                    count={this.props.unreadReplies}
+                    title={this.getBadgeTitle()}
+                />
+            </Button>
         );
     }
 }
