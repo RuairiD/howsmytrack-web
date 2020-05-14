@@ -13,7 +13,7 @@ class Faq extends React.Component<Props> {
         {
             id: "what-is-hows-my-track",
             question: "But actually, what is How's My Track?",
-            answer: (<Typography.Paragraph><em>how's my track?</em> is a website for musicians to share their work and solicit feedback from eachother. Users may submit one track for feedback per day. Users are then put into groups of 4. Each user can then listen to each other's submitted track and leave feedback. Once a user has left feedback for everyone in their group, the feedback left for their own track will be visible to them. </Typography.Paragraph>)
+            answer: (<Typography.Paragraph><em>how's my track?</em> is a website for musicians to share their work and solicit feedback from each other. Users may submit one track for feedback per day. Users are then put into groups of around four. Each user can then listen to each other's submitted track and leave feedback. Once a user has left feedback for everyone in their group, the feedback left for their own track will be visible to them. </Typography.Paragraph>)
         },
         {
             id: "why-does-hows-my-track-exist",
@@ -35,7 +35,7 @@ class Faq extends React.Component<Props> {
         },
         {
             id: "how-can-i-get-the-correct-track-url",
-            question: "How can get the correct track URL for my platform of choice?",
+            question: "How can I get the correct track URL for my platform of choice?",
             answer: (<Typography.Paragraph><a href="/trackurlhelp">Check out our guide.</a></Typography.Paragraph>)
         },
         {

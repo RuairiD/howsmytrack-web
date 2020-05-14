@@ -1,9 +1,12 @@
 import React from 'react';
 import dateFormat from 'dateformat';
 
-import { Badge, Button, Card, Row, Col, Progress, Typography } from 'antd';
+import { Badge, Button, Card, Row, Col, Icon, Progress, Tooltip, Typography } from 'antd';
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
 import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/FeedbackRequestSummary';
+
+const FEEDBACK_FOR_THEM_TOOLTIP = "How many tracks you've written feedback for in this group."
+const FEEDBACK_FOR_YOU_TOOLTIP = "How many members of this group have written feedback for your track (this number is hidden if you have not yet written feedback for everyone in your group)"
 
 export type FeedbackGroupPreviewProps = {
     feedbackGroupId: number,
@@ -123,12 +126,22 @@ class FeedbackGroupPreview extends React.Component<FeedbackGroupPreviewProps> {
                         <Row gutter={[16, 16]}>
                             <Col>
                                 <Typography.Text strong>Feedback for them</Typography.Text>
+                                <Tooltip
+                                    title={FEEDBACK_FOR_THEM_TOOLTIP}
+                                >
+                                    <Button type="link"><Icon type="question-circle" /></Button>
+                                </Tooltip>
                                 <Progress percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={80} />
                             </Col>
                         </Row>
                         {this.props.feedbackRequestSummary.mediaUrl && <Row gutter={[16, 16]}>
                             <Col>
                                 <Typography.Text strong>Feedback for you</Typography.Text>
+                                <Tooltip
+                                    title={FEEDBACK_FOR_YOU_TOOLTIP}
+                                >
+                                    <Button type="link"><Icon type="question-circle" /></Button>
+                                </Tooltip>
                                 <Progress percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={80} />
                             </Col>
                         </Row>}
