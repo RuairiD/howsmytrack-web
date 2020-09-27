@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactGA from 'react-ga';
 
 import apiRoot from '../../apiRoot';
@@ -10,17 +10,6 @@ import RegisterModal from '../RegisterModal/RegisterModal';
 
 type Props = {
     isMobile: boolean,
-};
-
-type State = {
-    hasProps: boolean,
-    username: string,
-    rating: number,
-    notifications: number,
-    isFeedbackRequestModalVisible: boolean,
-    isLoginModalVisible: boolean,
-    isRegisterModalVisible: boolean,
-    mobileMenuCollapsed: boolean,
 };
 
 const USER_DETAILS_QUERY = `query UserDetails {
@@ -316,20 +305,49 @@ const MenuBarContent = ({
     </Spin>
 );
 
-class MenuBar extends React.Component<Props, State> {
+const MenuBar = ({ isMobile }: Props) => {
     /*
      * Component for displaying page sidebar with menu links, or for mobile,
-     * displaying a menu at the top of the screen. See TODO above.
+     * displaying a menu at the top of the screen.
      */
-    state = {
-        hasProps: false,
-        isFeedbackRequestModalVisible: false,
-        isLoginModalVisible: false,
-        isRegisterModalVisible: false,
-        mobileMenuCollapsed: true,
+    const [hasProps, setHasProps] = useState(false);
+    const [username, setUsername] = useState(null);
+    const [rating, setRating] = useState(null);
+    const [notifications, setNotifications] = useState(null);
+    const [isFeedbackRequestModalVisible, setIsFeedbackRequestModalVisible] = useState(false);
+    const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
+    const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(false);
+    const [mobileMenuCollapsed, setMobileMenuCollapsed] = useState(true);
+
+    const logout = () => {
+        return fetch(apiRoot + '/logout/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            credentials: 'include',
+        })
     };
 
-    componentDidMount() {
+    const menuActions = {
+        newRequest: () => {
+            setIsFeedbackRequestModalVisible(true);
+        },
+        login: () => {
+            setIsLoginModalVisible(true);
+        },
+        register: () => {
+            setIsRegisterModalVisible(true);
+        },
+        logout: () => {
+            logout().then(() =>
+                window.location.assign('/')
+            );
+        },
+    };
+
+    useEffect(() => {
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -345,62 +363,23 @@ class MenuBar extends React.Component<Props, State> {
         ).then((data) => {
             if (!data['data']['userDetails']) {
                 // No user found; user isn't logged in.
-                this.setState({
-                    hasProps: true,
-                })
+                setHasProps(true);
                 // Clear the JWT cookie in case it was mangled somehow.
-                this.logout();
+                logout();
                 return
             }
-            this.setState({
-                hasProps: true,
-                username: data['data']['userDetails']['username'],
-                rating: data['data']['userDetails']['rating'],
-                notifications: data['data']['userDetails']['notifications'],
-            });
+            setHasProps(true);
+            setUsername(data['data']['userDetails']['username']);
+            setRating(data['data']['userDetails']['rating']);
+            setNotifications(data['data']['userDetails']['notifications']);
             ReactGA.set({
                 username: data['data']['userDetails']['username'],
             });
         });
-    }
+    }, []);
 
-    logout = () => {
-        return fetch(apiRoot + '/logout/', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            credentials: 'include',
-        })
-    };
-
-    menuActions = {
-        newRequest: () => {
-            this.setState({
-                isFeedbackRequestModalVisible: true,
-            })
-        },
-        login: () => {
-            this.setState({
-                isLoginModalVisible: true,
-            })
-        },
-        register: () => {
-            this.setState({
-                isRegisterModalVisible: true,
-            })
-        },
-        logout: () => {
-            this.logout().then(() =>
-                window.location.assign('/')
-            );
-        },
-    };
-
-    onMenuClick = (event) => {
-        console.log(event.key);
-        let menuAction = this.menuActions[event.key];
+    const onMenuClick = (event) => {
+        let menuAction = menuActions[event.key];
         ReactGA.event({
             category: GA_MENU_BAR_CATEGORY,
             action: event.key,
@@ -410,77 +389,53 @@ class MenuBar extends React.Component<Props, State> {
         }
     };
     
-    onFeedbackRequestModalCancel = () => {
-        this.setState({
-            isFeedbackRequestModalVisible: false,
-        })
+    const onFeedbackRequestModalCancel = () => {
+        setIsFeedbackRequestModalVisible(false);
     };
 
-    onLoginModalCancel = () => {
-        this.setState({
-            isLoginModalVisible: false,
-        })
+    const onLoginModalCancel = () => {
+        setIsLoginModalVisible(false);
     };
 
-    onRegisterModalCancel = () => {
-        this.setState({
-            isRegisterModalVisible: false,
-        })
+    const onRegisterModalCancel = () => {
+        setIsRegisterModalVisible(false);
     };
 
-    onCollapseChange = (key) => {
+    const onCollapseChange = (key) => {
         if (key.length > 0) {
-            this.setState({
-                mobileMenuCollapsed: false,
-            });
+            setMobileMenuCollapsed(false);
         } else {
-            this.setState({
-                mobileMenuCollapsed: true,
-            });
+            setMobileMenuCollapsed(true);
         }
     };
 
-    render() {
-        if (this.props.isMobile) {
-            return (
-                <MenuBarContent
-                    isMobile={this.props.isMobile}
-                    hasProps={this.state.hasProps}
-                    onMenuClick={this.onMenuClick}
-                    username={this.state.username}
-                    rating={this.state.rating}
-                    notifications={this.state.notifications}
-                    isFeedbackRequestModalVisible={this.state.isFeedbackRequestModalVisible}
-                    onFeedbackRequestModalCancel={this.onFeedbackRequestModalCancel}
-                    isLoginModalVisible={this.state.isLoginModalVisible}
-                    onLoginModalCancel={this.onLoginModalCancel}
-                    isRegisterModalVisible={this.state.isRegisterModalVisible}
-                    onRegisterModalCancel={this.onRegisterModalCancel}
-                    onCollapseChange={this.onCollapseChange}
-                />
-            );
-        }
-        return (
-            <Affix>
-                <MenuBarContent
-                    isMobile={this.props.isMobile}
-                    hasProps={this.state.hasProps}
-                    onMenuClick={this.onMenuClick}
-                    username={this.state.username}
-                    rating={this.state.rating}
-                    notifications={this.state.notifications}
-                    isFeedbackRequestModalVisible={this.state.isFeedbackRequestModalVisible}
-                    onFeedbackRequestModalCancel={this.onFeedbackRequestModalCancel}
-                    isLoginModalVisible={this.state.isLoginModalVisible}
-                    onLoginModalCancel={this.onLoginModalCancel}
-                    isRegisterModalVisible={this.state.isRegisterModalVisible}
-                    onRegisterModalCancel={this.onRegisterModalCancel}
-                    mobileMenuCollapsed={this.state.mobileMenuCollapsed}
-                    onCollapseChange={this.onCollapseChange}
-                />
-            </Affix>
-        );
+    const menuBarContent = (
+        <MenuBarContent
+            isMobile={isMobile}
+            hasProps={hasProps}
+            onMenuClick={onMenuClick}
+            username={username}
+            rating={rating}
+            notifications={notifications}
+            isFeedbackRequestModalVisible={isFeedbackRequestModalVisible}
+            onFeedbackRequestModalCancel={onFeedbackRequestModalCancel}
+            isLoginModalVisible={isLoginModalVisible}
+            onLoginModalCancel={onLoginModalCancel}
+            isRegisterModalVisible={isRegisterModalVisible}
+            onRegisterModalCancel={onRegisterModalCancel}
+            mobileMenuCollapsed={mobileMenuCollapsed}
+            onCollapseChange={onCollapseChange}
+        />
+    );
+
+    if (isMobile) {
+        return menuBarContent;
     }
+    return (
+        <Affix>
+            {menuBarContent}
+        </Affix>
+    );
 }
 
 export default MenuBar;
