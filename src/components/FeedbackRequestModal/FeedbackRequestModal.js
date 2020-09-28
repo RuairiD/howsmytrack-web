@@ -8,24 +8,23 @@ type Props = {
     isVisible: boolean,
 };
 
-class FeedbackRequestModal extends React.Component<Props> {
-    /*
-     * Component for displaying modal for submitting a feedback request.
-     */
-    render() {
-        return (
-            <Modal
-                title="New Feedback Request"
-                onCancel={this.props.onCancel}
-                visible={this.props.isVisible}
-                footer={null}
-                destroyOnClose
-                className="responsive-modal"
-            >
-                <CreateFeedbackRequestForm />
-            </Modal>
-        );
-    }
-}
+/*
+    * Component for displaying modal for submitting a feedback request.
+    */
+const FeedbackRequestModal = ({
+    onCancel,
+    isVisible,
+}: Props)  => (
+    <Modal
+        title="New Feedback Request"
+        onCancel={onCancel}
+        visible={isVisible}
+        footer={null}
+        destroyOnClose
+        className="responsive-modal"
+    >
+        <CreateFeedbackRequestForm />
+    </Modal>
+);
 
 export default FeedbackRequestModal;

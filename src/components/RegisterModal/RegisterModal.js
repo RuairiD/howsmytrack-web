@@ -8,25 +8,24 @@ type Props = {
     isVisible: boolean,
 };
 
-class RegisterModal extends React.Component<Props> {
-    /*
-     * Component for displaying modal containing RegisterForm for
-     * signing up new users.
-     */
-    render() {
-        return (
-            <Modal
-                title="Register"
-                onCancel={this.props.onCancel}
-                visible={this.props.isVisible}
-                footer={null}
-                destroyOnClose
-                className="responsive-modal"
-            >
-                <RegisterForm />
-            </Modal>
-        );
-    }
-}
+/*
+ * Component for displaying modal containing RegisterForm for
+ * signing up new users.
+ */
+const RegisterModal = ({
+    onCancel,
+    isVisible,
+}: Props)  => (
+    <Modal
+        title="Register"
+        onCancel={onCancel}
+        visible={isVisible}
+        footer={null}
+        destroyOnClose
+        className="responsive-modal"
+    >
+        <RegisterForm />
+    </Modal>
+);
 
 export default RegisterModal;

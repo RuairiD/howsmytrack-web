@@ -13,30 +13,34 @@ type Props = {
     genre: string,
 };
 
-class EditFeedbackRequestModal extends React.Component<Props> {
-    /*
-     * Component for displaying modal for editing a feedback request.
-     */
-    render() {
-        return (
-            <Modal
-                title="Edit Feedback Request"
-                onCancel={this.props.onCancel}
-                visible={this.props.isVisible}
-                footer={null}
-                destroyOnClose
-                className="responsive-modal"
-            >
-                <EditFeedbackRequestForm
-                    feedbackRequestId={this.props.feedbackRequestId}
-                    mediaUrl={this.props.mediaUrl}
-                    feedbackPrompt={this.props.feedbackPrompt}
-                    emailWhenGrouped={this.props.emailWhenGrouped}
-                    genre={this.props.genre}
-                />
-            </Modal>
-        );
-    }
-}
+/*
+ * Component for displaying modal for editing a feedback request.
+ */
+const EditFeedbackRequestModal = ({
+    onCancel,
+    isVisible,
+    feedbackRequestId,
+    mediaUrl,
+    feedbackPrompt,
+    emailWhenGrouped,
+    genre,
+}: Props)  => (
+    <Modal
+        title="Edit Feedback Request"
+        onCancel={onCancel}
+        visible={isVisible}
+        footer={null}
+        destroyOnClose
+        className="responsive-modal"
+    >
+        <EditFeedbackRequestForm
+            feedbackRequestId={feedbackRequestId}
+            mediaUrl={mediaUrl}
+            feedbackPrompt={feedbackPrompt}
+            emailWhenGrouped={emailWhenGrouped}
+            genre={genre}
+        />
+    </Modal>
+);
 
 export default EditFeedbackRequestModal;

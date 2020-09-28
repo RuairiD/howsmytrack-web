@@ -8,25 +8,24 @@ export type FeedbackResponseReplyProps = {
     text: string,
     timeCreated: string,
 };
-
-class FeedbackResponseReply extends React.Component<FeedbackResponseReplyProps> {
-    /*
-     * Component for showing a reply to some feedback as part of a thread.
-     */
-    render() {
-        return (
-            <Comment
-                author={this.props.username}
-                content={this.props.text}
-                datetime={dateFormat(
-                    new Date(
-                        Date.parse(this.props.timeCreated)
-                    ),
-                    'mmmm dS yyyy h:MM TT',
-                )}
-            />
-        );
-    }
-}
+/*
+ * Component for showing a reply to some feedback as part of a thread.
+ */
+const FeedbackResponseReply = ({
+    username,
+    text,
+    timeCreated,
+}: FeedbackResponseReplyProps) => (
+    <Comment
+        author={username}
+        content={text}
+        datetime={dateFormat(
+            new Date(
+                Date.parse(timeCreated)
+            ),
+            'mmmm dS yyyy h:MM TT',
+        )}
+    />
+);
 
 export default FeedbackResponseReply;
