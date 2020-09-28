@@ -110,7 +110,7 @@ const FeedbackGroupPage = ({ feedbackGroupId, isMobile }: Props) => {
             credentials: 'include',
         }).then(result =>
             result.json()
-        ).then((data) =>
+        ).then(data =>
             data.data.feedbackGroup
         )
     );
