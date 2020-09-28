@@ -7,14 +7,12 @@ type Props = {
     isMobile: boolean,
 };
 
-class TrackUrlHelpPage extends React.Component<Props> {
-    render() {
-        return (
-            <GenericPage title="How do I get the correct track URL?" isMobile={this.props.isMobile}>
-                <TrackUrlHelp />
-            </GenericPage>
-        )
-    }
+const TrackUrlHelpPage = ({ isMobile }: Props) => {
+    return (
+        <GenericPage title="How do I get the correct track URL?" isMobile={isMobile}>
+            <TrackUrlHelp />
+        </GenericPage>
+    );
 }
 
 export default TrackUrlHelpPage;

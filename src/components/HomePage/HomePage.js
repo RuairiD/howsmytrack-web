@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import apiRoot from '../../apiRoot';
 
@@ -12,10 +12,6 @@ type Props = {
     isMobile: boolean,
 };
 
-type State = {
-    isLoggedIn: boolean,
-};
-
 const USER_DETAILS_QUERY = `query UserDetails {
   userDetails {
     username
@@ -23,12 +19,10 @@ const USER_DETAILS_QUERY = `query UserDetails {
   }
 }`;
 
-class HomePage extends React.Component<Props, State> {
-    state = {
-        isLoggedIn: null,
-    };
+const HomePage = ({ isMobile }: Props) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-    componentDidMount() {
+    useEffect(() => {
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -44,51 +38,45 @@ class HomePage extends React.Component<Props, State> {
         ).then((data) => {
             if (!data['data']['userDetails']) {
                 // User isn't logged in or has an unreadable token, skip.
-                this.setState({
-                    isLoggedIn: false,
-                });
+                setIsLoggedIn(false);
             } else {
-                this.setState({
-                    isLoggedIn: !!data['data']['userDetails']['username'],
-                });
+                setIsLoggedIn(!!data['data']['userDetails']['username']);
             }
         });
-    }
+    }, [])
 
-    render() {
-        if (this.state.isLoggedIn === null) {
-            return (
-                <div className="home-loading-container">
-                    <Spin 
-                        className="home-loading-spin"
-                        size="large"
-                        indicator={(
-                            <img
-                                alt=""
-                                src="/logo128.png"
-                            />
-                        )}
-                    />
-                </div>
-            );
-        }
-        if (this.state.isLoggedIn) {
-            return (<FeedbackGroupsPage isMobile={this.props.isMobile} />);
-        }
+    if (isLoggedIn === null) {
         return (
-            <div className="home">
-                <GenericPage hideMenu isMobile={this.props.isMobile}>
-                    <div style={{ textAlign: 'center' }}>
-                        <div className="home-container">
-                            <LandingPitch isMobile={this.props.isMobile} />
-                            <Divider />
-                            <Faq />
-                        </div>
-                    </div>
-                </GenericPage>
+            <div className="home-loading-container">
+                <Spin 
+                    className="home-loading-spin"
+                    size="large"
+                    indicator={(
+                        <img
+                            alt=""
+                            src="/logo128.png"
+                        />
+                    )}
+                />
             </div>
         );
     }
-}
+    if (isLoggedIn) {
+        return (<FeedbackGroupsPage isMobile={isMobile} />);
+    }
+    return (
+        <div className="home">
+            <GenericPage hideMenu isMobile={isMobile}>
+                <div style={{ textAlign: 'center' }}>
+                    <div className="home-container">
+                        <LandingPitch isMobile={isMobile} />
+                        <Divider />
+                        <Faq />
+                    </div>
+                </div>
+            </GenericPage>
+        </div>
+    );
+};
 
 export default HomePage;

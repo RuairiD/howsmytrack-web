@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import apiRoot from '../../apiRoot';
 
@@ -9,11 +9,6 @@ type Props = {
     isMobile: boolean,
 };
 
-type State = {
-    hasProps: boolean,
-    userDetails: UserSettingsProps,
-};
-
 const USER_DETAILS_QUERY = `query UserDetails {
   userDetails {
     username
@@ -21,13 +16,11 @@ const USER_DETAILS_QUERY = `query UserDetails {
   }
 }`;
 
-class UserSettingsPage extends React.Component<Props, State> {
-    state = {
-        hasProps: false,
-        userDetails: null,
-    }
+const UserSettingsPage = ({ isMobile }: Props) => {
+    const [hasProps, setHasProps] = useState(false);
+    const [userDetails, setUserDetails] = useState(null);
 
-    componentDidMount() {
+    useEffect(() => {
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -42,27 +35,27 @@ class UserSettingsPage extends React.Component<Props, State> {
             result.json()
         ).then((data) => {
             if (data['data']['userDetails']) {
-                this.setState({
-                    hasProps: true,
-                    userDetails: data['data']['userDetails'],
-                });
+                setUserDetails(data['data']['userDetails']);
+                setHasProps(true);
             } else {
                 // Logged out, redirect.
                 window.location.assign('/');
             }
         });
-    }
+    }, []);
 
-    render() {
-        return this.state.hasProps && (
-            <GenericPage title="Settings" isMobile={this.props.isMobile}>
+    if (hasProps) {
+        return (
+            <GenericPage title="Settings" isMobile={isMobile}>
                 <UserSettings
-                    email={this.state.userDetails.username}
-                    sendReminderEmails={this.state.userDetails.sendReminderEmails}
+                    email={userDetails.username}
+                    sendReminderEmails={userDetails.sendReminderEmails}
                 />
             </GenericPage>
-        )
+        );
     }
+
+    return null;
 }
 
 export default UserSettingsPage;

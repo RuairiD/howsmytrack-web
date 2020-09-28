@@ -1,22 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import apiRoot from '../../apiRoot';
 
 import GenericPage from '../GenericPage/GenericPage';
 import FeedbackGroups from '../FeedbackGroups/FeedbackGroups';
 
-import type { FeedbackGroupPreviewProps } from '../FeedbackGroupPreview/FeedbackGroupPreview';
-import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/FeedbackRequestSummary';
-
 type Props = {
     isMobile: boolean,
-};
-
-type State = {
-    hasFeedbackGroupsProps: boolean,
-    hasUnassignedRequestProps: boolean,
-    feedbackGroups: Array<FeedbackGroupPreviewProps>,
-    unassignedRequest: FeedbackRequestSummaryProps,
 };
 
 const FEEDBACK_GROUPS_QUERY = `query FeedbackGroups {
@@ -53,66 +43,68 @@ const UNASSIGNED_REQUEST_QUERY = `query UnassignedRequest {
   }
 }`;
 
-class FeedbackGroupsPage extends React.Component<Props, State> {
-    state = {
-        hasFeedbackGroupsProps: false,
-        hasUnassignedRequestProps: false,
-    };
+const formatFeedbackGroupsQueryResponse = (data) => {
+    const feedbackGroups = []
 
-    formatFeedbackGroupsQueryResponse = (data) => {
-        const feedbackGroups = []
-
-        for (const feedbackGroup of data) {
-            let userFeedbackCount = 0;
-            if (feedbackGroup['feedbackResponses']) {
-                for (let feedbackResponse of feedbackGroup['feedbackResponses']) {
-                    if (feedbackResponse['submitted']) {
-                        userFeedbackCount++;
-                    }
+    for (const feedbackGroup of data) {
+        let userFeedbackCount = 0;
+        if (feedbackGroup['feedbackResponses']) {
+            for (let feedbackResponse of feedbackGroup['feedbackResponses']) {
+                if (feedbackResponse['submitted']) {
+                    userFeedbackCount++;
                 }
             }
-
-            let unreadReplies = 0;
-            if (feedbackGroup['feedbackResponses']) {
-                for (let feedbackResponse of feedbackGroup['feedbackResponses']) {
-                    unreadReplies += feedbackResponse['unreadReplies'];
-                }
-            }
-            if (feedbackGroup['userFeedbackResponses']) {
-                for (let feedbackResponse of feedbackGroup['userFeedbackResponses']) {
-                    unreadReplies += feedbackResponse['unreadReplies'];
-                }
-            }
-
-            feedbackGroups.push({
-                'feedbackGroupId': feedbackGroup['id'],
-                'name': feedbackGroup['name'],
-                'timeCreated': feedbackGroup['timeCreated'],
-                'feedbackRequestSummary': feedbackGroup['feedbackRequest'],
-                'userCount': feedbackGroup['members'],
-                'tracklessUserCount': feedbackGroup['tracklessMembers'],
-                'userFeedbackCount': userFeedbackCount,
-                'feedbackResponseCount': feedbackGroup['userFeedbackResponseCount'],
-                'unreadReplies': unreadReplies,
-            });
         }
 
-        return feedbackGroups
-    };
-
-    formatUnassignedQueryResponse = (data) => {
-        return {
-            feedbackRequestId: data['id'],
-            mediaUrl: data['mediaUrl'],
-            mediaType: data['mediaType'],
-            feedbackPrompt: data['feedbackPrompt'],
-            emailWhenGrouped: data['emailWhenGrouped'],
-            genre: data['genre'],
+        let unreadReplies = 0;
+        if (feedbackGroup['feedbackResponses']) {
+            for (let feedbackResponse of feedbackGroup['feedbackResponses']) {
+                unreadReplies += feedbackResponse['unreadReplies'];
+            }
         }
-    };
+        if (feedbackGroup['userFeedbackResponses']) {
+            for (let feedbackResponse of feedbackGroup['userFeedbackResponses']) {
+                unreadReplies += feedbackResponse['unreadReplies'];
+            }
+        }
 
-    componentDidMount() {
+        feedbackGroups.push({
+            'feedbackGroupId': feedbackGroup['id'],
+            'name': feedbackGroup['name'],
+            'timeCreated': feedbackGroup['timeCreated'],
+            'feedbackRequestSummary': feedbackGroup['feedbackRequest'],
+            'userCount': feedbackGroup['members'],
+            'tracklessUserCount': feedbackGroup['tracklessMembers'],
+            'userFeedbackCount': userFeedbackCount,
+            'feedbackResponseCount': feedbackGroup['userFeedbackResponseCount'],
+            'unreadReplies': unreadReplies,
+        });
+    }
+
+    return feedbackGroups
+};
+
+const formatUnassignedQueryResponse = (data) => {
+    return {
+        feedbackRequestId: data['id'],
+        mediaUrl: data['mediaUrl'],
+        mediaType: data['mediaType'],
+        feedbackPrompt: data['feedbackPrompt'],
+        emailWhenGrouped: data['emailWhenGrouped'],
+        genre: data['genre'],
+    }
+};
+
+const FeedbackGroupsPage = ({ isMobile }: Props) => {
+    const [hasFeedbackGroupsProps, setHasFeedbackGroupsProps] = useState(false);
+    const [hasUnassignedRequestProps, setHasUnassignedRequestProps] = useState(false);
+    const [feedbackGroups, setFeedbackGroups] = useState(null);
+    const [unassignedRequest, setUnassignedRequest] = useState(null);
+
+    useEffect(() => {
         document.title = "how's my track? - Your Groups";
+
+        // Fetch user's assigned feedback groups
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -128,20 +120,17 @@ class FeedbackGroupsPage extends React.Component<Props, State> {
         ).then((data) => {
             if (!data['data']['feedbackGroups']) {
                 // Could not get groups because user is not logged in.
-                this.setState({
-                    hasFeedbackGroupsProps: true,
-                })
+                setHasFeedbackGroupsProps(true)
                 return
             }
-            const feedbackGroups = this.formatFeedbackGroupsQueryResponse(
+            const feedbackGroups = formatFeedbackGroupsQueryResponse(
                 data['data']['feedbackGroups'],
             )
-            this.setState({
-                hasFeedbackGroupsProps: true,
-                feedbackGroups: feedbackGroups,
-            });
+            setHasFeedbackGroupsProps(true);
+            setFeedbackGroups(feedbackGroups);
         });
 
+        // Fetch unassigned request, if any.
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -158,34 +147,29 @@ class FeedbackGroupsPage extends React.Component<Props, State> {
             if (!data['data']['unassignedRequest']) {
                 // Could not get groups because user is not logged in
                 // or because user doesn't have any unassigned requests.
-                this.setState({
-                    hasUnassignedRequestProps: true,
-                })
+                setHasUnassignedRequestProps(true);
                 return
             }
-            const unassignedRequest = this.formatUnassignedQueryResponse(
+            const unassignedRequest = formatUnassignedQueryResponse(
                 data['data']['unassignedRequest'],
             )
-            this.setState({
-                hasUnassignedRequestProps: true,
-                unassignedRequest: unassignedRequest,
-            });
+            setHasUnassignedRequestProps(true);
+            setUnassignedRequest(unassignedRequest);
         });
+    }, []);
+
+    if (hasFeedbackGroupsProps && hasUnassignedRequestProps) {
+        return (
+            <GenericPage title="Your Groups" isMobile={isMobile}>
+                <FeedbackGroups
+                    feedbackGroups={feedbackGroups}
+                    unassignedRequest={unassignedRequest}
+                />
+            </GenericPage>
+        );
     }
 
-    render() {
-        if (this.state.hasFeedbackGroupsProps && this.state.hasUnassignedRequestProps) {
-            return (
-                <GenericPage title="Your Groups" isMobile={this.props.isMobile}>
-                    <FeedbackGroups
-                        feedbackGroups={this.state.feedbackGroups}
-                        unassignedRequest={this.state.unassignedRequest}
-                    />
-                </GenericPage>
-            );
-        }
-        return null;
-    }
+    return null;
 }
 
 export default FeedbackGroupsPage;

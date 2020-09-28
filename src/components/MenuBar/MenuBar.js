@@ -368,10 +368,10 @@ const MenuBar = ({ isMobile }: Props) => {
                 logout();
                 return
             }
-            setHasProps(true);
             setUsername(data['data']['userDetails']['username']);
             setRating(data['data']['userDetails']['rating']);
             setNotifications(data['data']['userDetails']['notifications']);
+            setHasProps(true);
             ReactGA.set({
                 username: data['data']['userDetails']['username'],
             });
@@ -402,11 +402,7 @@ const MenuBar = ({ isMobile }: Props) => {
     };
 
     const onCollapseChange = (key) => {
-        if (key.length > 0) {
-            setMobileMenuCollapsed(false);
-        } else {
-            setMobileMenuCollapsed(true);
-        }
+        setMobileMenuCollapsed(key.length === 0);
     };
 
     const menuBarContent = (
