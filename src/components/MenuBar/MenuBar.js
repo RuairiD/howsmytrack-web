@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactGA from 'react-ga';
+import { useQuery } from "react-query";
 
 import apiRoot from '../../apiRoot';
 
@@ -261,7 +262,7 @@ const MobileMenu = ({
 );
 
 const MenuBarContent = ({
-    hasProps,
+    isLoading,
     isMobile,
     onMenuClick,
     username,
@@ -276,7 +277,7 @@ const MenuBarContent = ({
     mobileMenuCollapsed,
     onCollapseChange,
 }) => (
-    <Spin spinning={!hasProps}>
+    <Spin spinning={isLoading}>
         <div className="menu-bar">
             {!isMobile && <a href="/" className="full-logo">
                 <img alt="how's my track" src="/logo512.png" width="200px" style={{ padding: '0.5em', marginLeft: 'auto', marginRight: 'auto' }} />
@@ -310,7 +311,6 @@ const MenuBar = ({ isMobile }: Props) => {
      * Component for displaying page sidebar with menu links, or for mobile,
      * displaying a menu at the top of the screen.
      */
-    const [hasProps, setHasProps] = useState(false);
     const [username, setUsername] = useState(null);
     const [rating, setRating] = useState(null);
     const [notifications, setNotifications] = useState(null);
@@ -347,7 +347,7 @@ const MenuBar = ({ isMobile }: Props) => {
         },
     };
 
-    useEffect(() => {
+    const { isLoading } = useQuery([USER_DETAILS_QUERY], () =>
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -362,8 +362,6 @@ const MenuBar = ({ isMobile }: Props) => {
             result.json()
         ).then((data) => {
             if (!data['data']['userDetails']) {
-                // No user found; user isn't logged in.
-                setHasProps(true);
                 // Clear the JWT cookie in case it was mangled somehow.
                 logout();
                 return
@@ -371,12 +369,12 @@ const MenuBar = ({ isMobile }: Props) => {
             setUsername(data['data']['userDetails']['username']);
             setRating(data['data']['userDetails']['rating']);
             setNotifications(data['data']['userDetails']['notifications']);
-            setHasProps(true);
             ReactGA.set({
                 username: data['data']['userDetails']['username'],
             });
-        });
-    }, []);
+        })
+    );
+
 
     const onMenuClick = (event) => {
         let menuAction = menuActions[event.key];
@@ -408,7 +406,7 @@ const MenuBar = ({ isMobile }: Props) => {
     const menuBarContent = (
         <MenuBarContent
             isMobile={isMobile}
-            hasProps={hasProps}
+            isLoading={isLoading}
             onMenuClick={onMenuClick}
             username={username}
             rating={rating}

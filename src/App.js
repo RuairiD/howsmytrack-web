@@ -2,6 +2,7 @@ import HttpsRedirect from 'react-https-redirect';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import React, { Suspense } from 'react';
 import ReactGA from 'react-ga';
+import { QueryCache, ReactQueryCacheProvider } from "react-query";
 import { createBrowserHistory } from 'history';
 import './App.css';
 
@@ -26,6 +27,7 @@ history.listen(location => {
     ReactGA.pageview(location.pathname);
 });
 
+const queryCache = new QueryCache();
 
 function isMobile() {
     // TODO: this is the root of some mobile friendly fixes added in about
@@ -49,40 +51,42 @@ function App() {
     ReactGA.pageview(window.location.pathname);
     return (
         <HttpsRedirect>
-            <BrowserRouter>
-                <Suspense fallback={<div>Loading...</div>}>
-                    <Switch>
-                        <Route
-                            exact
-                            path="/"
-                            render={() => <HomePage isMobile={isMobile()} />}
-                        />
-                        <Route
-                            exact
-                            path="/faq"
-                            render={() => <FaqPage isMobile={isMobile()} />}
-                        />
-                        <Route
-                            exact
-                            path="/trackurlhelp"
-                            render={() => <TrackUrlHelpPage isMobile={isMobile()} />}
-                        />
-                        <Route
-                            path="/groups"
-                            render={() => <FeedbackGroupsPage isMobile={isMobile()} />}
-                        />
-                        <Route
-                            path="/group/:feedbackGroupId"
-                            render={renderFeedbackGroup}
-                        />
-                        <Route
-                            exact
-                            path="/settings"
-                            render={() => <UserSettingsPage isMobile={isMobile()} />}
-                        />
-                    </Switch>
-                </Suspense>
-            </BrowserRouter>
+            <ReactQueryCacheProvider queryCache={queryCache}>
+                <BrowserRouter>
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Switch>
+                            <Route
+                                exact
+                                path="/"
+                                render={() => <HomePage isMobile={isMobile()} />}
+                            />
+                            <Route
+                                exact
+                                path="/faq"
+                                render={() => <FaqPage isMobile={isMobile()} />}
+                            />
+                            <Route
+                                exact
+                                path="/trackurlhelp"
+                                render={() => <TrackUrlHelpPage isMobile={isMobile()} />}
+                            />
+                            <Route
+                                path="/groups"
+                                render={() => <FeedbackGroupsPage isMobile={isMobile()} />}
+                            />
+                            <Route
+                                path="/group/:feedbackGroupId"
+                                render={renderFeedbackGroup}
+                            />
+                            <Route
+                                exact
+                                path="/settings"
+                                render={() => <UserSettingsPage isMobile={isMobile()} />}
+                            />
+                        </Switch>
+                    </Suspense>
+                </BrowserRouter>
+            </ReactQueryCacheProvider>
         </HttpsRedirect>
     )
 }

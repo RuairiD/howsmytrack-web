@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import dateFormat from 'dateformat';
+import React, { useEffect } from 'react';
+import { useQuery } from "react-query";
 
 import apiRoot from '../../apiRoot';
 
@@ -95,15 +96,7 @@ const formatTimeCreated = (timeCreated) => {
 };
 
 const FeedbackGroupPage = ({ feedbackGroupId, isMobile }: Props) => {
-    const [hasProps, setHasProps] = useState(false);
-    const [name, setName] = useState(null);
-    const [timeCreated, setTimeCreated] = useState(null);
-    const [feedbackResponseForms, setFeedbackResponseForms] = useState(null);
-    const [feedbackReceived, setFeedbackReceived] = useState(null);
-    const [feedbackRequestSummary, setFeedbackRequestSummary] = useState(null);
-
-    useEffect(() => {
-        document.title = "how's my track?";
+    const { data } = useQuery([FEEDBACK_GROUP_QUERY, { feedbackGroupId }], () =>
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -117,36 +110,29 @@ const FeedbackGroupPage = ({ feedbackGroupId, isMobile }: Props) => {
             credentials: 'include',
         }).then(result =>
             result.json()
-        ).then((data) => {
-            if (!data['data']['feedbackGroup']) {
-                // Could not get group, either because user isn't member of the group
-                // or because group doesn't exist.
-                setHasProps(true);
-                return
-            }
-            const feedbackGroup = formatQueryResponse(
-                data['data']['feedbackGroup'],
-            );
-            setName(data['data']['feedbackGroup']['name']);
-            setTimeCreated(data['data']['feedbackGroup']['timeCreated']);
-            setFeedbackResponseForms(feedbackGroup['feedbackResponseForms']);
-            setFeedbackReceived(feedbackGroup['feedbackReceived']);
-            setFeedbackRequestSummary(feedbackGroup['feedbackRequestSummary']);
-            setHasProps(true);
+        ).then((data) =>
+            data.data.feedbackGroup
+        )
+    );
 
-            document.title = "how's my track? - " + data['data']['feedbackGroup']['name'];
-        });
-    }, [feedbackGroupId]);
+    useEffect(() => {
+        if (data) {
+            document.title = "how's my track? - " + data.name;
+        } else {
+            document.title = "how's my track?";
+        }
+    });
 
-    if (hasProps) {
+    if (data) {
+        const feedbackGroup = formatQueryResponse(data);
         return (
-            <GenericPage title={name} subTitle={formatTimeCreated(timeCreated)} isMobile={isMobile}>
+            <GenericPage title={data.name} subTitle={formatTimeCreated(data.timeCreated)} isMobile={isMobile}>
                 <FeedbackGroup
-                    name={name}
-                    timeCreated={timeCreated}
-                    feedbackResponseForms={feedbackResponseForms}
-                    feedbackReceived={feedbackReceived}
-                    feedbackRequestSummary={feedbackRequestSummary}
+                    name={data.name}
+                    timeCreated={data.timeCreated}
+                    feedbackResponseForms={feedbackGroup.feedbackResponseForms}
+                    feedbackReceived={feedbackGroup.feedbackReceived}
+                    feedbackRequestSummary={feedbackGroup.feedbackRequestSummary}
                 />
             </GenericPage>
         )

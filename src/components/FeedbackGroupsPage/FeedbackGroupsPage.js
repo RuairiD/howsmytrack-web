@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useQuery } from "react-query";
 
 import apiRoot from '../../apiRoot';
 
@@ -96,14 +97,11 @@ const formatUnassignedQueryResponse = (data) => {
 };
 
 const FeedbackGroupsPage = ({ isMobile }: Props) => {
-    const [hasFeedbackGroupsProps, setHasFeedbackGroupsProps] = useState(false);
-    const [hasUnassignedRequestProps, setHasUnassignedRequestProps] = useState(false);
-    const [feedbackGroups, setFeedbackGroups] = useState(null);
-    const [unassignedRequest, setUnassignedRequest] = useState(null);
-
     useEffect(() => {
         document.title = "how's my track? - Your Groups";
+    });
 
+    const { isLoading: isLoadingFeedbackGroups, data: feedbackGroupsData } = useQuery([FEEDBACK_GROUPS_QUERY], () => 
         // Fetch user's assigned feedback groups
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
@@ -117,19 +115,10 @@ const FeedbackGroupsPage = ({ isMobile }: Props) => {
             credentials: 'include',
         }).then(result =>
             result.json()
-        ).then((data) => {
-            if (!data['data']['feedbackGroups']) {
-                // Could not get groups because user is not logged in.
-                setHasFeedbackGroupsProps(true)
-                return
-            }
-            const feedbackGroups = formatFeedbackGroupsQueryResponse(
-                data['data']['feedbackGroups'],
-            )
-            setHasFeedbackGroupsProps(true);
-            setFeedbackGroups(feedbackGroups);
-        });
+        ).then(data => data.data.feedbackGroups)
+    );
 
+    const { isLoading: isLoadingUnassignedRequest, data: unassignedRequestData } = useQuery([UNASSIGNED_REQUEST_QUERY], () =>
         // Fetch unassigned request, if any.
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
@@ -143,22 +132,24 @@ const FeedbackGroupsPage = ({ isMobile }: Props) => {
             credentials: 'include',
         }).then(result =>
             result.json()
-        ).then((data) => {
-            if (!data['data']['unassignedRequest']) {
-                // Could not get groups because user is not logged in
-                // or because user doesn't have any unassigned requests.
-                setHasUnassignedRequestProps(true);
-                return
-            }
-            const unassignedRequest = formatUnassignedQueryResponse(
-                data['data']['unassignedRequest'],
-            )
-            setHasUnassignedRequestProps(true);
-            setUnassignedRequest(unassignedRequest);
-        });
-    }, []);
+        ).then(data => data.data.unassignedRequest)
+    );
 
-    if (hasFeedbackGroupsProps && hasUnassignedRequestProps) {
+    if (!isLoadingFeedbackGroups && !isLoadingUnassignedRequest) {
+        let feedbackGroups = [];
+        if (feedbackGroupsData) {
+            feedbackGroups = formatFeedbackGroupsQueryResponse(
+                feedbackGroupsData,
+            )
+        }
+
+        let unassignedRequest = null;
+        if (unassignedRequestData) {
+            unassignedRequest = formatUnassignedQueryResponse(
+                unassignedRequestData,
+            )
+        }
+
         return (
             <GenericPage title="Your Groups" isMobile={isMobile}>
                 <FeedbackGroups

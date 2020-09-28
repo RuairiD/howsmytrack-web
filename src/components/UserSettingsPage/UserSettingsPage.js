@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useQuery } from "react-query";
 
 import apiRoot from '../../apiRoot';
 
@@ -17,10 +18,7 @@ const USER_DETAILS_QUERY = `query UserDetails {
 }`;
 
 const UserSettingsPage = ({ isMobile }: Props) => {
-    const [hasProps, setHasProps] = useState(false);
-    const [userDetails, setUserDetails] = useState(null);
-
-    useEffect(() => {
+    const { data } = useQuery([USER_DETAILS_QUERY], () =>
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -33,23 +31,15 @@ const UserSettingsPage = ({ isMobile }: Props) => {
             credentials: 'include',
         }).then(result =>
             result.json()
-        ).then((data) => {
-            if (data['data']['userDetails']) {
-                setUserDetails(data['data']['userDetails']);
-                setHasProps(true);
-            } else {
-                // Logged out, redirect.
-                window.location.assign('/');
-            }
-        });
-    }, []);
+        ).then((data) => data.data.userDetails)
+    );
 
-    if (hasProps) {
+    if (data) {
         return (
             <GenericPage title="Settings" isMobile={isMobile}>
                 <UserSettings
-                    email={userDetails.username}
-                    sendReminderEmails={userDetails.sendReminderEmails}
+                    email={data.username}
+                    sendReminderEmails={data.sendReminderEmails}
                 />
             </GenericPage>
         );
