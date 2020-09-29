@@ -1,4 +1,5 @@
 import React, { useState} from 'react';
+import { useMutation } from 'react-query';
 
 import apiRoot from '../../apiRoot';
 
@@ -17,16 +18,10 @@ type EmailSettingsProps = {
 
 const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
     const [email, setEmail] = useState(currentEmail);
-    const [success, setSuccess] = useState(false);
-    const [error, setError] = useState(null);
+    // Used to stop Modal being double shown if onChange is invoked twice for some reason.
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const onEditStart = () => {
-        setSuccess(false);
-        setError(null);
-    };
-
-    const sendUpdateEmailRequest = (newEmail) => {
-        setEmail(newEmail);
+    const sendUpdateEmailRequest = (newEmail) => (
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -44,39 +39,48 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
             result.json()
         ).then(data =>
             data.data.updateEmail
-        ).then((data) => {
-            setSuccess(data.success);
-            setError(data.error);
+        )
+    );
 
-            // Log the user out and ask them to log back in with
-            // their new email address.
-            if (data.success) {
-                fetch(apiRoot + '/logout/', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                    },
-                    credentials: 'include',
-                }).then(() => window.location.assign('/'));
-            }
-        });
+    const [updateEmailRequestMutate, { data, reset }] = useMutation(sendUpdateEmailRequest);
+
+    const onEditStart = () => {
+        reset();
     };
 
     const onSubmit = (newEmail) => {
-        if (newEmail === email) {
+        if (newEmail === email && !isModalVisible) {
             return;
         }
+        setIsModalVisible(true);
         Modal.confirm({
             title: 'Are you sure you want to update your email address to "' + newEmail + '"?',
             content: 'You will be logged out and required to log back in with your new email address.',
             onOk: () => {
-                sendUpdateEmailRequest(newEmail);
+                setEmail(newEmail);
+                updateEmailRequestMutate(newEmail);
+                setIsModalVisible(false);
+            },
+            onCancel: () => {
+                setIsModalVisible(false);
             },
             okText: 'Yes, change it.',
             cancelText: 'No, take me back.',
         });
     };
+
+    // Log the user out and ask them to log back in with
+    // their new email address.
+    if (data && data.success) {
+        fetch(apiRoot + '/logout/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            credentials: 'include',
+        }).then(() => window.location.assign('/'));
+    }
 
     return (
         <div>
@@ -100,11 +104,11 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
                     >
                         {email}
                     </Typography.Text>
-                    {success && <Typography.Text type="secondary">
+                    {data && data.success && <Typography.Text type="secondary">
                         Saved
                     </Typography.Text>}
-                    {error && <Typography.Text type="danger">
-                        Error: {error}
+                    {data && data.error && <Typography.Text type="danger">
+                        Error: {data.error}
                     </Typography.Text>}
                 </Col>
             </Row>
@@ -124,14 +128,8 @@ const UPDATE_SEND_REMINDER_EMAILS_MUTATION = `mutation UpdateSendReminderEmails(
 }`;
 
 const UserSettings = ({ currentEmail, currentSendReminderEmails }: UserSettingsProps) => {
-    const [sendReminderEmails, setSendReminderEmails] = useState(currentSendReminderEmails);
-    const [updateSendReminderEmailsRequestSent, setUpdateSendReminderEmailsRequestSent] = useState(false);
-    const [updateSendReminderEmailsSuccess, setUpdateSendReminderEmailsSuccess] = useState(false);
 
-    const onSendReminderEmailsChange = (checked) => {
-        setSendReminderEmails(checked);
-        setUpdateSendReminderEmailsRequestSent(true);
-        setUpdateSendReminderEmailsSuccess(false);
+    const sendReminderEmailsRequest = (checked) => (
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -149,11 +147,10 @@ const UserSettings = ({ currentEmail, currentSendReminderEmails }: UserSettingsP
             result.json()
         ).then(data =>
             data.data.updateSendReminderEmails
-        ).then(data => {
-            setUpdateSendReminderEmailsRequestSent(false);
-            setUpdateSendReminderEmailsSuccess(data.success);
-        });
-    };
+        )
+    );
+
+    const [onSendReminderEmailsChange, { isLoading, data }] = useMutation(sendReminderEmailsRequest);
 
     return (
         <Form>
@@ -173,12 +170,12 @@ const UserSettings = ({ currentEmail, currentSendReminderEmails }: UserSettingsP
                         Email Reminders:
                     </Typography.Text>
                     <Switch
-                        defaultChecked={sendReminderEmails}
+                        defaultChecked={currentSendReminderEmails}
                         onChange={onSendReminderEmailsChange}
                         style={{ marginRight: '1em' }}
-                        loading={updateSendReminderEmailsRequestSent}
+                        loading={isLoading}
                     />
-                    {updateSendReminderEmailsSuccess && <Typography.Text type="secondary">
+                    {data && data.success && <Typography.Text type="secondary">
                         Saved
                     </Typography.Text>}
                 </div>
