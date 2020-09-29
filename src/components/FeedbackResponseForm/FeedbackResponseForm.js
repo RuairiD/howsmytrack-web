@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useMutation } from 'react-query';
 import ReactGA from 'react-ga';
 
 import apiRoot from '../../apiRoot';
@@ -11,23 +12,14 @@ import FeedbackResponseRepliesModal from '../FeedbackResponseRepliesModal/Feedba
 
 export type FeedbackResponseFormProps = {
     feedbackResponseId: number,
-    feedback: string,
+    currentFeedback: string,
     mediaUrl: string,
     mediaType: string,
     feedbackPrompt: string,
-    submitted: boolean,
-    allowReplies: boolean,
+    alreadySubmitted: boolean,
+    currentAllowReplies: boolean,
     replies: number,
     unreadReplies: number,
-};
-
-type State = {
-    feedback: string,
-    allowReplies: boolean,
-    requestSent: boolean,
-    errorMessage: string,
-    submitted: boolean,
-    isRepliesModalVisible: boolean,
 };
 
 const SUBMIT_FEEDBACK_RESPONSE_MUTATION = `mutation SubmitFeedbackResponse($feedbackResponseId: Int!, $feedback: String!, $allowReplies: Boolean!) {
@@ -39,42 +31,67 @@ const SUBMIT_FEEDBACK_RESPONSE_MUTATION = `mutation SubmitFeedbackResponse($feed
 
 const GA_FEEDBACK_RESPONSE_CATEGORY = "feedbackResponse";
 
-class FeedbackResponseForm extends React.Component<FeedbackResponseFormProps, State> {
+const OriginalRequest = ({ mediaUrl, mediaType, feedbackPrompt }) => (
+    <div>
+        <Row gutter={[16, 16]}>
+            <Col>
+                <MediaEmbed mediaUrl={mediaUrl} mediaType={mediaType} />
+            </Col>
+        </Row>
+        {
+            feedbackPrompt &&
+            <Row gutter={[16, 16]}>
+                <Col>
+                    <Typography.Text strong>The requester has said: </Typography.Text>
+                    <Typography.Text>"{feedbackPrompt}"</Typography.Text>
+                </Col>
+            </Row>
+        }
+    </div>
+);
+
+const FormRow = ({ children }) => (
+    <Row gutter={[16, 16]}>
+        <Col>
+            {children}
+        </Col>
+    </Row>
+);
+
+const FeedbackResponseForm = ({
+    feedbackResponseId,
+    currentFeedback,
+    mediaUrl,
+    mediaType,
+    feedbackPrompt,
+    alreadySubmitted,
+    currentAllowReplies,
+    replies,
+    unreadReplies,
+}: FeedbackResponseFormProps) => {
     /*
      * Component for displaying feedback form for a group member to complete.
      */
-    state = {
-        feedback: this.props.feedback,
-        allowReplies: this.props.allowReplies,
-        requestSent: false,
-        errorMessage: null,
-        submitted: this.props.submitted,
-        isRepliesModalVisible: false,
-    };
+    const [feedback, setFeedback] = useState(currentFeedback);
+    const [allowReplies, setAllowReplies] = useState(currentAllowReplies);
+    const [isRepliesModalVisible, setIsRepliesModalVisible] = useState(false);
 
-    componentDidMount() {
+    useEffect(() => {
         ReactGA.event({
             category: GA_FEEDBACK_RESPONSE_CATEGORY,
             action: "view",
         });
-    }
+    }, [])
 
-    onFeedbackTextChange = (event) => {
-        this.setState({
-            feedback: event.target.value,
-        })
+    const onFeedbackTextChange = (event) => {
+        setFeedback(event.target.value);
     };
 
-    onAllowRepliesChange = (event) => {
-        this.setState({
-            allowReplies: event.target.checked,
-        })
+    const onAllowRepliesChange = (event) => {
+        setAllowReplies(event.target.checked)
     };
 
-    submitForm = (feedback, allowReplies) => {
-        this.setState({
-            requestSent: true,
-        })
+    const submitForm = () => {
         ReactGA.event({
             category: GA_FEEDBACK_RESPONSE_CATEGORY,
             action: "submit",
@@ -88,7 +105,7 @@ class FeedbackResponseForm extends React.Component<FeedbackResponseFormProps, St
             body: JSON.stringify({
                 query: SUBMIT_FEEDBACK_RESPONSE_MUTATION,
                 variables: {
-                    feedbackResponseId: this.props.feedbackResponseId,
+                    feedbackResponseId: feedbackResponseId,
                     feedback: feedback,
                     allowReplies: allowReplies,
                 },
@@ -96,119 +113,87 @@ class FeedbackResponseForm extends React.Component<FeedbackResponseFormProps, St
             credentials: 'include',
         }).then(result =>
             result.json()
-        ).then((data) => {
-            this.setState({
-                requestSent: false,
-                submitted: data['data']['submitFeedbackResponse'].success,
-                errorMessage: data['data']['submitFeedbackResponse'].error,
+        ).then(data =>
+            data.data.submitFeedbackResponse
+        );
+    };
+
+    const [submitFormMutate, { isLoading, data }] = useMutation(submitForm)
+
+    if (data) {
+        if (data.success) {
+            ReactGA.event({
+                category: GA_FEEDBACK_RESPONSE_CATEGORY,
+                action: "success",
             });
-
-            if (data['data']['submitFeedbackResponse'].success) {
-                ReactGA.event({
-                    category: GA_FEEDBACK_RESPONSE_CATEGORY,
-                    action: "success",
-                });
-            } else {
-                ReactGA.event({
-                    category: GA_FEEDBACK_RESPONSE_CATEGORY,
-                    action: "error",
-                });
-            }
-        });
-    };
-
-    onSubmit = () => {
-        this.submitForm(
-            this.state.feedback,
-            this.state.allowReplies,
-        );
-    };
-
-    showRepliesModal = () => {
-        this.setState({
-            isRepliesModalVisible: true,
-        })
-    };
-
-    onRepliesModalCancel = () => {
-        this.setState({
-            isRepliesModalVisible: false,
-        })
-    };
-
-    render() {
-        return (
-            <Card>
-                <Row gutter={[16, 16]}>
-                    <Col>
-                        <MediaEmbed mediaUrl={this.props.mediaUrl} mediaType={this.props.mediaType} />
-                    </Col>
-                </Row>
-                {
-                    this.props.feedbackPrompt &&
-                    <Row gutter={[16, 16]}>
-                        <Col>
-                            <Typography.Text strong>The requester has said: </Typography.Text>
-                            <Typography.Text>"{this.props.feedbackPrompt}"</Typography.Text>
-                        </Col>
-                    </Row>
-                }
-                <div>
-                    <Row gutter={[16, 16]}>
-                        <Col>
-                            <Input.TextArea
-                                value={this.state.feedback}
-                                onChange={this.onFeedbackTextChange}
-                                rows={8}
-                                disabled={this.state.submitted}
-                            />
-                            {this.state.errorMessage && <Alert message={this.state.errorMessage} type="error" showIcon />}
-                        </Col>
-                    </Row>
-                    <Row gutter={[16, 16]}>
-                        <Col>
-                            <Checkbox
-                                checked={this.state.allowReplies}
-                                onChange={this.onAllowRepliesChange}
-                                disabled={this.state.submitted}
-                            >
-                                Allow the recipient to anonymously reply to your feedback.
-                            </Checkbox>
-                        </Col>
-                    </Row>
-                    <Row gutter={[16, 16]}>
-                        <Col>
-                            <Button
-                                block
-                                type="primary"
-                                loading={this.state.requestSent}
-                                disabled={this.state.submitted || !this.state.feedback}
-                                onClick={this.onSubmit}
-                            >
-                                {!this.state.submitted && 'Submit Feedback'}
-                                {this.state.submitted && 'Submitted'}
-                            </Button>
-                        </Col>
-                    </Row>
-                    {this.props.allowReplies && <Row gutter={[16, 16]}>
-                        <Col>
-                            <ViewRepliesButton
-                                replies={this.props.replies}
-                                unreadReplies={this.props.unreadReplies}
-                                onClick={this.showRepliesModal}
-                            />
-                        </Col>
-                    </Row>}
-                </div>
-                {this.props.allowReplies && <FeedbackResponseRepliesModal
-                    feedbackResponseId={this.props.feedbackResponseId}
-                    feedback={this.props.feedback}
-                    onCancel={this.onRepliesModalCancel}
-                    isVisible={this.state.isRepliesModalVisible}
-                />}
-            </Card>
-        );
+        } else {
+            ReactGA.event({
+                category: GA_FEEDBACK_RESPONSE_CATEGORY,
+                action: "error",
+            });
+        }
     }
+
+    const submitted = alreadySubmitted || (data && data.success);
+
+    const showRepliesModal = () => {
+        setIsRepliesModalVisible(true);
+    };
+
+    const onRepliesModalCancel = () => {
+        setIsRepliesModalVisible(false);
+    };
+
+    return (
+        <Card>
+            <OriginalRequest mediaUrl={mediaUrl} mediaType={mediaType} feedbackPrompt={feedbackPrompt} />
+            <div>
+                <FormRow>
+                    <Input.TextArea
+                        value={feedback}
+                        onChange={onFeedbackTextChange}
+                        rows={8}
+                        disabled={submitted}
+                    />
+                    {data && data.error && <Alert message={data.error} type="error" showIcon />}
+                </FormRow>
+                <FormRow>
+                    <Checkbox
+                        checked={allowReplies}
+                        onChange={onAllowRepliesChange}
+                        disabled={submitted}
+                    >
+                        Allow the recipient to anonymously reply to your feedback.
+                    </Checkbox>
+                </FormRow>
+                <FormRow>
+                    <Button
+                        block
+                        type="primary"
+                        loading={isLoading}
+                        disabled={submitted || !feedback}
+                        onClick={submitFormMutate}
+                    >
+                        {!submitted && 'Submit Feedback'}
+                        {submitted && 'Submitted'}
+                    </Button>
+                </FormRow>
+                {allowReplies && <FormRow>
+                    <ViewRepliesButton
+                        replies={replies}
+                        unreadReplies={unreadReplies}
+                        onClick={showRepliesModal}
+                    />
+                </FormRow>}
+            </div>
+            {allowReplies && <FeedbackResponseRepliesModal
+                feedbackResponseId={feedbackResponseId}
+                feedback={feedback}
+                onCancel={onRepliesModalCancel}
+                isVisible={isRepliesModalVisible}
+            />}
+        </Card>
+    );
 }
 
 export default FeedbackResponseForm;

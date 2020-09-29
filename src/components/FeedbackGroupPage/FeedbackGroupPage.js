@@ -55,12 +55,12 @@ const formatQueryResponse = (data) => {
     for (const feedbackResponse of data['feedbackResponses']) {
         feedbackGroupProps['feedbackResponseForms'].push({
             'feedbackResponseId': feedbackResponse['id'],
-            'feedback': feedbackResponse['feedback'],
+            'currentFeedback': feedbackResponse['feedback'],
             'mediaUrl': feedbackResponse['feedbackRequest']['mediaUrl'],
             'mediaType': feedbackResponse['feedbackRequest']['mediaType'],
             'feedbackPrompt': feedbackResponse['feedbackRequest']['feedbackPrompt'],
-            'submitted': feedbackResponse['submitted'],
-            'allowReplies': feedbackResponse['allowReplies'],
+            'alreadySubmitted': feedbackResponse['submitted'],
+            'currentAllowReplies': feedbackResponse['allowReplies'],
             'replies': feedbackResponse['replies'],
             'unreadReplies': feedbackResponse['unreadReplies'],
         });
