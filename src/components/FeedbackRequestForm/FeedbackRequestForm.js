@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactGA from 'react-ga';
+import { useQuery, useMutation } from 'react-query';
 
 import apiRoot from '../../apiRoot';
 
@@ -72,45 +73,36 @@ const FeedbackRequestForm = ({
      * Component for displaying generic feedback request form for both creation and editing.
      * Enforces URL existence check locally but relies on backend to check user is eligible to make a request.
      */
-
-    const [requestSent, setRequestSent] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [mediaType, setMediaType] = useState(null);
-    const [submitted, setSubmitted] = useState(false);
-    const [invalidMediaUrl, setInvalidMediaUrl] = useState(false);
     const [feedbackPromptPlaceholder] = useState(getFeedbackPromptPlaceholder());
 
-    const getMediaInfo = useCallback(
-        () => {
-            fetch(apiRoot +'/graphql/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
+    const getMediaInfo = () => (
+        fetch(apiRoot +'/graphql/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query: MEDIA_INFO_QUERY,
+                variables: {
+                    mediaUrl: form.getFieldValue('mediaUrl'),
                 },
-                body: JSON.stringify({
-                    query: MEDIA_INFO_QUERY,
-                    variables: {
-                        mediaUrl: form.getFieldValue('mediaUrl'),
-                    },
-                }),
-                credentials: 'include',
-            }).then(result =>
-                result.json()
-            ).then(data =>
-                data.data.mediaInfo
-            ).then((data) => {
-                setMediaType(data.mediaType);
-            });
-        },
-        [form]
-    )
+            }),
+            credentials: 'include',
+        }).then(result =>
+            result.json()
+        ).then(data =>
+            data.data.mediaInfo
+        )
+    );
+
+    const { data: mediaInfo, refetch: refetchMediaInfo } = useQuery(MEDIA_INFO_QUERY, getMediaInfo, { enabled: false })
 
     useEffect(() => {
         if (mediaUrl) {
-            getMediaInfo();
+            refetchMediaInfo();
         }
-    }, [mediaUrl, getMediaInfo]);
+    }, [mediaUrl, refetchMediaInfo]);
 
     useEffect(() => {
         ReactGA.event({
@@ -119,14 +111,13 @@ const FeedbackRequestForm = ({
         });
     }, [gaCategory]);
     
-    const submitForm = (mediaUrl, feedbackPrompt, genre, emailWhenGrouped) => {
-        setRequestSent(true);
+    const submitForm = ({ mediaUrl, feedbackPrompt, genre, emailWhenGrouped }) => {
         ReactGA.event({
             category: gaCategory,
             action: "submit",
         });
 
-        makeRequest({
+        return makeRequest({
             feedbackRequestId: feedbackRequestId,
             genre: genre,
             mediaUrl: mediaUrl,
@@ -136,25 +127,24 @@ const FeedbackRequestForm = ({
             result.json()
         ).then(data =>
             data.data[responseName]
-        ).then((data) => {
-            setRequestSent(false);
-            setSubmitted(data.success);
-            setErrorMessage(data.error);
-            setInvalidMediaUrl(data.invalidMediaUrl);
-
-            if (data.success) {
-                ReactGA.event({
-                    category: gaCategory,
-                    action: "success",
-                });
-            } else {
-                ReactGA.event({
-                    category: gaCategory,
-                    action: "error",
-                });
-            }
-        });
+        )
     };
+
+    const [submitFormMutate, { isLoading, data }] = useMutation(submitForm);
+
+    if (data) {
+        if (data.success) {
+            ReactGA.event({
+                category: gaCategory,
+                action: "success",
+            });
+        } else {
+            ReactGA.event({
+                category: gaCategory,
+                action: "error",
+            });
+        }
+    }
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -166,17 +156,17 @@ const FeedbackRequestForm = ({
                     mediaUrl = values.mediaUrl;
                     feedbackPrompt = values.feedbackPrompt;
                 }
-                submitForm(
-                    mediaUrl,
-                    feedbackPrompt,
-                    values.genre,
-                    values.emailWhenGrouped,
-                )
+                submitFormMutate({
+                    mediaUrl: mediaUrl,
+                    feedbackPrompt: feedbackPrompt,
+                    genre: values.genre,
+                    emailWhenGrouped: values.emailWhenGrouped,
+                })
             }
         });
     };
 
-    const getErrorMessage = () => {
+    const getErrorMessage = (errorMessage, invalidMediaUrl) => {
         if (invalidMediaUrl) {
             return (
                 <Typography.Text>Please submit a valid Soundcloud, Google Drive, Dropbox or OneDrive URL. If you are unsure how to get the correct URL, <a href="/trackurlhelp" target="_blank" rel="noopener noreferrer">please consult our guide.</a></Typography.Text>
@@ -191,13 +181,13 @@ const FeedbackRequestForm = ({
         }
         mediaUrlTimeout = setTimeout(
             () => {
-                getMediaInfo()
+                refetchMediaInfo()
             },
             MEDIA_INFO_TIMEOUT,
         )
     };
 
-    if (submitted) {
+    if (data && data.success) {
         return (<Result
             status="success"
             title={submittedText.title}
@@ -224,12 +214,12 @@ const FeedbackRequestForm = ({
                             Unsure how to find the correct track URL?
                         </a>
                     </Typography.Text>
-                    {errorMessage && <Alert message={getErrorMessage()} type="error" showIcon />}
+                    {data && data.error && <Alert message={getErrorMessage(data.error, data.invalidMediaUrl)} type="error" showIcon />}
                 </Col>
             </Row>
             <Row gutter={[16, 16]}>
                 <Col>
-                    <Spin spinning={requestSent}>
+                    <Spin spinning={isLoading}>
                         <Form onSubmit={onSubmit} className="hmt-form">
                             <Form.Item>
                                 {
@@ -334,7 +324,7 @@ const FeedbackRequestForm = ({
                                     block
                                     type="primary"
                                     htmlType="submit"
-                                    disabled={submitted}
+                                    disabled={isLoading || (data && data.success)}
                                 >
                                     Submit Feedback Request
                                 </Button>
@@ -343,14 +333,14 @@ const FeedbackRequestForm = ({
                     </Spin>
                 </Col>
             </Row>
-            {(form.getFieldValue('trackless') !== 'trackless' && form.getFieldValue('mediaUrl')) && <Row gutter={[16, 16]}>
+            {(form.getFieldValue('trackless') !== 'trackless' && form.getFieldValue('mediaUrl') && mediaInfo) && <Row gutter={[16, 16]}>
                 <Col>
                     <Typography.Title level={4}>Preview</Typography.Title>
                     <Typography.Text>Is your media URL correct? Is it playing correctly?</Typography.Text>
                     <FeedbackRequestSummaryContent
                         feedbackRequestSummary={{
                             mediaUrl: form.getFieldValue('mediaUrl'),
-                            mediaType: mediaType,
+                            mediaType: mediaInfo.mediaType,
                             feedbackPrompt: form.getFieldValue('feedbackPrompt'),
                             genre: form.getFieldValue('genre'),
                         }}
