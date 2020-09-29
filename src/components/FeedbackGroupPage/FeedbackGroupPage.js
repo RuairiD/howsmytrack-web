@@ -72,7 +72,7 @@ const formatQueryResponse = (data) => {
             feedbackGroupProps['feedbackReceived'].push({
                 'feedbackResponseId': userFeedbackResponse['id'],
                 'feedback': userFeedbackResponse['feedback'],
-                'rating': userFeedbackResponse['rating'],
+                'currentRating': userFeedbackResponse['rating'],
                 'allowReplies': userFeedbackResponse['allowReplies'],
                 'replies': userFeedbackResponse['replies'],
                 'unreadReplies': userFeedbackResponse['unreadReplies'],

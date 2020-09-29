@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
+import { useMutation } from 'react-query'
 
 import apiRoot from '../../apiRoot';
 
@@ -10,17 +11,11 @@ import FeedbackResponseRepliesModal from '../FeedbackResponseRepliesModal/Feedba
 export type FeedbackResponseProps = {
     feedbackReponseId: number,
     feedback: string,
-    rating: number,
+    currentRating: number,
     allowReplies: boolean,
     allowFurtherReplies: boolean,
     replies: number,
-};
-
-type State = {
-    requestSent: boolean,
-    rating: number,
-    submitted: boolean,
-    isRepliesModalVisible: boolean,
+    unreadReplies: number,
 };
 
 const RATE_FEEDBACK_RESPONSE_MUTATION = `mutation RateFeedbackResponse($feedbackResponseId: Int!, $rating: Int!) {
@@ -38,23 +33,25 @@ const RATING_TOOLTIP_TEXTS = [
     "This feedback is deeply thoughtful, well-written and very constructive.",
 ];
 
-class FeedbackResponse extends React.Component<FeedbackResponseProps, State> {
+const FeedbackResponse = ({
+    feedbackResponseId,
+    feedback,
+    currentRating,
+    allowReplies,
+    allowFurtherReplies,
+    replies,
+    unreadReplies,
+}: FeedbackResponseProps) => {
     /*
      * Component for showing user the feedback they have received from another user.
      * Only displayed in a feedback group once the user who received the feedback has
      * left feedback for everyone else in the group.
      */
-    state = {
-        rating: this.props.rating,
-        requestSent: false,
-        submitted: !!this.props.rating,
-        isRepliesModalVisible: false,
-    };
 
-    submitRating = () => {
-        this.setState({
-            requestSent: true,
-        })
+    const [rating, setRating] = useState(currentRating);
+    const [isRepliesModalVisible, setIsRepliesModalVisible] = useState(false);
+
+    const submitRating = ({ feedbackResponseId, newRating }) => (
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -64,95 +61,91 @@ class FeedbackResponse extends React.Component<FeedbackResponseProps, State> {
             body: JSON.stringify({
                 query: RATE_FEEDBACK_RESPONSE_MUTATION,
                 variables: {
-                    feedbackResponseId: this.props.feedbackResponseId,
-                    rating: this.state.rating,
+                    feedbackResponseId: feedbackResponseId,
+                    rating: newRating,
                 },
             }),
             credentials: 'include',
         }).then(result =>
             result.json()
-        ).then((data) => {
-            this.setState({
-                requestSent: false,
-                submitted: data['data']['rateFeedbackResponse'].success,
-            });
-        });
+        ).then(data =>
+            data.data.rateFeedbackResponse
+        )
+    );
+
+    const [submitRatingMutate, { data, isLoading }] = useMutation(submitRating);
+
+    const submitted = useMemo(() => (!!currentRating || (data && data.success)), [currentRating, data])
+
+    const onRatingChange = (newRating) => {
+        setRating(newRating);
     };
 
-    onRatingChange = (rating) => {
-        this.setState({
-            rating: rating,
-        });
+    const showRepliesModal = () => {
+        setIsRepliesModalVisible(true);
     };
 
-    showRepliesModal = () => {
-        this.setState({
-            isRepliesModalVisible: true,
-        })
+    const onRepliesModalCancel = () => {
+        setIsRepliesModalVisible(false);
     };
 
-    onRepliesModalCancel = () => {
-        this.setState({
-            isRepliesModalVisible: false,
-        })
-    };
-
-    render() {
-        return (
-            <Card>
-                <Row gutter={[16, 16]}>
-                    <Col>
-                        <Typography.Paragraph style={{
-                            overflowWrap: 'break-word',
-                            wordWrap: 'break-word',
-                        }}>
-                            "{this.props.feedback}"
-                        </Typography.Paragraph>
-                    </Col>
-                </Row>
-                <Card.Meta
-                    title="How helpful was this feedback?"
-                    description={(
-                        <div style={{ display: 'inline' }}>
-                            <span style={{ float: 'left', paddingBottom: '0.25em' }}>
-                                <Rate
-                                    style={{
-                                        color: '#000000',
-                                        marginRight: '1em',
-                                    }}
-                                    allowClear
-                                    tooltips={RATING_TOOLTIP_TEXTS}
-                                    value={this.state.rating}
-                                    disabled={this.state.submitted || this.state.requestSent}
-                                    onChange={this.onRatingChange}
-                                />
-                                <Button
-                                    type="primary"
-                                    loading={this.state.requestSent}
-                                    disabled={this.state.submitted || !this.state.rating}
-                                    onClick={this.submitRating}
-                                >
-                                    {this.state.submitted && "Rated"}
-                                    {!this.state.submitted && "Rate"}
-                                </Button>
-                            </span>
-                            {(this.props.allowReplies && this.state.submitted) && <ViewRepliesButton
-                                replies={this.props.replies}
-                                unreadReplies={this.props.unreadReplies}
-                                onClick={this.showRepliesModal}
-                            />}
-                        </div>
-                    )}
-                />
-                {this.props.allowReplies && <FeedbackResponseRepliesModal
-                    feedbackResponseId={this.props.feedbackResponseId}
-                    feedback={this.props.feedback}
-                    onCancel={this.onRepliesModalCancel}
-                    isVisible={this.state.isRepliesModalVisible}
-                />}
-            </Card>
-        );
-    }
+    return (
+        <Card>
+            <Row gutter={[16, 16]}>
+                <Col>
+                    <Typography.Paragraph style={{
+                        overflowWrap: 'break-word',
+                        wordWrap: 'break-word',
+                    }}>
+                        "{feedback}"
+                    </Typography.Paragraph>
+                </Col>
+            </Row>
+            <Card.Meta
+                title="How helpful was this feedback?"
+                description={(
+                    <div style={{ display: 'inline' }}>
+                        <span style={{ float: 'left', paddingBottom: '0.25em' }}>
+                            <Rate
+                                style={{
+                                    color: '#000000',
+                                    marginRight: '1em',
+                                }}
+                                allowClear
+                                tooltips={RATING_TOOLTIP_TEXTS}
+                                value={rating}
+                                disabled={submitted || isLoading}
+                                onChange={onRatingChange}
+                            />
+                            <Button
+                                type="primary"
+                                loading={isLoading}
+                                disabled={submitted || isLoading || !rating}
+                                onClick={() => submitRatingMutate({
+                                    feedbackResponseId: feedbackResponseId,
+                                    newRating: rating,
+                                })}
+                            >
+                                {submitted && "Rated"}
+                                {!submitted && "Rate"}
+                            </Button>
+                        </span>
+                        {(allowReplies && submitted) && <ViewRepliesButton
+                            replies={replies}
+                            unreadReplies={unreadReplies}
+                            onClick={showRepliesModal}
+                        />}
+                    </div>
+                )}
+            />
+            {allowReplies && <FeedbackResponseRepliesModal
+                feedbackResponseId={feedbackResponseId}
+                feedback={feedback}
+                onCancel={onRepliesModalCancel}
+                isVisible={isRepliesModalVisible}
+            />}
+        </Card>
+    );
 }
 
 export default FeedbackResponse;
