@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState} from 'react';
 
 import apiRoot from '../../apiRoot';
 
@@ -12,38 +12,21 @@ const UPDATE_EMAIL_MUTATION = `mutation UpdateEmail($email: String!) {
 }`;
 
 type EmailSettingsProps = {
-    email: string,
+    currentEmail: string,
 };
 
-type EmailSettingsState = {
-    email: string,
-    success: boolean,
-    error: string,
-    // This shouldn't really be necessary; for some reason `onSubmit` is
-    // running twice after editing the Typography.Text component, so this
-    // is used to prevent the Modal being shown twice.
-    isConfirmModalVisible: boolean,
-};
+const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
+    const [email, setEmail] = useState(currentEmail);
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(null);
 
-class EmailSettings extends React.Component<EmailSettingsProps, EmailSettingsState> {
-    state = {
-        email: this.props.email,
-        success: false,
-        error: null,
-        isConfirmModalVisible: false,
+    const onEditStart = () => {
+        setSuccess(false);
+        setError(null);
     };
 
-    onEditStart = () => {
-        this.setState({
-            success: false,
-            error: null,
-        });
-    };
-
-    sendUpdateEmailRequest = (email) => {
-        this.setState({
-            email: email,
-        });
+    const sendUpdateEmailRequest = (newEmail) => {
+        setEmail(newEmail);
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -53,21 +36,21 @@ class EmailSettings extends React.Component<EmailSettingsProps, EmailSettingsSta
             body: JSON.stringify({
                 query: UPDATE_EMAIL_MUTATION,
                 variables: {
-                    email: email,
+                    email: newEmail,
                 }
             }),
             credentials: 'include',
         }).then(result =>
             result.json()
+        ).then(data =>
+            data.data.updateEmail
         ).then((data) => {
-            this.setState({
-                success: data['data']['updateEmail'].success,
-                error: data['data']['updateEmail'].error,
-            });
+            setSuccess(data.success);
+            setError(data.error);
 
             // Log the user out and ask them to log back in with
             // their new email address.
-            if (data['data']['updateEmail'].success) {
+            if (data.success) {
                 fetch(apiRoot + '/logout/', {
                     method: 'GET',
                     headers: {
@@ -80,74 +63,58 @@ class EmailSettings extends React.Component<EmailSettingsProps, EmailSettingsSta
         });
     };
 
-    onSubmit = (email) => {
-        if (email === this.state.email) {
+    const onSubmit = (newEmail) => {
+        if (newEmail === email) {
             return;
         }
-        this.setState({
-            isConfirmModalVisible: true,
-        })
         Modal.confirm({
-            title: 'Are you sure you want to update your email address to "' + email + '"?',
+            title: 'Are you sure you want to update your email address to "' + newEmail + '"?',
             content: 'You will be logged out and required to log back in with your new email address.',
             onOk: () => {
-                this.sendUpdateEmailRequest(email);
-            },
-            onCancel: () => {
-                this.setState({
-                    isConfirmModalVisible: false
-                });
+                sendUpdateEmailRequest(newEmail);
             },
             okText: 'Yes, change it.',
             cancelText: 'No, take me back.',
         });
     };
 
-    render() {
-        return (
-            <div>
-                <Row>
-                    <Col>
-                        <Typography.Text strong>
-                            Your email address:
-                        </Typography.Text>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <Typography.Text
-                            style={{
-                                marginRight: '1em',
-                            }}
-                            editable={{
-                                onStart: this.onEditStart,
-                                onChange: this.onSubmit
-                            }}
-                        >
-                            {this.state.email}
-                        </Typography.Text>
-                        {this.state.success && <Typography.Text type="secondary">
-                            Saved
-                        </Typography.Text>}
-                        {this.state.error && <Typography.Text type="danger">
-                            Error: {this.state.error}
-                        </Typography.Text>}
-                    </Col>
-                </Row>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <Row>
+                <Col>
+                    <Typography.Text strong>
+                        Your email address:
+                    </Typography.Text>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Typography.Text
+                        style={{
+                            marginRight: '1em',
+                        }}
+                        editable={{
+                            onStart: onEditStart,
+                            onChange: onSubmit
+                        }}
+                    >
+                        {email}
+                    </Typography.Text>
+                    {success && <Typography.Text type="secondary">
+                        Saved
+                    </Typography.Text>}
+                    {error && <Typography.Text type="danger">
+                        Error: {error}
+                    </Typography.Text>}
+                </Col>
+            </Row>
+        </div>
+    )
 }
 
-
 export type UserSettingsProps = {
-    email: string,
-    sendReminderEmails: boolean,
-};
-
-type State = {
-    sendReminderEmails: boolean,
-    updateSendReminderEmailsSuccess: boolean,
+    currentEmail: string,
+    currentSendReminderEmails: boolean,
 };
 
 const UPDATE_SEND_REMINDER_EMAILS_MUTATION = `mutation UpdateSendReminderEmails($sendReminderEmails: Boolean!) {
@@ -156,22 +123,15 @@ const UPDATE_SEND_REMINDER_EMAILS_MUTATION = `mutation UpdateSendReminderEmails(
     }
 }`;
 
-class UserSettings extends React.Component<UserSettingsProps, State> {
-    /*
-     * Component without docs
-     */
-    state = {
-        sendReminderEmails: this.props.sendReminderEmails,
-        updateSendReminderEmailsRequestSent: false,
-        updateSendReminderEmailsSuccess: false,
-    };
+const UserSettings = ({ currentEmail, currentSendReminderEmails }: UserSettingsProps) => {
+    const [sendReminderEmails, setSendReminderEmails] = useState(currentSendReminderEmails);
+    const [updateSendReminderEmailsRequestSent, setUpdateSendReminderEmailsRequestSent] = useState(false);
+    const [updateSendReminderEmailsSuccess, setUpdateSendReminderEmailsSuccess] = useState(false);
 
-    onSendReminderEmailsChange = (checked) => {
-        this.setState({
-            sendReminderEmails: checked,
-            updateSendReminderEmailsRequestSent: true,
-            updateSendReminderEmailsSuccess: false,
-        });
+    const onSendReminderEmailsChange = (checked) => {
+        setSendReminderEmails(checked);
+        setUpdateSendReminderEmailsRequestSent(true);
+        setUpdateSendReminderEmailsSuccess(false);
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -187,49 +147,47 @@ class UserSettings extends React.Component<UserSettingsProps, State> {
             credentials: 'include',
         }).then(result =>
             result.json()
-        ).then((data) => {
-            this.setState({
-                updateSendReminderEmailsRequestSent: false,
-                updateSendReminderEmailsSuccess: data['data']['updateSendReminderEmails'].success,
-            })
+        ).then(data =>
+            data.data.updateSendReminderEmails
+        ).then(data => {
+            setUpdateSendReminderEmailsRequestSent(false);
+            setUpdateSendReminderEmailsSuccess(data.success);
         });
     };
 
-    render() {
-        return (
-            <Form>
-                <Typography.Title level={4}>Account Details</Typography.Title>
-                <Form.Item>
-                    <EmailSettings
-                        email={this.props.email}
+    return (
+        <Form>
+            <Typography.Title level={4}>Account Details</Typography.Title>
+            <Form.Item>
+                <EmailSettings
+                    currentEmail={currentEmail}
+                />
+                <a href={apiRoot + '/accounts/password_reset'}>
+                    Request password reset email
+                </a>
+            </Form.Item>
+            <Typography.Title level={4}>Preferences</Typography.Title>
+            <Form.Item>
+                <div>
+                    <Typography.Text strong style={{ marginRight: '0.5em' }}>
+                        Email Reminders:
+                    </Typography.Text>
+                    <Switch
+                        defaultChecked={sendReminderEmails}
+                        onChange={onSendReminderEmailsChange}
+                        style={{ marginRight: '1em' }}
+                        loading={updateSendReminderEmailsRequestSent}
                     />
-                    <a href={apiRoot + '/accounts/password_reset'}>
-                        Request password reset email
-                    </a>
-                </Form.Item>
-                <Typography.Title level={4}>Preferences</Typography.Title>
-                <Form.Item>
-                    <div>
-                        <Typography.Text strong style={{ marginRight: '0.5em' }}>
-                            Email Reminders:
-                        </Typography.Text>
-                        <Switch
-                            defaultChecked={this.props.sendReminderEmails}
-                            onChange={this.onSendReminderEmailsChange}
-                            style={{ marginRight: '1em' }}
-                            loading={this.state.updateSendReminderEmailsRequestSent}
-                        />
-                        {this.state.updateSendReminderEmailsSuccess && <Typography.Text type="secondary">
-                            Saved
-                        </Typography.Text>}
-                    </div>
-                    <Typography.Paragraph type="secondary" style={{ lineHeight: 1.5 }}>
-                        Send me an email reminder after 24 hours if I haven't completed feedback for a group.
-                    </Typography.Paragraph>
-                </Form.Item>
-            </Form>
-        )
-    }
+                    {updateSendReminderEmailsSuccess && <Typography.Text type="secondary">
+                        Saved
+                    </Typography.Text>}
+                </div>
+                <Typography.Paragraph type="secondary" style={{ lineHeight: 1.5 }}>
+                    Send me an email reminder after 24 hours if I haven't completed feedback for a group.
+                </Typography.Paragraph>
+            </Form.Item>
+        </Form>
+    )
 }
 
 export default UserSettings;

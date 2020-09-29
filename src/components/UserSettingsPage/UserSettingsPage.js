@@ -38,8 +38,8 @@ const UserSettingsPage = ({ isMobile }: Props) => {
         return (
             <GenericPage title="Settings" isMobile={isMobile}>
                 <UserSettings
-                    email={data.username}
-                    sendReminderEmails={data.sendReminderEmails}
+                    currentEmail={data.username}
+                    currentSendReminderEmails={data.sendReminderEmails}
                 />
             </GenericPage>
         );
