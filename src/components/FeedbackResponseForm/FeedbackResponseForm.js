@@ -178,7 +178,7 @@ const FeedbackResponseForm = ({
                         {submitted && 'Submitted'}
                     </Button>
                 </FormRow>
-                {allowReplies && <FormRow>
+                {allowReplies && submitted && <FormRow>
                     <ViewRepliesButton
                         replies={replies}
                         unreadReplies={unreadReplies}

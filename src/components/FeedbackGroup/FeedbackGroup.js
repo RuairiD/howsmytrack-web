@@ -70,8 +70,6 @@ const ReceivedFeedback = ({ feedbackReceived }) => {
 }
 
 const FeedbackGroup = ({
-    name,
-    timeCreated,
     feedbackResponseForms,
     feedbackReceived,
     feedbackRequestSummary,
