@@ -80,7 +80,7 @@ const UnwrappedLoginForm = ({ form }) => {
         <div>
             <Row gutter={[16, 16]}>
                 <Col>
-                    {data && data.error && <Alert message={data.error} type="error" showIcon />}
+                    {data && data.errors && <Alert message={data.errors[0]['message']} type="error" showIcon />}
                 </Col>
             </Row>
             <Row gutter={[16, 16]}>

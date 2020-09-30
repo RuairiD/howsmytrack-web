@@ -65,7 +65,7 @@ const FeedbackResponseReplies = ({
         // If there is content that isn't visible because it is being rendered above or
         // below the visible portion of the scrollable container, display the shadows to
         // make it clear there's content that's being hidden. Otherwise, hide them.
-        const scrollableHeight = event.target.scrollHeight - event.target.offsetHeight;
+        const scrollableHeight = event.target.scrollHeight - event.target.clientHeight;
         if (scrollableHeight > 0) {
             const opacity = event.target.scrollTop/scrollableHeight;
             setAllowingScrolling(true);
@@ -217,7 +217,7 @@ const FeedbackResponseReplies = ({
                 />
                 <div
                     onScroll={onRepliesContainerScroll}
-                    className={allowingScrolling ? "replies-container" : null}
+                    className={(!isLoadingReplies && allowingScrolling) ? "replies-container" : null}
                     ref={repliesContainer}
                 >
                     <Typography.Paragraph style={{

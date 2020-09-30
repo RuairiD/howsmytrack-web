@@ -279,7 +279,7 @@ const FeedbackRequestForm = ({
                                     <React.Fragment>
                                             Genre :
                                         <Tooltip
-                                            title={<GenreTooltipContent />}
+                                            title={GenreTooltipContent}
                                         >
                                             <Button type="link"><Icon type="question-circle" />What is this for?</Button>
                                         </Tooltip>
