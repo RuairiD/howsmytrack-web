@@ -113,38 +113,6 @@ const FeedbackResponseReplies = ({
 
     const [markRepliesAsReadMutate] = useMutation(markRepliesAsRead);
 
-    const getReplies = () => (
-        fetch(apiRoot +'/graphql/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify({
-                query: REPLIES_QUERY,
-                variables: {
-                    feedbackResponseId: feedbackResponseId
-                },
-            }),
-            credentials: 'include',
-        }).then(result =>
-            result.json()
-        ).then(data =>
-            data.data.replies
-        )
-    );
-
-    const { isLoading: isLoadingReplies, data: repliesData, refetch: refetchReplies } = useQuery([REPLIES_QUERY], getReplies);
-
-    useEffect(() => {
-        if (repliesData && repliesData.replies) {
-            markRepliesAsReadMutate({ replies: repliesData.replies });
-            scrollToBottomReply();
-        }
-    }, [repliesData, markRepliesAsReadMutate, scrollToBottomReply]);
-
-    let allowFurtherReplies = (repliesData && repliesData.allowFurtherReplies);
-
     const addReply = ({
         feedbackResponseId,
         replyText,
@@ -174,6 +142,43 @@ const FeedbackResponseReplies = ({
 
     const [addReplyMutate, { isLoading: isLoadingAddReply, data: addReplyData }] = useMutation(addReply);
 
+    const getReplies = () => (
+        fetch(apiRoot +'/graphql/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                query: REPLIES_QUERY,
+                variables: {
+                    feedbackResponseId: feedbackResponseId
+                },
+            }),
+            credentials: 'include',
+        }).then(result =>
+            result.json()
+        ).then(data =>
+            data.data.replies
+        )
+    );
+
+    const { isLoading: isLoadingReplies, data: repliesData } = useQuery(
+        // By refetching when `addReplyData` changes, we can force
+        // the replies to update with the newly added reply.
+        [REPLIES_QUERY, addReplyData],
+        getReplies
+    );
+
+    useEffect(() => {
+        if (repliesData && repliesData.replies) {
+            markRepliesAsReadMutate({ replies: repliesData.replies });
+            scrollToBottomReply();
+        }
+    }, [repliesData, markRepliesAsReadMutate, scrollToBottomReply]);
+
+    let allowFurtherReplies = (repliesData && repliesData.allowFurtherReplies);
+
     const onAddReplySubmit = () => {
         addReplyMutate({
             feedbackResponseId: feedbackResponseId,
@@ -186,8 +191,6 @@ const FeedbackResponseReplies = ({
         if (addReplyData && addReplyData.reply) {
             // Clear textfield
             setReplyText('');
-            scrollToBottomReply();
-            refetchReplies();
         }
     }, [addReplyData, scrollToBottomReply]);
 
@@ -240,7 +243,7 @@ const FeedbackResponseReplies = ({
                 />
             </div>
             <div style={{ padding: '0.5em 0' }}>
-                {allowFurtherReplies && <div>
+                {allowFurtherReplies && repliesData && <div>
                     <Row gutter={[16, 16]}>
                         <Col>
                             {addReplyData && addReplyData.error && <Alert message={addReplyData.error} type="error" showIcon />}
