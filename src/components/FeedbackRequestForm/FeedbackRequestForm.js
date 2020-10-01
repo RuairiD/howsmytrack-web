@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactGA from 'react-ga';
+import { useQuery, useMutation } from 'react-query';
 
 import apiRoot from '../../apiRoot';
 
@@ -17,19 +18,10 @@ type Props = {
     emailWhenGrouped: boolean,
     trackless: boolean,
     genre: string,
+    submittedText: object,
     makeRequest: (object) => object,
     responseName: string,
     gaCategory: string,
-};
-
-type State = {
-    requestSent: boolean,
-    errorMessage: string,
-    submitted: boolean,
-    invalidMediaUrl: boolean,
-    feedbackPromptPlaceholder: string,
-    // Used to display inline preview to verify mediaUrl
-    mediaType: string,
 };
 
 const MEDIA_INFO_QUERY = `query MediaInfo($mediaUrl: String!) {
@@ -48,105 +40,42 @@ const FEEDBACK_PROMPT_PLACEHOLDERS = [
     "Would you consider this a beat to study/chill/relax to?",
 ];
 
-class FeedbackRequestForm extends React.Component<Props, State> {
+const GenreTooltipContent = (
+    <span>
+        Requests of the same genre are assigned to the same groups in order to get you the most relevant and constructive feedback. Don't worry if your genre isn't listed though; just submit under <strong>No Genre</strong> and you'll still be grouped! <a target="_blank" rel="noopener noreferrer" href="/faq#why-is-my-tracks-genre-not-listed">
+            Why is my genre not listed?
+        </a>
+    </span>
+);
+
+const getFeedbackPromptPlaceholder = () => {
+    return '"' + FEEDBACK_PROMPT_PLACEHOLDERS[
+        Math.floor(Math.random() * FEEDBACK_PROMPT_PLACEHOLDERS.length)
+    ] + '"';
+};
+
+let mediaUrlTimeout = null;
+
+const FeedbackRequestForm = ({
+    form,
+    feedbackRequestId,
+    mediaUrl,
+    feedbackPrompt,
+    emailWhenGrouped,
+    trackless,
+    genre,
+    submittedText,
+    makeRequest,
+    responseName,
+    gaCategory,
+}: Props) => {
     /*
      * Component for displaying generic feedback request form for both creation and editing.
      * Enforces URL existence check locally but relies on backend to check user is eligible to make a request.
      */
-    mediaUrlTimeout = null;
+    const [feedbackPromptPlaceholder] = useState(getFeedbackPromptPlaceholder());
 
-    getFeedbackPromptPlaceholder = () => {
-        return '"' + FEEDBACK_PROMPT_PLACEHOLDERS[
-            Math.floor(Math.random() * FEEDBACK_PROMPT_PLACEHOLDERS.length)
-        ] + '"';
-    };
-
-    state = {
-        requestSent: false,
-        errorMessage: null,
-        submitted: false,
-        invalidMediaUrl: false,
-        feedbackPromptPlaceholder: this.getFeedbackPromptPlaceholder(),
-    };
-
-    componentDidMount() {
-        if (this.props.mediaUrl) {
-            this.getMediaInfo();
-        }
-        ReactGA.event({
-            category: this.props.gaCategory,
-            action: "view",
-        });
-    }
-    
-    submitForm = (mediaUrl, feedbackPrompt, genre, emailWhenGrouped) => {
-        this.setState({
-            requestSent: true,
-        })
-        ReactGA.event({
-            category: this.props.gaCategory,
-            action: "submit",
-        });
-        return this.props.makeRequest({
-            feedbackRequestId: this.props.feedbackRequestId,
-            genre: genre,
-            mediaUrl: mediaUrl,
-            feedbackPrompt: feedbackPrompt,
-            emailWhenGrouped: emailWhenGrouped,
-        }).then(result =>
-            result.json()
-        ).then((data) => {
-            this.setState({
-                requestSent: false,
-                submitted: data['data'][this.props.responseName].success,
-                errorMessage: data['data'][this.props.responseName].error,
-                invalidMediaUrl: data['data'][this.props.responseName].invalidMediaUrl,
-            });
-
-            if (data['data'][this.props.responseName].success) {
-                ReactGA.event({
-                    category: this.props.gaCategory,
-                    action: "success",
-                });
-            } else {
-                ReactGA.event({
-                    category: this.props.gaCategory,
-                    action: "error",
-                });
-            }
-        });
-    };
-
-    onSubmit = (event) => {
-        event.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
-                let mediaUrl = null;
-                let feedbackPrompt = null;
-                if (values.trackless !== 'trackless') {
-                    mediaUrl = values.mediaUrl;
-                    feedbackPrompt = values.feedbackPrompt;
-                }
-                this.submitForm(
-                    mediaUrl,
-                    feedbackPrompt,
-                    values.genre,
-                    values.emailWhenGrouped,
-                )
-            }
-        });
-    };
-
-    getErrorMessage = () => {
-        if (this.state.invalidMediaUrl) {
-            return (
-                <Typography.Text>Please submit a valid Soundcloud, Google Drive, Dropbox or OneDrive URL. If you are unsure how to get the correct URL, <a href="/trackurlhelp" target="_blank" rel="noopener noreferrer">please consult our guide.</a></Typography.Text>
-            )
-        }
-        return this.state.errorMessage
-    };
-
-    getMediaInfo = () => {
+    const getMediaInfo = () => (
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -156,206 +85,270 @@ class FeedbackRequestForm extends React.Component<Props, State> {
             body: JSON.stringify({
                 query: MEDIA_INFO_QUERY,
                 variables: {
-                    mediaUrl: this.props.form.getFieldValue('mediaUrl'),
+                    mediaUrl: form.getFieldValue('mediaUrl'),
                 },
             }),
             credentials: 'include',
         }).then(result =>
             result.json()
-        ).then((data) => {
-            this.setState({
-                mediaType: data['data']['mediaInfo'].mediaType,
+        ).then(data =>
+            data.data.mediaInfo
+        )
+    );
+
+    const { data: mediaInfo, refetch: refetchMediaInfo } = useQuery(MEDIA_INFO_QUERY, getMediaInfo, { enabled: false })
+
+    useEffect(() => {
+        if (mediaUrl) {
+            refetchMediaInfo();
+        }
+    }, [mediaUrl, refetchMediaInfo]);
+
+    useEffect(() => {
+        ReactGA.event({
+            category: gaCategory,
+            action: "view",
+        });
+    }, [gaCategory]);
+    
+    const submitForm = ({ mediaUrl, feedbackPrompt, genre, emailWhenGrouped }) => {
+        ReactGA.event({
+            category: gaCategory,
+            action: "submit",
+        });
+
+        return makeRequest({
+            feedbackRequestId: feedbackRequestId,
+            genre: genre,
+            mediaUrl: mediaUrl,
+            feedbackPrompt: feedbackPrompt,
+            emailWhenGrouped: emailWhenGrouped,
+        }).then(result =>
+            result.json()
+        ).then(data =>
+            data.data[responseName]
+        )
+    };
+
+    const [submitFormMutate, { isLoading, data }] = useMutation(submitForm);
+
+    if (data) {
+        if (data.success) {
+            ReactGA.event({
+                category: gaCategory,
+                action: "success",
             });
+        } else {
+            ReactGA.event({
+                category: gaCategory,
+                action: "error",
+            });
+        }
+    }
+
+    const onSubmit = (event) => {
+        event.preventDefault();
+        form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                let mediaUrl = null;
+                let feedbackPrompt = null;
+                if (values.trackless !== 'trackless') {
+                    mediaUrl = values.mediaUrl;
+                    feedbackPrompt = values.feedbackPrompt;
+                }
+                submitFormMutate({
+                    mediaUrl: mediaUrl,
+                    feedbackPrompt: feedbackPrompt,
+                    genre: values.genre,
+                    emailWhenGrouped: values.emailWhenGrouped,
+                })
+            }
         });
     };
 
-    onMediaUrlChange = () => {
-        if (this.mediaUrlTimeout) {
-            clearTimeout(this.mediaUrlTimeout);
+    const getErrorMessage = (errorMessage, invalidMediaUrl) => {
+        if (invalidMediaUrl) {
+            return (
+                <Typography.Text>Please submit a valid Soundcloud, Google Drive, Dropbox or OneDrive URL. If you are unsure how to get the correct URL, <a href="/trackurlhelp" target="_blank" rel="noopener noreferrer">please consult our guide.</a></Typography.Text>
+            )
         }
-        this.mediaUrlTimeout = setTimeout(
+        return errorMessage
+    };
+
+    const onMediaUrlChange = () => {
+        if (mediaUrlTimeout) {
+            clearTimeout(mediaUrlTimeout);
+        }
+        mediaUrlTimeout = setTimeout(
             () => {
-                this.getMediaInfo()
+                refetchMediaInfo()
             },
             MEDIA_INFO_TIMEOUT,
         )
     };
 
-    getGenreTooltipContent = () => {
-        return (
-            <span>
-                Requests of the same genre are assigned to the same groups in order to get you the most relevant and constructive feedback. Don't worry if your genre isn't listed though; just submit under <strong>No Genre</strong> and you'll still be grouped! <a target="_blank" rel="noopener noreferrer" href="/faq#why-is-my-tracks-genre-not-listed">
-                    Why is my genre not listed?
-                </a>
-            </span>
-        );
-    };
+    if (data && data.success) {
+        return (<Result
+            status="success"
+            title={submittedText.title}
+            subTitle={submittedText.subTitle}
+        />)
+    }
 
-    render() {
-        if (this.state.submitted) {
-            return (<Result
-                status="success"
-                title={this.props.submittedText.title}
-                subTitle={this.props.submittedText.subTitle}
-            />)
-        }
+    if (emailWhenGrouped === undefined) {
+        emailWhenGrouped = true;
+    }
 
-        let emailWhenGrouped = this.props.emailWhenGrouped;
-        if (emailWhenGrouped === undefined) {
-            emailWhenGrouped = true;
-        }
+    let tracklessValue = 'track'
+    if (trackless) {
+        tracklessValue = 'trackless'
+    }
 
-        let tracklessValue = 'track'
-        if (this.props.trackless) {
-            tracklessValue = 'trackless'
-        }
-
-        return (
-            <div>
-                <Row gutter={[16, 16]}>
-                    <Col>
-                        <Typography.Text>
-                            Users are allowed to submit feedback requests once per 24 hours.<br />
-                            <a href="/trackurlhelp" target="_blank" rel="noopener noreferrer">
-                                Unsure how to find the correct track URL?
-                            </a>
-                        </Typography.Text>
-                        {this.state.errorMessage && <Alert message={this.getErrorMessage()} type="error" showIcon />}
-                    </Col>
-                </Row>
-                <Row gutter={[16, 16]}>
-                    <Col>
-                        <Spin spinning={this.state.requestSent}>
-                            <Form onSubmit={this.onSubmit} className="hmt-form">
-                                <Form.Item>
-                                    {
-                                        this.props.form.getFieldDecorator('trackless', {
-                                            initialValue: tracklessValue,
-                                        })(<Radio.Group className="trackless-radio" buttonStyle="solid">
-                                                <Radio.Button value="track">
-                                                    I have a track I would like feedback on
-                                                </Radio.Button>
-                                                <Radio.Button value="trackless">
-                                                    I don't have a track and would just like to provide feedback for others
-                                                </Radio.Button>
-                                            </Radio.Group>
-                                        )
-                                    }
-                                </Form.Item>
-                                {this.props.form.getFieldValue('trackless') !== 'trackless' && <React.Fragment>
-                                        <Form.Item label="Soundcloud/Google Drive/Dropbox/OneDrive URL">
-                                            {
-                                                this.props.form.getFieldDecorator('mediaUrl',
-                                                    {
-                                                        rules: [
-                                                            {
-                                                                // A media url isn't required if the user has declared that
-                                                                // they are making a 'trackless' request i.e. only giving
-                                                                // feedback, not receiving it.
-                                                                required: this.props.form.getFieldValue('trackless') !== 'trackless',
-                                                                message: 'Please provide a track URL',
-                                                            },
-                                                        ],
-                                                        initialValue: this.props.mediaUrl,
-                                                    }
-                                                )(<Input
-                                                    onChange={this.onMediaUrlChange}
-                                                    autoFocus
-                                                />)
-                                            }
-                                        </Form.Item>
-                                        <Form.Item label="Is there anything you would like specific feedback on? (optional)">
-                                            {
-                                                this.props.form.getFieldDecorator('feedbackPrompt',
-                                                    {
-                                                        initialValue: this.props.feedbackPrompt,
-                                                    }
-                                                )(<Input.TextArea
-                                                    rows={4}
-                                                    placeholder={this.state.feedbackPromptPlaceholder}
-                                                    disabled={this.props.form.getFieldValue('trackless') === 'trackless'}
-                                                />)
-                                            }
-                                        </Form.Item>
+    return (
+        <div>
+            <Row gutter={[16, 16]}>
+                <Col>
+                    <Typography.Text>
+                        Users are allowed to submit feedback requests once per 24 hours.<br />
+                        <a href="/trackurlhelp" target="_blank" rel="noopener noreferrer">
+                            Unsure how to find the correct track URL?
+                        </a>
+                    </Typography.Text>
+                    {data && data.error && <Alert message={getErrorMessage(data.error, data.invalidMediaUrl)} type="error" showIcon />}
+                </Col>
+            </Row>
+            <Row gutter={[16, 16]}>
+                <Col>
+                    <Spin spinning={isLoading}>
+                        <Form onSubmit={onSubmit} className="hmt-form">
+                            <Form.Item>
+                                {
+                                    form.getFieldDecorator('trackless', {
+                                        initialValue: tracklessValue,
+                                    })(<Radio.Group className="trackless-radio" buttonStyle="solid">
+                                            <Radio.Button value="track">
+                                                I have a track I would like feedback on
+                                            </Radio.Button>
+                                            <Radio.Button value="trackless">
+                                                I don't have a track and would just like to provide feedback for others
+                                            </Radio.Button>
+                                        </Radio.Group>
+                                    )
+                                }
+                            </Form.Item>
+                            {form.getFieldValue('trackless') !== 'trackless' && <React.Fragment>
+                                    <Form.Item label="Soundcloud/Google Drive/Dropbox/OneDrive URL">
+                                        {
+                                            form.getFieldDecorator('mediaUrl',
+                                                {
+                                                    rules: [
+                                                        {
+                                                            // A media url isn't required if the user has declared that
+                                                            // they are making a 'trackless' request i.e. only giving
+                                                            // feedback, not receiving it.
+                                                            required: form.getFieldValue('trackless') !== 'trackless',
+                                                            message: 'Please provide a track URL',
+                                                        },
+                                                    ],
+                                                    initialValue: mediaUrl,
+                                                }
+                                            )(<Input
+                                                onChange={onMediaUrlChange}
+                                                autoFocus
+                                            />)
+                                        }
+                                    </Form.Item>
+                                    <Form.Item label="Is there anything you would like specific feedback on? (optional)">
+                                        {
+                                            form.getFieldDecorator('feedbackPrompt',
+                                                {
+                                                    initialValue: feedbackPrompt,
+                                                }
+                                            )(<Input.TextArea
+                                                rows={4}
+                                                placeholder={feedbackPromptPlaceholder}
+                                                disabled={form.getFieldValue('trackless') === 'trackless'}
+                                            />)
+                                        }
+                                    </Form.Item>
+                                </React.Fragment>
+                            }
+                            <Form.Item
+                                colon={false}
+                                label={
+                                    <React.Fragment>
+                                            Genre :
+                                        <Tooltip
+                                            title={GenreTooltipContent}
+                                        >
+                                            <Button type="link"><Icon type="question-circle" />What is this for?</Button>
+                                        </Tooltip>
                                     </React.Fragment>
                                 }
-                                <Form.Item
-                                    colon={false}
-                                    label={
-                                        <React.Fragment>
-                                             Genre :
-                                            <Tooltip
-                                                title={this.getGenreTooltipContent()}
-                                            >
-                                                <Button type="link"><Icon type="question-circle" />What is this for?</Button>
-                                            </Tooltip>
-                                        </React.Fragment>
-                                    }
+                            >
+                                {
+                                    form.getFieldDecorator('genre',
+                                        {
+                                            initialValue: genre,
+                                            rules: [
+                                                {
+                                                    required: true,
+                                                    message: (
+                                                        <React.Fragment>
+                                                            {form.getFieldValue('trackless') === 'trackless' && "Please select the genre you would like to provide feedback for."}
+                                                            {form.getFieldValue('trackless') !== 'trackless' && "Please select a genre for this track. If you are unsure or do not see your genre listed, just select 'No Genre'."}
+                                                        </React.Fragment>
+                                                    ),
+                                                },
+                                            ],
+                                        }
+                                    )(<Select>
+                                        {Object.keys(GENRE_OPTIONS).map((genre, i) => (
+                                                <Select.Option key={i} value={genre}>
+                                                {GENRE_OPTIONS[genre]}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>)
+                                }
+                            </Form.Item>
+                            <Form.Item>
+                                {
+                                    form.getFieldDecorator('emailWhenGrouped', {
+                                        valuePropName: 'checked',
+                                        initialValue: emailWhenGrouped,
+                                    })(<Checkbox>Email me when this request is added to a group.</Checkbox>)
+                                }
+                            </Form.Item>
+                            <Form.Item>
+                                <Button
+                                    block
+                                    type="primary"
+                                    htmlType="submit"
+                                    disabled={isLoading || (data && data.success)}
                                 >
-                                    {
-                                        this.props.form.getFieldDecorator('genre',
-                                            {
-                                                initialValue: this.props.genre,
-                                                rules: [
-                                                    {
-                                                        required: true,
-                                                        message: (
-                                                            <React.Fragment>
-                                                                {this.props.form.getFieldValue('trackless') === 'trackless' && "Please select the genre you would like to provide feedback for."}
-                                                                {this.props.form.getFieldValue('trackless') !== 'trackless' && "Please select a genre for this track. If you are unsure or do not see your genre listed, just select 'No Genre'."}
-                                                            </React.Fragment>
-                                                        ),
-                                                    },
-                                                ],
-                                            }
-                                        )(<Select>
-                                            {Object.keys(GENRE_OPTIONS).map((genre, i) => (
-                                                 <Select.Option key={i} value={genre}>
-                                                    {GENRE_OPTIONS[genre]}
-                                                </Select.Option>
-                                            ))}
-                                        </Select>)
-                                    }
-                                </Form.Item>
-                                <Form.Item>
-                                    {
-                                        this.props.form.getFieldDecorator('emailWhenGrouped', {
-                                            valuePropName: 'checked',
-                                            initialValue: emailWhenGrouped,
-                                        })(<Checkbox>Email me when this request is added to a group.</Checkbox>)
-                                    }
-                                </Form.Item>
-                                <Form.Item>
-                                    <Button
-                                        block
-                                        type="primary"
-                                        htmlType="submit"
-                                        disabled={this.state.submitted}
-                                    >
-                                        Submit Feedback Request
-                                    </Button>
-                                </Form.Item>
-                            </Form>
-                        </Spin>
-                    </Col>
-                </Row>
-                {(this.props.form.getFieldValue('trackless') !== 'trackless' && this.props.form.getFieldValue('mediaUrl')) && <Row gutter={[16, 16]}>
-                    <Col>
-                        <Typography.Title level={4}>Preview</Typography.Title>
-                        <Typography.Text>Is your media URL correct? Is it playing correctly?</Typography.Text>
-                        <FeedbackRequestSummaryContent
-                            feedbackRequestSummary={{
-                                mediaUrl: this.props.form.getFieldValue('mediaUrl'),
-                                mediaType: this.state.mediaType,
-                                feedbackPrompt: this.props.form.getFieldValue('feedbackPrompt'),
-                                genre: this.props.form.getFieldValue('genre'),
-                            }}
-                        />
-                    </Col>
-                </Row>}
-            </div>
-        );
-    }
+                                    Submit Feedback Request
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    </Spin>
+                </Col>
+            </Row>
+            {(form.getFieldValue('trackless') !== 'trackless' && form.getFieldValue('mediaUrl') && mediaInfo) && <Row gutter={[16, 16]}>
+                <Col>
+                    <Typography.Title level={4}>Preview</Typography.Title>
+                    <Typography.Text>Is your media URL correct? Is it playing correctly?</Typography.Text>
+                    <FeedbackRequestSummaryContent
+                        feedbackRequestSummary={{
+                            mediaUrl: form.getFieldValue('mediaUrl'),
+                            mediaType: mediaInfo.mediaType,
+                            feedbackPrompt: form.getFieldValue('feedbackPrompt'),
+                            genre: form.getFieldValue('genre'),
+                        }}
+                    />
+                </Col>
+            </Row>}
+        </div>
+    );
 }
 
 export default FeedbackRequestForm;

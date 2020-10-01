@@ -11,24 +11,25 @@ type Props = {
     feedback: string,
 };
 
-class FeedbackResponseRepliesModal extends React.Component<Props, State> {
-    render() {
-        return (
-            <Modal
-                title="View Conversation"
-                onCancel={this.props.onCancel}
-                visible={this.props.isVisible}
-                footer={null}
-                className="responsive-modal"
-                destroyOnClose
-            >
-                <FeedbackResponseReplies
-                    feedbackResponseId={this.props.feedbackResponseId}
-                    feedback={this.props.feedback}
-                />
-            </Modal>
-        );
-    }
-}
+const FeedbackResponseRepliesModal = ({
+    onCancel,
+    isVisible,
+    feedbackResponseId,
+    feedback,
+}: Props) => (
+    <Modal
+        title="View Conversation"
+        onCancel={onCancel}
+        visible={isVisible}
+        footer={null}
+        className="responsive-modal"
+        destroyOnClose
+    >
+        <FeedbackResponseReplies
+            feedbackResponseId={feedbackResponseId}
+            feedback={feedback}
+        />
+    </Modal>
+);
 
 export default FeedbackResponseRepliesModal;

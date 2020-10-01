@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useQuery } from "react-query";
 
 import apiRoot from '../../apiRoot';
 
@@ -20,9 +21,7 @@ const USER_DETAILS_QUERY = `query UserDetails {
 }`;
 
 const HomePage = ({ isMobile }: Props) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(null);
-
-    useEffect(() => {
+    const { isLoading, data } = useQuery([USER_DETAILS_QUERY], () => 
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -35,17 +34,10 @@ const HomePage = ({ isMobile }: Props) => {
             credentials: 'include',
         }).then(result =>
             result.json()
-        ).then((data) => {
-            if (!data['data']['userDetails']) {
-                // User isn't logged in or has an unreadable token, skip.
-                setIsLoggedIn(false);
-            } else {
-                setIsLoggedIn(!!data['data']['userDetails']['username']);
-            }
-        });
-    }, [])
+        ).then(data => data.data.userDetails)
+    );
 
-    if (isLoggedIn === null) {
+    if (isLoading) {
         return (
             <div className="home-loading-container">
                 <Spin 
@@ -61,7 +53,7 @@ const HomePage = ({ isMobile }: Props) => {
             </div>
         );
     }
-    if (isLoggedIn) {
+    if (data && !!data.username) {
         return (<FeedbackGroupsPage isMobile={isMobile} />);
     }
     return (

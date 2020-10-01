@@ -7,14 +7,10 @@ type Props = {
     isMobile: boolean,
 };
 
-class FaqPage extends React.Component<Props> {
-    render() {
-        return (
-            <GenericPage title="Frequently Asked Questions" isMobile={this.props.isMobile}>
-                <Faq />
-            </GenericPage>
-        )
-    }
-}
+const FaqPage = ({ isMobile }: Props) =>(
+    <GenericPage title="Frequently Asked Questions" isMobile={isMobile}>
+        <Faq />
+    </GenericPage>
+)
 
 export default FaqPage;

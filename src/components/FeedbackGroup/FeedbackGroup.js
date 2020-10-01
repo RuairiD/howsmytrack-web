@@ -19,10 +19,6 @@ type Props = {
     feedbackRequestSummary: FeedbackRequestSummaryProps,
 };
 
-type State = {
-    feedbackReceived: Array<FeedbackResponseProps>,
-};
-
 const LIST_GRID_LAYOUT = {
     gutter: 16,
     xs: 1,
@@ -33,103 +29,102 @@ const LIST_GRID_LAYOUT = {
     xxl: 2,
 };
 
-class FeedbackGroup extends React.Component<Props, State> {
-    /*
-     * Component without docs
-     */
-    state = {
-        feedbackReceived: this.props.feedbackReceived,
-    };
-
-    renderReceivedFeedback = () => {
-        if (this.state.feedbackReceived === null || this.state.feedbackReceived === undefined) {
-            return (
-                <Card>
-                    <Empty
-                        style={{ margin: '1em' }}
-                        image={Empty.PRESENTED_IMAGE_DEFAULT}
-                        description="Feedback for your submission will appear here once you have submitted feedback for everyone else in your group."
-                    />
-                </Card>
-            )
-        }
-
-        if (this.state.feedbackReceived.length === 0) {
-            return (
-                <Card>
-                    <Empty
-                        style={{ margin: '1em' }}
-                        image={Empty.PRESENTED_IMAGE_SIMPLE}
-                        description="Nobody in your group has submitted feedback yet..."
-                    />
-                </Card>
-            )
-        }
-
+const ReceivedFeedback = ({ feedbackReceived }) => {
+    if (feedbackReceived === null || feedbackReceived === undefined) {
         return (
-            <List
-                grid={LIST_GRID_LAYOUT}
-                dataSource={this.state.feedbackReceived}
-                renderItem={feedbackReceived => (
-                    <List.Item>
-                        <FeedbackResponse
-                            {...feedbackReceived}
-                        />
-                    </List.Item>
-                )}
-            />
+            <Card>
+                <Empty
+                    style={{ margin: '1em' }}
+                    image={Empty.PRESENTED_IMAGE_DEFAULT}
+                    description="Feedback for your submission will appear here once you have submitted feedback for everyone else in your group."
+                />
+            </Card>
         )
     }
 
-    render() {
-        if (this.props.feedbackResponseForms) {
-            return (
-                <div>
+    if (feedbackReceived.length === 0) {
+        return (
+            <Card>
+                <Empty
+                    style={{ margin: '1em' }}
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    description="Nobody in your group has submitted feedback yet..."
+                />
+            </Card>
+        )
+    }
+
+    return (
+        <List
+            grid={LIST_GRID_LAYOUT}
+            dataSource={feedbackReceived}
+            renderItem={feedbackReceived => (
+                <List.Item>
+                    <FeedbackResponse
+                        {...feedbackReceived}
+                    />
+                </List.Item>
+            )}
+        />
+    )
+}
+
+const FeedbackGroup = ({
+    feedbackResponseForms,
+    feedbackReceived,
+    feedbackRequestSummary,
+}: Props) => {
+    /*
+     * Component without docs
+     */
+
+    if (feedbackResponseForms) {
+        return (
+            <div>
+                <Row gutter={[16, 16]}>
+                    <Col>
+                        <Typography.Title level={3}>Feedback requests for you</Typography.Title>
+                    </Col>
+                </Row>
+                <List
+                    grid={LIST_GRID_LAYOUT}
+                    dataSource={feedbackResponseForms}
+                    renderItem={feedbackResponseForm => (
+                        <List.Item>
+                            <FeedbackResponseForm
+                                {...feedbackResponseForm}
+                            />
+                        </List.Item>
+                    )}
+                />
+
+                {feedbackRequestSummary.mediaUrl && <React.Fragment>
+                    <Divider />
+
                     <Row gutter={[16, 16]}>
                         <Col>
-                            <Typography.Title level={3}>Feedback requests for you</Typography.Title>
+                            <Typography.Title level={3}>Feedback for your submission</Typography.Title>
+                            <FeedbackRequestSummary
+                                feedbackRequestSummary={feedbackRequestSummary}
+                            />
                         </Col>
                     </Row>
-                    <List
-                        grid={LIST_GRID_LAYOUT}
-                        dataSource={this.props.feedbackResponseForms}
-                        renderItem={feedbackResponseForm => (
-                            <List.Item>
-                                <FeedbackResponseForm
-                                    {...feedbackResponseForm}
-                                />
-                            </List.Item>
-                        )}
-                    />
 
-                    {this.props.feedbackRequestSummary.mediaUrl && <React.Fragment>
-                        <Divider />
-
-                        <Row gutter={[16, 16]}>
-                            <Col>
-                                <Typography.Title level={3}>Feedback for your submission</Typography.Title>
-                                <FeedbackRequestSummary
-                                    feedbackRequestSummary={this.props.feedbackRequestSummary}
-                                />
-                            </Col>
-                        </Row>
-
-                        <Row gutter={[16, 16]}>
-                            <Col>
-                                {this.renderReceivedFeedback()}
-                            </Col>
-                        </Row>
-                    </React.Fragment>}
-                </div>
-            )
-        }
-        return (
-            <Result
-                status="error"
-                title="You are not authorised to view this group."
-            />
-        );
+                    <Row gutter={[16, 16]}>
+                        <Col>
+                            <ReceivedFeedback feedbackReceived={feedbackReceived} />
+                        </Col>
+                    </Row>
+                </React.Fragment>}
+            </div>
+        )
     }
+    return (
+        <Result
+            status="error"
+            title="You are not authorised to view this group."
+        />
+    );
 }
 
 export default FeedbackGroup;

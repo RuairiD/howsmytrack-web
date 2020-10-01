@@ -26,131 +26,145 @@ export type FeedbackGroupPreviewProps = {
     unreadReplies: number,
 };
 
-class FeedbackGroupPreview extends React.Component<FeedbackGroupPreviewProps> {
-    /*
-     * Component for inline group preview shown on FeedbackGroupsPage
-     */
-    getUserFeedbackPercent = () => {
-        return 100 * (this.props.userFeedbackCount/(this.props.userCount))
-    };
+const getUserFeedbackPercent = (userFeedbackCount, userCount) => {
+    return 100 * (userFeedbackCount/userCount)
+};
 
-    getUserFeedbackText = () => {
-        return this.props.userFeedbackCount + '/' + (this.props.userCount)
-    };
+const getUserFeedbackText = (userFeedbackCount, userCount) => {
+    return userFeedbackCount + '/' + userCount
+};
 
-    getFeedbackResponsePercent = () => {
-        return 100 * (this.props.feedbackResponseCount/(this.props.userCount + this.props.tracklessUserCount))
-    };
+const getFeedbackResponsePercent = (feedbackResponseCount, userCount, tracklessUserCount) => {
+    return 100 * (feedbackResponseCount/(userCount + tracklessUserCount))
+};
 
-    getFeedbackResponseText = () => {
-        return this.props.feedbackResponseCount + '/' + (this.props.userCount + this.props.tracklessUserCount)
-    };
+const getFeedbackResponseText = (feedbackResponseCount, userCount, tracklessUserCount) => {
+    return feedbackResponseCount + '/' + (userCount + tracklessUserCount)
+};
 
-    buildFeedbackGroupUrl = () => {
-        return '/group/' + this.props.feedbackGroupId;
-    };
+const buildFeedbackGroupUrl = (feedbackGroupId) => {
+    return '/group/' + feedbackGroupId;
+};
 
-    getTimeCreated = () => {
-        if (!this.props.timeCreated) {
-            return '';
-        }
-        return dateFormat(
-            new Date(Date.parse(this.props.timeCreated)),
-            'mmmm dS yyyy',
-        );
-    };
+const formatTimeCreated = (timeCreated) => {
+    if (!timeCreated) {
+        return '';
+    }
+    return dateFormat(
+        new Date(Date.parse(timeCreated)),
+        'mmmm dS yyyy',
+    );
+};
 
-    getCardExtra = () => {
+const CardExtra = ({ timeCreated }) => (
+    <div style={{ display: 'flex', marginTop: '1em' }}>
+        <Typography.Text style={{
+            marginRight: 'auto',
+            marginTop: 'auto',
+            marginBottom: 'auto',
+        }}>
+            {formatTimeCreated(timeCreated)}
+        </Typography.Text>
+        <Typography.Text style={{
+            marginLeft: 'auto',
+            marginTop: 'auto',
+            marginBottom: 'auto',
+        }}>
+            <Button type="link">View Group</Button>
+        </Typography.Text>
+    </div>
+);
+
+const RequestForGroup = ({ mediaUrl, mediaType }) =>{
+    if (mediaUrl) {
         return (
-            <div style={{ display: 'flex', marginTop: '1em' }}>
-                <Typography.Text style={{
-                    marginRight: 'auto',
-                    marginTop: 'auto',
-                    marginBottom: 'auto',
-                }}>
-                    {this.getTimeCreated()}
-                </Typography.Text>
-                <Typography.Text style={{
-                    marginLeft: 'auto',
-                    marginTop: 'auto',
-                    marginBottom: 'auto',
-                }}>
-                    <Button type="link">View Group</Button>
-                </Typography.Text>
-            </div>
-        )
-    };
-
-    renderMedia = () => {
-        if (this.props.feedbackRequestSummary.mediaUrl) {
-            return (
-                <div>
+            <Row gutter={[16, 16]}>
+                <Col>
                     <Typography.Text strong>You submitted:</Typography.Text>
                     <MediaEmbed
-                        mediaUrl={this.props.feedbackRequestSummary.mediaUrl}
-                        mediaType={this.props.feedbackRequestSummary.mediaType}
+                        mediaUrl={mediaUrl}
+                        mediaType={mediaType}
                         size="small"
                     />
-                </div>
-            )
-        }
-        return (
-            <div>
-                <Typography.Text strong>You did not submit a track for this group.</Typography.Text>
-            </div>
-        )
-    };
-
-    render() {
-        return (
-            <div>
-                <Card
-                    title={(
-                        <a href={this.buildFeedbackGroupUrl()}>
-                            <div style={{ display: 'flex' }}>
-                                <Typography.Title level={4} style={{ marginRight: 'auto', marginBottom: 'auto', marginTop: 'auto' }}>{this.props.name}</Typography.Title>
-                                <Badge
-                                    count={this.props.unreadReplies}
-                                    style={{ marginLeft: 'auto', marginBottom: 'auto', marginTop: 'auto' }}
-                                />
-                            </div>
-                        </a>
-                    )}
-                >
-                    <a href={this.buildFeedbackGroupUrl()}>
-                        <Row gutter={[16, 16]}>
-                            <Col>
-                                {this.renderMedia()}
-                            </Col>
-                        </Row>
-                        <Row gutter={[16, 16]}>
-                            <Col>
-                                <Typography.Text strong>Feedback for them</Typography.Text>
-                                <Tooltip
-                                    title={FEEDBACK_FOR_THEM_TOOLTIP}
-                                >
-                                    <Button type="link"><Icon type="question-circle" /></Button>
-                                </Tooltip>
-                                <Progress percent={this.getUserFeedbackPercent()} format={this.getUserFeedbackText} width={80} />
-                            </Col>
-                        </Row>
-                        {this.props.feedbackRequestSummary.mediaUrl && <Row gutter={[16, 16]}>
-                            <Col>
-                                <Typography.Text strong>Feedback for you</Typography.Text>
-                                <Tooltip
-                                    title={FEEDBACK_FOR_YOU_TOOLTIP}
-                                >
-                                    <Button type="link"><Icon type="question-circle" /></Button>
-                                </Tooltip>
-                                <Progress percent={this.getFeedbackResponsePercent()} format={this.getFeedbackResponseText} width={80} />
-                            </Col>
-                        </Row>}
-                        <Card.Meta description={this.getCardExtra()} />
-                    </a>
-                </Card>
-            </div>
+                </Col>
+            </Row>
         );
     }
+    return (
+        <Row gutter={[16, 16]}>
+            <Col>
+                <Typography.Text strong>You did not submit a track for this group.</Typography.Text>
+            </Col>
+        </Row>
+    );
 }
+
+/*
+ * Component for inline group preview shown on FeedbackGroupsPage
+ */
+const FeedbackGroupPreview = ({
+    feedbackGroupId,
+    name,
+    timeCreated,
+    feedbackRequestSummary,
+    userCount,
+    tracklessUserCount,
+    userFeedbackCount,
+    feedbackResponseCount,
+    unreadReplies,
+}: FeedbackGroupPreviewProps) =>  (
+    <div>
+        <Card
+            title={(
+                <a href={buildFeedbackGroupUrl(feedbackGroupId)}>
+                    <div style={{ display: 'flex' }}>
+                        <Typography.Title level={4} style={{ marginRight: 'auto', marginBottom: 'auto', marginTop: 'auto' }}>
+                            {name}
+                        </Typography.Title>
+                        <Badge
+                            count={unreadReplies}
+                            style={{ marginLeft: 'auto', marginBottom: 'auto', marginTop: 'auto' }}
+                        />
+                    </div>
+                </a>
+            )}
+        >
+            <a href={buildFeedbackGroupUrl(feedbackGroupId)}>
+                <RequestForGroup mediaUrl={feedbackRequestSummary.mediaUrl} mediaType={feedbackRequestSummary.mediaType} />
+                <Row gutter={[16, 16]}>
+                    <Col>
+                        <Typography.Text strong>Feedback for them</Typography.Text>
+                        <Tooltip
+                            title={FEEDBACK_FOR_THEM_TOOLTIP}
+                        >
+                            <Button type="link"><Icon type="question-circle" /></Button>
+                        </Tooltip>
+                        <Progress
+                            percent={getUserFeedbackPercent(userFeedbackCount, userCount)}
+                            format={() => getUserFeedbackText(userFeedbackCount, userCount)}
+                            width={80}
+                        />
+                    </Col>
+                </Row>
+                {feedbackRequestSummary.mediaUrl && <Row gutter={[16, 16]}>
+                    <Col>
+                        <Typography.Text strong>Feedback for you</Typography.Text>
+                        <Tooltip
+                            title={FEEDBACK_FOR_YOU_TOOLTIP}
+                        >
+                            <Button type="link"><Icon type="question-circle" /></Button>
+                        </Tooltip>
+                        <Progress
+                            percent={getFeedbackResponsePercent(feedbackResponseCount, userCount, tracklessUserCount)}
+                            format={() => getFeedbackResponseText(feedbackResponseCount, userCount, tracklessUserCount)}
+                            width={80}
+                        />
+                    </Col>
+                </Row>}
+                <Card.Meta description={<CardExtra timeCreated={timeCreated} />} />
+            </a>
+        </Card>
+    </div>
+);
 
 export default FeedbackGroupPreview;

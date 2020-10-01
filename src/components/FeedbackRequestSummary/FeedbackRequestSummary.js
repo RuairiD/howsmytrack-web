@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useMutation } from 'react-query';
 
 import apiRoot from '../../apiRoot';
 
@@ -20,12 +21,6 @@ type Props = {
     showButtons: boolean,
 };
 
-type State = {
-    isEditFeedbackRequestModalVisible: boolean,
-    deleteRequestSent: boolean,
-    requestDeleted: boolean,
-};
-
 const DELETE_FEEDBACK_REQUEST_MUTATION = `mutation DeleteFeedbackRequest($feedbackRequestId: Int!) {
     deleteFeedbackRequest(feedbackRequestId: $feedbackRequestId) {
         success
@@ -33,123 +28,117 @@ const DELETE_FEEDBACK_REQUEST_MUTATION = `mutation DeleteFeedbackRequest($feedba
     }
 }`;
 
-class FeedbackRequestSummary extends React.Component<Props, State> {
+const getDeleteConfirmationText = (mediaUrl) => {
+    if (mediaUrl) {
+        return "This request has not been assigned to a group. If you delete it, you will not receive any feedback on it. Are you sure you want to delete this request?";
+    }
+    return "This request has not been assigned to a group. Are you sure you want to delete this request?";
+};
+
+const RequestButtons = ({ mediaUrl, showEditFeedbackRequestModal, deleteRequestMutate }) => (
+    <React.Fragment>
+        <Button
+            shape="circle"
+            icon="edit"
+            onClick={showEditFeedbackRequestModal}
+            style={{
+                marginRight: '0.5em',
+            }}
+        />
+        <Popconfirm
+            title={getDeleteConfirmationText(mediaUrl)}
+            onConfirm={deleteRequestMutate}
+            okText="Yes"
+            cancelText="No"
+        >
+            <Button
+                shape="circle"
+                icon="delete"
+            />
+        </Popconfirm>
+    </React.Fragment>
+);
+
+const deleteRequest = ({ feedbackRequestId }) => (
+    fetch(apiRoot +'/graphql/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            query: DELETE_FEEDBACK_REQUEST_MUTATION,
+            variables: {
+                feedbackRequestId: feedbackRequestId,
+            },
+        }),
+        credentials: 'include',
+    }).then(result =>
+        result.json()
+    ).then(data => 
+        data.data.deleteFeedbackRequest
+    )
+);
+
+const FeedbackRequestSummary = ({
+    feedbackRequestSummary,
+    showButtons,
+}: Props) => {
     /*
      * Component for inline feedback request preview shown on FeedbackGroupsPage
      * which also allows users to edit their requests.
      */
-    state = {
-        isEditFeedbackRequestModalVisible: false,
-        deleteRequestSent: false,
-        requestDeleted: false,
+    const [isEditFeedbackRequestModalVisible, setIsEditFeedbackRequestModalVisible] = useState(false);
+
+    const showEditFeedbackRequestModal = () => {
+        setIsEditFeedbackRequestModalVisible(true);
     };
 
-    showEditFeedbackRequestModal = () => {
-        this.setState({
-            isEditFeedbackRequestModalVisible: true,
-        })
+    const hideEditFeedbackRequestModal = () => {
+        setIsEditFeedbackRequestModalVisible(false);
     };
+    
+    const [deleteRequestMutate, { isLoading, data }] = useMutation(deleteRequest);
 
-    hideEditFeedbackRequestModal = () => {
-        this.setState({
-            isEditFeedbackRequestModalVisible: false,
-        })
-    };
+    if (data && !data.success) {
+        message.error(data.error);
+    }
 
-    deleteRequest = () => {
-        this.setState({
-            deleteRequestSent: true,
-        })
-        fetch(apiRoot +'/graphql/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify({
-                query: DELETE_FEEDBACK_REQUEST_MUTATION,
-                variables: {
-                    feedbackRequestId: this.props.feedbackRequestSummary.feedbackRequestId,
-                },
-            }),
-            credentials: 'include',
-        }).then(result =>
-            result.json()
-        ).then((data) => {
-            if (!data['data']['deleteFeedbackRequest'].success) {
-                message.error(data['data']['deleteFeedbackRequest'].error);
-            }
-            this.setState({
-                requestSent: false,
-                requestDeleted: data['data']['deleteFeedbackRequest'].success,
-            });
-        });
-    };
-
-    getDeleteConfirmationText = () => {
-        if (this.props.feedbackRequestSummary.mediaUrl) {
-            return "This request has not been assigned to a group. If you delete it, you will not receive any feedback on it. Are you sure you want to delete this request?";
-        }
-        return "This request has not been assigned to a group. Are you sure you want to delete this request?";
-    };
-
-    renderButtons = () => {
+    if (data && data.success) {
         return (
-            <React.Fragment>
-                <Button
-                    shape="circle"
-                    icon="edit"
-                    onClick={this.showEditFeedbackRequestModal}
-                    style={{
-                        marginRight: '0.5em',
-                    }}
-                />
-                <Popconfirm
-                    title={this.getDeleteConfirmationText()}
-                    onConfirm={this.deleteRequest}
-                    okText="Yes"
-                    cancelText="No"
-                >
-                    <Button
-                        shape="circle"
-                        icon="delete"
-                    />
-                </Popconfirm>
-            </React.Fragment>
+            <Result
+                status="success"
+                title="This request has been deleted."
+            />
         )
     }
-
-    render() {
-        if (this.state.requestDeleted) {
-            return (
-                <Result
-                    status="success"
-                    title="This request has been deleted."
+    return (
+        <Spin spinning={isLoading}>
+            <Card
+                title="You submitted:"
+                extra={showButtons && <RequestButtons
+                    mediaUrl={feedbackRequestSummary.mediaUrl}
+                    showEditFeedbackRequestModal={showEditFeedbackRequestModal}
+                    deleteRequestMutate={() => deleteRequestMutate({
+                        feedbackRequestId: feedbackRequestSummary.feedbackRequestId,
+                    })}
+                />}
+            >
+                <FeedbackRequestSummaryContent
+                    feedbackRequestSummary={feedbackRequestSummary}
                 />
-            )
-        }
-        return (
-            <Spin spinning={this.state.deleteRequestSent}>
-                <Card
-                    title="You submitted:"
-                    extra={this.props.showButtons && this.renderButtons()}
-                >
-                    <FeedbackRequestSummaryContent
-                        feedbackRequestSummary={this.props.feedbackRequestSummary}
-                    />
-                </Card>
-                <EditFeedbackRequestModal
-                    onCancel={this.hideEditFeedbackRequestModal}
-                    isVisible={this.state.isEditFeedbackRequestModalVisible}
-                    feedbackRequestId={this.props.feedbackRequestSummary.feedbackRequestId}
-                    mediaUrl={this.props.feedbackRequestSummary.mediaUrl}
-                    feedbackPrompt={this.props.feedbackRequestSummary.feedbackPrompt}
-                    emailWhenGrouped={this.props.feedbackRequestSummary.emailWhenGrouped}
-                    genre={this.props.feedbackRequestSummary.genre}
-                />
-            </Spin>
-        );
-    }
+            </Card>
+            <EditFeedbackRequestModal
+                onCancel={hideEditFeedbackRequestModal}
+                isVisible={isEditFeedbackRequestModalVisible}
+                feedbackRequestId={feedbackRequestSummary.feedbackRequestId}
+                mediaUrl={feedbackRequestSummary.mediaUrl}
+                feedbackPrompt={feedbackRequestSummary.feedbackPrompt}
+                emailWhenGrouped={feedbackRequestSummary.emailWhenGrouped}
+                genre={feedbackRequestSummary.genre}
+            />
+        </Spin>
+    );
 }
 
 export default FeedbackRequestSummary;

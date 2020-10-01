@@ -11,31 +11,22 @@ type Props = {
     size: string,
 };
 
-class MediaEmbed extends React.Component<Props> {
-    formatMediaUrl = (mediaUrl) => {
-        let urlParts = mediaUrl.split('?');
-        return urlParts[0] + '?raw=1';
-    }
-
-    render() {
-        return (
-            <div>
-                {this.props.mediaType === 'SOUNDCLOUD' && <SoundcloudEmbed
-                    mediaUrl={this.props.mediaUrl}
-                    size={this.props.size}
-                />}
-                {this.props.mediaType === 'GOOGLEDRIVE' && <GoogleDriveEmbed
-                    mediaUrl={this.props.mediaUrl}
-                />}
-                {this.props.mediaType === 'DROPBOX' && <DropboxEmbed
-                    mediaUrl={this.props.mediaUrl}
-                />}
-                {this.props.mediaType === 'ONEDRIVE' && <OneDriveEmbed
-                    mediaUrl={this.props.mediaUrl}
-                />}
-            </div>
-        );
-    }
-}
+const MediaEmbed  = ({ mediaUrl, mediaType, size, }: Props) => (
+    <div>
+        {mediaType === 'SOUNDCLOUD' && <SoundcloudEmbed
+            mediaUrl={mediaUrl}
+            size={size}
+        />}
+        {mediaType === 'GOOGLEDRIVE' && <GoogleDriveEmbed
+            mediaUrl={mediaUrl}
+        />}
+        {mediaType === 'DROPBOX' && <DropboxEmbed
+            mediaUrl={mediaUrl}
+        />}
+        {mediaType === 'ONEDRIVE' && <OneDriveEmbed
+            mediaUrl={mediaUrl}
+        />}
+    </div>
+);
 
 export default MediaEmbed;

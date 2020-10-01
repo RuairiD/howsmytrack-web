@@ -8,25 +8,23 @@ type Props = {
     isVisible: boolean,
 };
 
-class LoginModal extends React.Component<Props> {
-    /*
-     * Component for displaying modal containing LoginForm for users to sign in.
-     */
-
-    render() {
-        return (
-            <Modal
-                title="Sign In"
-                onCancel={this.props.onCancel}
-                visible={this.props.isVisible}
-                footer={null}
-                destroyOnClose
-                className="responsive-modal"
-            >
-                <LoginForm />
-            </Modal>
-        );
-    }
-}
+/*
+ * Component for displaying modal containing LoginForm for users to sign in.
+ */
+const LoginModal = ({
+    onCancel,
+    isVisible,
+}: Props)  => (
+    <Modal
+        title="Sign In"
+        onCancel={onCancel}
+        visible={isVisible}
+        footer={null}
+        destroyOnClose
+        className="responsive-modal"
+    >
+        <LoginForm />
+    </Modal>
+);
 
 export default LoginModal;

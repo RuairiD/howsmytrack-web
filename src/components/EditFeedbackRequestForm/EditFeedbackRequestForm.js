@@ -20,40 +20,36 @@ const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRe
     }
 }`;
 
-class UnwrappedEditFeedbackRequestForm extends React.Component<Props, State> {
-    /*
-     * Component for displaying edit feedback request form.
-     */
-    makeEditFeedbackRequest = (params) => {
-        return fetch(apiRoot +'/graphql/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify({
-                query: EDIT_FEEDBACK_REQUEST_MUTATION,
-                variables: params,
-            }),
-            credentials: 'include',
-        });
-    };
+const makeEditFeedbackRequest = (params) => {
+    return fetch(apiRoot +'/graphql/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            query: EDIT_FEEDBACK_REQUEST_MUTATION,
+            variables: params,
+        }),
+        credentials: 'include',
+    });
+};
 
-    render() {
-        // Request is trackless in the absence of a media_url
-        return (
-            <FeedbackRequestForm
-                {...this.props}
-                trackless={!this.props.mediaUrl}
-                makeRequest={this.makeEditFeedbackRequest}
-                responseName="editFeedbackRequest"
-                submittedText={{
-                    title: "Your feedback request has been updated!",
-                }}
-                gaCategory="editFeedbackRequest"
-            />
-        );
-    }
-}
+/*
+ * Component for displaying edit feedback request form.
+ * Request is considered trackless in the absence of a media_url
+ */
+const UnwrappedEditFeedbackRequestForm = (props: Props) => (
+    <FeedbackRequestForm
+        {...props}
+        trackless={!props.mediaUrl}
+        makeRequest={makeEditFeedbackRequest}
+        responseName="editFeedbackRequest"
+        submittedText={{
+            title: "Your feedback request has been updated!",
+        }}
+        gaCategory="editFeedbackRequest"
+    />
+);
 
 export default Form.create({ name: 'editFeedbackRequest' })(UnwrappedEditFeedbackRequestForm);
