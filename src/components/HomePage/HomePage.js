@@ -3,7 +3,8 @@ import { useQuery } from "react-query";
 
 import apiRoot from '../../apiRoot';
 
-import { Divider, Spin } from 'antd';
+import { Divider } from 'antd';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import FeedbackGroupsPage from '../FeedbackGroupsPage/FeedbackGroupsPage';
 import Faq from '../Faq/Faq';
 import GenericPage from '../GenericPage/GenericPage';
@@ -39,18 +40,7 @@ const HomePage = ({ isMobile }: Props) => {
 
     if (isLoading) {
         return (
-            <div className="home-loading-container">
-                <Spin 
-                    className="home-loading-spin"
-                    size="large"
-                    indicator={(
-                        <img
-                            alt=""
-                            src="/logo128.png"
-                        />
-                    )}
-                />
-            </div>
+            <LoadingSpinner />
         );
     }
     if (data && !!data.username) {

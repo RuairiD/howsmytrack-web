@@ -6,6 +6,7 @@ import apiRoot from '../../apiRoot';
 
 import GenericPage from '../GenericPage/GenericPage';
 import FeedbackGroup from '../FeedbackGroup/FeedbackGroup';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 type Props = {
     feedbackGroupId: number,
@@ -96,7 +97,7 @@ const formatTimeCreated = (timeCreated) => {
 };
 
 const FeedbackGroupPage = ({ feedbackGroupId, isMobile }: Props) => {
-    const { data } = useQuery([FEEDBACK_GROUP_QUERY, { feedbackGroupId }], () =>
+    const { isLoading, data } = useQuery([FEEDBACK_GROUP_QUERY, { feedbackGroupId }], () =>
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -123,21 +124,22 @@ const FeedbackGroupPage = ({ feedbackGroupId, isMobile }: Props) => {
         }
     });
 
-    if (data) {
-        const feedbackGroup = formatQueryResponse(data);
+    if (isLoading) {
         return (
-            <GenericPage title={data.name} subTitle={formatTimeCreated(data.timeCreated)} isMobile={isMobile}>
-                <FeedbackGroup
-                    name={data.name}
-                    timeCreated={data.timeCreated}
-                    feedbackResponseForms={feedbackGroup.feedbackResponseForms}
-                    feedbackReceived={feedbackGroup.feedbackReceived}
-                    feedbackRequestSummary={feedbackGroup.feedbackRequestSummary}
-                />
-            </GenericPage>
-        )
+            <LoadingSpinner />
+        );
     }
-    return null;
+
+    const feedbackGroup = formatQueryResponse(data);
+    return (
+        <GenericPage title={data.name} subTitle={formatTimeCreated(data.timeCreated)} isMobile={isMobile}>
+            <FeedbackGroup
+                feedbackResponseForms={feedbackGroup.feedbackResponseForms}
+                feedbackReceived={feedbackGroup.feedbackReceived}
+                feedbackRequestSummary={feedbackGroup.feedbackRequestSummary}
+            />
+        </GenericPage>
+    )
 }
 
 export default FeedbackGroupPage;

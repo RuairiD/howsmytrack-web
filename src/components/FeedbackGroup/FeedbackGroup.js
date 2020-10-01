@@ -12,8 +12,6 @@ import FeedbackRequestSummary from '../FeedbackRequestSummary/FeedbackRequestSum
 import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/FeedbackRequestSummary';
 
 type Props = {
-    name: string,
-    timeCreated: string,
     feedbackResponseForms: Array<FeedbackResponseFormProps>,
     feedbackReceived: Array<FeedbackResponseProps>,
     feedbackRequestSummary: FeedbackRequestSummaryProps,

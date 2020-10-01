@@ -311,9 +311,6 @@ const MenuBar = ({ isMobile }: Props) => {
      * Component for displaying page sidebar with menu links, or for mobile,
      * displaying a menu at the top of the screen.
      */
-    const [username, setUsername] = useState(null);
-    const [rating, setRating] = useState(null);
-    const [notifications, setNotifications] = useState(null);
     const [isFeedbackRequestModalVisible, setIsFeedbackRequestModalVisible] = useState(false);
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
     const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(false);
@@ -347,7 +344,7 @@ const MenuBar = ({ isMobile }: Props) => {
         },
     };
 
-    const { isLoading } = useQuery([USER_DETAILS_QUERY], () =>
+    const { isLoading, data } = useQuery([USER_DETAILS_QUERY], () => (
         fetch(apiRoot +'/graphql/', {
             method: 'POST',
             headers: {
@@ -360,21 +357,27 @@ const MenuBar = ({ isMobile }: Props) => {
             credentials: 'include',
         }).then(result =>
             result.json()
-        ).then((data) => {
-            if (!data['data']['userDetails']) {
-                // Clear the JWT cookie in case it was mangled somehow.
-                logout();
-                return
-            }
-            setUsername(data['data']['userDetails']['username']);
-            setRating(data['data']['userDetails']['rating']);
-            setNotifications(data['data']['userDetails']['notifications']);
-            ReactGA.set({
-                username: data['data']['userDetails']['username'],
-            });
-        })
-    );
+        ).then(data =>
+            data.data.userDetails
+        )
+    ));
 
+    let username = null;
+    let rating = null;
+    let notifications = null;
+    if (!isLoading) {
+        if (!data) {
+            // Clear the JWT cookie in case it was mangled somehow.
+            logout();
+        } else {
+            username = data.username;
+            rating = data.rating;
+            notifications = data.notifications;
+            ReactGA.set({
+                username: data.username,
+            });
+        }
+    }
 
     const onMenuClick = (event) => {
         let menuAction = menuActions[event.key];

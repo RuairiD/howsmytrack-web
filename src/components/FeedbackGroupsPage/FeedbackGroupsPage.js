@@ -5,6 +5,7 @@ import apiRoot from '../../apiRoot';
 
 import GenericPage from '../GenericPage/GenericPage';
 import FeedbackGroups from '../FeedbackGroups/FeedbackGroups';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 type Props = {
     isMobile: boolean,
@@ -135,32 +136,34 @@ const FeedbackGroupsPage = ({ isMobile }: Props) => {
         ).then(data => data.data.unassignedRequest)
     );
 
-    if (!isLoadingFeedbackGroups && !isLoadingUnassignedRequest) {
-        let feedbackGroups = [];
-        if (feedbackGroupsData) {
-            feedbackGroups = formatFeedbackGroupsQueryResponse(
-                feedbackGroupsData,
-            )
-        }
-
-        let unassignedRequest = null;
-        if (unassignedRequestData) {
-            unassignedRequest = formatUnassignedQueryResponse(
-                unassignedRequestData,
-            )
-        }
-
+    if (isLoadingFeedbackGroups || isLoadingUnassignedRequest) {
         return (
-            <GenericPage title="Your Groups" isMobile={isMobile}>
-                <FeedbackGroups
-                    feedbackGroups={feedbackGroups}
-                    unassignedRequest={unassignedRequest}
-                />
-            </GenericPage>
+            <LoadingSpinner />
         );
     }
 
-    return null;
+    let feedbackGroups = [];
+    if (feedbackGroupsData) {
+        feedbackGroups = formatFeedbackGroupsQueryResponse(
+            feedbackGroupsData,
+        )
+    }
+
+    let unassignedRequest = null;
+    if (unassignedRequestData) {
+        unassignedRequest = formatUnassignedQueryResponse(
+            unassignedRequestData,
+        )
+    }
+
+    return (
+        <GenericPage title="Your Groups" isMobile={isMobile}>
+            <FeedbackGroups
+                feedbackGroups={feedbackGroups}
+                unassignedRequest={unassignedRequest}
+            />
+        </GenericPage>
+    );
 }
 
 export default FeedbackGroupsPage;
