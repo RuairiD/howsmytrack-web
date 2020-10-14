@@ -9,6 +9,7 @@
     "antd": "^3.26.7",
     "dateformat": "^3.0.3",
     "history": "^4.10.1",
+    "lemon-reset": "^1.3.2",
     "react": "^16.12.0",
     "react-cookie": "^4.0.3",
     "react-dom": "^16.12.0",

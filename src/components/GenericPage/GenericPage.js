@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import apiRoot from '../../apiRoot';
 
 import { Divider, Layout, PageHeader, Typography } from 'antd';
+import { A, Div } from 'lemon-reset';
 import MenuBar from '../MenuBar/MenuBar';
 
 const REFRESH_TOKEN_FROM_COOKIE_MUTATION = `mutation RefreshTokenFromCookie {
@@ -61,7 +62,7 @@ const GenericPage = ({ title, subTitle, hideMenu, isMobile, children }: Props) =
 
     return (
         <Layout className="page-container">
-            <div className="page-container-inner">
+            <Div className="page-container-inner">
                 {!hideMenu && isMobile && <MenuBar isMobile={isMobile} />}
                 <Layout.Content>
                     <Layout>
@@ -84,13 +85,13 @@ const GenericPage = ({ title, subTitle, hideMenu, isMobile, children }: Props) =
                                     <Divider />
                                     <Typography.Paragraph>
                                         <Typography.Text strong>
-                                            <a target="_blank" rel="noopener noreferrer" href="http://ruairidorrity.com">ruairi dorrity</a> &#47;&#47; <a target="_blank" rel="noopener noreferrer" href="http://ruairidx.com">ruairi dx</a>
+                                            <A target="_blank" rel="noopener noreferrer" href="http://ruairidorrity.com">ruairi dorrity</A> &#47;&#47; <A target="_blank" rel="noopener noreferrer" href="http://ruairidx.com">ruairi dx</A>
                                         </Typography.Text>
                                     </Typography.Paragraph>
                                     <Typography.Paragraph>
                                         <Typography.Text strong>source</Typography.Text><br />
                                         <Typography.Text>
-                                            <a target="_blank" rel="noopener noreferrer" href="https://github.com/ruairid/howsmytrack-api">api</a> &#47;&#47; <a target="_blank" rel="noopener noreferrer" href="https://github.com/ruairid/howsmytrack-web">web</a>
+                                            <A target="_blank" rel="noopener noreferrer" href="https://github.com/ruairid/howsmytrack-api">api</A> &#47;&#47; <A target="_blank" rel="noopener noreferrer" href="https://github.com/ruairid/howsmytrack-web">web</A>
                                         </Typography.Text>
                                     </Typography.Paragraph>
                                 </Layout.Footer>
@@ -98,7 +99,7 @@ const GenericPage = ({ title, subTitle, hideMenu, isMobile, children }: Props) =
                         </Layout.Content>
                     </Layout>
                 </Layout.Content>
-            </div>
+            </Div>
         </Layout>
     );
 }

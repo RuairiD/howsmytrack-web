@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Audio, Div } from 'lemon-reset';
+
 const formatMediaUrl = (mediaUrl) => {
     let urlParts = mediaUrl.split('?');
     return urlParts[0] + '?raw=1';
@@ -10,13 +12,13 @@ type Props = {
 };
 
 const DropboxEmbed = ({ mediaUrl }: Props) => (
-    <div>
-        <audio
+    <Div>
+        <Audio
             style={{ width: "100%" }}
             controls
             src={formatMediaUrl(mediaUrl)}
-        ></audio>
-    </div>
+        ></Audio>
+    </Div>
 );
 
 export default DropboxEmbed;

@@ -5,6 +5,7 @@ import { useMutation } from 'react-query';
 import apiRoot from '../../apiRoot';
 
 import { Alert, Button, Col, Icon, Input, Form, Result, Row, Spin } from 'antd';
+import { A, Div } from 'lemon-reset';
 
 const TOKEN_AUTH_MUTATION = `mutation TokenAuth($username: String!, $password: String!) {
   tokenAuth(username: $username, password: $password) {
@@ -77,7 +78,7 @@ const UnwrappedLoginForm = ({ form }) => {
     };
 
     return (
-        <div>
+        <Div>
             <Row gutter={[16, 16]}>
                 <Col>
                     {data && data.errors && <Alert message={data.errors[0]['message']} type="error" showIcon />}
@@ -118,9 +119,9 @@ const UnwrappedLoginForm = ({ form }) => {
                                 >
                                     Sign In
                                 </Button>
-                                <a href={apiRoot + '/accounts/password_reset'} style={{ float: 'right'}}>
+                                <A href={apiRoot + '/accounts/password_reset'} style={{ float: 'right'}}>
                                     Forgot password?
-                                </a>
+                                </A>
                             </Form.Item>
                         </Form>
                     </Spin>}
@@ -131,7 +132,7 @@ const UnwrappedLoginForm = ({ form }) => {
                     />}
                 </Col>
             </Row>
-        </div>
+        </Div>
     );
 }
 

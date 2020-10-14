@@ -5,6 +5,7 @@ import { useQuery, useMutation } from 'react-query';
 import apiRoot from '../../apiRoot';
 
 import { Alert, Button, Checkbox, Col, Icon, Input, Form, Radio, Result, Row, Select, Spin, Tooltip, Typography } from 'antd';
+import { A, Div, Span, Strong } from 'lemon-reset';
 import FeedbackRequestSummaryContent from '../FeedbackRequestSummary/FeedbackRequestSummaryContent';
 import GENRE_OPTIONS from '../../genres';
 
@@ -41,11 +42,11 @@ const FEEDBACK_PROMPT_PLACEHOLDERS = [
 ];
 
 const GenreTooltipContent = (
-    <span>
-        Requests of the same genre are assigned to the same groups in order to get you the most relevant and constructive feedback. Don't worry if your genre isn't listed though; just submit under <strong>No Genre</strong> and you'll still be grouped! <a target="_blank" rel="noopener noreferrer" href="/faq#why-is-my-tracks-genre-not-listed">
+    <Span>
+        Requests of the same genre are assigned to the same groups in order to get you the most relevant and constructive feedback. Don't worry if your genre isn't listed though; just submit under <Strong>No Genre</Strong> and you'll still be grouped! <A target="_blank" rel="noopener noreferrer" href="/faq#why-is-my-tracks-genre-not-listed">
             Why is my genre not listed?
-        </a>
-    </span>
+        </A>
+    </Span>
 );
 
 const getFeedbackPromptPlaceholder = () => {
@@ -169,7 +170,7 @@ const FeedbackRequestForm = ({
     const getErrorMessage = (errorMessage, invalidMediaUrl) => {
         if (invalidMediaUrl) {
             return (
-                <Typography.Text>Please submit a valid Soundcloud, Google Drive, Dropbox or OneDrive URL. If you are unsure how to get the correct URL, <a href="/trackurlhelp" target="_blank" rel="noopener noreferrer">please consult our guide.</a></Typography.Text>
+                <Typography.Text>Please submit a valid Soundcloud, Google Drive, Dropbox or OneDrive URL. If you are unsure how to get the correct URL, <A href="/trackurlhelp" target="_blank" rel="noopener noreferrer">please consult our guide.</A></Typography.Text>
             )
         }
         return errorMessage
@@ -205,14 +206,14 @@ const FeedbackRequestForm = ({
     }
 
     return (
-        <div>
+        <Div>
             <Row gutter={[16, 16]}>
                 <Col>
                     <Typography.Text>
                         Users are allowed to submit feedback requests once per 24 hours.<br />
-                        <a href="/trackurlhelp" target="_blank" rel="noopener noreferrer">
+                        <A href="/trackurlhelp" target="_blank" rel="noopener noreferrer">
                             Unsure how to find the correct track URL?
-                        </a>
+                        </A>
                     </Typography.Text>
                     {data && data.error && <Alert message={getErrorMessage(data.error, data.invalidMediaUrl)} type="error" showIcon />}
                 </Col>
@@ -347,7 +348,7 @@ const FeedbackRequestForm = ({
                     />
                 </Col>
             </Row>}
-        </div>
+        </Div>
     );
 }
 

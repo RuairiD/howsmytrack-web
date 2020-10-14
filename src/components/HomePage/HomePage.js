@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import apiRoot from '../../apiRoot';
 
 import { Divider } from 'antd';
+import { Div } from 'lemon-reset';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import FeedbackGroupsPage from '../FeedbackGroupsPage/FeedbackGroupsPage';
 import Faq from '../Faq/Faq';
@@ -47,17 +48,17 @@ const HomePage = ({ isMobile }: Props) => {
         return (<FeedbackGroupsPage isMobile={isMobile} />);
     }
     return (
-        <div className="home">
+        <Div className="home">
             <GenericPage hideMenu isMobile={isMobile}>
-                <div style={{ textAlign: 'center' }}>
-                    <div className="home-container">
+                <Div style={{ textAlign: 'center' }}>
+                    <Div className="home-container">
                         <LandingPitch isMobile={isMobile} />
                         <Divider />
                         <Faq />
-                    </div>
-                </div>
+                    </Div>
+                </Div>
             </GenericPage>
-        </div>
+        </Div>
     );
 };
 

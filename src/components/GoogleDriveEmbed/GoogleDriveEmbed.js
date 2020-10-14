@@ -1,4 +1,5 @@
 import React from 'react';
+import { Div, Iframe } from 'lemon-reset';
 
 const formatMediaUrl = (mediaUrl) => {
     let urlParts = mediaUrl.split('/view');
@@ -10,8 +11,8 @@ type Props = {
 };
 
 const GoogleDriveEmbed = ({ mediaUrl }: Props) => (
-    <div>
-        <iframe
+    <Div>
+        <Iframe
             title="googledrive"
             width="100%"
             height="64"
@@ -20,8 +21,8 @@ const GoogleDriveEmbed = ({ mediaUrl }: Props) => (
             allow="autoplay"
             src={formatMediaUrl(mediaUrl)}   
         >
-        </iframe>
-    </div>
+        </Iframe>
+    </Div>
 );
 
 export default GoogleDriveEmbed;

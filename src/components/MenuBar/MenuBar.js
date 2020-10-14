@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import apiRoot from '../../apiRoot';
 
 import { Affix, Badge, Collapse, Menu, Icon, Spin, Typography } from 'antd';
+import { A, Div, Img, Span } from 'lemon-reset';
 import FeedbackRequestModal from '../FeedbackRequestModal/FeedbackRequestModal';
 import LoginModal from '../LoginModal/LoginModal';
 import RegisterModal from '../RegisterModal/RegisterModal';
@@ -27,7 +28,7 @@ const UserDetails = ({ username, rating }) => {
     if (rating) {
         return (
             <Menu.Item disabled className="ant-menu-item">
-                <div style={{ display: 'flex' }}>
+                <Div style={{ display: 'flex' }}>
                     <Typography.Text ellipsis style={{
                         marginRight: 'auto',
                         marginTop: 'auto',
@@ -42,13 +43,13 @@ const UserDetails = ({ username, rating }) => {
                     }}>
                         {rating.toFixed(2)}<Icon type="star" />
                     </Typography.Text>
-                </div>
+                </Div>
             </Menu.Item>
         )
     }
     return (
         <Menu.Item disabled className="ant-menu-item">
-            <div style={{ display: 'flex' }}>
+            <Div style={{ display: 'flex' }}>
                 <Typography.Text ellipsis style={{
                     marginRight: 'auto',
                     marginTop: 'auto',
@@ -56,7 +57,7 @@ const UserDetails = ({ username, rating }) => {
                 }}>
                     {username}
                 </Typography.Text>
-            </div>
+            </Div>
         </Menu.Item>
     );
 };
@@ -70,7 +71,7 @@ const SocialLinksMenu = ({ isMobile, onMenuClick }) => {
         };
     }
     return (
-        <div style={style}>
+        <Div style={style}>
             <Menu
                 theme="light"
                 onClick={onMenuClick}
@@ -80,25 +81,25 @@ const SocialLinksMenu = ({ isMobile, onMenuClick }) => {
             >
                 {isMobile && <Menu.Divider />}
                 <Menu.Item className="ant-menu-item">
-                    <a href="https://twitter.com/howsmytrackcom" target="_blank" rel="noopener noreferrer">
+                    <A href="https://twitter.com/howsmytrackcom" target="_blank" rel="noopener noreferrer">
                         <Icon type="twitter" />
-                        <span>Twitter</span>
-                    </a>
+                        <Span>Twitter</Span>
+                    </A>
                 </Menu.Item>
                 <Menu.Item className="ant-menu-item">
-                    <a href="https://discord.gg/6jGFP6N" target="_blank" rel="noopener noreferrer">
+                    <A href="https://discord.gg/6jGFP6N" target="_blank" rel="noopener noreferrer">
                         <Icon type="robot" />
-                        <span>Discord</span>
-                    </a>
+                        <Span>Discord</Span>
+                    </A>
                 </Menu.Item>
             </Menu>
-        </div>
+        </Div>
     );
 };
 
 const MobileHeader = ({ mobileMenuCollapsed, notifications }) => (
-    <div style={{ display: 'flex' }}>
-        <span style={{
+    <Div style={{ display: 'flex' }}>
+        <Span style={{
             marginTop: 'auto',
             marginBottom: 'auto',
         }}>
@@ -111,8 +112,8 @@ const MobileHeader = ({ mobileMenuCollapsed, notifications }) => (
                     marginLeft: '0.5em',
                 }}
             />}
-        </span>
-        <img
+        </Span>
+        <Img
             alt=""
             src="/logo128.png"
             style={{
@@ -121,7 +122,7 @@ const MobileHeader = ({ mobileMenuCollapsed, notifications }) => (
                 height: '32px',
             }}
         />
-    </div>
+    </Div>
 );
 
 const LoggedOutMenu = ({ onMenuClick }) => (
@@ -137,17 +138,17 @@ const LoggedOutMenu = ({ onMenuClick }) => (
         </Menu.Item>
         <Menu.Item key="login">
             <Icon type="user" />
-            <span>Sign In</span>
+            <Span>Sign In</Span>
         </Menu.Item>
         <Menu.Item key="register">
             <Icon type="user-add" />
-            <span>Register</span>
+            <Span>Register</Span>
         </Menu.Item>
         <Menu.Item key="faq">
-            <a href="/faq">
+            <A href="/faq">
                 <Icon type="question-circle" />
-                <span>FAQ</span>
-            </a>
+                <Span>FAQ</Span>
+            </A>
         </Menu.Item>
     </Menu>
 );
@@ -167,33 +168,33 @@ const LoggedInMenu = ({ onMenuClick, username, rating, notifications }) => (
         />
         <Menu.Item key="newRequest">
             <Icon type="plus" />
-            <span>New Request</span>
+            <Span>New Request</Span>
         </Menu.Item>
         <Menu.Item key="feedbackGroups">
-            <a href="/groups">
+            <A href="/groups">
                 <Icon type="team" />
-                <span>Your Groups</span>
+                <Span>Your Groups</Span>
                 <Badge
                     count={notifications}
                     style={{ marginLeft: '0.5em' }}
                 />
-            </a>
+            </A>
         </Menu.Item>
         <Menu.Item key="faq">
-            <a href="/faq">
+            <A href="/faq">
                 <Icon type="question-circle" />
-                <span>FAQ</span>
-            </a>
+                <Span>FAQ</Span>
+            </A>
         </Menu.Item>
         <Menu.Item key="settings">
-            <a href="/settings">
+            <A href="/settings">
                 <Icon type="setting" />
-                <span>Settings</span>
-            </a>
+                <Span>Settings</Span>
+            </A>
         </Menu.Item>
         <Menu.Item key="logout">
             <Icon type="user-delete" />
-            <span>Sign Out</span>
+            <Span>Sign Out</Span>
         </Menu.Item>
     </Menu>
 );
@@ -205,7 +206,7 @@ const MainMenu = ({
     rating,
     notifications,
 }) => (
-    <div>
+    <Div>
         {username && <LoggedInMenu
             onMenuClick={onMenuClick}
             username={username}
@@ -219,7 +220,7 @@ const MainMenu = ({
             isMobile={isMobile}
             onMenuClick={onMenuClick}
         />
-    </div>
+    </Div>
 );
 
 const MobileMenu = ({
@@ -278,10 +279,10 @@ const MenuBarContent = ({
     onCollapseChange,
 }) => (
     <Spin spinning={isLoading}>
-        <div className="menu-bar">
-            {!isMobile && <a href="/" className="full-logo">
-                <img alt="how's my track" src="/logo512.png" width="200px" style={{ padding: '0.5em', marginLeft: 'auto', marginRight: 'auto' }} />
-            </a>}
+        <Div className="menu-bar">
+            {!isMobile && <A href="/" className="full-logo">
+                <Img alt="how's my track" src="/logo512.png" width="200px" style={{ padding: '0.5em', marginLeft: 'auto', marginRight: 'auto' }} />
+            </A>}
             {isMobile && <MobileMenu
                 isMobile={isMobile}
                 onMenuClick={onMenuClick}
@@ -302,7 +303,7 @@ const MenuBarContent = ({
             <FeedbackRequestModal onCancel={onFeedbackRequestModalCancel} isVisible={isFeedbackRequestModalVisible} />
             <LoginModal onCancel={onLoginModalCancel} isVisible={isLoginModalVisible} />
             <RegisterModal onCancel={onRegisterModalCancel} isVisible={isRegisterModalVisible} />
-        </div>
+        </Div>
     </Spin>
 );
 

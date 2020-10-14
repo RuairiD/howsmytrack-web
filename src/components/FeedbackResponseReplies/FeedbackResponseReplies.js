@@ -4,6 +4,7 @@ import { useQuery, useMutation } from 'react-query';
 import apiRoot from '../../apiRoot';
 
 import { Alert, Button, Checkbox, Col, Input, Row, Spin, Typography } from 'antd';
+import { Div } from 'lemon-reset';
 
 import FeedbackResponseReply from '../FeedbackResponseReply/FeedbackResponseReply';
 
@@ -208,14 +209,14 @@ const FeedbackResponseReplies = ({
 
     return (
         <Spin spinning={isLoadingReplies}>
-            <div className="scrollable-container">
-                <div
+            <Div className="scrollable-container">
+                <Div
                     className="shadow shadow-top"
                     style={{
                         opacity: topShadowOpacity,
                     }}
                 />
-                <div
+                <Div
                     onScroll={onRepliesContainerScroll}
                     className={(!isLoadingReplies && allowingScrolling) ? "replies-container" : null}
                     ref={repliesContainer}
@@ -234,16 +235,16 @@ const FeedbackResponseReplies = ({
                             timeCreated={reply.timeCreated}
                         />
                     ))}
-                </div>
-                <div
+                </Div>
+                <Div
                     className="shadow shadow-bottom"
                     style={{
                         opacity: bottomShadowOpacity,
                     }}
                 />
-            </div>
-            <div style={{ padding: '0.5em 0' }}>
-                {allowFurtherReplies && repliesData && <div>
+            </Div>
+            <Div style={{ padding: '0.5em 0' }}>
+                {allowFurtherReplies && repliesData && <Div>
                     <Row gutter={[16, 16]}>
                         <Col>
                             {addReplyData && addReplyData.error && <Alert message={addReplyData.error} type="error" showIcon />}
@@ -281,11 +282,11 @@ const FeedbackResponseReplies = ({
                             </Button>
                         </Col>
                     </Row>
-                </div>}
+                </Div>}
                 {(!isLoadingReplies && !allowFurtherReplies) && <Typography.Text strong>
                     Additional replies have been disabled for this conversation.
                 </Typography.Text>}
-            </div>
+            </Div>
         </Spin>
     );
 }

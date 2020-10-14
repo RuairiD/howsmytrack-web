@@ -4,6 +4,7 @@ import { useMutation } from 'react-query'
 import apiRoot from '../../apiRoot';
 
 import { Button, Card, Col, Rate, Row, Typography } from 'antd';
+import { Div, Span } from 'lemon-reset';
 
 import ViewRepliesButton from '../ViewRepliesButton/ViewRepliesButton';
 import FeedbackResponseRepliesModal from '../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal';
@@ -104,8 +105,8 @@ const FeedbackResponse = ({
             <Card.Meta
                 title="How helpful was this feedback?"
                 description={(
-                    <div style={{ display: 'inline' }}>
-                        <span style={{ float: 'left', paddingBottom: '0.25em' }}>
+                    <Div style={{ display: 'inline' }}>
+                        <Span style={{ float: 'left', paddingBottom: '0.25em' }}>
                             <Rate
                                 style={{
                                     color: '#000000',
@@ -129,13 +130,13 @@ const FeedbackResponse = ({
                                 {submitted && "Rated"}
                                 {!submitted && "Rate"}
                             </Button>
-                        </span>
+                        </Span>
                         {(allowReplies && submitted) && <ViewRepliesButton
                             replies={replies}
                             unreadReplies={unreadReplies}
                             onClick={showRepliesModal}
                         />}
-                    </div>
+                    </Div>
                 )}
             />
             {allowReplies && <FeedbackResponseRepliesModal

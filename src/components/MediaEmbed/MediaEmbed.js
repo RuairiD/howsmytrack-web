@@ -1,4 +1,5 @@
 import React from 'react';
+import { Div } from 'lemon-reset';
 
 import DropboxEmbed from '../DropboxEmbed/DropboxEmbed';
 import GoogleDriveEmbed from '../GoogleDriveEmbed/GoogleDriveEmbed';
@@ -12,7 +13,7 @@ type Props = {
 };
 
 const MediaEmbed  = ({ mediaUrl, mediaType, size, }: Props) => (
-    <div>
+    <Div>
         {mediaType === 'SOUNDCLOUD' && <SoundcloudEmbed
             mediaUrl={mediaUrl}
             size={size}
@@ -26,7 +27,7 @@ const MediaEmbed  = ({ mediaUrl, mediaType, size, }: Props) => (
         {mediaType === 'ONEDRIVE' && <OneDriveEmbed
             mediaUrl={mediaUrl}
         />}
-    </div>
+    </Div>
 );
 
 export default MediaEmbed;

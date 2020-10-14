@@ -4,6 +4,7 @@ import React, { Suspense } from 'react';
 import ReactGA from 'react-ga';
 import { QueryCache, ReactQueryCacheProvider } from "react-query";
 import { createBrowserHistory } from 'history';
+import { Div } from 'lemon-reset';
 import './App.css';
 
 import FeedbackGroupPage from './components/FeedbackGroupPage/FeedbackGroupPage';
@@ -53,7 +54,7 @@ function App() {
         <HttpsRedirect>
             <ReactQueryCacheProvider queryCache={queryCache}>
                 <BrowserRouter>
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<Div>Loading...</Div>}>
                         <Switch>
                             <Route
                                 exact

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Col, Divider, Empty, List, Row, Typography } from 'antd';
+import { Div } from 'lemon-reset';
 import FeedbackGroupPreview from '../FeedbackGroupPreview/FeedbackGroupPreview';
 import type { FeedbackGroupPreviewProps } from '../FeedbackGroupPreview/FeedbackGroupPreview';
 import FeedbackRequestSummary from '../FeedbackRequestSummary/FeedbackRequestSummary';
@@ -67,14 +68,14 @@ const FeedbackGroups = ({
      * Component for displaying user details/groups page showing user info and all groups they are a part of.
      */
     return (
-        <div>
+        <Div>
             {unassignedRequest && <UnassignedRequest unassignedRequest={unassignedRequest} />}
             <Row gutter={[16, 16]}>
                 <Col>
                     <AssignedGroups feedbackGroups={feedbackGroups} />
                 </Col>
             </Row>
-        </div>
+        </Div>
     )
 }
 

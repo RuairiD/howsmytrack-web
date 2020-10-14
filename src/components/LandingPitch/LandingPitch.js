@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { Button, Icon, List, Typography } from 'antd';
+import { Div, Img } from 'lemon-reset';
 import LoginModal from '../LoginModal/LoginModal';
 import RegisterModal from '../RegisterModal/RegisterModal';
 
@@ -51,11 +52,11 @@ const LandingPitch = () => {
     };
 
     return (
-        <div style={{ textAlign: 'center' }}>
-            <div>
-                <img alt="how's my track" src="/logo512.png" width="256px" style={{ marginBottom: '2em'}} />
-            </div>
-            <div style={{
+        <Div style={{ textAlign: 'center' }}>
+            <Div>
+                <Img alt="how's my track" src="/logo512.png" width="256px" style={{ marginBottom: '2em'}} />
+            </Div>
+            <Div style={{
                 display: 'flex',
                 margin: '1em',
                 textAlign: 'center',
@@ -76,7 +77,7 @@ const LandingPitch = () => {
                 >
                     Sign In
                 </Button>
-            </div>
+            </Div>
             <List
                 style={{ display: "inline-block", textAlign: 'left' }}
                 itemLayout="vertical"
@@ -84,13 +85,13 @@ const LandingPitch = () => {
                 renderItem={step => (
                     <Typography.Title level={4} style={{ display: 'flex' }}>
                         <Icon type={step.icon} style={{ marginRight: '2em' }} />
-                        <div>{step.text}</div>
+                        <Div>{step.text}</Div>
                     </Typography.Title>
                 )}
             />
             <LoginModal onCancel={onLoginModalCancel} isVisible={isLoginModalVisible} />
             <RegisterModal onCancel={onRegisterModalCancel} isVisible={isRegisterModalVisible} />
-        </div>
+        </Div>
     );
 }
 

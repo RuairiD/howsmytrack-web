@@ -1,4 +1,5 @@
 import React from 'react';
+import { Div, Iframe } from 'lemon-reset';
 
 type Props = {
     mediaUrl: string,
@@ -35,8 +36,8 @@ const getFrameHeight = (size) => {
 }
 
 const SoundcloudEmbed  = ({ mediaUrl, size }: Props) => (
-    <div>
-        <iframe
+    <Div>
+        <Iframe
             title="soundcloud"
             width="100%"
             height={getFrameHeight(size)}
@@ -49,8 +50,8 @@ const SoundcloudEmbed  = ({ mediaUrl, size }: Props) => (
                 )
             }   
         >
-        </iframe>
-    </div>
+        </Iframe>
+    </Div>
 );
 
 export default SoundcloudEmbed;

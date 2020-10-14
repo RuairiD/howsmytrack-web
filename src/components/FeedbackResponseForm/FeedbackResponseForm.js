@@ -5,6 +5,7 @@ import ReactGA from 'react-ga';
 import apiRoot from '../../apiRoot';
 
 import { Alert, Button, Card, Checkbox, Col, Input, Row, Typography } from 'antd';
+import { Div } from 'lemon-reset';
 
 import ViewRepliesButton from '../ViewRepliesButton/ViewRepliesButton';
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
@@ -32,7 +33,7 @@ const SUBMIT_FEEDBACK_RESPONSE_MUTATION = `mutation SubmitFeedbackResponse($feed
 const GA_FEEDBACK_RESPONSE_CATEGORY = "feedbackResponse";
 
 const OriginalRequest = ({ mediaUrl, mediaType, feedbackPrompt }) => (
-    <div>
+    <Div>
         <Row gutter={[16, 16]}>
             <Col>
                 <MediaEmbed mediaUrl={mediaUrl} mediaType={mediaType} />
@@ -47,7 +48,7 @@ const OriginalRequest = ({ mediaUrl, mediaType, feedbackPrompt }) => (
                 </Col>
             </Row>
         }
-    </div>
+    </Div>
 );
 
 const FormRow = ({ children }) => (
@@ -147,7 +148,7 @@ const FeedbackResponseForm = ({
     return (
         <Card>
             <OriginalRequest mediaUrl={mediaUrl} mediaType={mediaType} feedbackPrompt={feedbackPrompt} />
-            <div>
+            <Div>
                 <FormRow>
                     <Input.TextArea
                         value={feedback}
@@ -185,7 +186,7 @@ const FeedbackResponseForm = ({
                         onClick={showRepliesModal}
                     />
                 </FormRow>}
-            </div>
+            </Div>
             {allowReplies && <FeedbackResponseRepliesModal
                 feedbackResponseId={feedbackResponseId}
                 feedback={feedback}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Audio, Div } from 'lemon-reset';
 
 type Props = {
     mediaUrl: string,
@@ -22,14 +23,14 @@ const formatMediaUrl = (mediaUrl) => {
 }
 
 const OneDriveEmbed  = ({ mediaUrl }: Props) => (
-    <div>
-        <audio
+    <Div>
+        <Audio
             style={{ width: "100%" }}
             controls
             src={formatMediaUrl(mediaUrl)}
         >
-        </audio>
-    </div>
+        </Audio>
+    </Div>
 );
 
 export default OneDriveEmbed;

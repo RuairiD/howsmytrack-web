@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Row, Alert, Col, Typography } from 'antd';
+import { Div } from 'lemon-reset';
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
 import GENRE_OPTIONS from '../../genres';
 import type { FeedbackRequestSummaryProps } from './FeedbackRequestSummary';
@@ -35,7 +36,7 @@ type Props = {
  * Component for inline feedback request preview shown on FeedbackGroupsPage and in FeedbackRequestForm
  */
 const FeedbackRequestSummaryContent = ({ feedbackRequestSummary }: Props) => (
-    <div>
+    <Div>
         <Row gutter={[16, 16]}>
             <Col>
                 <Media
@@ -59,7 +60,7 @@ const FeedbackRequestSummaryContent = ({ feedbackRequestSummary }: Props) => (
                 <Typography.Text strong>You did not provide any additional information for feedback.</Typography.Text>
             </Col>}
         </Row>}
-    </div>
+    </Div>
 );
 
 export default FeedbackRequestSummaryContent;

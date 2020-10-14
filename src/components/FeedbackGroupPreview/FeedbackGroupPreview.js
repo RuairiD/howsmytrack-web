@@ -2,6 +2,8 @@ import React from 'react';
 import dateFormat from 'dateformat';
 
 import { Badge, Button, Card, Row, Col, Icon, Progress, Tooltip, Typography } from 'antd';
+import { A, Div } from 'lemon-reset';
+
 import MediaEmbed from '../MediaEmbed/MediaEmbed';
 import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/FeedbackRequestSummary';
 
@@ -57,7 +59,7 @@ const formatTimeCreated = (timeCreated) => {
 };
 
 const CardExtra = ({ timeCreated }) => (
-    <div style={{ display: 'flex', marginTop: '1em' }}>
+    <Div style={{ display: 'flex', marginTop: '1em' }}>
         <Typography.Text style={{
             marginRight: 'auto',
             marginTop: 'auto',
@@ -72,7 +74,7 @@ const CardExtra = ({ timeCreated }) => (
         }}>
             <Button type="link">View Group</Button>
         </Typography.Text>
-    </div>
+    </Div>
 );
 
 const RequestForGroup = ({ mediaUrl, mediaType }) =>{
@@ -113,11 +115,11 @@ const FeedbackGroupPreview = ({
     feedbackResponseCount,
     unreadReplies,
 }: FeedbackGroupPreviewProps) =>  (
-    <div>
+    <Div>
         <Card
             title={(
-                <a href={buildFeedbackGroupUrl(feedbackGroupId)}>
-                    <div style={{ display: 'flex' }}>
+                <A href={buildFeedbackGroupUrl(feedbackGroupId)}>
+                    <Div style={{ display: 'flex' }}>
                         <Typography.Title level={4} style={{ marginRight: 'auto', marginBottom: 'auto', marginTop: 'auto' }}>
                             {name}
                         </Typography.Title>
@@ -125,11 +127,11 @@ const FeedbackGroupPreview = ({
                             count={unreadReplies}
                             style={{ marginLeft: 'auto', marginBottom: 'auto', marginTop: 'auto' }}
                         />
-                    </div>
-                </a>
+                    </Div>
+                </A>
             )}
         >
-            <a href={buildFeedbackGroupUrl(feedbackGroupId)}>
+            <A href={buildFeedbackGroupUrl(feedbackGroupId)}>
                 <RequestForGroup mediaUrl={feedbackRequestSummary.mediaUrl} mediaType={feedbackRequestSummary.mediaType} />
                 <Row gutter={[16, 16]}>
                     <Col>
@@ -162,9 +164,9 @@ const FeedbackGroupPreview = ({
                     </Col>
                 </Row>}
                 <Card.Meta description={<CardExtra timeCreated={timeCreated} />} />
-            </a>
+            </A>
         </Card>
-    </div>
+    </Div>
 );
 
 export default FeedbackGroupPreview;

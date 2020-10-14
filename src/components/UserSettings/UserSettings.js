@@ -4,6 +4,7 @@ import { useMutation } from 'react-query';
 import apiRoot from '../../apiRoot';
 
 import { Col, Form, Modal, Row, Switch, Typography } from 'antd';
+import { A, Div } from 'lemon-reset';
 
 const UPDATE_EMAIL_MUTATION = `mutation UpdateEmail($email: String!) {
     updateEmail(email: $email) {
@@ -83,7 +84,7 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
     }
 
     return (
-        <div>
+        <Div>
             <Row>
                 <Col>
                     <Typography.Text strong>
@@ -112,7 +113,7 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
                     </Typography.Text>}
                 </Col>
             </Row>
-        </div>
+        </Div>
     )
 }
 
@@ -159,13 +160,13 @@ const UserSettings = ({ currentEmail, currentSendReminderEmails }: UserSettingsP
                 <EmailSettings
                     currentEmail={currentEmail}
                 />
-                <a href={apiRoot + '/accounts/password_reset'}>
+                <A href={apiRoot + '/accounts/password_reset'}>
                     Request password reset email
-                </a>
+                </A>
             </Form.Item>
             <Typography.Title level={4}>Preferences</Typography.Title>
             <Form.Item>
-                <div>
+                <Div>
                     <Typography.Text strong style={{ marginRight: '0.5em' }}>
                         Email Reminders:
                     </Typography.Text>
@@ -178,7 +179,7 @@ const UserSettings = ({ currentEmail, currentSendReminderEmails }: UserSettingsP
                     {data && data.success && <Typography.Text type="secondary">
                         Saved
                     </Typography.Text>}
-                </div>
+                </Div>
                 <Typography.Paragraph type="secondary" style={{ lineHeight: 1.5 }}>
                     Send me an email reminder after 24 hours if I haven't completed feedback for a group.
                 </Typography.Paragraph>

@@ -1,12 +1,13 @@
 import React from 'react';
 
 import { List, Typography } from 'antd';
+import { A, Em, Strong } from 'lemon-reset';
 
 const FAQS = [
     {
         id: "what-is-hows-my-track",
         question: "But actually, what is How's My Track?",
-        answer: (<Typography.Paragraph><em>how's my track?</em> is a website for musicians to share their work and solicit feedback from each other. Users may submit one track for feedback per day. Users are then put into groups of around four. Each user can then listen to each other's submitted track and leave feedback. Once a user has left feedback for everyone in their group, the feedback left for their own track will be visible to them. </Typography.Paragraph>)
+        answer: (<Typography.Paragraph><Em>how's my track?</Em> is a website for musicians to share their work and solicit feedback from each other. Users may submit one track for feedback per day. Users are then put into groups of around four. Each user can then listen to each other's submitted track and leave feedback. Once a user has left feedback for everyone in their group, the feedback left for their own track will be visible to them. </Typography.Paragraph>)
     },
     {
         id: "why-does-hows-my-track-exist",
@@ -29,7 +30,7 @@ const FAQS = [
     {
         id: "how-can-i-get-the-correct-track-url",
         question: "How can I get the correct track URL for my platform of choice?",
-        answer: (<Typography.Paragraph><a href="/trackurlhelp">Check out our guide.</a></Typography.Paragraph>)
+        answer: (<Typography.Paragraph><A href="/trackurlhelp">Check out our guide.</A></Typography.Paragraph>)
     },
     {
         id: "why-is-my-tracks-genre-not-listed",
@@ -37,7 +38,7 @@ const FAQS = [
         answer: (
             <React.Fragment>
                 <Typography.Paragraph>
-                    Firstly, <strong>all</strong> track submissions are welcome on <em>how's my track?</em>;if the genre you think best fits your track isn't listed, just pick <strong>No Genre</strong> and your submission will still be accepted and grouped.
+                    Firstly, <Strong>all</Strong> track submissions are welcome on <Em>how's my track?</Em>;if the genre you think best fits your track isn't listed, just pick <Strong>No Genre</Strong> and your submission will still be accepted and grouped.
                 </Typography.Paragraph>
                 <Typography.Paragraph>
                     To answer the question, groups can only be formed if 3 or more feedback submissions are received, we restrict genres that don't have enough daily submissions to form at least one group. In the event that genres only receive one submission, a multi-genre group will be formed to ensure that as many people as possible get a group within 24 hours. We also regularly audit submissions to see if it's possible to add more genres, and we're always open to suggestions as well.

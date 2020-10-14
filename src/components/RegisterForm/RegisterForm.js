@@ -5,6 +5,7 @@ import { useMutation } from 'react-query';
 import apiRoot from '../../apiRoot';
 
 import { Alert, Button, Col, Icon, Input, Form, Result, Row, Spin } from 'antd';
+import { Div } from 'lemon-reset';
 
 const REGISTER_USER_MUTATION = `mutation RegisterUser($email: String!, $password: String!, $passwordRepeat: String!) {
   registerUser(email: $email, password: $password, passwordRepeat: $passwordRepeat) {
@@ -113,7 +114,7 @@ const UnwrappedRegisterForm = ({ form }) => {
     };
 
     return (
-        <div>
+        <Div>
             <Row gutter={[16, 16]}>
                 <Col>
                     {data && data.error && <Alert message={data.error} type="error" showIcon />}
@@ -175,7 +176,7 @@ const UnwrappedRegisterForm = ({ form }) => {
                     />}
                 </Col>
             </Row>
-        </div>
+        </Div>
     );
 }
 

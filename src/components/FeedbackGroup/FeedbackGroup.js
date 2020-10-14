@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Card, Col, Divider, Empty, List, Result, Row, Typography } from 'antd';
+import { Div } from 'lemon-reset'
 
 import FeedbackResponseForm from '../FeedbackResponseForm/FeedbackResponseForm';
 import type { FeedbackResponseFormProps } from '../FeedbackResponseForm/FeedbackResponseForm';
@@ -78,7 +79,7 @@ const FeedbackGroup = ({
 
     if (feedbackResponseForms) {
         return (
-            <div>
+            <Div>
                 <Row gutter={[16, 16]}>
                     <Col>
                         <Typography.Title level={3}>Feedback requests for you</Typography.Title>
@@ -114,7 +115,7 @@ const FeedbackGroup = ({
                         </Col>
                     </Row>
                 </React.Fragment>}
-            </div>
+            </Div>
         )
     }
     return (
