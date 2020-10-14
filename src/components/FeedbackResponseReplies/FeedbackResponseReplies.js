@@ -219,7 +219,7 @@ const FeedbackResponseReplies = ({
                 <Div
                     onScroll={onRepliesContainerScroll}
                     className={(!isLoadingReplies && allowingScrolling) ? "replies-container" : null}
-                    ref={repliesContainer}
+                    tagRef={repliesContainer}
                 >
                     <Typography.Paragraph style={{
                         overflowWrap: 'break-word',
