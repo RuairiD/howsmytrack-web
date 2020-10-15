@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import { Row, Alert, Col, Typography } from 'antd';
-import { Div } from 'lemon-reset';
-import MediaEmbed from '../MediaEmbed/MediaEmbed';
-import GENRE_OPTIONS from '../../genres';
-import type { FeedbackRequestSummaryProps } from './FeedbackRequestSummary';
+import { Row, Alert, Col, Typography } from "antd";
+import { Div } from "lemon-reset";
+import MediaEmbed from "../MediaEmbed/MediaEmbed";
+import GENRE_OPTIONS from "../../genres";
+import type { FeedbackRequestSummaryProps } from "./FeedbackRequestSummary";
 
 const Media = ({ mediaUrl, mediaType }) => {
     if (!mediaUrl) {
@@ -14,7 +14,7 @@ const Media = ({ mediaUrl, mediaType }) => {
                 type="info"
                 showIcon
             />
-        )
+        );
     }
     if (!mediaType) {
         return (
@@ -23,10 +23,10 @@ const Media = ({ mediaUrl, mediaType }) => {
                 type="error"
                 showIcon
             />
-        )
+        );
     }
-    return <MediaEmbed mediaUrl={mediaUrl} mediaType={mediaType} />
-}
+    return <MediaEmbed mediaUrl={mediaUrl} mediaType={mediaType} />;
+};
 
 type Props = {
     feedbackRequestSummary: FeedbackRequestSummaryProps,
@@ -51,15 +51,21 @@ const FeedbackRequestSummaryContent = ({ feedbackRequestSummary }: Props) => (
                 <Typography.Text>{GENRE_OPTIONS[feedbackRequestSummary.genre]}</Typography.Text>
             </Col>
         </Row>
-        {feedbackRequestSummary.mediaUrl && <Row>
-            {feedbackRequestSummary.feedbackPrompt && <Col>
-                <Typography.Text strong>You said: </Typography.Text>
-                <Typography.Text>"{feedbackRequestSummary.feedbackPrompt}"</Typography.Text>
-            </Col>}
-            {!feedbackRequestSummary.feedbackPrompt && <Col>
-                <Typography.Text strong>You did not provide any additional information for feedback.</Typography.Text>
-            </Col>}
-        </Row>}
+        {feedbackRequestSummary.mediaUrl && (
+            <Row>
+                {feedbackRequestSummary.feedbackPrompt && (
+                    <Col>
+                        <Typography.Text strong>You said: </Typography.Text>
+                        <Typography.Text>"{feedbackRequestSummary.feedbackPrompt}"</Typography.Text>
+                    </Col>
+                )}
+                {!feedbackRequestSummary.feedbackPrompt && (
+                    <Col>
+                        <Typography.Text strong>You did not provide any additional information for feedback.</Typography.Text>
+                    </Col>
+                )}
+            </Row>
+        )}
     </Div>
 );
 

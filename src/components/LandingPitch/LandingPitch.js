@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { Button, Icon, List, Typography } from 'antd';
-import { Div, Img } from 'lemon-reset';
-import LoginModal from '../LoginModal/LoginModal';
-import RegisterModal from '../RegisterModal/RegisterModal';
+import { Button, Icon, List, Typography } from "antd";
+import { Div, Img } from "lemon-reset";
+import LoginModal from "../LoginModal/LoginModal";
+import RegisterModal from "../RegisterModal/RegisterModal";
 
 const STEPS = [
     {
@@ -52,20 +52,21 @@ const LandingPitch = () => {
     };
 
     return (
-        <Div style={{ textAlign: 'center' }}>
+        <Div style={{ textAlign: "center" }}>
             <Div>
-                <Img alt="how's my track" src="/logo512.png" width="256px" style={{ marginBottom: '2em'}} />
+                <Img alt="how's my track" src="/logo512.png" width="256px" style={{ marginBottom: "2em" }} />
             </Div>
             <Div style={{
-                display: 'flex',
-                margin: '1em',
-                textAlign: 'center',
-            }}>
+                display: "flex",
+                margin: "1em",
+                textAlign: "center",
+            }}
+            >
                 <Button
                     size="large"
                     onClick={showRegisterModal}
                     className="home-action-button"
-                    style={{ marginLeft: 'auto' }}
+                    style={{ marginLeft: "auto" }}
                 >
                     Register
                 </Button>
@@ -73,18 +74,18 @@ const LandingPitch = () => {
                     size="large"
                     onClick={showLoginModal}
                     className="home-action-button"
-                    style={{ marginRight: 'auto' }}
+                    style={{ marginRight: "auto" }}
                 >
                     Sign In
                 </Button>
             </Div>
             <List
-                style={{ display: "inline-block", textAlign: 'left' }}
+                style={{ display: "inline-block", textAlign: "left" }}
                 itemLayout="vertical"
                 dataSource={STEPS}
-                renderItem={step => (
-                    <Typography.Title level={4} style={{ display: 'flex' }}>
-                        <Icon type={step.icon} style={{ marginRight: '2em' }} />
+                renderItem={(step) => (
+                    <Typography.Title level={4} style={{ display: "flex" }}>
+                        <Icon type={step.icon} style={{ marginRight: "2em" }} />
                         <Div>{step.text}</Div>
                     </Typography.Title>
                 )}
@@ -93,6 +94,6 @@ const LandingPitch = () => {
             <RegisterModal onCancel={onRegisterModalCancel} isVisible={isRegisterModalVisible} />
         </Div>
     );
-}
+};
 
 export default LandingPitch;

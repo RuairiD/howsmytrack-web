@@ -1,7 +1,7 @@
-import React from 'react';
-import dateFormat from 'dateformat';
+import React from "react";
+import dateFormat from "dateformat";
 
-import { Comment } from 'antd';
+import { Comment } from "antd";
 
 export type FeedbackResponseReplyProps = {
     username: string,
@@ -21,9 +21,9 @@ const FeedbackResponseReply = ({
         content={text}
         datetime={dateFormat(
             new Date(
-                Date.parse(timeCreated)
+                Date.parse(timeCreated),
             ),
-            'mmmm dS yyyy h:MM TT',
+            "mmmm dS yyyy h:MM TT",
         )}
     />
 );

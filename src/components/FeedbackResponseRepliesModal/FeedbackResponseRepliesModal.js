@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { Modal } from 'antd';
+import { Modal } from "antd";
 
-import FeedbackResponseReplies from '../FeedbackResponseReplies/FeedbackResponseReplies';
+import FeedbackResponseReplies from "../FeedbackResponseReplies/FeedbackResponseReplies";
 
 type Props = {
     onCancel: () => void,

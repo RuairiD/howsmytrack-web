@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { Icon, List, Typography } from 'antd';
-import { Div, Li, Ol, Ul } from 'lemon-reset';
+import { Icon, List, Typography } from "antd";
+import { Div, Li, Ol, Ul } from "lemon-reset";
 
 const PLATFORMS = [
     {
@@ -80,7 +80,7 @@ const PLATFORMS = [
             </Typography.Paragraph>
         ),
     },
-]
+];
 
 /*
  * Component for displaying help page with instructions on how to getthe
@@ -92,7 +92,7 @@ const TrackUrlHelp = () => (
         <List
             itemLayout="vertical"
             dataSource={PLATFORMS}
-            renderItem={platform => (
+            renderItem={(platform) => (
                 <List.Item>
                     <List.Item.Meta
                         title={platform.name}

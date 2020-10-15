@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { Modal } from 'antd';
-import EditFeedbackRequestForm from '../EditFeedbackRequestForm/EditFeedbackRequestForm';
+import { Modal } from "antd";
+import EditFeedbackRequestForm from "../EditFeedbackRequestForm/EditFeedbackRequestForm";
 
 type Props = {
     onCancel: () => void,
@@ -24,7 +24,7 @@ const EditFeedbackRequestModal = ({
     feedbackPrompt,
     emailWhenGrouped,
     genre,
-}: Props)  => (
+}: Props) => (
     <Modal
         title="Edit Feedback Request"
         onCancel={onCancel}

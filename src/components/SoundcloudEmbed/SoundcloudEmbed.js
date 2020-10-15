@@ -1,41 +1,38 @@
-import React from 'react';
-import { Div, Iframe } from 'lemon-reset';
+import React from "react";
+import { Div, Iframe } from "lemon-reset";
 
 type Props = {
     mediaUrl: string,
     size: string,
 };
 
-
-const createIframeUrl = (mediaUrl) => {
-    return 'https://w.soundcloud.com/player/?url=' + mediaUrl + '&color=%23ff5500&inverse=false&auto_play=false&show_user=true'
-}
+const createIframeUrl = (mediaUrl) => `https://w.soundcloud.com/player/?url=${mediaUrl}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`;
 
 const formatMediaUrl = (mediaUrl) => {
     /*
      * Format track URL for embedded iframe by separating out secret token.
      */
-    let urlParts = mediaUrl.split('/');
+    const urlParts = mediaUrl.split("/");
     if (urlParts.length < 6) {
         // No secret token provided; leave it as a public track.
         return mediaUrl;
     }
-    let secretToken = urlParts[5];
-    let secretlessUrl = '';
-    for (var i = 0; i < urlParts.length - 1; i++) {
-        secretlessUrl = secretlessUrl + urlParts[i] + '/';
+    const secretToken = urlParts[5];
+    let secretlessUrl = "";
+    for (let i = 0; i < urlParts.length - 1; i++) {
+        secretlessUrl = `${secretlessUrl + urlParts[i]}/`;
     }
-    return secretlessUrl + '?secret_token=' + secretToken;
-}
+    return `${secretlessUrl}?secret_token=${secretToken}`;
+};
 
 const getFrameHeight = (size) => {
-    if (size === 'small') {
+    if (size === "small") {
         return 20;
     }
     return 166;
-}
+};
 
-const SoundcloudEmbed  = ({ mediaUrl, size }: Props) => (
+const SoundcloudEmbed = ({ mediaUrl, size }: Props) => (
     <Div>
         <Iframe
             title="soundcloud"
@@ -46,11 +43,10 @@ const SoundcloudEmbed  = ({ mediaUrl, size }: Props) => (
             allow="autoplay"
             src={
                 createIframeUrl(
-                    formatMediaUrl(mediaUrl)
+                    formatMediaUrl(mediaUrl),
                 )
-            }   
-        >
-        </Iframe>
+            }
+        />
     </Div>
 );
 
