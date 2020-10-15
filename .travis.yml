@@ -1,4 +1,6 @@
-language: python
+language: node_js
+node_js:
+  - 12
 python:
   - "3.7"
 install:
