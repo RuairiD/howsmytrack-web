@@ -30,5 +30,5 @@ rules: {
   "react/destructuring-assignment": "off",
   "indent": ["error", 4],
   "quotes": ["error", "double"],
-  "react/jsx-indent": ["error", 4, { "checkAttributes": true }],
+  "react/jsx-indent": ["error", 4],
 }
