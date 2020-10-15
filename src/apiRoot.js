@@ -1,1 +1,1 @@
-export default 'https://api.howsmytrack.com';
+export default "https://api.howsmytrack.com";
