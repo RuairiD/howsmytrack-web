@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import apiRoot from '../../apiRoot';
+import { Form } from "antd";
+import apiRoot from "../../apiRoot";
 
-import { Form } from 'antd';
-import FeedbackRequestForm from '../FeedbackRequestForm/FeedbackRequestForm';
+import FeedbackRequestForm from "../FeedbackRequestForm/FeedbackRequestForm";
 
 type Props = {
     feedbackRequestId: number,
@@ -20,20 +20,18 @@ const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRe
     }
 }`;
 
-const makeEditFeedbackRequest = (params) => {
-    return fetch(apiRoot +'/graphql/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-            query: EDIT_FEEDBACK_REQUEST_MUTATION,
-            variables: params,
-        }),
-        credentials: 'include',
-    });
-};
+const makeEditFeedbackRequest = (params) => fetch(`${apiRoot}/graphql/`, {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+    },
+    body: JSON.stringify({
+        query: EDIT_FEEDBACK_REQUEST_MUTATION,
+        variables: params,
+    }),
+    credentials: "include",
+});
 
 /*
  * Component for displaying edit feedback request form.
@@ -52,4 +50,4 @@ const UnwrappedEditFeedbackRequestForm = (props: Props) => (
     />
 );
 
-export default Form.create({ name: 'editFeedbackRequest' })(UnwrappedEditFeedbackRequestForm);
+export default Form.create({ name: "editFeedbackRequest" })(UnwrappedEditFeedbackRequestForm);

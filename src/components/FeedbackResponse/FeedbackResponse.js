@@ -1,20 +1,18 @@
-import React, { useState, useMemo } from 'react';
-import { useMutation } from 'react-query'
+import React, { useState, useMemo } from "react";
+import { useMutation } from "react-query";
 
-import apiRoot from '../../apiRoot';
+import { Button, Card, Col, Rate, Row, Typography } from "antd";
+import { Div, Span } from "lemon-reset";
+import apiRoot from "../../apiRoot";
 
-import { Button, Card, Col, Rate, Row, Typography } from 'antd';
-import { Div, Span } from 'lemon-reset';
-
-import ViewRepliesButton from '../ViewRepliesButton/ViewRepliesButton';
-import FeedbackResponseRepliesModal from '../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal';
+import ViewRepliesButton from "../ViewRepliesButton/ViewRepliesButton";
+import FeedbackResponseRepliesModal from "../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal";
 
 export type FeedbackResponseProps = {
-    feedbackReponseId: number,
+    feedbackResponseId: number,
     feedback: string,
     currentRating: number,
     allowReplies: boolean,
-    allowFurtherReplies: boolean,
     replies: number,
     unreadReplies: number,
 };
@@ -39,7 +37,6 @@ const FeedbackResponse = ({
     feedback,
     currentRating,
     allowReplies,
-    allowFurtherReplies,
     replies,
     unreadReplies,
 }: FeedbackResponseProps) => {
@@ -52,31 +49,27 @@ const FeedbackResponse = ({
     const [rating, setRating] = useState(currentRating);
     const [isRepliesModalVisible, setIsRepliesModalVisible] = useState(false);
 
-    const submitRating = ({ feedbackResponseId, newRating }) => (
-        fetch(apiRoot +'/graphql/', {
-            method: 'POST',
+    const submitRating = ({ newRating }) => (
+        fetch(`${apiRoot}/graphql/`, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: RATE_FEEDBACK_RESPONSE_MUTATION,
                 variables: {
-                    feedbackResponseId: feedbackResponseId,
+                    feedbackResponseId,
                     rating: newRating,
                 },
             }),
-            credentials: 'include',
-        }).then(result =>
-            result.json()
-        ).then(data =>
-            data.data.rateFeedbackResponse
-        )
+            credentials: "include",
+        }).then((result) => result.json()).then((response) => response.data.rateFeedbackResponse)
     );
 
     const [submitRatingMutate, { data, isLoading }] = useMutation(submitRating);
 
-    const submitted = useMemo(() => (!!currentRating || (data && data.success)), [currentRating, data])
+    const submitted = useMemo(() => (!!currentRating || (data && data.success)), [currentRating, data]);
 
     const onRatingChange = (newRating) => {
         setRating(newRating);
@@ -95,9 +88,10 @@ const FeedbackResponse = ({
             <Row gutter={[16, 16]}>
                 <Col>
                     <Typography.Paragraph style={{
-                        overflowWrap: 'break-word',
-                        wordWrap: 'break-word',
-                    }}>
+                        overflowWrap: "break-word",
+                        wordWrap: "break-word",
+                    }}
+                    >
                         "{feedback}"
                     </Typography.Paragraph>
                 </Col>
@@ -105,12 +99,12 @@ const FeedbackResponse = ({
             <Card.Meta
                 title="How helpful was this feedback?"
                 description={(
-                    <Div style={{ display: 'inline' }}>
-                        <Span style={{ float: 'left', paddingBottom: '0.25em' }}>
+                    <Div style={{ display: "inline" }}>
+                        <Span style={{ float: "left", paddingBottom: "0.25em" }}>
                             <Rate
                                 style={{
-                                    color: '#000000',
-                                    marginRight: '1em',
+                                    color: "#000000",
+                                    marginRight: "1em",
                                 }}
                                 allowClear
                                 tooltips={RATING_TOOLTIP_TEXTS}
@@ -123,7 +117,7 @@ const FeedbackResponse = ({
                                 loading={isLoading}
                                 disabled={submitted || isLoading || !rating}
                                 onClick={() => submitRatingMutate({
-                                    feedbackResponseId: feedbackResponseId,
+                                    feedbackResponseId,
                                     newRating: rating,
                                 })}
                             >
@@ -131,22 +125,26 @@ const FeedbackResponse = ({
                                 {!submitted && "Rate"}
                             </Button>
                         </Span>
-                        {(allowReplies && submitted) && <ViewRepliesButton
-                            replies={replies}
-                            unreadReplies={unreadReplies}
-                            onClick={showRepliesModal}
-                        />}
+                        {(allowReplies && submitted) && (
+                            <ViewRepliesButton
+                                replies={replies}
+                                unreadReplies={unreadReplies}
+                                onClick={showRepliesModal}
+                            />
+                        )}
                     </Div>
                 )}
             />
-            {allowReplies && <FeedbackResponseRepliesModal
-                feedbackResponseId={feedbackResponseId}
-                feedback={feedback}
-                onCancel={onRepliesModalCancel}
-                isVisible={isRepliesModalVisible}
-            />}
+            {allowReplies && (
+                <FeedbackResponseRepliesModal
+                    feedbackResponseId={feedbackResponseId}
+                    feedback={feedback}
+                    onCancel={onRepliesModalCancel}
+                    isVisible={isRepliesModalVisible}
+                />
+            )}
         </Card>
     );
-}
+};
 
 export default FeedbackResponse;

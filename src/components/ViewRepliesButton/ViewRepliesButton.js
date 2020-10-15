@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { Badge, Button, Icon } from 'antd';
+import { Badge, Button, Icon } from "antd";
 
 type Props = {
     replies: number,
@@ -10,9 +10,9 @@ type Props = {
 
 const getBadgeTitle = (unreadReplies) => {
     if (unreadReplies === 1) {
-        return '1 unread reply';
+        return "1 unread reply";
     }
-    return unreadReplies + ' unread replies';
+    return `${unreadReplies} unread replies`;
 };
 
 const getRepliesText = (replies) => {
@@ -20,11 +20,11 @@ const getRepliesText = (replies) => {
         return "Leave a Reply";
     }
 
-    let repliesText = "View " + replies + " replies";
+    let repliesText = `View ${replies} replies`;
     if (replies === 1) {
         repliesText = "View 1 reply";
     }
-    
+
     return repliesText;
 };
 
@@ -41,14 +41,14 @@ const ViewRepliesButton = ({
         block
         onClick={onClick}
         style={{
-            marginTop: '0.5em',
+            marginTop: "0.5em",
         }}
     >
         <Icon type="message" />
         {getRepliesText(replies)}
         <Badge
             style={{
-                marginLeft: '0.5em',
+                marginLeft: "0.5em",
             }}
             count={unreadReplies}
             title={getBadgeTitle(unreadReplies)}

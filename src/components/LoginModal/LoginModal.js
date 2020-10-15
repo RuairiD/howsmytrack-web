@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { Modal } from 'antd';
-import LoginForm from '../LoginForm/LoginForm';
+import { Modal } from "antd";
+import LoginForm from "../LoginForm/LoginForm";
 
 type Props = {
     onCancel: () => void,
@@ -14,7 +14,7 @@ type Props = {
 const LoginModal = ({
     onCancel,
     isVisible,
-}: Props)  => (
+}: Props) => (
     <Modal
         title="Sign In"
         onCancel={onCancel}

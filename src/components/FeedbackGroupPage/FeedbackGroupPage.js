@@ -1,12 +1,12 @@
-import dateFormat from 'dateformat';
-import React, { useEffect } from 'react';
+import dateFormat from "dateformat";
+import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 
-import apiRoot from '../../apiRoot';
+import apiRoot from "../../apiRoot";
 
-import GenericPage from '../GenericPage/GenericPage';
-import FeedbackGroup from '../FeedbackGroup/FeedbackGroup';
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import GenericPage from "../GenericPage/GenericPage";
+import FeedbackGroup from "../FeedbackGroup/FeedbackGroup";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 type Props = {
     feedbackGroupId: number,
@@ -50,40 +50,40 @@ const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
 
 const formatQueryResponse = (data) => {
     const feedbackGroupProps = {
-        'feedbackResponseForms': [],
-    }
+        feedbackResponseForms: [],
+    };
 
-    for (const feedbackResponse of data['feedbackResponses']) {
-        feedbackGroupProps['feedbackResponseForms'].push({
-            'feedbackResponseId': feedbackResponse['id'],
-            'currentFeedback': feedbackResponse['feedback'],
-            'mediaUrl': feedbackResponse['feedbackRequest']['mediaUrl'],
-            'mediaType': feedbackResponse['feedbackRequest']['mediaType'],
-            'feedbackPrompt': feedbackResponse['feedbackRequest']['feedbackPrompt'],
-            'alreadySubmitted': feedbackResponse['submitted'],
-            'currentAllowReplies': feedbackResponse['allowReplies'],
-            'replies': feedbackResponse['replies'],
-            'unreadReplies': feedbackResponse['unreadReplies'],
+    for (const feedbackResponse of data.feedbackResponses) {
+        feedbackGroupProps.feedbackResponseForms.push({
+            feedbackResponseId: feedbackResponse.id,
+            currentFeedback: feedbackResponse.feedback,
+            mediaUrl: feedbackResponse.feedbackRequest.mediaUrl,
+            mediaType: feedbackResponse.feedbackRequest.mediaType,
+            feedbackPrompt: feedbackResponse.feedbackRequest.feedbackPrompt,
+            alreadySubmitted: feedbackResponse.submitted,
+            currentAllowReplies: feedbackResponse.allowReplies,
+            replies: feedbackResponse.replies,
+            unreadReplies: feedbackResponse.unreadReplies,
         });
     }
 
-    if (data['userFeedbackResponses']) {
-        feedbackGroupProps['feedbackReceived'] = []
-        for (var userFeedbackResponse of data['userFeedbackResponses']) {
-            feedbackGroupProps['feedbackReceived'].push({
-                'feedbackResponseId': userFeedbackResponse['id'],
-                'feedback': userFeedbackResponse['feedback'],
-                'currentRating': userFeedbackResponse['rating'],
-                'allowReplies': userFeedbackResponse['allowReplies'],
-                'replies': userFeedbackResponse['replies'],
-                'unreadReplies': userFeedbackResponse['unreadReplies'],
-            })
+    if (data.userFeedbackResponses) {
+        feedbackGroupProps.feedbackReceived = [];
+        for (const userFeedbackResponse of data.userFeedbackResponses) {
+            feedbackGroupProps.feedbackReceived.push({
+                feedbackResponseId: userFeedbackResponse.id,
+                feedback: userFeedbackResponse.feedback,
+                currentRating: userFeedbackResponse.rating,
+                allowReplies: userFeedbackResponse.allowReplies,
+                replies: userFeedbackResponse.replies,
+                unreadReplies: userFeedbackResponse.unreadReplies,
+            });
         }
     }
 
-    feedbackGroupProps['feedbackRequestSummary'] = data['feedbackRequest'];
+    feedbackGroupProps.feedbackRequestSummary = data.feedbackRequest;
 
-    return feedbackGroupProps
+    return feedbackGroupProps;
 };
 
 const formatTimeCreated = (timeCreated) => {
@@ -92,33 +92,27 @@ const formatTimeCreated = (timeCreated) => {
     }
     return dateFormat(
         new Date(Date.parse(timeCreated)),
-        'mmmm dS yyyy',
+        "mmmm dS yyyy",
     );
 };
 
 const FeedbackGroupPage = ({ feedbackGroupId, isMobile }: Props) => {
-    const { isLoading, data } = useQuery([FEEDBACK_GROUP_QUERY, { feedbackGroupId }], () =>
-        fetch(apiRoot +'/graphql/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify({
-                query: FEEDBACK_GROUP_QUERY,
-                variables: { feedbackGroupId: feedbackGroupId },
-            }),
-            credentials: 'include',
-        }).then(result =>
-            result.json()
-        ).then(data =>
-            data.data.feedbackGroup
-        )
-    );
+    const { isLoading, data } = useQuery([FEEDBACK_GROUP_QUERY, { feedbackGroupId }], () => fetch(`${apiRoot}/graphql/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify({
+            query: FEEDBACK_GROUP_QUERY,
+            variables: { feedbackGroupId },
+        }),
+        credentials: "include",
+    }).then((result) => result.json()).then((response) => response.data.feedbackGroup));
 
     useEffect(() => {
         if (data) {
-            document.title = "how's my track? - " + data.name;
+            document.title = `how's my track? - ${data.name}`;
         } else {
             document.title = "how's my track?";
         }
@@ -139,7 +133,7 @@ const FeedbackGroupPage = ({ feedbackGroupId, isMobile }: Props) => {
                 feedbackRequestSummary={feedbackGroup.feedbackRequestSummary}
             />
         </GenericPage>
-    )
-}
+    );
+};
 
 export default FeedbackGroupPage;

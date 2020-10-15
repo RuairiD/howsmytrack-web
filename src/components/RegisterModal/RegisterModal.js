@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { Modal } from 'antd';
-import RegisterForm from '../RegisterForm/RegisterForm';
+import { Modal } from "antd";
+import RegisterForm from "../RegisterForm/RegisterForm";
 
 type Props = {
     onCancel: () => void,
@@ -15,7 +15,7 @@ type Props = {
 const RegisterModal = ({
     onCancel,
     isVisible,
-}: Props)  => (
+}: Props) => (
     <Modal
         title="Register"
         onCancel={onCancel}

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import ReactGA from 'react-ga';
-import { useMutation } from 'react-query';
+import React, { useEffect, useState } from "react";
+import ReactGA from "react-ga";
+import { useMutation } from "react-query";
 
-import apiRoot from '../../apiRoot';
-
-import { Alert, Button, Col, Icon, Input, Form, Result, Row, Spin } from 'antd';
-import { Div } from 'lemon-reset';
+import { Alert, Button, Col, Icon, Input, Form, Result, Row, Spin } from "antd";
+import { Div } from "lemon-reset";
+import apiRoot from "../../apiRoot";
 
 const REGISTER_USER_MUTATION = `mutation RegisterUser($email: String!, $password: String!, $passwordRepeat: String!) {
   registerUser(email: $email, password: $password, passwordRepeat: $passwordRepeat) {
@@ -31,37 +30,33 @@ const UnwrappedRegisterForm = ({ form }) => {
     // after they register.
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    
+
     useEffect(() => {
         ReactGA.event({
             category: GA_REGISTER_CATEGORY,
             action: "view",
         });
     }, []);
-    
-    const submitForm = ({ email, password, passwordRepeat }) => {
+
+    const submitForm = ({ formEmail, formPassword, passwordRepeat }) => {
         ReactGA.event({
             category: GA_REGISTER_CATEGORY,
             action: "submit",
         });
-        setEmail(email);
-        setPassword(password);
-        return fetch(apiRoot +'/graphql/', {
-            method: 'POST',
+        setEmail(formEmail);
+        setPassword(formPassword);
+        return fetch(`${apiRoot}/graphql/`, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: REGISTER_USER_MUTATION,
-                variables: { email, password, passwordRepeat },
+                variables: { email: formEmail, password: formPassword, passwordRepeat },
             }),
-            credentials: 'include',
-        }).then(result =>
-            result.json()
-        ).then(data =>
-            data.data.registerUser
-        );
+            credentials: "include",
+        }).then((result) => result.json()).then((response) => response.data.registerUser);
     };
 
     const [submitFormMutate, { isLoading, data }] = useMutation(submitForm);
@@ -73,20 +68,20 @@ const UnwrappedRegisterForm = ({ form }) => {
                 category: GA_REGISTER_CATEGORY,
                 action: "success",
             });
-            fetch(apiRoot +'/graphql/', {
-                method: 'POST',
+            fetch(`${apiRoot}/graphql/`, {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
                 },
                 body: JSON.stringify({
                     query: TOKEN_AUTH_MUTATION,
                     variables: {
                         username: email,
-                        password: password,
+                        password,
                     },
                 }),
-                credentials: 'include',
+                credentials: "include",
             }).then(() => {
                 window.location.reload();
             });
@@ -107,8 +102,8 @@ const UnwrappedRegisterForm = ({ form }) => {
                 submitFormMutate({
                     email: values.email,
                     password: values.password,
-                    passwordRepeat: values.passwordRepeat
-                })
+                    passwordRepeat: values.passwordRepeat,
+                });
             }
         });
     };
@@ -122,62 +117,66 @@ const UnwrappedRegisterForm = ({ form }) => {
             </Row>
             <Row gutter={[16, 16]}>
                 <Col>
-                    {!submitted && <Spin spinning={isLoading}>
-                        <Form onSubmit={onSubmit} className="hmt-form">
-                            <Form.Item>
-                                {form.getFieldDecorator('email', {
-                                    rules: [{ required: true, message: 'Please enter your email address.' }],
-                                })(
-                                    <Input
-                                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                        placeholder="Email"
-                                        autoFocus
-                                    />,
-                                )}
-                            </Form.Item>
-                            <Form.Item>
-                                {form.getFieldDecorator('password', {
-                                    rules: [{ required: true, message: 'Please enter your password.' }],
-                                })(
-                                    <Input
-                                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                        type="password"
-                                        placeholder="Password"
-                                    />,
-                                )}
-                            </Form.Item>
-                            <Form.Item>
-                                {form.getFieldDecorator('passwordRepeat', {
-                                    rules: [{ required: true, message: 'Please repeat your password.' }],
-                                })(
-                                    <Input
-                                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                        type="password"
-                                        placeholder="Confirm Password"
-                                    />,
-                                )}
-                            </Form.Item>
-                            <Form.Item>
-                                <Button
-                                    block
-                                    type="primary"
-                                    htmlType="submit"
-                                    disabled={isLoading || submitted}
-                                >
-                                    Register
-                                </Button>
-                            </Form.Item>
-                        </Form>
-                    </Spin>}
-                    {submitted && <Result
-                        status="success"
-                        title="You have been registered."
-                        subTitle="Please wait to be signed in and redirected."
-                    />}
+                    {!submitted && (
+                        <Spin spinning={isLoading}>
+                            <Form onSubmit={onSubmit} className="hmt-form">
+                                <Form.Item>
+                                    {form.getFieldDecorator("email", {
+                                        rules: [{ required: true, message: "Please enter your email address." }],
+                                    })(
+                                        <Input
+                                            prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+                                            placeholder="Email"
+                                            autoFocus
+                                        />,
+                                    )}
+                                </Form.Item>
+                                <Form.Item>
+                                    {form.getFieldDecorator("password", {
+                                        rules: [{ required: true, message: "Please enter your password." }],
+                                    })(
+                                        <Input
+                                            prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                                            type="password"
+                                            placeholder="Password"
+                                        />,
+                                    )}
+                                </Form.Item>
+                                <Form.Item>
+                                    {form.getFieldDecorator("passwordRepeat", {
+                                        rules: [{ required: true, message: "Please repeat your password." }],
+                                    })(
+                                        <Input
+                                            prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                                            type="password"
+                                            placeholder="Confirm Password"
+                                        />,
+                                    )}
+                                </Form.Item>
+                                <Form.Item>
+                                    <Button
+                                        block
+                                        type="primary"
+                                        htmlType="submit"
+                                        disabled={isLoading || submitted}
+                                    >
+                                        Register
+                                    </Button>
+                                </Form.Item>
+                            </Form>
+                        </Spin>
+                    )}
+                    {submitted && (
+                        <Result
+                            status="success"
+                            title="You have been registered."
+                            subTitle="Please wait to be signed in and redirected."
+                        />
+                    )}
                 </Col>
             </Row>
         </Div>
     );
-}
+};
 
-export default Form.create({ name: 'register' })(UnwrappedRegisterForm);
+export default Form.create({ name: "register" })(UnwrappedRegisterForm);

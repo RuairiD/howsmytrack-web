@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { Icon, List, Typography } from 'antd';
-import { Div, Li, Ol, Ul } from 'lemon-reset';
+import { Icon, List, Typography } from "antd";
+import { Div, Li, Ol, Ul } from "lemon-reset";
 
 const PLATFORMS = [
     {
@@ -9,7 +9,7 @@ const PLATFORMS = [
         content: (
             <Typography.Paragraph>
                 <Ol>
-                    <Li>Navigate to your track's page (the URL should be something like `https://soundcloud.com/ruairidx/grey`</Li>
+                    <Li>Navigate to your track&apos;s page (the URL should be something like `https://soundcloud.com/ruairidx/grey`</Li>
                     <Li>Click the <Typography.Text strong>Share</Typography.Text> button below the track waveform.</Li>
                     <Li>Copy the URL below <Typography.Text strong>Private Share</Typography.Text> (or just <Typography.Text strong>Share</Typography.Text> if your track is already public)</Li>
                 </Ol>
@@ -68,10 +68,10 @@ const PLATFORMS = [
         content: (
             <Typography.Paragraph>
                 <Ol>
-                    <Li>Navigate to your file's page; the track should be playable and a media player should be visible.</Li>
+                    <Li>Navigate to your file&apos;s page; the track should be playable and a media player should be visible.</Li>
                     <Li>Click the <Typography.Text strong>Share</Typography.Text> button in the top left corner</Li>
                     <Li>Click the <Typography.Text strong>Copy</Typography.Text> button next to the shareable URL. <Typography.Text strong>Do not use this URL; howsmytrack.com will reject it. Keep reading.</Typography.Text></Li>
-                    <Li>Paste the URL into an incognito/private browsing window, or any window where you aren't logged in on OneDrive (this is important). The URL will resolve into a longer URL; copy this link from your address bar.</Li>
+                    <Li>Paste the URL into an incognito/private browsing window, or any window where you aren&apos;t logged in on OneDrive (this is important). The URL will resolve into a longer URL; copy this link from your address bar.</Li>
                 </Ol>
                 Your URL should look like:
                 <Ul>
@@ -80,7 +80,7 @@ const PLATFORMS = [
             </Typography.Paragraph>
         ),
     },
-]
+];
 
 /*
  * Component for displaying help page with instructions on how to getthe
@@ -92,7 +92,7 @@ const TrackUrlHelp = () => (
         <List
             itemLayout="vertical"
             dataSource={PLATFORMS}
-            renderItem={platform => (
+            renderItem={(platform) => (
                 <List.Item>
                     <List.Item.Meta
                         title={platform.name}

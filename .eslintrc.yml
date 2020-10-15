@@ -1,0 +1,33 @@
+env:
+  browser: true
+extends:
+  - 'plugin:react/recommended'
+  - airbnb
+parser:
+  'babel-eslint'
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 11
+  sourceType: module
+plugins:
+  - react
+rules: {
+  "import/no-named-as-default": "off",
+  "import/no-named-as-default-member": "off",
+  "indent": ["error", 4],
+  "max-len": "off",
+  "no-plusplus": "off",
+  "no-restricted-syntax": "off",
+  "object-curly-newline": "off",
+  "react/destructuring-assignment": "off",
+  "react/jsx-filename-extension": "off",
+  "react/jsx-indent": ["error", 4],
+  "react/jsx-indent-props": "off",
+  "react/jsx-fragments": "off",
+  "react/jsx-one-expression-per-line": "off",
+  "react/jsx-props-no-spreading": "off",
+  "react/no-unescaped-entities": "off",
+  "react/prop-types": "off",
+  "quotes": ["error", "double"],
+}

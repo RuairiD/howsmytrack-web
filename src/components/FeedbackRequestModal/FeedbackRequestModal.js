@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { Modal } from 'antd';
-import CreateFeedbackRequestForm from '../CreateFeedbackRequestForm/CreateFeedbackRequestForm';
+import { Modal } from "antd";
+import CreateFeedbackRequestForm from "../CreateFeedbackRequestForm/CreateFeedbackRequestForm";
 
 type Props = {
     onCancel: () => void,
@@ -14,7 +14,7 @@ type Props = {
 const FeedbackRequestModal = ({
     onCancel,
     isVisible,
-}: Props)  => (
+}: Props) => (
     <Modal
         title="New Feedback Request"
         onCancel={onCancel}

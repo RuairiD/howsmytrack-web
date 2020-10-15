@@ -1,16 +1,16 @@
-import React from 'react';
+import React from "react";
 
-import { Card, Col, Divider, Empty, List, Result, Row, Typography } from 'antd';
-import { Div } from 'lemon-reset'
+import { Card, Col, Divider, Empty, List, Result, Row, Typography } from "antd";
+import { Div } from "lemon-reset";
 
-import FeedbackResponseForm from '../FeedbackResponseForm/FeedbackResponseForm';
-import type { FeedbackResponseFormProps } from '../FeedbackResponseForm/FeedbackResponseForm';
+import FeedbackResponseForm from "../FeedbackResponseForm/FeedbackResponseForm";
+import type { FeedbackResponseFormProps } from "../FeedbackResponseForm/FeedbackResponseForm";
 
-import FeedbackResponse from '../FeedbackResponse/FeedbackResponse';
-import type { FeedbackResponseProps } from '../FeedbackResponse/FeedbackResponse';
+import FeedbackResponse from "../FeedbackResponse/FeedbackResponse";
+import type { FeedbackResponseProps } from "../FeedbackResponse/FeedbackResponse";
 
-import FeedbackRequestSummary from '../FeedbackRequestSummary/FeedbackRequestSummary';
-import type { FeedbackRequestSummaryProps } from '../FeedbackRequestSummary/FeedbackRequestSummary';
+import FeedbackRequestSummary from "../FeedbackRequestSummary/FeedbackRequestSummary";
+import type { FeedbackRequestSummaryProps } from "../FeedbackRequestSummary/FeedbackRequestSummary";
 
 type Props = {
     feedbackResponseForms: Array<FeedbackResponseFormProps>,
@@ -33,40 +33,40 @@ const ReceivedFeedback = ({ feedbackReceived }) => {
         return (
             <Card>
                 <Empty
-                    style={{ margin: '1em' }}
+                    style={{ margin: "1em" }}
                     image={Empty.PRESENTED_IMAGE_DEFAULT}
                     description="Feedback for your submission will appear here once you have submitted feedback for everyone else in your group."
                 />
             </Card>
-        )
+        );
     }
 
     if (feedbackReceived.length === 0) {
         return (
             <Card>
                 <Empty
-                    style={{ margin: '1em' }}
+                    style={{ margin: "1em" }}
                     image={Empty.PRESENTED_IMAGE_SIMPLE}
                     description="Nobody in your group has submitted feedback yet..."
                 />
             </Card>
-        )
+        );
     }
 
     return (
         <List
             grid={LIST_GRID_LAYOUT}
             dataSource={feedbackReceived}
-            renderItem={feedbackReceived => (
+            renderItem={(feedbackItemReceived) => (
                 <List.Item>
                     <FeedbackResponse
-                        {...feedbackReceived}
+                        {...feedbackItemReceived}
                     />
                 </List.Item>
             )}
         />
-    )
-}
+    );
+};
 
 const FeedbackGroup = ({
     feedbackResponseForms,
@@ -88,7 +88,7 @@ const FeedbackGroup = ({
                 <List
                     grid={LIST_GRID_LAYOUT}
                     dataSource={feedbackResponseForms}
-                    renderItem={feedbackResponseForm => (
+                    renderItem={(feedbackResponseForm) => (
                         <List.Item>
                             <FeedbackResponseForm
                                 {...feedbackResponseForm}
@@ -97,26 +97,28 @@ const FeedbackGroup = ({
                     )}
                 />
 
-                {feedbackRequestSummary.mediaUrl && <React.Fragment>
-                    <Divider />
+                {feedbackRequestSummary.mediaUrl && (
+                    <React.Fragment>
+                        <Divider />
 
-                    <Row gutter={[16, 16]}>
-                        <Col>
-                            <Typography.Title level={3}>Feedback for your submission</Typography.Title>
-                            <FeedbackRequestSummary
-                                feedbackRequestSummary={feedbackRequestSummary}
-                            />
-                        </Col>
-                    </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col>
+                                <Typography.Title level={3}>Feedback for your submission</Typography.Title>
+                                <FeedbackRequestSummary
+                                    feedbackRequestSummary={feedbackRequestSummary}
+                                />
+                            </Col>
+                        </Row>
 
-                    <Row gutter={[16, 16]}>
-                        <Col>
-                            <ReceivedFeedback feedbackReceived={feedbackReceived} />
-                        </Col>
-                    </Row>
-                </React.Fragment>}
+                        <Row gutter={[16, 16]}>
+                            <Col>
+                                <ReceivedFeedback feedbackReceived={feedbackReceived} />
+                            </Col>
+                        </Row>
+                    </React.Fragment>
+                )}
             </Div>
-        )
+        );
     }
     return (
         <Result
@@ -124,6 +126,6 @@ const FeedbackGroup = ({
             title="You are not authorised to view this group."
         />
     );
-}
+};
 
 export default FeedbackGroup;

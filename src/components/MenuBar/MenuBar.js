@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import ReactGA from 'react-ga';
+import React, { useState } from "react";
+import ReactGA from "react-ga";
 import { useQuery } from "react-query";
 
-import apiRoot from '../../apiRoot';
-
-import { Affix, Badge, Collapse, Menu, Icon, Spin, Typography } from 'antd';
-import { A, Div, Img, Span } from 'lemon-reset';
-import FeedbackRequestModal from '../FeedbackRequestModal/FeedbackRequestModal';
-import LoginModal from '../LoginModal/LoginModal';
-import RegisterModal from '../RegisterModal/RegisterModal';
+import { Affix, Badge, Collapse, Menu, Icon, Spin, Typography } from "antd";
+import { A, Div, Img, Span } from "lemon-reset";
+import apiRoot from "../../apiRoot";
+import FeedbackRequestModal from "../FeedbackRequestModal/FeedbackRequestModal";
+import LoginModal from "../LoginModal/LoginModal";
+import RegisterModal from "../RegisterModal/RegisterModal";
 
 type Props = {
     isMobile: boolean,
@@ -28,33 +27,42 @@ const UserDetails = ({ username, rating }) => {
     if (rating) {
         return (
             <Menu.Item disabled className="ant-menu-item">
-                <Div style={{ display: 'flex' }}>
-                    <Typography.Text ellipsis style={{
-                        marginRight: 'auto',
-                        marginTop: 'auto',
-                        marginBottom: 'auto',
-                    }}>
+                <Div style={{ display: "flex" }}>
+                    <Typography.Text
+                        ellipsis
+                        style={{
+                            marginRight: "auto",
+                            marginTop: "auto",
+                            marginBottom: "auto",
+                        }}
+                    >
                         {username}
                     </Typography.Text>
-                    <Typography.Text strong style={{
-                        marginLeft: 'auto',
-                        marginTop: 'auto',
-                        marginBottom: 'auto',
-                    }}>
+                    <Typography.Text
+                        strong
+                        style={{
+                            marginLeft: "auto",
+                            marginTop: "auto",
+                            marginBottom: "auto",
+                        }}
+                    >
                         {rating.toFixed(2)}<Icon type="star" />
                     </Typography.Text>
                 </Div>
             </Menu.Item>
-        )
+        );
     }
     return (
         <Menu.Item disabled className="ant-menu-item">
-            <Div style={{ display: 'flex' }}>
-                <Typography.Text ellipsis style={{
-                    marginRight: 'auto',
-                    marginTop: 'auto',
-                    marginBottom: 'auto',
-                }}>
+            <Div style={{ display: "flex" }}>
+                <Typography.Text
+                    ellipsis
+                    style={{
+                        marginRight: "auto",
+                        marginTop: "auto",
+                        marginBottom: "auto",
+                    }}
+                >
                     {username}
                 </Typography.Text>
             </Div>
@@ -66,8 +74,8 @@ const SocialLinksMenu = ({ isMobile, onMenuClick }) => {
     let style = {};
     if (!isMobile) {
         style = {
-            position: 'absolute',
-            bottom: '0px',
+            position: "absolute",
+            bottom: "0px",
         };
     }
     return (
@@ -98,28 +106,31 @@ const SocialLinksMenu = ({ isMobile, onMenuClick }) => {
 };
 
 const MobileHeader = ({ mobileMenuCollapsed, notifications }) => (
-    <Div style={{ display: 'flex' }}>
+    <Div style={{ display: "flex" }}>
         <Span style={{
-            marginTop: 'auto',
-            marginBottom: 'auto',
-        }}>
+            marginTop: "auto",
+            marginBottom: "auto",
+        }}
+        >
             <Typography.Text>
                 how's my track?
             </Typography.Text>
-            {mobileMenuCollapsed && <Badge
-                count={notifications}
-                style={{
-                    marginLeft: '0.5em',
-                }}
-            />}
+            {mobileMenuCollapsed && (
+                <Badge
+                    count={notifications}
+                    style={{
+                        marginLeft: "0.5em",
+                    }}
+                />
+            )}
         </Span>
         <Img
             alt=""
             src="/logo128.png"
             style={{
-                marginLeft: 'auto',
-                width: '32px',
-                height: '32px',
+                marginLeft: "auto",
+                width: "32px",
+                height: "32px",
             }}
         />
     </Div>
@@ -158,7 +169,7 @@ const LoggedInMenu = ({ onMenuClick, username, rating, notifications }) => (
         theme="light"
         onClick={onMenuClick}
         style={{
-            marginBottom: 'auto',
+            marginBottom: "auto",
             borderRight: 0,
         }}
     >
@@ -176,7 +187,7 @@ const LoggedInMenu = ({ onMenuClick, username, rating, notifications }) => (
                 <Span>Your Groups</Span>
                 <Badge
                     count={notifications}
-                    style={{ marginLeft: '0.5em' }}
+                    style={{ marginLeft: "0.5em" }}
                 />
             </A>
         </Menu.Item>
@@ -207,15 +218,19 @@ const MainMenu = ({
     notifications,
 }) => (
     <Div>
-        {username && <LoggedInMenu
-            onMenuClick={onMenuClick}
-            username={username}
-            rating={rating}
-            notifications={notifications}
-        />}
-        {!username && <LoggedOutMenu
-            onMenuClick={onMenuClick}
-        />}
+        {username && (
+            <LoggedInMenu
+                onMenuClick={onMenuClick}
+                username={username}
+                rating={rating}
+                notifications={notifications}
+            />
+        )}
+        {!username && (
+            <LoggedOutMenu
+                onMenuClick={onMenuClick}
+            />
+        )}
         <SocialLinksMenu
             isMobile={isMobile}
             onMenuClick={onMenuClick}
@@ -235,11 +250,9 @@ const MobileMenu = ({
     <Collapse
         className="mobile-menu-collapse"
         bordered={false}
-        expandIcon={
-            ({ isActive }) => (
-                <Icon type="menu" rotate={isActive ? 90 : 0} />
-            )
-        }
+        expandIcon={({ isActive }) => (
+            <Icon type="menu" rotate={isActive ? 90 : 0} />
+        )}
         onChange={onCollapseChange}
     >
         <Collapse.Panel
@@ -280,25 +293,31 @@ const MenuBarContent = ({
 }) => (
     <Spin spinning={isLoading}>
         <Div className="menu-bar">
-            {!isMobile && <A href="/" className="full-logo">
-                <Img alt="how's my track" src="/logo512.png" width="200px" style={{ padding: '0.5em', marginLeft: 'auto', marginRight: 'auto' }} />
-            </A>}
-            {isMobile && <MobileMenu
-                isMobile={isMobile}
-                onMenuClick={onMenuClick}
-                username={username}
-                rating={rating}
-                notifications={notifications}
-                onCollapseChange={onCollapseChange}
-                mobileMenuCollapsed={mobileMenuCollapsed}
-            />}
-            {!isMobile && <MainMenu
-                isMobile={isMobile}
-                onMenuClick={onMenuClick}
-                username={username}
-                rating={rating}
-                notifications={notifications}
-            />}
+            {!isMobile && (
+                <A href="/" className="full-logo">
+                    <Img alt="how's my track" src="/logo512.png" width="200px" style={{ padding: "0.5em", marginLeft: "auto", marginRight: "auto" }} />
+                </A>
+            )}
+            {isMobile && (
+                <MobileMenu
+                    isMobile={isMobile}
+                    onMenuClick={onMenuClick}
+                    username={username}
+                    rating={rating}
+                    notifications={notifications}
+                    onCollapseChange={onCollapseChange}
+                    mobileMenuCollapsed={mobileMenuCollapsed}
+                />
+            )}
+            {!isMobile && (
+                <MainMenu
+                    isMobile={isMobile}
+                    onMenuClick={onMenuClick}
+                    username={username}
+                    rating={rating}
+                    notifications={notifications}
+                />
+            )}
 
             <FeedbackRequestModal onCancel={onFeedbackRequestModalCancel} isVisible={isFeedbackRequestModalVisible} />
             <LoginModal onCancel={onLoginModalCancel} isVisible={isLoginModalVisible} />
@@ -317,16 +336,14 @@ const MenuBar = ({ isMobile }: Props) => {
     const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(false);
     const [mobileMenuCollapsed, setMobileMenuCollapsed] = useState(true);
 
-    const logout = () => {
-        return fetch(apiRoot + '/logout/', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            credentials: 'include',
-        })
-    };
+    const logout = () => fetch(`${apiRoot}/logout/`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        credentials: "include",
+    });
 
     const menuActions = {
         newRequest: () => {
@@ -339,28 +356,22 @@ const MenuBar = ({ isMobile }: Props) => {
             setIsRegisterModalVisible(true);
         },
         logout: () => {
-            logout().then(() =>
-                window.location.assign('/')
-            );
+            logout().then(() => window.location.assign("/"));
         },
     };
 
     const { isLoading, data } = useQuery([USER_DETAILS_QUERY], () => (
-        fetch(apiRoot +'/graphql/', {
-            method: 'POST',
+        fetch(`${apiRoot}/graphql/`, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: USER_DETAILS_QUERY,
             }),
-            credentials: 'include',
-        }).then(result =>
-            result.json()
-        ).then(data =>
-            data.data.userDetails
-        )
+            credentials: "include",
+        }).then((result) => result.json()).then((response) => response.data.userDetails)
     ));
 
     let username = null;
@@ -381,7 +392,7 @@ const MenuBar = ({ isMobile }: Props) => {
     }
 
     const onMenuClick = (event) => {
-        let menuAction = menuActions[event.key];
+        const menuAction = menuActions[event.key];
         ReactGA.event({
             category: GA_MENU_BAR_CATEGORY,
             action: event.key,
@@ -390,7 +401,7 @@ const MenuBar = ({ isMobile }: Props) => {
             menuAction();
         }
     };
-    
+
     const onFeedbackRequestModalCancel = () => {
         setIsFeedbackRequestModalVisible(false);
     };
@@ -434,6 +445,6 @@ const MenuBar = ({ isMobile }: Props) => {
             {menuBarContent}
         </Affix>
     );
-}
+};
 
 export default MenuBar;

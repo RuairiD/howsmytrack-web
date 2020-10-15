@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useMutation } from 'react-query';
-import ReactGA from 'react-ga';
+import React, { useState, useEffect } from "react";
+import { useMutation } from "react-query";
+import ReactGA from "react-ga";
 
-import apiRoot from '../../apiRoot';
+import { Alert, Button, Card, Checkbox, Col, Input, Row, Typography } from "antd";
+import { Div } from "lemon-reset";
+import apiRoot from "../../apiRoot";
 
-import { Alert, Button, Card, Checkbox, Col, Input, Row, Typography } from 'antd';
-import { Div } from 'lemon-reset';
-
-import ViewRepliesButton from '../ViewRepliesButton/ViewRepliesButton';
-import MediaEmbed from '../MediaEmbed/MediaEmbed';
-import FeedbackResponseRepliesModal from '../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal';
+import ViewRepliesButton from "../ViewRepliesButton/ViewRepliesButton";
+import MediaEmbed from "../MediaEmbed/MediaEmbed";
+import FeedbackResponseRepliesModal from "../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal";
 
 export type FeedbackResponseFormProps = {
     feedbackResponseId: number,
@@ -40,13 +39,15 @@ const OriginalRequest = ({ mediaUrl, mediaType, feedbackPrompt }) => (
             </Col>
         </Row>
         {
-            feedbackPrompt &&
-            <Row gutter={[16, 16]}>
-                <Col>
-                    <Typography.Text strong>The requester has said: </Typography.Text>
-                    <Typography.Text>"{feedbackPrompt}"</Typography.Text>
-                </Col>
-            </Row>
+            feedbackPrompt
+            && (
+                <Row gutter={[16, 16]}>
+                    <Col>
+                        <Typography.Text strong>The requester has said: </Typography.Text>
+                        <Typography.Text>"{feedbackPrompt}"</Typography.Text>
+                    </Col>
+                </Row>
+            )
         }
     </Div>
 );
@@ -82,14 +83,14 @@ const FeedbackResponseForm = ({
             category: GA_FEEDBACK_RESPONSE_CATEGORY,
             action: "view",
         });
-    }, [])
+    }, []);
 
     const onFeedbackTextChange = (event) => {
         setFeedback(event.target.value);
     };
 
     const onAllowRepliesChange = (event) => {
-        setAllowReplies(event.target.checked)
+        setAllowReplies(event.target.checked);
     };
 
     const submitForm = () => {
@@ -97,29 +98,25 @@ const FeedbackResponseForm = ({
             category: GA_FEEDBACK_RESPONSE_CATEGORY,
             action: "submit",
         });
-        return fetch(apiRoot +'/graphql/', {
-            method: 'POST',
+        return fetch(`${apiRoot}/graphql/`, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: SUBMIT_FEEDBACK_RESPONSE_MUTATION,
                 variables: {
-                    feedbackResponseId: feedbackResponseId,
-                    feedback: feedback,
-                    allowReplies: allowReplies,
+                    feedbackResponseId,
+                    feedback,
+                    allowReplies,
                 },
             }),
-            credentials: 'include',
-        }).then(result =>
-            result.json()
-        ).then(data =>
-            data.data.submitFeedbackResponse
-        );
+            credentials: "include",
+        }).then((result) => result.json()).then((response) => response.data.submitFeedbackResponse);
     };
 
-    const [submitFormMutate, { isLoading, data }] = useMutation(submitForm)
+    const [submitFormMutate, { isLoading, data }] = useMutation(submitForm);
 
     if (data) {
         if (data.success) {
@@ -175,26 +172,30 @@ const FeedbackResponseForm = ({
                         disabled={submitted || !feedback}
                         onClick={submitFormMutate}
                     >
-                        {!submitted && 'Submit Feedback'}
-                        {submitted && 'Submitted'}
+                        {!submitted && "Submit Feedback"}
+                        {submitted && "Submitted"}
                     </Button>
                 </FormRow>
-                {allowReplies && submitted && <FormRow>
-                    <ViewRepliesButton
-                        replies={replies}
-                        unreadReplies={unreadReplies}
-                        onClick={showRepliesModal}
-                    />
-                </FormRow>}
+                {allowReplies && submitted && (
+                    <FormRow>
+                        <ViewRepliesButton
+                            replies={replies}
+                            unreadReplies={unreadReplies}
+                            onClick={showRepliesModal}
+                        />
+                    </FormRow>
+                )}
             </Div>
-            {allowReplies && <FeedbackResponseRepliesModal
-                feedbackResponseId={feedbackResponseId}
-                feedback={feedback}
-                onCancel={onRepliesModalCancel}
-                isVisible={isRepliesModalVisible}
-            />}
+            {allowReplies && (
+                <FeedbackResponseRepliesModal
+                    feedbackResponseId={feedbackResponseId}
+                    feedback={feedback}
+                    onCancel={onRepliesModalCancel}
+                    isVisible={isRepliesModalVisible}
+                />
+            )}
         </Card>
     );
-}
+};
 
 export default FeedbackResponseForm;

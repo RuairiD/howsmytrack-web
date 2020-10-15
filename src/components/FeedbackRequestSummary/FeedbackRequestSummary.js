@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { useMutation } from 'react-query';
+import React, { useState } from "react";
+import { useMutation } from "react-query";
 
-import apiRoot from '../../apiRoot';
+import { Button, Card, message, Popconfirm, Result, Spin } from "antd";
+import apiRoot from "../../apiRoot";
 
-import { Button, Card, message, Popconfirm, Result, Spin } from 'antd';
-import EditFeedbackRequestModal from '../EditFeedbackRequestModal/EditFeedbackRequestModal';
-import FeedbackRequestSummaryContent from './FeedbackRequestSummaryContent';
+import EditFeedbackRequestModal from "../EditFeedbackRequestModal/EditFeedbackRequestModal";
+import FeedbackRequestSummaryContent from "./FeedbackRequestSummaryContent";
 
 export type FeedbackRequestSummaryProps = {
     feedbackRequestId: number,
@@ -42,7 +42,7 @@ const RequestButtons = ({ mediaUrl, showEditFeedbackRequestModal, deleteRequestM
             icon="edit"
             onClick={showEditFeedbackRequestModal}
             style={{
-                marginRight: '0.5em',
+                marginRight: "0.5em",
             }}
         />
         <Popconfirm
@@ -60,24 +60,20 @@ const RequestButtons = ({ mediaUrl, showEditFeedbackRequestModal, deleteRequestM
 );
 
 const deleteRequest = ({ feedbackRequestId }) => (
-    fetch(apiRoot +'/graphql/', {
-        method: 'POST',
+    fetch(`${apiRoot}/graphql/`, {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            "Content-Type": "application/json",
+            Accept: "application/json",
         },
         body: JSON.stringify({
             query: DELETE_FEEDBACK_REQUEST_MUTATION,
             variables: {
-                feedbackRequestId: feedbackRequestId,
+                feedbackRequestId,
             },
         }),
-        credentials: 'include',
-    }).then(result =>
-        result.json()
-    ).then(data => 
-        data.data.deleteFeedbackRequest
-    )
+        credentials: "include",
+    }).then((result) => result.json()).then((response) => response.data.deleteFeedbackRequest)
 );
 
 const FeedbackRequestSummary = ({
@@ -97,7 +93,7 @@ const FeedbackRequestSummary = ({
     const hideEditFeedbackRequestModal = () => {
         setIsEditFeedbackRequestModalVisible(false);
     };
-    
+
     const [deleteRequestMutate, { isLoading, data }] = useMutation(deleteRequest);
 
     if (data && !data.success) {
@@ -110,19 +106,21 @@ const FeedbackRequestSummary = ({
                 status="success"
                 title="This request has been deleted."
             />
-        )
+        );
     }
     return (
         <Spin spinning={isLoading}>
             <Card
                 title="You submitted:"
-                extra={showButtons && <RequestButtons
-                    mediaUrl={feedbackRequestSummary.mediaUrl}
-                    showEditFeedbackRequestModal={showEditFeedbackRequestModal}
-                    deleteRequestMutate={() => deleteRequestMutate({
-                        feedbackRequestId: feedbackRequestSummary.feedbackRequestId,
-                    })}
-                />}
+                extra={showButtons && (
+                    <RequestButtons
+                        mediaUrl={feedbackRequestSummary.mediaUrl}
+                        showEditFeedbackRequestModal={showEditFeedbackRequestModal}
+                        deleteRequestMutate={() => deleteRequestMutate({
+                            feedbackRequestId: feedbackRequestSummary.feedbackRequestId,
+                        })}
+                    />
+                )}
             >
                 <FeedbackRequestSummaryContent
                     feedbackRequestSummary={feedbackRequestSummary}
@@ -139,6 +137,6 @@ const FeedbackRequestSummary = ({
             />
         </Spin>
     );
-}
+};
 
 export default FeedbackRequestSummary;

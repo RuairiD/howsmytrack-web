@@ -1,12 +1,11 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { useQuery, useMutation } from 'react-query';
+import React, { useCallback, useEffect, useState, useRef } from "react";
+import { useQuery, useMutation } from "react-query";
 
-import apiRoot from '../../apiRoot';
+import { Alert, Button, Checkbox, Col, Input, Row, Spin, Typography } from "antd";
+import { Div } from "lemon-reset";
+import apiRoot from "../../apiRoot";
 
-import { Alert, Button, Checkbox, Col, Input, Row, Spin, Typography } from 'antd';
-import { Div } from 'lemon-reset';
-
-import FeedbackResponseReply from '../FeedbackResponseReply/FeedbackResponseReply';
+import FeedbackResponseReply from "../FeedbackResponseReply/FeedbackResponseReply";
 
 type Props = {
     feedbackResponseId: number,
@@ -52,7 +51,7 @@ const FeedbackResponseReplies = ({
     /*
      * Component for displaying modal for submitting a feedback request.
      */
-    const [replyText, setReplyText] = useState('');
+    const [replyText, setReplyText] = useState("");
     const [allowReplies, setAllowReplies] = useState(true);
     // We don't need to show the scroll bar if there's not enough
     // content to warrant scrolling.
@@ -68,7 +67,7 @@ const FeedbackResponseReplies = ({
         // make it clear there's content that's being hidden. Otherwise, hide them.
         const scrollableHeight = event.target.scrollHeight - event.target.clientHeight;
         if (scrollableHeight > 0) {
-            const opacity = event.target.scrollTop/scrollableHeight;
+            const opacity = event.target.scrollTop / scrollableHeight;
             setAllowingScrolling(true);
             setTopShadowOpacity(opacity);
             setBottomShadowOpacity(1 - opacity);
@@ -85,90 +84,78 @@ const FeedbackResponseReplies = ({
             onRepliesContainerScroll({ target: repliesContainer.current });
         }
     }, [repliesContainer]);
-    
+
     const markRepliesAsRead = ({ replies }) => {
         // Mark all replies as read when the modal is first visible.
         // The backend will ensure that only replies sent *to* the
         // logged-in user will be marked as read as obviously marking
         // all replies as read (including the other user's) would be
         // very confusing.
-        let replyIds = [];
-        for (let reply of replies) {
+        const replyIds = [];
+        for (const reply of replies) {
             replyIds.push(reply.id);
         }
-        return fetch(apiRoot + '/graphql/', {
-            method: 'POST',
+        return fetch(`${apiRoot}/graphql/`, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: MARK_REPLIES_AS_READ_MUTATION,
                 variables: {
-                    replyIds: replyIds,
+                    replyIds,
                 },
             }),
-            credentials: 'include',
+            credentials: "include",
         });
     };
 
     const [markRepliesAsReadMutate] = useMutation(markRepliesAsRead);
 
-    const addReply = ({
-        feedbackResponseId,
-        replyText,
-        allowReplies,
-    }) => (
-        fetch(apiRoot +'/graphql/', {
-            method: 'POST',
+    const addReply = () => (
+        fetch(`${apiRoot}/graphql/`, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: ADD_FEEDBACK_RESPONSE_REPLY_MUTATION,
                 variables: {
-                    feedbackResponseId: feedbackResponseId,
+                    feedbackResponseId,
                     text: replyText,
-                    allowReplies: allowReplies,
+                    allowReplies,
                 },
             }),
-            credentials: 'include',
-        }).then(result =>
-            result.json()
-        ).then(data =>
-            data.data.addFeedbackResponseReply
-        )
+            credentials: "include",
+        }).then((result) => result.json()).then((response) => response.data.addFeedbackResponseReply)
     );
 
     const [addReplyMutate, { isLoading: isLoadingAddReply, data: addReplyData }] = useMutation(addReply);
 
     const getReplies = () => (
-        fetch(apiRoot +'/graphql/', {
-            method: 'POST',
+        fetch(`${apiRoot}/graphql/`, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: REPLIES_QUERY,
                 variables: {
-                    feedbackResponseId: feedbackResponseId
+                    feedbackResponseId,
                 },
             }),
-            credentials: 'include',
-        }).then(result =>
-            result.json()
-        ).then(data =>
-            data.data.replies
-        )
+            credentials: "include",
+        }).then((result) => result.json()).then((response) => response.data.replies)
     );
 
     const { isLoading: isLoadingReplies, data: repliesData } = useQuery(
         // By refetching when `addReplyData` changes, we can force
         // the replies to update with the newly added reply.
         [REPLIES_QUERY, addReplyData],
-        getReplies
+        getReplies,
     );
 
     useEffect(() => {
@@ -181,17 +168,13 @@ const FeedbackResponseReplies = ({
     let allowFurtherReplies = (repliesData && repliesData.allowFurtherReplies);
 
     const onAddReplySubmit = () => {
-        addReplyMutate({
-            feedbackResponseId: feedbackResponseId,
-            replyText: replyText,
-            allowReplies: allowReplies,
-        })
+        addReplyMutate();
     };
 
     useEffect(() => {
         if (addReplyData && addReplyData.reply) {
             // Clear textfield
-            setReplyText('');
+            setReplyText("");
         }
     }, [addReplyData, scrollToBottomReply]);
 
@@ -222,14 +205,15 @@ const FeedbackResponseReplies = ({
                     tagRef={repliesContainer}
                 >
                     <Typography.Paragraph style={{
-                        overflowWrap: 'break-word',
-                        wordWrap: 'break-word',
-                    }}>
+                        overflowWrap: "break-word",
+                        wordWrap: "break-word",
+                    }}
+                    >
                         <Typography.Text strong>Original Feedback: </Typography.Text>"{feedback}"
                     </Typography.Paragraph>
-                    {repliesData && repliesData.replies.map((reply, i) => (
+                    {repliesData && repliesData.replies.map((reply) => (
                         <FeedbackResponseReply
-                            key={i}
+                            key={reply.id}
                             username={reply.username}
                             text={reply.text}
                             timeCreated={reply.timeCreated}
@@ -243,52 +227,56 @@ const FeedbackResponseReplies = ({
                     }}
                 />
             </Div>
-            <Div style={{ padding: '0.5em 0' }}>
-                {allowFurtherReplies && repliesData && <Div>
-                    <Row gutter={[16, 16]}>
-                        <Col>
-                            {addReplyData && addReplyData.error && <Alert message={addReplyData.error} type="error" showIcon />}
-                        </Col>
-                    </Row>
-                    <Row gutter={[16, 16]}>
-                        <Col>
-                            <Input.TextArea
-                                placeholder="Write your reply..."
-                                value={replyText}
-                                onChange={onReplyTextChange}
-                                rows={2}
-                                disabled={!repliesData.allowFurtherReplies}
-                                autoFocus
-                            />
-                        </Col>
-                    </Row>
-                    <Row gutter={[16, 16]}>
-                        <Col style={{ display: 'flex' }}>
-                            <Checkbox
-                                checked={allowReplies}
-                                onChange={onAllowRepliesChange}
-                                style={{ marginRight: 'auto' }}
-                            >
-                                Allow additional replies.
-                            </Checkbox>
-                            <Button
-                                type="primary"
-                                loading={isLoadingAddReply}
-                                disabled={!allowFurtherReplies || !replyText}
-                                onClick={onAddReplySubmit}
-                                style={{ marginLeft: 'auto' }}
-                            >
-                                Send Reply
-                            </Button>
-                        </Col>
-                    </Row>
-                </Div>}
-                {(!isLoadingReplies && !allowFurtherReplies) && <Typography.Text strong>
-                    Additional replies have been disabled for this conversation.
-                </Typography.Text>}
+            <Div style={{ padding: "0.5em 0" }}>
+                {allowFurtherReplies && repliesData && (
+                    <Div>
+                        <Row gutter={[16, 16]}>
+                            <Col>
+                                {addReplyData && addReplyData.error && <Alert message={addReplyData.error} type="error" showIcon />}
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col>
+                                <Input.TextArea
+                                    placeholder="Write your reply..."
+                                    value={replyText}
+                                    onChange={onReplyTextChange}
+                                    rows={2}
+                                    disabled={!repliesData.allowFurtherReplies}
+                                    autoFocus
+                                />
+                            </Col>
+                        </Row>
+                        <Row gutter={[16, 16]}>
+                            <Col style={{ display: "flex" }}>
+                                <Checkbox
+                                    checked={allowReplies}
+                                    onChange={onAllowRepliesChange}
+                                    style={{ marginRight: "auto" }}
+                                >
+                                    Allow additional replies.
+                                </Checkbox>
+                                <Button
+                                    type="primary"
+                                    loading={isLoadingAddReply}
+                                    disabled={!allowFurtherReplies || !replyText}
+                                    onClick={onAddReplySubmit}
+                                    style={{ marginLeft: "auto" }}
+                                >
+                                    Send Reply
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Div>
+                )}
+                {(!isLoadingReplies && !allowFurtherReplies) && (
+                    <Typography.Text strong>
+                        Additional replies have been disabled for this conversation.
+                    </Typography.Text>
+                )}
             </Div>
         </Spin>
     );
-}
+};
 
 export default FeedbackResponseReplies;

@@ -1,10 +1,10 @@
-import React from 'react';
-import { Spin } from 'antd';
-import { Div, Img } from 'lemon-reset';
+import React from "react";
+import { Spin } from "antd";
+import { Div, Img } from "lemon-reset";
 
 const LoadingSpinner = () => (
     <Div className="home-loading-container">
-        <Spin 
+        <Spin
             className="home-loading-spin"
             size="large"
             indicator={(

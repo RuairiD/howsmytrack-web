@@ -1,10 +1,10 @@
-import React from 'react';
-import { Div, Iframe } from 'lemon-reset';
+import React from "react";
+import { Div, Iframe } from "lemon-reset";
 
 const formatMediaUrl = (mediaUrl) => {
-    let urlParts = mediaUrl.split('/view');
-    return urlParts[0] + '/preview?usp=sharing';
-}
+    const urlParts = mediaUrl.split("/view");
+    return `${urlParts[0]}/preview?usp=sharing`;
+};
 
 type Props = {
     mediaUrl: string,
@@ -19,9 +19,8 @@ const GoogleDriveEmbed = ({ mediaUrl }: Props) => (
             scrolling="no"
             frameBorder="no"
             allow="autoplay"
-            src={formatMediaUrl(mediaUrl)}   
-        >
-        </Iframe>
+            src={formatMediaUrl(mediaUrl)}
+        />
     </Div>
 );
 
