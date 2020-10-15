@@ -1,4 +1,4 @@
-language: generic
+language: python
 node_js:
   - 12
 python:
