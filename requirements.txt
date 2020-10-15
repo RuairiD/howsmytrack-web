@@ -1,0 +1,13 @@
+appdirs==1.4.4
+cfgv==3.2.0
+distlib==0.3.1
+filelock==3.0.12
+identify==1.5.6
+importlib-metadata==2.0.0
+nodeenv==1.5.0
+pre-commit==2.7.1
+PyYAML==5.3.1
+six==1.15.0
+toml==0.10.1
+virtualenv==20.0.35
+zipp==3.3.0
