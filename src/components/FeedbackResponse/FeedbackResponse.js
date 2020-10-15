@@ -54,7 +54,7 @@ const FeedbackResponse = ({
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: RATE_FEEDBACK_RESPONSE_MUTATION,

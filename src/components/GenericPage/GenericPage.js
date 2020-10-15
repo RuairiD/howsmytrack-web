@@ -50,7 +50,7 @@ const GenericPage = ({ title, subTitle, hideMenu, isMobile, children }: Props) =
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: REFRESH_TOKEN_FROM_COOKIE_MUTATION,

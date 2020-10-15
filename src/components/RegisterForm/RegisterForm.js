@@ -49,7 +49,7 @@ const UnwrappedRegisterForm = ({ form }) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: REGISTER_USER_MUTATION,
@@ -72,7 +72,7 @@ const UnwrappedRegisterForm = ({ form }) => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept": "application/json",
+                    Accept: "application/json",
                 },
                 body: JSON.stringify({
                     query: TOKEN_AUTH_MUTATION,

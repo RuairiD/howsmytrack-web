@@ -17,7 +17,7 @@ const makeCreateFeedbackRequest = (params) => fetch(`${apiRoot}/graphql/`, {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json",
+        Accept: "application/json",
     },
     body: JSON.stringify({
         query: CREATE_FEEDBACK_REQUEST_MUTATION,

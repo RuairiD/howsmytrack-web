@@ -71,15 +71,15 @@ const formatFeedbackGroupsQueryResponse = (data) => {
         }
 
         feedbackGroups.push({
-            "feedbackGroupId": feedbackGroup.id,
-            "name": feedbackGroup.name,
-            "timeCreated": feedbackGroup.timeCreated,
-            "feedbackRequestSummary": feedbackGroup.feedbackRequest,
-            "userCount": feedbackGroup.members,
-            "tracklessUserCount": feedbackGroup.tracklessMembers,
-            "userFeedbackCount": userFeedbackCount,
-            "feedbackResponseCount": feedbackGroup.userFeedbackResponseCount,
-            "unreadReplies": unreadReplies,
+            feedbackGroupId: feedbackGroup.id,
+            name: feedbackGroup.name,
+            timeCreated: feedbackGroup.timeCreated,
+            feedbackRequestSummary: feedbackGroup.feedbackRequest,
+            userCount: feedbackGroup.members,
+            tracklessUserCount: feedbackGroup.tracklessMembers,
+            userFeedbackCount,
+            feedbackResponseCount: feedbackGroup.userFeedbackResponseCount,
+            unreadReplies,
         });
     }
 
@@ -108,7 +108,7 @@ const FeedbackGroupsPage = ({ isMobile }: Props) => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept": "application/json",
+                    Accept: "application/json",
                 },
                 body: JSON.stringify({
                     query: FEEDBACK_GROUPS_QUERY,
@@ -124,7 +124,7 @@ const FeedbackGroupsPage = ({ isMobile }: Props) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: UNASSIGNED_REQUEST_QUERY,

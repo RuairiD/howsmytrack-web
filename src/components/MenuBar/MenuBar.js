@@ -340,7 +340,7 @@ const MenuBar = ({ isMobile }: Props) => {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json",
+            Accept: "application/json",
         },
         credentials: "include",
     });
@@ -365,7 +365,7 @@ const MenuBar = ({ isMobile }: Props) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: USER_DETAILS_QUERY,

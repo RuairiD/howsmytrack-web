@@ -26,7 +26,7 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: UPDATE_EMAIL_MUTATION,
@@ -72,7 +72,7 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             credentials: "include",
         }).then(() => window.location.assign("/"));
@@ -133,7 +133,7 @@ const UserSettings = ({ currentEmail, currentSendReminderEmails }: UserSettingsP
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: UPDATE_SEND_REMINDER_EMAILS_MUTATION,

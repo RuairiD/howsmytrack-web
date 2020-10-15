@@ -102,7 +102,7 @@ const FeedbackResponseForm = ({
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: SUBMIT_FEEDBACK_RESPONSE_MUTATION,

@@ -64,7 +64,7 @@ const deleteRequest = ({ feedbackRequestId }) => (
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json",
+            Accept: "application/json",
         },
         body: JSON.stringify({
             query: DELETE_FEEDBACK_REQUEST_MUTATION,

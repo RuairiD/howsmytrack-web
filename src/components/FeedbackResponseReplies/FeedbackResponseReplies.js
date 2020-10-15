@@ -99,7 +99,7 @@ const FeedbackResponseReplies = ({
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: MARK_REPLIES_AS_READ_MUTATION,
@@ -118,7 +118,7 @@ const FeedbackResponseReplies = ({
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: ADD_FEEDBACK_RESPONSE_REPLY_MUTATION,
@@ -139,7 +139,7 @@ const FeedbackResponseReplies = ({
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 query: REPLIES_QUERY,
