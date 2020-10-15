@@ -42,7 +42,7 @@ const UnwrappedLoginForm = ({ form }) => {
             }),
             credentials: "include",
         });
-        return await result.json();
+        return result.json();
     };
 
     const [submitFormMutate, { isLoading, data }] = useMutation(submitForm);

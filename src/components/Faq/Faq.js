@@ -12,20 +12,22 @@ const FAQS = [
     {
         id: "why-does-hows-my-track-exist",
         question: "Why does How's My Track? exist?",
-        answer: (<React.Fragment>
-            <Typography.Paragraph>
-                I noticed there were two primary ways musicians would solicit feedback in Discord channels.
-            </Typography.Paragraph>
-            <Typography.Paragraph>
-                The first is through some sort of #feedback channel where users can post a track for feedback, but only after providing feedback for the last submitter. I often found this tit-for-tat system a bit crap; there was very little enforcing constructive feedback and often users would leave pretty useless feedback just so they could post their own track. The cycle would continue and nobody would really get any good feedback.
-            </Typography.Paragraph>
-            <Typography.Paragraph>
-                The second method was via feedback streams (co-ordinated conference calls where users would play their tracks one-by-one, with feedback to follow). While more effective than tit-for-tat channels, feedback streams are logistically impractical and require a lot of organisation. In addition, there was often an asymmetrical element that made things a bit weird e.g. some 'senior' users having microphone privileges, but not others.
-            </Typography.Paragraph>
-            <Typography.Paragraph>
-                How's My Track? was designed to take the group mentality of a feedback stream but make it decentralised, avoiding the logistical nonsense, and enforce feedback standards via a rating system.
-            </Typography.Paragraph>
-        </React.Fragment>),
+        answer: (
+            <React.Fragment>
+                <Typography.Paragraph>
+                    I noticed there were two primary ways musicians would solicit feedback in Discord channels.
+                </Typography.Paragraph>
+                <Typography.Paragraph>
+                    The first is through some sort of #feedback channel where users can post a track for feedback, but only after providing feedback for the last submitter. I often found this tit-for-tat system a bit crap; there was very little enforcing constructive feedback and often users would leave pretty useless feedback just so they could post their own track. The cycle would continue and nobody would really get any good feedback.
+                </Typography.Paragraph>
+                <Typography.Paragraph>
+                    The second method was via feedback streams (co-ordinated conference calls where users would play their tracks one-by-one, with feedback to follow). While more effective than tit-for-tat channels, feedback streams are logistically impractical and require a lot of organisation. In addition, there was often an asymmetrical element that made things a bit weird e.g. some 'senior' users having microphone privileges, but not others.
+                </Typography.Paragraph>
+                <Typography.Paragraph>
+                    How's My Track? was designed to take the group mentality of a feedback stream but make it decentralised, avoiding the logistical nonsense, and enforce feedback standards via a rating system.
+                </Typography.Paragraph>
+            </React.Fragment>
+        ),
     },
     {
         id: "how-can-i-get-the-correct-track-url",

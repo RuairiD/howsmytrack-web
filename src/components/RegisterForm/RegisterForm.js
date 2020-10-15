@@ -38,13 +38,13 @@ const UnwrappedRegisterForm = ({ form }) => {
         });
     }, []);
 
-    const submitForm = ({ email, password, passwordRepeat }) => {
+    const submitForm = ({ formEmail, formPassword, passwordRepeat }) => {
         ReactGA.event({
             category: GA_REGISTER_CATEGORY,
             action: "submit",
         });
-        setEmail(email);
-        setPassword(password);
+        setEmail(formEmail);
+        setPassword(formPassword);
         return fetch(`${apiRoot}/graphql/`, {
             method: "POST",
             headers: {
@@ -53,10 +53,10 @@ const UnwrappedRegisterForm = ({ form }) => {
             },
             body: JSON.stringify({
                 query: REGISTER_USER_MUTATION,
-                variables: { email, password, passwordRepeat },
+                variables: { email: formEmail, password: formPassword, passwordRepeat },
             }),
             credentials: "include",
-        }).then((result) => result.json()).then((data) => data.data.registerUser);
+        }).then((result) => result.json()).then((response) => response.data.registerUser);
     };
 
     const [submitFormMutate, { isLoading, data }] = useMutation(submitForm);

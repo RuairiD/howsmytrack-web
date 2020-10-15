@@ -35,7 +35,7 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
                 },
             }),
             credentials: "include",
-        }).then((result) => result.json()).then((data) => data.data.updateEmail)
+        }).then((result) => result.json()).then((response) => response.data.updateEmail)
     );
 
     const [updateEmailRequestMutate, { data, reset }] = useMutation(sendUpdateEmailRequest);
@@ -142,7 +142,7 @@ const UserSettings = ({ currentEmail, currentSendReminderEmails }: UserSettingsP
                 },
             }),
             credentials: "include",
-        }).then((result) => result.json()).then((data) => data.data.updateSendReminderEmails)
+        }).then((result) => result.json()).then((response) => response.data.updateSendReminderEmails)
     );
 
     const [onSendReminderEmailsChange, { isLoading, data }] = useMutation(sendReminderEmailsRequest);

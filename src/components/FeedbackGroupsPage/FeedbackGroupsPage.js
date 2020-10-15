@@ -100,21 +100,25 @@ const FeedbackGroupsPage = ({ isMobile }: Props) => {
         document.title = "how's my track? - Your Groups";
     });
 
-    const { isLoading: isLoadingFeedbackGroups, data: feedbackGroupsData } = useQuery([FEEDBACK_GROUPS_QUERY], () =>
+    const { isLoading: isLoadingFeedbackGroups, data: feedbackGroupsData } = useQuery([FEEDBACK_GROUPS_QUERY], () => (
         // Fetch user's assigned feedback groups
-        fetch(`${apiRoot}/graphql/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
+        fetch(
+            `${apiRoot}/graphql/`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                body: JSON.stringify({
+                    query: FEEDBACK_GROUPS_QUERY,
+                }),
+                credentials: "include",
             },
-            body: JSON.stringify({
-                query: FEEDBACK_GROUPS_QUERY,
-            }),
-            credentials: "include",
-        }).then((result) => result.json()).then((data) => data.data.feedbackGroups));
+        ).then((result) => result.json()).then((response) => response.data.feedbackGroups)
+    ));
 
-    const { isLoading: isLoadingUnassignedRequest, data: unassignedRequestData } = useQuery([UNASSIGNED_REQUEST_QUERY], () =>
+    const { isLoading: isLoadingUnassignedRequest, data: unassignedRequestData } = useQuery([UNASSIGNED_REQUEST_QUERY], () => (
         // Fetch unassigned request, if any.
         fetch(`${apiRoot}/graphql/`, {
             method: "POST",
@@ -126,7 +130,8 @@ const FeedbackGroupsPage = ({ isMobile }: Props) => {
                 query: UNASSIGNED_REQUEST_QUERY,
             }),
             credentials: "include",
-        }).then((result) => result.json()).then((data) => data.data.unassignedRequest));
+        }).then((result) => result.json()).then((response) => response.data.unassignedRequest)
+    ));
 
     if (isLoadingFeedbackGroups || isLoadingUnassignedRequest) {
         return (

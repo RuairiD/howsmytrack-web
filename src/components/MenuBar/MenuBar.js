@@ -250,11 +250,9 @@ const MobileMenu = ({
     <Collapse
         className="mobile-menu-collapse"
         bordered={false}
-        expandIcon={
-            ({ isActive }) => (
-                <Icon type="menu" rotate={isActive ? 90 : 0} />
-            )
-        }
+        expandIcon={({ isActive }) => (
+            <Icon type="menu" rotate={isActive ? 90 : 0} />
+        )}
         onChange={onCollapseChange}
     >
         <Collapse.Panel
@@ -373,7 +371,7 @@ const MenuBar = ({ isMobile }: Props) => {
                 query: USER_DETAILS_QUERY,
             }),
             credentials: "include",
-        }).then((result) => result.json()).then((data) => data.data.userDetails)
+        }).then((result) => result.json()).then((response) => response.data.userDetails)
     ));
 
     let username = null;

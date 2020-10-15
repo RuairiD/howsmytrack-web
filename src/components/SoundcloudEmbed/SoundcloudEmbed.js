@@ -41,11 +41,9 @@ const SoundcloudEmbed = ({ mediaUrl, size }: Props) => (
             scrolling="no"
             frameBorder="no"
             allow="autoplay"
-            src={
-                createIframeUrl(
-                    formatMediaUrl(mediaUrl),
-                )
-            }
+            src={createIframeUrl(
+                formatMediaUrl(mediaUrl),
+            )}
         />
     </Div>
 );

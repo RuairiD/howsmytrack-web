@@ -9,11 +9,10 @@ import ViewRepliesButton from "../ViewRepliesButton/ViewRepliesButton";
 import FeedbackResponseRepliesModal from "../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal";
 
 export type FeedbackResponseProps = {
-    feedbackReponseId: number,
+    feedbackResponseId: number,
     feedback: string,
     currentRating: number,
     allowReplies: boolean,
-    allowFurtherReplies: boolean,
     replies: number,
     unreadReplies: number,
 };
@@ -38,7 +37,6 @@ const FeedbackResponse = ({
     feedback,
     currentRating,
     allowReplies,
-    allowFurtherReplies,
     replies,
     unreadReplies,
 }: FeedbackResponseProps) => {
@@ -51,7 +49,7 @@ const FeedbackResponse = ({
     const [rating, setRating] = useState(currentRating);
     const [isRepliesModalVisible, setIsRepliesModalVisible] = useState(false);
 
-    const submitRating = ({ feedbackResponseId, newRating }) => (
+    const submitRating = ({ newRating }) => (
         fetch(`${apiRoot}/graphql/`, {
             method: "POST",
             headers: {
@@ -66,7 +64,7 @@ const FeedbackResponse = ({
                 },
             }),
             credentials: "include",
-        }).then((result) => result.json()).then((data) => data.data.rateFeedbackResponse)
+        }).then((result) => result.json()).then((response) => response.data.rateFeedbackResponse)
     );
 
     const [submitRatingMutate, { data, isLoading }] = useMutation(submitRating);

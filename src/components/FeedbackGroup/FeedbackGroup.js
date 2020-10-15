@@ -57,10 +57,10 @@ const ReceivedFeedback = ({ feedbackReceived }) => {
         <List
             grid={LIST_GRID_LAYOUT}
             dataSource={feedbackReceived}
-            renderItem={(feedbackReceived) => (
+            renderItem={(feedbackItemReceived) => (
                 <List.Item>
                     <FeedbackResponse
-                        {...feedbackReceived}
+                        {...feedbackItemReceived}
                     />
                 </List.Item>
             )}

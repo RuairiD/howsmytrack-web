@@ -108,7 +108,7 @@ const FeedbackGroupPage = ({ feedbackGroupId, isMobile }: Props) => {
             variables: { feedbackGroupId },
         }),
         credentials: "include",
-    }).then((result) => result.json()).then((data) => data.data.feedbackGroup));
+    }).then((result) => result.json()).then((response) => response.data.feedbackGroup));
 
     useEffect(() => {
         if (data) {

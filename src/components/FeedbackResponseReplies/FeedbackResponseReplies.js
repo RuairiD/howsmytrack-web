@@ -113,11 +113,7 @@ const FeedbackResponseReplies = ({
 
     const [markRepliesAsReadMutate] = useMutation(markRepliesAsRead);
 
-    const addReply = ({
-        feedbackResponseId,
-        replyText,
-        allowReplies,
-    }) => (
+    const addReply = () => (
         fetch(`${apiRoot}/graphql/`, {
             method: "POST",
             headers: {
@@ -133,7 +129,7 @@ const FeedbackResponseReplies = ({
                 },
             }),
             credentials: "include",
-        }).then((result) => result.json()).then((data) => data.data.addFeedbackResponseReply)
+        }).then((result) => result.json()).then((response) => response.data.addFeedbackResponseReply)
     );
 
     const [addReplyMutate, { isLoading: isLoadingAddReply, data: addReplyData }] = useMutation(addReply);
@@ -152,7 +148,7 @@ const FeedbackResponseReplies = ({
                 },
             }),
             credentials: "include",
-        }).then((result) => result.json()).then((data) => data.data.replies)
+        }).then((result) => result.json()).then((response) => response.data.replies)
     );
 
     const { isLoading: isLoadingReplies, data: repliesData } = useQuery(
@@ -172,11 +168,7 @@ const FeedbackResponseReplies = ({
     let allowFurtherReplies = (repliesData && repliesData.allowFurtherReplies);
 
     const onAddReplySubmit = () => {
-        addReplyMutate({
-            feedbackResponseId,
-            replyText,
-            allowReplies,
-        });
+        addReplyMutate();
     };
 
     useEffect(() => {
@@ -219,9 +211,9 @@ const FeedbackResponseReplies = ({
                     >
                         <Typography.Text strong>Original Feedback: </Typography.Text>"{feedback}"
                     </Typography.Paragraph>
-                    {repliesData && repliesData.replies.map((reply, i) => (
+                    {repliesData && repliesData.replies.map((reply) => (
                         <FeedbackResponseReply
-                            key={i}
+                            key={reply.id}
                             username={reply.username}
                             text={reply.text}
                             timeCreated={reply.timeCreated}

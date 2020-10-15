@@ -60,22 +60,21 @@ const UnassignedRequest = ({ unassignedRequest }) => (
     </React.Fragment>
 );
 
+/*
+ * Component for displaying user details/groups page showing user info and all groups they are a part of.
+ */
 const FeedbackGroups = ({
     feedbackGroups,
     unassignedRequest,
-}: Props) =>
-    /*
-     * Component for displaying user details/groups page showing user info and all groups they are a part of.
-     */
-    (
-        <Div>
-            {unassignedRequest && <UnassignedRequest unassignedRequest={unassignedRequest} />}
-            <Row gutter={[16, 16]}>
-                <Col>
-                    <AssignedGroups feedbackGroups={feedbackGroups} />
-                </Col>
-            </Row>
-        </Div>
-    );
+}: Props) => (
+    <Div>
+        {unassignedRequest && <UnassignedRequest unassignedRequest={unassignedRequest} />}
+        <Row gutter={[16, 16]}>
+            <Col>
+                <AssignedGroups feedbackGroups={feedbackGroups} />
+            </Col>
+        </Row>
+    </Div>
+);
 
 export default FeedbackGroups;

@@ -28,7 +28,7 @@ const UserSettingsPage = ({ isMobile }: Props) => {
             query: USER_DETAILS_QUERY,
         }),
         credentials: "include",
-    }).then((result) => result.json()).then((data) => data.data.userDetails));
+    }).then((result) => result.json()).then((response) => response.data.userDetails));
 
     if (data) {
         return (

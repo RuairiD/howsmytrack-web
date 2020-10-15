@@ -11,15 +11,15 @@ import GENRE_OPTIONS from "../../genres";
 const MEDIA_INFO_TIMEOUT = 500;
 
 type Props = {
-    form: object,
+    form: Object,
     feedbackRequestId: number,
     mediaUrl: string,
     feedbackPrompt: string,
     emailWhenGrouped: boolean,
     trackless: boolean,
     genre: string,
-    submittedText: object,
-    makeRequest: (object) => object,
+    submittedText: Object,
+    makeRequest: (Object) => Object,
     responseName: string,
     gaCategory: string,
 };
@@ -42,9 +42,7 @@ const FEEDBACK_PROMPT_PLACEHOLDERS = [
 
 const GenreTooltipContent = (
     <Span>
-        Requests of the same genre are assigned to the same groups in order to get you the most relevant and constructive feedback. Don't worry if your genre isn't listed though; just submit under <Strong>No Genre</Strong> and you'll still be grouped! <A target="_blank" rel="noopener noreferrer" href="/faq#why-is-my-tracks-genre-not-listed">
-            Why is my genre not listed?
-        </A>
+        Requests of the same genre are assigned to the same groups in order to get you the most relevant and constructive feedback. Don't worry if your genre isn't listed though; just submit under <Strong>No Genre</Strong> and you'll still be grouped! <A target="_blank" rel="noopener noreferrer" href="/faq#why-is-my-tracks-genre-not-listed">Why is my genre not listed?</A>
     </Span>
 );
 
@@ -87,7 +85,7 @@ const FeedbackRequestForm = ({
                 },
             }),
             credentials: "include",
-        }).then((result) => result.json()).then((data) => data.data.mediaInfo)
+        }).then((result) => result.json()).then((response) => response.data.mediaInfo)
     );
 
     const { data: mediaInfo, refetch: refetchMediaInfo } = useQuery(MEDIA_INFO_QUERY, getMediaInfo, { enabled: false });
@@ -105,7 +103,7 @@ const FeedbackRequestForm = ({
         });
     }, [gaCategory]);
 
-    const submitForm = ({ mediaUrl, feedbackPrompt, genre, emailWhenGrouped }) => {
+    const submitForm = ({ formMediaUrl, formFeedbackPrompt, formGenre, formEmailWhenGrouped }) => {
         ReactGA.event({
             category: gaCategory,
             action: "submit",
@@ -113,10 +111,10 @@ const FeedbackRequestForm = ({
 
         return makeRequest({
             feedbackRequestId,
-            genre,
-            mediaUrl,
-            feedbackPrompt,
-            emailWhenGrouped,
+            genre: formGenre,
+            mediaUrl: formMediaUrl,
+            feedbackPrompt: formFeedbackPrompt,
+            emailWhenGrouped: formEmailWhenGrouped,
         }).then((result) => result.json()).then((data) => data.data[responseName]);
     };
 
@@ -140,17 +138,17 @@ const FeedbackRequestForm = ({
         event.preventDefault();
         form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                let mediaUrl = null;
-                let feedbackPrompt = null;
+                let formMediaUrl = null;
+                let formFeedbackPrompt = null;
                 if (values.trackless !== "trackless") {
-                    mediaUrl = values.mediaUrl;
-                    feedbackPrompt = values.feedbackPrompt;
+                    formMediaUrl = values.mediaUrl;
+                    formFeedbackPrompt = values.feedbackPrompt;
                 }
                 submitFormMutate({
-                    mediaUrl,
-                    feedbackPrompt,
-                    genre: values.genre,
-                    emailWhenGrouped: values.emailWhenGrouped,
+                    formMediaUrl,
+                    formFeedbackPrompt,
+                    formGenre: values.genre,
+                    formEmailWhenGrouped: values.emailWhenGrouped,
                 });
             }
         });
@@ -187,14 +185,54 @@ const FeedbackRequestForm = ({
         );
     }
 
-    if (emailWhenGrouped === undefined) {
-        emailWhenGrouped = true;
+    let emailWhenGroupedValue = emailWhenGrouped;
+    if (emailWhenGroupedValue === undefined) {
+        emailWhenGroupedValue = true;
     }
 
     let tracklessValue = "track";
     if (trackless) {
         tracklessValue = "trackless";
     }
+
+    const fieldDecorators = {
+        mediaUrl: form.getFieldDecorator("mediaUrl",
+            {
+                rules: [
+                    {
+                        // A media url isn't required if the user has declared that
+                        // they are making a 'trackless' request i.e. only giving
+                        // feedback, not receiving it.
+                        required: form.getFieldValue("trackless") !== "trackless",
+                        message: "Please provide a track URL",
+                    },
+                ],
+                initialValue: mediaUrl,
+            }),
+        feedbackPrompt: form.getFieldDecorator("feedbackPrompt",
+            {
+                initialValue: feedbackPrompt,
+            }),
+        genre: form.getFieldDecorator("genre",
+            {
+                initialValue: genre,
+                rules: [
+                    {
+                        required: true,
+                        message: (
+                            <React.Fragment>
+                                {form.getFieldValue("trackless") === "trackless" && "Please select the genre you would like to provide feedback for."}
+                                {form.getFieldValue("trackless") !== "trackless" && "Please select a genre for this track. If you are unsure or do not see your genre listed, just select 'No Genre'."}
+                            </React.Fragment>
+                        ),
+                    },
+                ],
+            }),
+        emailWhenGrouped: form.getFieldDecorator("emailWhenGrouped", {
+            valuePropName: "checked",
+            initialValue: emailWhenGroupedValue,
+        }),
+    };
 
     return (
         <Div>
@@ -217,49 +255,36 @@ const FeedbackRequestForm = ({
                                 {
                                     form.getFieldDecorator("trackless", {
                                         initialValue: tracklessValue,
-                                    })(<Radio.Group className="trackless-radio" buttonStyle="solid">
-                                        <Radio.Button value="track">
-                                            I have a track I would like feedback on
-                                        </Radio.Button>
-                                        <Radio.Button value="trackless">
-                                            I don't have a track and would just like to provide feedback for others
-                                        </Radio.Button>
-                                       </Radio.Group>)
+                                    })(
+                                        <Radio.Group className="trackless-radio" buttonStyle="solid">
+                                            <Radio.Button value="track">
+                                                I have a track I would like feedback on
+                                            </Radio.Button>
+                                            <Radio.Button value="trackless">
+                                                I don't have a track and would just like to provide feedback for others
+                                            </Radio.Button>
+                                        </Radio.Group>,
+                                    )
                                 }
                             </Form.Item>
                             {form.getFieldValue("trackless") !== "trackless" && (
                                 <React.Fragment>
                                     <Form.Item label="Soundcloud/Google Drive/Dropbox/OneDrive URL">
-                                        {
-                                            form.getFieldDecorator("mediaUrl",
-                                                {
-                                                    rules: [
-                                                        {
-                                                            // A media url isn't required if the user has declared that
-                                                            // they are making a 'trackless' request i.e. only giving
-                                                            // feedback, not receiving it.
-                                                            required: form.getFieldValue("trackless") !== "trackless",
-                                                            message: "Please provide a track URL",
-                                                        },
-                                                    ],
-                                                    initialValue: mediaUrl,
-                                                })(<Input
+                                        {fieldDecorators.mediaUrl(
+                                            <Input
                                                 onChange={onMediaUrlChange}
                                                 autoFocus
-                                                />)
-                                        }
+                                            />,
+                                        )}
                                     </Form.Item>
                                     <Form.Item label="Is there anything you would like specific feedback on? (optional)">
-                                        {
-                                            form.getFieldDecorator("feedbackPrompt",
-                                                {
-                                                    initialValue: feedbackPrompt,
-                                                })(<Input.TextArea
+                                        {fieldDecorators.feedbackPrompt(
+                                            <Input.TextArea
                                                 rows={4}
                                                 placeholder={feedbackPromptPlaceholder}
                                                 disabled={form.getFieldValue("trackless") === "trackless"}
-                                                />)
-                                        }
+                                            />,
+                                        )}
                                     </Form.Item>
                                 </React.Fragment>
                             )}
@@ -276,37 +301,18 @@ const FeedbackRequestForm = ({
                                     </React.Fragment>
                                 )}
                             >
-                                {
-                                    form.getFieldDecorator("genre",
-                                        {
-                                            initialValue: genre,
-                                            rules: [
-                                                {
-                                                    required: true,
-                                                    message: (
-                                                        <React.Fragment>
-                                                            {form.getFieldValue("trackless") === "trackless" && "Please select the genre you would like to provide feedback for."}
-                                                            {form.getFieldValue("trackless") !== "trackless" && "Please select a genre for this track. If you are unsure or do not see your genre listed, just select 'No Genre'."}
-                                                        </React.Fragment>
-                                                    ),
-                                                },
-                                            ],
-                                        })(<Select>
-                                        {Object.keys(GENRE_OPTIONS).map((genre, i) => (
-                                                <Select.Option key={i} value={genre}>
-                                                {GENRE_OPTIONS[genre]}
+                                {fieldDecorators.genre(
+                                    <Select>
+                                        {Object.keys(GENRE_OPTIONS).map((genreOption) => (
+                                            <Select.Option key={genreOption} value={genreOption}>
+                                                {GENRE_OPTIONS[genreOption]}
                                             </Select.Option>
                                         ))}
-                                    </Select>)
-                                }
+                                    </Select>,
+                                )}
                             </Form.Item>
                             <Form.Item>
-                                {
-                                    form.getFieldDecorator("emailWhenGrouped", {
-                                        valuePropName: "checked",
-                                        initialValue: emailWhenGrouped,
-                                    })(<Checkbox>Email me when this request is added to a group.</Checkbox>)
-                                }
+                                {fieldDecorators.emailWhenGrouped(<Checkbox>Email me when this request is added to a group.</Checkbox>)}
                             </Form.Item>
                             <Form.Item>
                                 <Button

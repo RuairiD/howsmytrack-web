@@ -113,7 +113,7 @@ const FeedbackResponseForm = ({
                 },
             }),
             credentials: "include",
-        }).then((result) => result.json()).then((data) => data.data.submitFeedbackResponse);
+        }).then((result) => result.json()).then((response) => response.data.submitFeedbackResponse);
     };
 
     const [submitFormMutate, { isLoading, data }] = useMutation(submitForm);

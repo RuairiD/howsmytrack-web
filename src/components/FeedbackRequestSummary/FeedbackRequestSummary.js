@@ -73,7 +73,7 @@ const deleteRequest = ({ feedbackRequestId }) => (
             },
         }),
         credentials: "include",
-    }).then((result) => result.json()).then((data) => data.data.deleteFeedbackRequest)
+    }).then((result) => result.json()).then((response) => response.data.deleteFeedbackRequest)
 );
 
 const FeedbackRequestSummary = ({
