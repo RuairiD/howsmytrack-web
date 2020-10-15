@@ -9,8 +9,7 @@ venv:
 	. venv/bin/activate
 	pip install -r requirements.txt
 	pre-commit install
-	# TODO remove --ignore-engines and figure out why it fails without on Travis
-	yarn install --ignore-engines
+	yarn install
 
 clean:
 	rm -rf node_modules
