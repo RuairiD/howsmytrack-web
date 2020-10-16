@@ -79,6 +79,20 @@ const FAQS = [
     },
 ];
 
+const FaqItem = (faq) => (
+    <List.Item id={faq.id}>
+        <List.Item.Meta
+            style={{
+                // 'textAlign: left' included as FAQ text is 'justify' by
+                // default on home page
+                textAlign: "left",
+            }}
+            title={faq.question}
+        />
+        {faq.answer}
+    </List.Item>
+);
+
 /*
  * Component for displaying FAQ page explaining what How's My Track? is etc.
  */
@@ -86,19 +100,7 @@ const Faq = () => (
     <List
         itemLayout="vertical"
         dataSource={FAQS}
-        renderItem={(faq) => (
-            <List.Item id={faq.id}>
-                <List.Item.Meta
-                    style={{
-                        // 'textAlign: left' included as FAQ text is 'justify' by
-                        // default on home page
-                        textAlign: "left",
-                    }}
-                    title={faq.question}
-                />
-                {faq.answer}
-            </List.Item>
-        )}
+        renderItem={FaqItem}
     />
 );
 

@@ -82,6 +82,15 @@ const PLATFORMS = [
     },
 ];
 
+const PlatformHelp = (platform) => (
+    <List.Item>
+        <List.Item.Meta
+            title={platform.name}
+        />
+        {platform.content}
+    </List.Item>
+);
+
 /*
  * Component for displaying help page with instructions on how to getthe
  * correct track URL for each platform for use on howsmytrack
@@ -92,14 +101,7 @@ const TrackUrlHelp = () => (
         <List
             itemLayout="vertical"
             dataSource={PLATFORMS}
-            renderItem={(platform) => (
-                <List.Item>
-                    <List.Item.Meta
-                        title={platform.name}
-                    />
-                    {platform.content}
-                </List.Item>
-            )}
+            renderItem={PlatformHelp}
         />
     </Div>
 );

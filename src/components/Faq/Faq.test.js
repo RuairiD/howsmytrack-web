@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { mount, shallow } from "enzyme";
 import toJson from "enzyme-to-json";
 import Faq from "./Faq";
 
@@ -9,5 +9,12 @@ describe("Faq", () => {
             <Faq />,
         );
         expect(toJson(wrapper)).toMatchSnapshot();
+    });
+
+    it("renders individual FAQs as a List", () => {
+        const wrapper = mount(
+            <Faq />,
+        );
+        expect(wrapper.find("Item").length).toBe(11);
     });
 });

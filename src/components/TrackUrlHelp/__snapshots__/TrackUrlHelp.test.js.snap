@@ -1,0 +1,281 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TrackUrlHelp displays a help page for finding the user's track's url 1`] = `
+<Div
+  className=""
+>
+  <Paragraph>
+    These instructions are for desktop and may differ on mobile.
+  </Paragraph>
+  <List
+    bordered={false}
+    dataSource={
+      Array [
+        Object {
+          "content": <Paragraph>
+            <Ol
+              className=""
+            >
+              <Li
+                className=""
+              >
+                Navigate to your track's page (the URL should be something like \`https://soundcloud.com/ruairidx/grey\`
+              </Li>
+              <Li
+                className=""
+              >
+                Click the 
+                <Text
+                  strong={true}
+                >
+                  Share
+                </Text>
+                 button below the track waveform.
+              </Li>
+              <Li
+                className=""
+              >
+                Copy the URL below 
+                <Text
+                  strong={true}
+                >
+                  Private Share
+                </Text>
+                 (or just 
+                <Text
+                  strong={true}
+                >
+                  Share
+                </Text>
+                 if your track is already public)
+              </Li>
+            </Ol>
+            Your URL should look like:
+            <Ul
+              className=""
+            >
+              <Li
+                className=""
+              >
+                <Text
+                  code={true}
+                >
+                  https://soundcloud.com/ruairidx/grey
+                </Text>
+              </Li>
+              <Li
+                className=""
+              >
+                <Text
+                  code={true}
+                >
+                  https://soundcloud.com/ruairidx/grey/secret
+                </Text>
+              </Li>
+            </Ul>
+          </Paragraph>,
+          "name": "Soundcloud",
+        },
+        Object {
+          "content": <Paragraph>
+            <Ol
+              className=""
+            >
+              <Li
+                className=""
+              >
+                Right click the track file (ensure it is the track itself and not its folder etc.)
+              </Li>
+              <Li
+                className=""
+              >
+                Click the 
+                <Text
+                  strong={true}
+                >
+                  Share
+                </Text>
+                 button in the right click menu
+              </Li>
+              <Li
+                className=""
+              >
+                Click 
+                <Text
+                  strong={true}
+                >
+                  Copy Link
+                </Text>
+                <Ul
+                  className=""
+                >
+                  <Li
+                    className=""
+                  >
+                    You may need to click 
+                    <Text
+                      strong={true}
+                    >
+                      Get shareable link
+                    </Text>
+                     in the top right corner before the link is available.
+                  </Li>
+                </Ul>
+              </Li>
+            </Ol>
+            Your URL should look like:
+            <Ul
+              className=""
+            >
+              <Li
+                className=""
+              >
+                <Text
+                  code={true}
+                >
+                  https://drive.google.com/file/d/abcdefghijklmnopqrstuvwxyz1234567/view
+                </Text>
+              </Li>
+            </Ul>
+          </Paragraph>,
+          "name": "Google Drive",
+        },
+        Object {
+          "content": <Paragraph>
+            <Ol
+              className=""
+            >
+              <Li
+                className=""
+              >
+                Click the 
+                <Icon
+                  type="ellipsis"
+                />
+                 next to your track file
+              </Li>
+              <Li
+                className=""
+              >
+                Click the 
+                <Text
+                  strong={true}
+                >
+                  Share
+                </Text>
+                 button in the menu
+              </Li>
+              <Li
+                className=""
+              >
+                Click 
+                <Text
+                  strong={true}
+                >
+                  Copy Link
+                </Text>
+                 at the bottom of the popup.
+                <Ul
+                  className=""
+                >
+                  <Li
+                    className=""
+                  >
+                    You may need to click 
+                    <Text
+                      strong={true}
+                    >
+                      Create link
+                    </Text>
+                     before the link is available.
+                  </Li>
+                </Ul>
+              </Li>
+            </Ol>
+            Your URL should look like:
+            <Ul
+              className=""
+            >
+              <Li
+                className=""
+              >
+                <Text
+                  code={true}
+                >
+                  https://www.dropbox.com/s/abcdefghijklmno/filename
+                </Text>
+              </Li>
+            </Ul>
+          </Paragraph>,
+          "name": "Dropbox",
+        },
+        Object {
+          "content": <Paragraph>
+            <Ol
+              className=""
+            >
+              <Li
+                className=""
+              >
+                Navigate to your file's page; the track should be playable and a media player should be visible.
+              </Li>
+              <Li
+                className=""
+              >
+                Click the 
+                <Text
+                  strong={true}
+                >
+                  Share
+                </Text>
+                 button in the top left corner
+              </Li>
+              <Li
+                className=""
+              >
+                Click the 
+                <Text
+                  strong={true}
+                >
+                  Copy
+                </Text>
+                 button next to the shareable URL. 
+                <Text
+                  strong={true}
+                >
+                  Do not use this URL; howsmytrack.com will reject it. Keep reading.
+                </Text>
+              </Li>
+              <Li
+                className=""
+              >
+                Paste the URL into an incognito/private browsing window, or any window where you aren't logged in on OneDrive (this is important). The URL will resolve into a longer URL; copy this link from your address bar.
+              </Li>
+            </Ol>
+            Your URL should look like:
+            <Ul
+              className=""
+            >
+              <Li
+                className=""
+              >
+                <Text
+                  code={true}
+                >
+                  https://onedrive.live.com/?authkey=AUTHKEY&cid=CID&id=ID
+                </Text>
+              </Li>
+            </Ul>
+          </Paragraph>,
+          "name": "OneDrive",
+        },
+      ]
+    }
+    itemLayout="vertical"
+    loading={false}
+    pagination={false}
+    renderItem={[Function]}
+    split={true}
+  />
+</Div>
+`;

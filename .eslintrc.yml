@@ -13,10 +13,12 @@ parserOptions:
   sourceType: module
 plugins:
   - react
+  - jest
 rules: {
   "import/no-named-as-default": "off",
   "import/no-named-as-default-member": "off",
   "indent": ["error", 4],
+  "jest/no-large-snapshots": "warn",
   "max-len": "off",
   "no-plusplus": "off",
   "no-restricted-syntax": "off",

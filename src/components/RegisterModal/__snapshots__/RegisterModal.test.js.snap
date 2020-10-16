@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegisterModal renders a Modal containing a RegisterForm 1`] = `
+<Modal
+  className="responsive-modal"
+  confirmLoading={false}
+  destroyOnClose={true}
+  footer={null}
+  maskTransitionName="fade"
+  okType="primary"
+  onCancel={[Function]}
+  title="Register"
+  transitionName="zoom"
+  visible={true}
+  width={520}
+>
+  <Form(UnwrappedRegisterForm) />
+</Modal>
+`;
