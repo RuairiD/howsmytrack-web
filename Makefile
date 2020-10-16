@@ -2,6 +2,7 @@ dev: venv
 	yarn run debug
 
 test: venv
+	yarn test
 	pre-commit run --all-files
 
 venv:
