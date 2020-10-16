@@ -22,9 +22,11 @@ describe("UserSettingsPage", () => {
     it("renders a GenericPage containing a UserSettings after receiving data", async () => {
         axios.post.mockReturnValue({
             data: {
-                userDetails: {
-                    username: "username",
-                    sendReminderEmails: true,
+                data: {
+                    userDetails: {
+                        username: "username",
+                        sendReminderEmails: true,
+                    },
                 },
             },
         });
@@ -38,6 +40,8 @@ describe("UserSettingsPage", () => {
             expect(wrapper.find("GenericPage").get(0).props.title).toBe("Settings");
             expect(wrapper.find("GenericPage").get(0).props.isMobile).toBe(false);
             expect(wrapper.find("GenericPage UserSettings").length).toBe(1);
+            expect(wrapper.find("GenericPage UserSettings").get(0).props.currentEmail).toBe("username");
+            expect(wrapper.find("GenericPage UserSettings").get(0).props.currentSendReminderEmails).toBe(true);
         });
     });
 });

@@ -28,7 +28,7 @@ const UserSettingsPage = ({ isMobile }: Props) => {
     );
 
     if (data) {
-        const { userDetails } = data.data;
+        const { userDetails } = data.data.data;
         return (
             <GenericPage title="Settings" isMobile={isMobile}>
                 <UserSettings

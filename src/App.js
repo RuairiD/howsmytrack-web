@@ -6,6 +6,7 @@ import { QueryCache, ReactQueryCacheProvider } from "react-query";
 import { createBrowserHistory } from "history";
 import { Div } from "lemon-reset";
 import "./App.css";
+import axios from "axios";
 
 import FeedbackGroupPage from "./components/FeedbackGroupPage/FeedbackGroupPage";
 import FeedbackGroupsPage from "./components/FeedbackGroupsPage/FeedbackGroupsPage";
@@ -28,6 +29,8 @@ history.listen((location) => {
 });
 
 const queryCache = new QueryCache();
+
+axios.defaults.withCredentials = true;
 
 function isMobile() {
     // TODO: this is the root of some mobile friendly fixes added in about
