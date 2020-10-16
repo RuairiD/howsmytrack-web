@@ -5,6 +5,7 @@ repos:
     rev: v2.4.0
     hooks:
     -   id: trailing-whitespace
+        exclude: __snapshots__
     -   id: end-of-file-fixer
     -   id: check-yaml
 -   repo: https://github.com/pre-commit/mirrors-eslint

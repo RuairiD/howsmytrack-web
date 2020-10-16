@@ -2,7 +2,7 @@ dev: venv
 	yarn run debug
 
 test: venv
-	yarn test
+	yarn test src --coverage
 	pre-commit run --all-files
 
 venv:
