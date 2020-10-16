@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditFeedbackRequestModal renders a Modal containing an EditFeedbackRequest 1`] = `
+<Modal
+  className="responsive-modal"
+  confirmLoading={false}
+  destroyOnClose={true}
+  footer={null}
+  maskTransitionName="fade"
+  okType="primary"
+  onCancel={[Function]}
+  title="Edit Feedback Request"
+  transitionName="zoom"
+  visible={true}
+  width={520}
+>
+  <Form(UnwrappedEditFeedbackRequestForm)
+    emailWhenGrouped={true}
+    feedbackPrompt="jery get ipad"
+    feedbackRequestId={1901}
+    genre="electronic"
+    mediaUrl="https://soundcloud.com/ruairidx/sturzflug"
+  />
+</Modal>
+`;
