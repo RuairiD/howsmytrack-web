@@ -4,6 +4,6 @@ exports[`FeedbackResponseReply renders a Comment containing the reply's content 
 <Comment
   author="username"
   content="text"
-  datetime="July 13th 2014 11:00 AM"
+  datetime="July 13th 2014 6:00 PM"
 />
 `;

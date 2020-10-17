@@ -9,7 +9,7 @@ describe("FeedbackResponseReply", () => {
             <FeedbackResponseReply
                 username="username"
                 text="text"
-                timeCreated={new Date(1405274400000)}
+                timeCreated={new Date(Date.UTC(2014, 6, 13, 18, 0, 0))}
             />,
         );
         expect(toJson(wrapper)).toMatchSnapshot();

@@ -61,6 +61,7 @@
     "coveragePathIgnorePatterns": [
       "src/index.js",
       "src/serviceWorker.js"
-    ]
+    ],
+    "globalSetup": "<rootDir>/src/globalSetup.js"
   }
 }
