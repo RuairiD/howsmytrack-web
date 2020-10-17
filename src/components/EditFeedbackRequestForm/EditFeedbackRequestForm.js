@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Form } from "antd";
+import axios from "axios";
 import apiRoot from "../../apiRoot";
 
 import FeedbackRequestForm from "../FeedbackRequestForm/FeedbackRequestForm";
@@ -20,17 +21,9 @@ const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRe
     }
 }`;
 
-const makeEditFeedbackRequest = (params) => fetch(`${apiRoot}/graphql/`, {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-    },
-    body: JSON.stringify({
-        query: EDIT_FEEDBACK_REQUEST_MUTATION,
-        variables: params,
-    }),
-    credentials: "include",
+const makeEditFeedbackRequest = (params) => axios.post(`${apiRoot}/graphql/`, {
+    query: EDIT_FEEDBACK_REQUEST_MUTATION,
+    variables: params,
 });
 
 /*

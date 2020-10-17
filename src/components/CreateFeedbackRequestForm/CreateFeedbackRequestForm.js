@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Form } from "antd";
+import axios from "axios";
 import apiRoot from "../../apiRoot";
 
 import FeedbackRequestForm from "../FeedbackRequestForm/FeedbackRequestForm";
@@ -13,25 +14,17 @@ const CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($mediaU
     }
 }`;
 
-const makeCreateFeedbackRequest = (params) => fetch(`${apiRoot}/graphql/`, {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-    },
-    body: JSON.stringify({
-        query: CREATE_FEEDBACK_REQUEST_MUTATION,
-        variables: params,
-    }),
-    credentials: "include",
+const makeCreateFeedbackRequest = (params) => axios.post(`${apiRoot}/graphql/`, {
+    query: CREATE_FEEDBACK_REQUEST_MUTATION,
+    variables: params,
 });
 
 /*
  * Component for displaying new feedback request form.
  */
-const UnwrappedCreateFeedbackRequestForm = (props) => (
+const UnwrappedCreateFeedbackRequestForm = ({ form }) => (
     <FeedbackRequestForm
-        {...props}
+        form={form}
         makeRequest={makeCreateFeedbackRequest}
         responseName="createFeedbackRequest"
         submittedText={{

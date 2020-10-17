@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoadingSpinner renders a Spin 1`] = `
+<Div
+  className="home-loading-container"
+>
+  <Spin
+    className="home-loading-spin"
+    indicator={
+      <Img
+        alt=""
+        className=""
+        src="/logo128.png"
+      />
+    }
+    size="large"
+    spinning={true}
+    wrapperClassName=""
+  />
+</Div>
+`;

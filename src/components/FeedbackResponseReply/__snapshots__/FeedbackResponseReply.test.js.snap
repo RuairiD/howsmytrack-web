@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackResponseReply renders a Comment containing the reply's content 1`] = `
+<Comment
+  author="username"
+  content="text"
+  datetime="July 13th 2014 11:00 AM"
+/>
+`;
