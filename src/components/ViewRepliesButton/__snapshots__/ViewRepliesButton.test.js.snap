@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ViewRepliesButton displays a badge with a plural title/hovertext indicating multiple unread replies 1`] = `
+<Button
+  block={true}
+  ghost={false}
+  htmlType="button"
+  loading={false}
+  onClick={[Function]}
+  style={
+    Object {
+      "marginTop": "0.5em",
+    }
+  }
+>
+  <Icon
+    type="message"
+  />
+  View 2 replies
+  <Badge
+    count={2}
+    dot={false}
+    overflowCount={99}
+    showZero={false}
+    style={
+      Object {
+        "marginLeft": "0.5em",
+      }
+    }
+    title="2 unread replies"
+  />
+</Button>
+`;
+
+exports[`ViewRepliesButton displays a badge with a singular title/hovertext indicating one unread reply 1`] = `
+<Button
+  block={true}
+  ghost={false}
+  htmlType="button"
+  loading={false}
+  onClick={[Function]}
+  style={
+    Object {
+      "marginTop": "0.5em",
+    }
+  }
+>
+  <Icon
+    type="message"
+  />
+  View 2 replies
+  <Badge
+    count={1}
+    dot={false}
+    overflowCount={99}
+    showZero={false}
+    style={
+      Object {
+        "marginLeft": "0.5em",
+      }
+    }
+    title="1 unread reply"
+  />
+</Button>
+`;
+
+exports[`ViewRepliesButton displays a plural string for multiple replies 1`] = `
+<Button
+  block={true}
+  ghost={false}
+  htmlType="button"
+  loading={false}
+  onClick={[Function]}
+  style={
+    Object {
+      "marginTop": "0.5em",
+    }
+  }
+>
+  <Icon
+    type="message"
+  />
+  View 2 replies
+  <Badge
+    count={0}
+    dot={false}
+    overflowCount={99}
+    showZero={false}
+    style={
+      Object {
+        "marginLeft": "0.5em",
+      }
+    }
+    title="0 unread replies"
+  />
+</Button>
+`;
+
+exports[`ViewRepliesButton displays a prompt to write a reply if none have been posted already 1`] = `
+<Button
+  block={true}
+  ghost={false}
+  htmlType="button"
+  loading={false}
+  onClick={[Function]}
+  style={
+    Object {
+      "marginTop": "0.5em",
+    }
+  }
+>
+  <Icon
+    type="message"
+  />
+  Leave a Reply
+  <Badge
+    count={0}
+    dot={false}
+    overflowCount={99}
+    showZero={false}
+    style={
+      Object {
+        "marginLeft": "0.5em",
+      }
+    }
+    title="0 unread replies"
+  />
+</Button>
+`;
+
+exports[`ViewRepliesButton displays a singular string for 1 reply 1`] = `
+<Button
+  block={true}
+  ghost={false}
+  htmlType="button"
+  loading={false}
+  onClick={[Function]}
+  style={
+    Object {
+      "marginTop": "0.5em",
+    }
+  }
+>
+  <Icon
+    type="message"
+  />
+  View 1 reply
+  <Badge
+    count={0}
+    dot={false}
+    overflowCount={99}
+    showZero={false}
+    style={
+      Object {
+        "marginLeft": "0.5em",
+      }
+    }
+    title="0 unread replies"
+  />
+</Button>
+`;
