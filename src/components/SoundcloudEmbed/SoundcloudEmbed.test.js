@@ -1,10 +1,10 @@
 import React from "react";
-import { mount } from "enzyme";
+import { shallow } from "enzyme";
 import SoundcloudEmbed from "./SoundcloudEmbed";
 
 describe("SoundcloudEmbed", () => {
     it("renders a small player with a formatted mediaUrl", () => {
-        const wrapper = mount(
+        const wrapper = shallow(
             <SoundcloudEmbed
                 mediaUrl="https://soundcloud.com/ruairidx/bruno"
                 size="small"
@@ -17,7 +17,7 @@ describe("SoundcloudEmbed", () => {
     });
 
     it("renders with a formatted secret. mediaUrl", () => {
-        const wrapper = mount(
+        const wrapper = shallow(
             <SoundcloudEmbed
                 mediaUrl="https://soundcloud.com/ruairidx/bruno/s-WTUMOLA0Bsk"
                 size="small"
@@ -30,7 +30,7 @@ describe("SoundcloudEmbed", () => {
     });
 
     it("renders a large player", () => {
-        const wrapper = mount(
+        const wrapper = shallow(
             <SoundcloudEmbed
                 mediaUrl="https://soundcloud.com/ruairidx/bruno"
                 size="large"
