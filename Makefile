@@ -5,6 +5,9 @@ test: venv
 	yarn test:nowatch src --coverage
 	pre-commit run --all-files
 
+lint: venv
+	./node_modules/.bin/eslint src --fix
+
 venv:
 	virtualenv -p python3 venv
 	. venv/bin/activate

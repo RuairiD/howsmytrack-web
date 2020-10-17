@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GenericPage renders a collapsible menu when isMobile is true 1`] = `
+<Layout
+  className="page-container"
+>
+  <Div
+    className="page-container-inner"
+  >
+    <MenuBar
+      isMobile={true}
+    />
+    <Content>
+      <Layout>
+        <Content
+          className="page-content"
+        >
+          <PageHeader
+            backIcon={
+              <Icon
+                type="arrow-left"
+              />
+            }
+            ghost={false}
+            subTitle="subTitle"
+            title="title"
+          />
+          <Layout
+            className="content"
+          >
+            <Content>
+              <Div
+                className="test-children"
+              />
+              <TransparentText />
+            </Content>
+            <Footer>
+              <PageFooter />
+            </Footer>
+          </Layout>
+        </Content>
+      </Layout>
+    </Content>
+  </Div>
+</Layout>
+`;
+
+exports[`GenericPage renders a sidebar menu when isMobile is false 1`] = `
+<Layout
+  className="page-container"
+>
+  <Div
+    className="page-container-inner"
+  >
+    <Content>
+      <Layout>
+        <PageSidebar />
+        <Content
+          className="page-content"
+        >
+          <PageHeader
+            backIcon={
+              <Icon
+                type="arrow-left"
+              />
+            }
+            ghost={false}
+            subTitle="subTitle"
+            title="title"
+          />
+          <Layout
+            className="content"
+          >
+            <Content>
+              <Div
+                className="test-children"
+              />
+              <TransparentText />
+            </Content>
+            <Footer>
+              <PageFooter />
+            </Footer>
+          </Layout>
+        </Content>
+      </Layout>
+    </Content>
+  </Div>
+</Layout>
+`;
+
+exports[`GenericPage renders no menu or PageHeader when hideMenu is true 1`] = `
+<Layout
+  className="page-container"
+>
+  <Div
+    className="page-container-inner"
+  >
+    <Content>
+      <Layout>
+        <Content
+          className="page-content"
+        >
+          <Layout
+            className="content"
+          >
+            <Content>
+              <Div
+                className="test-children"
+              />
+              <TransparentText />
+            </Content>
+            <Footer>
+              <PageFooter />
+            </Footer>
+          </Layout>
+        </Content>
+      </Layout>
+    </Content>
+  </Div>
+</Layout>
+`;

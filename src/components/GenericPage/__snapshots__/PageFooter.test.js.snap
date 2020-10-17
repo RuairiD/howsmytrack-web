@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageFooter renders a footer section with source and website links 1`] = `
+<Div
+  className=""
+  style={
+    Object {
+      "textAlign": "center",
+    }
+  }
+>
+  <Divider />
+  <Paragraph>
+    <Text
+      strong={true}
+    >
+      <A
+        className=""
+        href="http://ruairidorrity.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        ruairi dorrity
+      </A>
+       // 
+      <A
+        className=""
+        href="http://ruairidx.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        ruairi dx
+      </A>
+    </Text>
+  </Paragraph>
+  <Paragraph>
+    <Text
+      strong={true}
+    >
+      source
+    </Text>
+    <br />
+    <Text>
+      <A
+        className=""
+        href="https://github.com/ruairid/howsmytrack-api"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        api
+      </A>
+       // 
+      <A
+        className=""
+        href="https://github.com/ruairid/howsmytrack-web"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        web
+      </A>
+    </Text>
+  </Paragraph>
+</Div>
+`;

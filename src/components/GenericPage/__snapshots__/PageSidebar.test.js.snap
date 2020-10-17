@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageSidebar does not render a sidebar narrower than 200px 1`] = `
+<Sider
+  theme="light"
+  width="200px"
+>
+  <MenuBar />
+</Sider>
+`;
+
+exports[`PageSidebar does not render a sidebar wider than 256px 1`] = `
+<Sider
+  theme="light"
+  width="256px"
+>
+  <MenuBar />
+</Sider>
+`;
+
+exports[`PageSidebar renders a sidebar menu with width relative to the screen size 1`] = `
+<Sider
+  theme="light"
+  width="220px"
+>
+  <MenuBar />
+</Sider>
+`;
