@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserSettings renders EmailSettings and EmailRemindersPreference with user's current settings 1`] = `
+<Form
+  colon={true}
+  hideRequiredMark={false}
+  layout="horizontal"
+  onSubmit={[Function]}
+>
+  <Title
+    level={4}
+  >
+    Account Details
+  </Title>
+  <FormItem
+    hasFeedback={false}
+  >
+    <EmailSettings
+      currentEmail="alemac@brightonandhovealbion.com"
+    />
+    <A
+      className=""
+      href="http://localhost:8000/accounts/password_reset"
+    >
+      Request password reset email
+    </A>
+  </FormItem>
+  <Title
+    level={4}
+  >
+    Preferences
+  </Title>
+  <FormItem
+    hasFeedback={false}
+  >
+    <EmailRemindersPreference
+      currentSendReminderEmails={false}
+    />
+  </FormItem>
+</Form>
+`;
