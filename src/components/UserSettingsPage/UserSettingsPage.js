@@ -24,22 +24,18 @@ const UserSettingsPage = ({ isMobile }: Props) => {
         [USER_DETAILS_QUERY],
         () => axios.post(`${apiRoot}/graphql/`, {
             query: USER_DETAILS_QUERY,
-        }),
+        }).then((response) => response.data.data.userDetails),
     );
 
     if (data) {
-        const { userDetails } = data.data.data;
-        if (userDetails) {
-            return (
-                <GenericPage title="Settings" isMobile={isMobile}>
-                    <UserSettings
-                        currentEmail={userDetails.username}
-                        currentSendReminderEmails={userDetails.sendReminderEmails}
-                    />
-                </GenericPage>
-            );
-        }
-        return null;
+        return (
+            <GenericPage title="Settings" isMobile={isMobile}>
+                <UserSettings
+                    currentEmail={data.username}
+                    currentSendReminderEmails={data.sendReminderEmails}
+                />
+            </GenericPage>
+        );
     }
 
     return <LoadingSpinner />;

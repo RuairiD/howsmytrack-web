@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 
+import axios from "axios";
 import { Divider } from "antd";
 import { Div } from "lemon-reset";
 import apiRoot from "../../apiRoot";
@@ -22,17 +23,12 @@ const USER_DETAILS_QUERY = `query UserDetails {
 }`;
 
 const HomePage = ({ isMobile }: Props) => {
-    const { isLoading, data } = useQuery([USER_DETAILS_QUERY], () => fetch(`${apiRoot}/graphql/`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-        },
-        body: JSON.stringify({
+    const { isLoading, data } = useQuery(
+        [USER_DETAILS_QUERY],
+        () => axios.post(`${apiRoot}/graphql/`, {
             query: USER_DETAILS_QUERY,
-        }),
-        credentials: "include",
-    }).then((result) => result.json()).then((response) => response.data.userDetails));
+        }).then((response) => response.data.data.userDetails),
+    );
 
     if (isLoading) {
         return (

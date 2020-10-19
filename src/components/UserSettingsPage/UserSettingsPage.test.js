@@ -20,7 +20,7 @@ describe("UserSettingsPage", () => {
     });
 
     it("renders a GenericPage containing a UserSettings after receiving data", async () => {
-        axios.post.mockReturnValue({
+        axios.post.mockImplementationOnce(() => Promise.resolve({
             data: {
                 data: {
                     userDetails: {
@@ -29,7 +29,7 @@ describe("UserSettingsPage", () => {
                     },
                 },
             },
-        });
+        }));
 
         const wrapper = mount(
             <UserSettingsPage isMobile={false} />,
