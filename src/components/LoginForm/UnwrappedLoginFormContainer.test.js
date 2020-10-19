@@ -28,7 +28,7 @@ describe("UnwrappedLoginFormContainer", () => {
         ReactGA.event.mockRestore();
     });
 
-    it.only("renders a success indicator upon successful login, logs the submission and success and refreshes the page", async () => {
+    it("renders a success indicator upon successful login, logs the submission and success and refreshes the page", async () => {
         axios.post.mockReturnValue({
             errors: null,
         });
@@ -68,7 +68,7 @@ describe("UnwrappedLoginFormContainer", () => {
         expect(reload.mock.calls.length).toBe(1);
     });
 
-    it.only("continues to render the form upon unsuccessful login and logs the submission and error", async () => {
+    it("continues to render the form upon unsuccessful login and logs the submission and error", async () => {
         axios.post.mockReturnValue({
             errors: ["error"],
         });
@@ -96,7 +96,7 @@ describe("UnwrappedLoginFormContainer", () => {
         expect(ReactGA.event.mock.calls[2][0].action).toBe("error");
     });
 
-    it.only("does not attempt to post the form if it has invalid fields", async () => {
+    it("does not attempt to post the form if it has invalid fields", async () => {
         const wrapper = mount(
             <UnwrappedLoginFormContainer
                 form={mockInvalidForm}

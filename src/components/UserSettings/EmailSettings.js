@@ -61,14 +61,7 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
     // Log the user out and ask them to log back in with
     // their new email address.
     if (data && data.success) {
-        fetch(`${apiRoot}/logout/`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            credentials: "include",
-        }).then(() => window.location.assign("/"));
+        axios.get(`${apiRoot}/logout/`).then(() => window.location.assign("/"));
     }
 
     return (
@@ -83,6 +76,7 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
             <Row>
                 <Col>
                     <Typography.Text
+                        className="email"
                         style={{
                             marginRight: "1em",
                         }}

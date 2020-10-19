@@ -15,12 +15,14 @@ parserOptions:
 plugins:
   - react
   - jest
+  - no-only-tests
 rules: {
   "import/no-named-as-default": "off",
   "import/no-named-as-default-member": "off",
   "indent": ["error", 4],
   "jest/no-large-snapshots": "warn",
   "max-len": "off",
+  "no-only-tests/no-only-tests": "error",
   "no-plusplus": "off",
   "no-restricted-syntax": "off",
   "object-curly-newline": "off",

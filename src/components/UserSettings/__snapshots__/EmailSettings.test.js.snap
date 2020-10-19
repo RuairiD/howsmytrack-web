@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmailSettings renders an editable text field with the user's current email address 1`] = `
+<Div
+  className=""
+>
+  <Row
+    gutter={0}
+  >
+    <Col>
+      <Text
+        strong={true}
+      >
+        Your email address:
+      </Text>
+    </Col>
+  </Row>
+  <Row
+    gutter={0}
+  >
+    <Col>
+      <Text
+        className="email"
+        editable={
+          Object {
+            "onChange": [Function],
+            "onStart": [Function],
+          }
+        }
+        style={
+          Object {
+            "marginRight": "1em",
+          }
+        }
+      >
+        alemac@brightonandhovealbion.com
+      </Text>
+    </Col>
+  </Row>
+</Div>
+`;
