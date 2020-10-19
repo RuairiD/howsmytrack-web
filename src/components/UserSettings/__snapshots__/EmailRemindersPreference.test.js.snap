@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmailRemindersPreference renders a labeled Switch 1`] = `
+<Div
+  className=""
+>
+  <Text
+    strong={true}
+    style={
+      Object {
+        "marginRight": "0.5em",
+      }
+    }
+  >
+    Email Reminders:
+  </Text>
+  <Switch
+    defaultChecked={true}
+    loading={false}
+    onChange={[Function]}
+    style={
+      Object {
+        "marginRight": "1em",
+      }
+    }
+  />
+</Div>
+`;

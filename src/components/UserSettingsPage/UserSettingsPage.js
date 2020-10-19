@@ -29,14 +29,17 @@ const UserSettingsPage = ({ isMobile }: Props) => {
 
     if (data) {
         const { userDetails } = data.data.data;
-        return (
-            <GenericPage title="Settings" isMobile={isMobile}>
-                <UserSettings
-                    currentEmail={userDetails.username}
-                    currentSendReminderEmails={userDetails.sendReminderEmails}
-                />
-            </GenericPage>
-        );
+        if (userDetails) {
+            return (
+                <GenericPage title="Settings" isMobile={isMobile}>
+                    <UserSettings
+                        currentEmail={userDetails.username}
+                        currentSendReminderEmails={userDetails.sendReminderEmails}
+                    />
+                </GenericPage>
+            );
+        }
+        return null;
     }
 
     return <LoadingSpinner />;

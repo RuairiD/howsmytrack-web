@@ -23,7 +23,7 @@ const EmailRemindersPreference = ({ currentSendReminderEmails }: EmailRemindersP
             variables: {
                 sendReminderEmails: checked,
             },
-        })
+        }).then((data) => data.data.data.updateSendReminderEmails)
     );
 
     const [onSendReminderEmailsChange, { isLoading, data }] = useMutation(sendReminderEmailsRequest);

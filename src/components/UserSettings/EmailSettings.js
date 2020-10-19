@@ -28,7 +28,7 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
             variables: {
                 email: newEmail,
             },
-        })
+        }).then((data) => data.data.data.updateEmail)
     );
 
     const [updateEmailRequestMutate, { data, reset }] = useMutation(sendUpdateEmailRequest);
@@ -38,7 +38,7 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
     };
 
     const onSubmit = (newEmail) => {
-        if (newEmail === email && !isModalVisible) {
+        if (newEmail === email || isModalVisible) {
             return;
         }
         setIsModalVisible(true);
@@ -58,8 +58,8 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
         });
     };
 
-    // Log the user out and ask them to log back in with
-    // their new email address.
+    // Log the user out and ask them to log back in with their new email address.
+    // Necessary since JWT cookie will be invalid with a different username.
     if (data && data.success) {
         axios.get(`${apiRoot}/logout/`).then(() => window.location.assign("/"));
     }
@@ -93,9 +93,11 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
                         </Typography.Text>
                     )}
                     {data && data.error && (
-                        <Typography.Text type="danger">
-                            Error: {data.error}
-                        </Typography.Text>
+                        <Div>
+                            <Typography.Text type="danger">
+                                Error: {data.error}
+                            </Typography.Text>
+                        </Div>
                     )}
                 </Col>
             </Row>
