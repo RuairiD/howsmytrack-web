@@ -14,6 +14,6 @@ exports[`LoginModal renders a Modal containing a LoginForm 1`] = `
   visible={true}
   width={520}
 >
-  <Form(UnwrappedLoginForm) />
+  <Form(UnwrappedLoginFormContainer) />
 </Modal>
 `;

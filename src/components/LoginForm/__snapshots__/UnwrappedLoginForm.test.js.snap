@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnwrappedLoginForm renders a blank form for logging in on pageload 1`] = `
+<Form
+  className="hmt-form"
+  colon={true}
+  hideRequiredMark={false}
+  layout="horizontal"
+  onSubmit={[Function]}
+>
+  <FormItem
+    hasFeedback={false}
+  >
+    <Input
+      autoFocus={true}
+      placeholder="Email"
+      prefix={
+        <Icon
+          style={
+            Object {
+              "color": "rgba(0,0,0,.25)",
+            }
+          }
+          type="user"
+        />
+      }
+      type="text"
+    />
+  </FormItem>
+  <FormItem
+    hasFeedback={false}
+  >
+    <Input
+      placeholder="Password"
+      prefix={
+        <Icon
+          style={
+            Object {
+              "color": "rgba(0,0,0,.25)",
+            }
+          }
+          type="lock"
+        />
+      }
+      type="password"
+    />
+  </FormItem>
+  <FormItem
+    hasFeedback={false}
+  >
+    <Button
+      block={true}
+      ghost={false}
+      htmlType="submit"
+      loading={false}
+      type="primary"
+    >
+      Sign In
+    </Button>
+    <A
+      className=""
+      href="http://localhost:8000/accounts/password_reset"
+      style={
+        Object {
+          "float": "right",
+        }
+      }
+    >
+      Forgot password?
+    </A>
+  </FormItem>
+</Form>
+`;
