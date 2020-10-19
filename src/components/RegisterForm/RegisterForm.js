@@ -100,8 +100,8 @@ const UnwrappedRegisterForm = ({ form }) => {
         form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 submitFormMutate({
-                    email: values.email,
-                    password: values.password,
+                    formEmail: values.email,
+                    formPassword: values.password,
                     passwordRepeat: values.passwordRepeat,
                 });
             }
