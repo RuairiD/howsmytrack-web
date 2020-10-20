@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackGroupRequest renders a FeedbackRequestSummary and ReceivedFeedback for the given request 1`] = `
+<Fragment>
+  <Divider />
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <Title
+        level={3}
+      >
+        Feedback for your submission
+      </Title>
+      <FeedbackRequestSummary
+        feedbackRequestSummary={
+          Object {
+            "emailWhenGrouped": false,
+            "feedbackPrompt": "feedbackPrompt",
+            "feedbackRequestId": 1901,
+            "genre": "genre",
+            "mediaType": "mediaType",
+            "mediaUrl": "mediaUrl",
+          }
+        }
+      />
+    </Col>
+  </Row>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <ReceivedFeedback
+        feedbackReceived={
+          Array [
+            Object {
+              "allowReplies": false,
+              "currentRating": 5,
+              "feedback": "pretty good",
+              "feedbackResponseId": 1901,
+              "replies": 3,
+              "unreadReplies": 2,
+            },
+          ]
+        }
+      />
+    </Col>
+  </Row>
+</Fragment>
+`;

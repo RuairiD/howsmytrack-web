@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReceivedFeedback renders a list of feedback, if feedback is provided 1`] = `
+<List
+  bordered={false}
+  dataSource={
+    Array [
+      Object {
+        "allowReplies": false,
+        "currentRating": 5,
+        "feedback": "pretty good",
+        "feedbackResponseId": 1901,
+        "replies": 3,
+        "unreadReplies": 2,
+      },
+    ]
+  }
+  grid={
+    Object {
+      "gutter": 16,
+      "lg": 1,
+      "md": 1,
+      "sm": 1,
+      "xl": 1,
+      "xs": 1,
+      "xxl": 2,
+    }
+  }
+  loading={false}
+  pagination={false}
+  renderItem={[Function]}
+  split={true}
+/>
+`;
+
+exports[`ReceivedFeedback renders an empty state if no feedback is provided 1`] = `
+<Card>
+  <Empty
+    description="Nobody in your group has submitted feedback yet..."
+    image={<Simple />}
+    style={
+      Object {
+        "margin": "1em",
+      }
+    }
+  />
+</Card>
+`;
+
+exports[`ReceivedFeedback renders an error state if feedback is null (implying user hasn't written their own feedback yet) 1`] = `
+<Card>
+  <Empty
+    description="Feedback for your submission will appear here once you have submitted feedback for everyone else in your group."
+    image={<Empty />}
+    style={
+      Object {
+        "margin": "1em",
+      }
+    }
+  />
+</Card>
+`;

@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackGroup renders a List of FeedbackResponseForms for each of user's response forms and the original request with the track 1`] = `
+<Div
+  className=""
+>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <Title
+        level={3}
+      >
+        Feedback requests for you
+      </Title>
+    </Col>
+  </Row>
+  <List
+    bordered={false}
+    dataSource={
+      Array [
+        Object {
+          "alreadySubmitted": true,
+          "currentAllowReplies": true,
+          "currentFeedback": "currentFeedback",
+          "feedbackPrompt": "feedbackPrompt",
+          "feedbackResponseId": 1901,
+          "mediaType": "mediaType",
+          "mediaUrl": "mediaUrl",
+          "replies": 5,
+          "unreadReplies": 4,
+        },
+      ]
+    }
+    grid={
+      Object {
+        "gutter": 16,
+        "lg": 1,
+        "md": 1,
+        "sm": 1,
+        "xl": 1,
+        "xs": 1,
+        "xxl": 2,
+      }
+    }
+    loading={false}
+    pagination={false}
+    renderItem={[Function]}
+    split={true}
+  />
+  <FeedbackGroupRequest
+    feedbackReceived={
+      Array [
+        Object {
+          "allowReplies": false,
+          "currentRating": 5,
+          "feedback": "pretty good",
+          "feedbackResponseId": 1901,
+          "replies": 3,
+          "unreadReplies": 2,
+        },
+      ]
+    }
+    feedbackRequestSummary={
+      Object {
+        "emailWhenGrouped": false,
+        "feedbackPrompt": "feedbackPrompt",
+        "feedbackRequestId": 1901,
+        "genre": "genre",
+        "mediaType": "mediaType",
+        "mediaUrl": "mediaUrl",
+      }
+    }
+  />
+</Div>
+`;
+
+exports[`FeedbackGroup renders a List of FeedbackResponseForms for each of user's response forms, but doesn't render a FeedbackGroupRequest for a trackless request 1`] = `
+<Div
+  className=""
+>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <Title
+        level={3}
+      >
+        Feedback requests for you
+      </Title>
+    </Col>
+  </Row>
+  <List
+    bordered={false}
+    dataSource={
+      Array [
+        Object {
+          "alreadySubmitted": true,
+          "currentAllowReplies": true,
+          "currentFeedback": "currentFeedback",
+          "feedbackPrompt": "feedbackPrompt",
+          "feedbackResponseId": 1901,
+          "mediaType": "mediaType",
+          "mediaUrl": "mediaUrl",
+          "replies": 5,
+          "unreadReplies": 4,
+        },
+      ]
+    }
+    grid={
+      Object {
+        "gutter": 16,
+        "lg": 1,
+        "md": 1,
+        "sm": 1,
+        "xl": 1,
+        "xs": 1,
+        "xxl": 2,
+      }
+    }
+    loading={false}
+    pagination={false}
+    renderItem={[Function]}
+    split={true}
+  />
+</Div>
+`;
+
+exports[`FeedbackGroup renders an error state if user has no response forms (implies the user isn't a member this group) 1`] = `
+<Result
+  status="error"
+  title="You are not authorised to view this group."
+/>
+`;

@@ -1,5 +1,5 @@
 import React from "react";
-import { mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import axios from "axios";
 import waitForExpect from "wait-for-expect";
 import HomePage from "./HomePage";
@@ -12,21 +12,10 @@ describe("HomePage", () => {
     });
 
     it("renders a LoadingSpinner while loading", async () => {
-        axios.post.mockImplementationOnce(() => Promise.resolve({
-            data: {
-                data: {
-                    userDetails: {
-                        username: "ybissouma@brightonandhovealbion.com",
-                    },
-                },
-            },
-        }));
-
-        const wrapper = mount(
+        const wrapper = shallow(
             <HomePage />,
         );
 
-        expect(axios.post).toHaveBeenCalled();
         // Loading spinner will be present before POST request resolves.
         expect(wrapper.find("LoadingSpinner").length).toBe(1);
     });

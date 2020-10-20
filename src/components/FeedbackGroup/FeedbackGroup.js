@@ -1,22 +1,15 @@
 import React from "react";
 
-import { Card, Col, Divider, Empty, List, Result, Row, Typography } from "antd";
+import { Col, List, Result, Row, Typography } from "antd";
 import { Div } from "lemon-reset";
 
 import FeedbackResponseForm from "../FeedbackResponseForm/FeedbackResponseForm";
 import type { FeedbackResponseFormProps } from "../FeedbackResponseForm/FeedbackResponseForm";
 
-import FeedbackResponse from "../FeedbackResponse/FeedbackResponse";
 import type { FeedbackResponseProps } from "../FeedbackResponse/FeedbackResponse";
 
-import FeedbackRequestSummary from "../FeedbackRequestSummary/FeedbackRequestSummary";
 import type { FeedbackRequestSummaryProps } from "../FeedbackRequestSummary/FeedbackRequestSummary";
-
-type Props = {
-    feedbackResponseForms: Array<FeedbackResponseFormProps>,
-    feedbackReceived: Array<FeedbackResponseProps>,
-    feedbackRequestSummary: FeedbackRequestSummaryProps,
-};
+import FeedbackGroupRequest from "./FeedbackGroupRequest";
 
 const LIST_GRID_LAYOUT = {
     gutter: 16,
@@ -28,44 +21,10 @@ const LIST_GRID_LAYOUT = {
     xxl: 2,
 };
 
-const ReceivedFeedback = ({ feedbackReceived }) => {
-    if (feedbackReceived === null || feedbackReceived === undefined) {
-        return (
-            <Card>
-                <Empty
-                    style={{ margin: "1em" }}
-                    image={Empty.PRESENTED_IMAGE_DEFAULT}
-                    description="Feedback for your submission will appear here once you have submitted feedback for everyone else in your group."
-                />
-            </Card>
-        );
-    }
-
-    if (feedbackReceived.length === 0) {
-        return (
-            <Card>
-                <Empty
-                    style={{ margin: "1em" }}
-                    image={Empty.PRESENTED_IMAGE_SIMPLE}
-                    description="Nobody in your group has submitted feedback yet..."
-                />
-            </Card>
-        );
-    }
-
-    return (
-        <List
-            grid={LIST_GRID_LAYOUT}
-            dataSource={feedbackReceived}
-            renderItem={(feedbackItemReceived) => (
-                <List.Item>
-                    <FeedbackResponse
-                        {...feedbackItemReceived}
-                    />
-                </List.Item>
-            )}
-        />
-    );
+type Props = {
+    feedbackResponseForms: Array<FeedbackResponseFormProps>,
+    feedbackReceived: Array<FeedbackResponseProps>,
+    feedbackRequestSummary: FeedbackRequestSummaryProps,
 };
 
 const FeedbackGroup = ({
@@ -73,10 +32,6 @@ const FeedbackGroup = ({
     feedbackReceived,
     feedbackRequestSummary,
 }: Props) => {
-    /*
-     * Component without docs
-     */
-
     if (feedbackResponseForms) {
         return (
             <Div>
@@ -98,24 +53,10 @@ const FeedbackGroup = ({
                 />
 
                 {feedbackRequestSummary.mediaUrl && (
-                    <React.Fragment>
-                        <Divider />
-
-                        <Row gutter={[16, 16]}>
-                            <Col>
-                                <Typography.Title level={3}>Feedback for your submission</Typography.Title>
-                                <FeedbackRequestSummary
-                                    feedbackRequestSummary={feedbackRequestSummary}
-                                />
-                            </Col>
-                        </Row>
-
-                        <Row gutter={[16, 16]}>
-                            <Col>
-                                <ReceivedFeedback feedbackReceived={feedbackReceived} />
-                            </Col>
-                        </Row>
-                    </React.Fragment>
+                    <FeedbackGroupRequest
+                        feedbackRequestSummary={feedbackRequestSummary}
+                        feedbackReceived={feedbackReceived}
+                    />
                 )}
             </Div>
         );
