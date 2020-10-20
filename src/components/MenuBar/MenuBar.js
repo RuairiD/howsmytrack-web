@@ -418,23 +418,27 @@ const MenuBar = ({ isMobile }: Props) => {
         setMobileMenuCollapsed(key.length === 0);
     };
 
+    // Wrapping this in Div prevents forwardRef related errors being raised by
+    // ant-design; an inelegant solution but an unobtrusive one as well.
     const menuBarContent = (
-        <MenuBarContent
-            isMobile={isMobile}
-            isLoading={isLoading}
-            onMenuClick={onMenuClick}
-            username={username}
-            rating={rating}
-            notifications={notifications}
-            isFeedbackRequestModalVisible={isFeedbackRequestModalVisible}
-            onFeedbackRequestModalCancel={onFeedbackRequestModalCancel}
-            isLoginModalVisible={isLoginModalVisible}
-            onLoginModalCancel={onLoginModalCancel}
-            isRegisterModalVisible={isRegisterModalVisible}
-            onRegisterModalCancel={onRegisterModalCancel}
-            mobileMenuCollapsed={mobileMenuCollapsed}
-            onCollapseChange={onCollapseChange}
-        />
+        <Div>
+            <MenuBarContent
+                isMobile={isMobile}
+                isLoading={isLoading}
+                onMenuClick={onMenuClick}
+                username={username}
+                rating={rating}
+                notifications={notifications}
+                isFeedbackRequestModalVisible={isFeedbackRequestModalVisible}
+                onFeedbackRequestModalCancel={onFeedbackRequestModalCancel}
+                isLoginModalVisible={isLoginModalVisible}
+                onLoginModalCancel={onLoginModalCancel}
+                isRegisterModalVisible={isRegisterModalVisible}
+                onRegisterModalCancel={onRegisterModalCancel}
+                mobileMenuCollapsed={mobileMenuCollapsed}
+                onCollapseChange={onCollapseChange}
+            />
+        </Div>
     );
 
     if (isMobile) {
