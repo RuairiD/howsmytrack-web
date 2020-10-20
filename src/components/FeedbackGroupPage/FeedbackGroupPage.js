@@ -1,6 +1,7 @@
 import dateFormat from "dateformat";
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
+import axios from "axios";
 
 import apiRoot from "../../apiRoot";
 
@@ -67,6 +68,7 @@ const formatQueryResponse = (data) => {
         });
     }
 
+    feedbackGroupProps.feedbackReceived = null;
     if (data.userFeedbackResponses) {
         feedbackGroupProps.feedbackReceived = [];
         for (const userFeedbackResponse of data.userFeedbackResponses) {
@@ -86,29 +88,16 @@ const formatQueryResponse = (data) => {
     return feedbackGroupProps;
 };
 
-const formatTimeCreated = (timeCreated) => {
-    if (!timeCreated) {
-        return null;
-    }
-    return dateFormat(
-        new Date(Date.parse(timeCreated)),
-        "mmmm dS yyyy",
-    );
-};
+const formatTimeCreated = (timeCreated) => dateFormat(
+    new Date(Date.parse(timeCreated)),
+    "mmmm dS yyyy",
+);
 
 const FeedbackGroupPage = ({ feedbackGroupId, isMobile }: Props) => {
-    const { isLoading, data } = useQuery([FEEDBACK_GROUP_QUERY, { feedbackGroupId }], () => fetch(`${apiRoot}/graphql/`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-        },
-        body: JSON.stringify({
-            query: FEEDBACK_GROUP_QUERY,
-            variables: { feedbackGroupId },
-        }),
-        credentials: "include",
-    }).then((result) => result.json()).then((response) => response.data.feedbackGroup));
+    const { isLoading, data } = useQuery([FEEDBACK_GROUP_QUERY, { feedbackGroupId }], () => axios.post(`${apiRoot}/graphql/`, {
+        query: FEEDBACK_GROUP_QUERY,
+        variables: { feedbackGroupId },
+    }).then((response) => response.data.data.feedbackGroup));
 
     useEffect(() => {
         if (data) {
