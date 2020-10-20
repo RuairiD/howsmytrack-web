@@ -125,8 +125,6 @@ const FeedbackGroupsPage = ({ isMobile }: Props) => {
         )
     );
 
-    console.log(feedbackGroupsData, unassignedRequestData);
-
     if (isLoadingFeedbackGroups || isLoadingUnassignedRequest) {
         return (
             <LoadingSpinner />
