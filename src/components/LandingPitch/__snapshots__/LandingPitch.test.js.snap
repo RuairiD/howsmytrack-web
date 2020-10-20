@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LandingPitch renders login and register buttons, along with an explanation of how the site works 1`] = `
+<Div
+  className=""
+  style={
+    Object {
+      "textAlign": "center",
+    }
+  }
+>
+  <Div
+    className=""
+  >
+    <Img
+      alt="how's my track"
+      className=""
+      src="/logo512.png"
+      style={
+        Object {
+          "marginBottom": "2em",
+        }
+      }
+      width="256px"
+    />
+  </Div>
+  <Div
+    className=""
+    style={
+      Object {
+        "display": "flex",
+        "margin": "1em",
+        "textAlign": "center",
+      }
+    }
+  >
+    <Button
+      block={false}
+      className="home-action-button"
+      ghost={false}
+      htmlType="button"
+      loading={false}
+      onClick={[Function]}
+      size="large"
+      style={
+        Object {
+          "marginLeft": "auto",
+        }
+      }
+    >
+      Register
+    </Button>
+    <Button
+      block={false}
+      className="home-action-button"
+      ghost={false}
+      htmlType="button"
+      loading={false}
+      onClick={[Function]}
+      size="large"
+      style={
+        Object {
+          "marginRight": "auto",
+        }
+      }
+    >
+      Sign In
+    </Button>
+  </Div>
+  <List
+    bordered={false}
+    dataSource={
+      Array [
+        Object {
+          "icon": "plus",
+          "text": "Submit your track.",
+        },
+        Object {
+          "icon": "usergroup-add",
+          "text": "Join a group.",
+        },
+        Object {
+          "icon": "edit",
+          "text": "Write feedback for your peers.",
+        },
+        Object {
+          "icon": "check",
+          "text": "Read your own feedback.",
+        },
+        Object {
+          "icon": "rollback",
+          "text": "Repeat.",
+        },
+      ]
+    }
+    itemLayout="vertical"
+    loading={false}
+    pagination={false}
+    renderItem={[Function]}
+    split={true}
+    style={
+      Object {
+        "display": "inline-block",
+        "textAlign": "left",
+      }
+    }
+  />
+  <LoginModal
+    isVisible={false}
+    onCancel={[Function]}
+  />
+  <RegisterModal
+    isVisible={false}
+    onCancel={[Function]}
+  />
+</Div>
+`;
