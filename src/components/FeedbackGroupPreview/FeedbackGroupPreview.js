@@ -1,11 +1,13 @@
 import React from "react";
-import dateFormat from "dateformat";
 
-import { Badge, Button, Card, Row, Col, Icon, Progress, Tooltip, Typography } from "antd";
+import { Button, Card, Row, Col, Icon, Progress, Tooltip, Typography } from "antd";
 import { A, Div } from "lemon-reset";
 
-import MediaEmbed from "../MediaEmbed/MediaEmbed";
 import type { FeedbackRequestSummaryProps } from "../FeedbackRequestSummary/FeedbackRequestSummary";
+
+import CardTitle from "./CardTitle";
+import CardExtra from "./CardExtra";
+import RequestForGroup from "./RequestForGroup";
 
 const FEEDBACK_FOR_THEM_TOOLTIP = "How many tracks you've written feedback for in this group.";
 const FEEDBACK_FOR_YOU_TOOLTIP = "How many members of this group have written feedback for your track (this number is hidden if you have not yet written feedback for everyone in your group)";
@@ -28,71 +30,6 @@ export type FeedbackGroupPreviewProps = {
     unreadReplies: number,
 };
 
-const getUserFeedbackPercent = (userFeedbackCount, userCount) => 100 * (userFeedbackCount / userCount);
-
-const getUserFeedbackText = (userFeedbackCount, userCount) => `${userFeedbackCount}/${userCount}`;
-
-const getFeedbackResponsePercent = (feedbackResponseCount, userCount, tracklessUserCount) => 100 * (feedbackResponseCount / (userCount + tracklessUserCount));
-
-const getFeedbackResponseText = (feedbackResponseCount, userCount, tracklessUserCount) => `${feedbackResponseCount}/${userCount + tracklessUserCount}`;
-
-const buildFeedbackGroupUrl = (feedbackGroupId) => `/group/${feedbackGroupId}`;
-
-const formatTimeCreated = (timeCreated) => {
-    if (!timeCreated) {
-        return "";
-    }
-    return dateFormat(
-        new Date(Date.parse(timeCreated)),
-        "mmmm dS yyyy",
-    );
-};
-
-const CardExtra = ({ timeCreated }) => (
-    <Div style={{ display: "flex", marginTop: "1em" }}>
-        <Typography.Text style={{
-            marginRight: "auto",
-            marginTop: "auto",
-            marginBottom: "auto",
-        }}
-        >
-            {formatTimeCreated(timeCreated)}
-        </Typography.Text>
-        <Typography.Text style={{
-            marginLeft: "auto",
-            marginTop: "auto",
-            marginBottom: "auto",
-        }}
-        >
-            <Button type="link">View Group</Button>
-        </Typography.Text>
-    </Div>
-);
-
-const RequestForGroup = ({ mediaUrl, mediaType }) => {
-    if (mediaUrl) {
-        return (
-            <Row gutter={[16, 16]}>
-                <Col>
-                    <Typography.Text strong>You submitted:</Typography.Text>
-                    <MediaEmbed
-                        mediaUrl={mediaUrl}
-                        mediaType={mediaType}
-                        size="small"
-                    />
-                </Col>
-            </Row>
-        );
-    }
-    return (
-        <Row gutter={[16, 16]}>
-            <Col>
-                <Typography.Text strong>You did not submit a track for this group.</Typography.Text>
-            </Col>
-        </Row>
-    );
-};
-
 /*
  * Component for inline group preview shown on FeedbackGroupsPage
  */
@@ -108,22 +45,15 @@ const FeedbackGroupPreview = ({
     unreadReplies,
 }: FeedbackGroupPreviewProps) => (
     <Div>
-        <Card
-            title={(
-                <A href={buildFeedbackGroupUrl(feedbackGroupId)}>
-                    <Div style={{ display: "flex" }}>
-                        <Typography.Title level={4} style={{ marginRight: "auto", marginBottom: "auto", marginTop: "auto" }}>
-                            {name}
-                        </Typography.Title>
-                        <Badge
-                            count={unreadReplies}
-                            style={{ marginLeft: "auto", marginBottom: "auto", marginTop: "auto" }}
-                        />
-                    </Div>
-                </A>
-            )}
+        <Card title={(
+            <CardTitle
+                feedbackGroupId={feedbackGroupId}
+                name={name}
+                unreadReplies={unreadReplies}
+            />
+        )}
         >
-            <A href={buildFeedbackGroupUrl(feedbackGroupId)}>
+            <A href={`/group/${feedbackGroupId}`}>
                 <RequestForGroup mediaUrl={feedbackRequestSummary.mediaUrl} mediaType={feedbackRequestSummary.mediaType} />
                 <Row gutter={[16, 16]}>
                     <Col>
@@ -134,8 +64,8 @@ const FeedbackGroupPreview = ({
                             <Button type="link"><Icon type="question-circle" /></Button>
                         </Tooltip>
                         <Progress
-                            percent={getUserFeedbackPercent(userFeedbackCount, userCount)}
-                            format={() => getUserFeedbackText(userFeedbackCount, userCount)}
+                            percent={100 * (userFeedbackCount / userCount)}
+                            format={() => `${userFeedbackCount}/${userCount}`}
                             width={80}
                         />
                     </Col>
@@ -150,8 +80,8 @@ const FeedbackGroupPreview = ({
                                 <Button type="link"><Icon type="question-circle" /></Button>
                             </Tooltip>
                             <Progress
-                                percent={getFeedbackResponsePercent(feedbackResponseCount, userCount, tracklessUserCount)}
-                                format={() => getFeedbackResponseText(feedbackResponseCount, userCount, tracklessUserCount)}
+                                percent={100 * (feedbackResponseCount / (userCount + tracklessUserCount))}
+                                format={() => `${feedbackResponseCount}/${userCount + tracklessUserCount}`}
                                 width={80}
                             />
                         </Col>

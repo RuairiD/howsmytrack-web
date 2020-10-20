@@ -64,6 +64,14 @@
       "src/index.js",
       "src/serviceWorker.js"
     ],
-    "globalSetup": "<rootDir>/src/globalSetup.js"
+    "globalSetup": "<rootDir>/src/globalSetup.js",
+    "coverageThreshold": {
+      "global": {
+        "branches": 65,
+        "functions": 63,
+        "lines": 73,
+        "statements": 73
+      }
+    }
   }
 }

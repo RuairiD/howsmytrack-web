@@ -1,0 +1,211 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackGroupPreview displays a feedback group's preview for a trackless request without media 1`] = `
+<Div
+  className=""
+>
+  <Card
+    title={
+      <CardTitle
+        feedbackGroupId={1901}
+        name="name"
+        unreadReplies={2}
+      />
+    }
+  >
+    <A
+      className=""
+      href="/group/1901"
+    >
+      <RequestForGroup
+        mediaType={null}
+        mediaUrl={null}
+      />
+      <Row
+        gutter={
+          Array [
+            16,
+            16,
+          ]
+        }
+      >
+        <Col>
+          <Text
+            strong={true}
+          >
+            Feedback for them
+          </Text>
+          <Tooltip
+            arrowPointAtCenter={false}
+            autoAdjustOverflow={true}
+            mouseEnterDelay={0.1}
+            mouseLeaveDelay={0.1}
+            placement="top"
+            title="How many tracks you've written feedback for in this group."
+            transitionName="zoom-big-fast"
+          >
+            <Button
+              block={false}
+              ghost={false}
+              htmlType="button"
+              loading={false}
+              type="link"
+            >
+              <Icon
+                type="question-circle"
+              />
+            </Button>
+          </Tooltip>
+          <Progress
+            format={[Function]}
+            gapDegree={0}
+            percent={75}
+            showInfo={true}
+            size="default"
+            strokeLinecap="round"
+            trailColor="#f3f3f3"
+            type="line"
+            width={80}
+          />
+        </Col>
+      </Row>
+      <Meta
+        description={
+          <CardExtra
+            timeCreated={123456}
+          />
+        }
+      />
+    </A>
+  </Card>
+</Div>
+`;
+
+exports[`FeedbackGroupPreview displays a feedback group's preview, including a media preview 1`] = `
+<Div
+  className=""
+>
+  <Card
+    title={
+      <CardTitle
+        feedbackGroupId={1901}
+        name="name"
+        unreadReplies={2}
+      />
+    }
+  >
+    <A
+      className=""
+      href="/group/1901"
+    >
+      <RequestForGroup
+        mediaType="mediaType"
+        mediaUrl="mediaUrl"
+      />
+      <Row
+        gutter={
+          Array [
+            16,
+            16,
+          ]
+        }
+      >
+        <Col>
+          <Text
+            strong={true}
+          >
+            Feedback for them
+          </Text>
+          <Tooltip
+            arrowPointAtCenter={false}
+            autoAdjustOverflow={true}
+            mouseEnterDelay={0.1}
+            mouseLeaveDelay={0.1}
+            placement="top"
+            title="How many tracks you've written feedback for in this group."
+            transitionName="zoom-big-fast"
+          >
+            <Button
+              block={false}
+              ghost={false}
+              htmlType="button"
+              loading={false}
+              type="link"
+            >
+              <Icon
+                type="question-circle"
+              />
+            </Button>
+          </Tooltip>
+          <Progress
+            format={[Function]}
+            gapDegree={0}
+            percent={75}
+            showInfo={true}
+            size="default"
+            strokeLinecap="round"
+            trailColor="#f3f3f3"
+            type="line"
+            width={80}
+          />
+        </Col>
+      </Row>
+      <Row
+        gutter={
+          Array [
+            16,
+            16,
+          ]
+        }
+      >
+        <Col>
+          <Text
+            strong={true}
+          >
+            Feedback for you
+          </Text>
+          <Tooltip
+            arrowPointAtCenter={false}
+            autoAdjustOverflow={true}
+            mouseEnterDelay={0.1}
+            mouseLeaveDelay={0.1}
+            placement="top"
+            title="How many members of this group have written feedback for your track (this number is hidden if you have not yet written feedback for everyone in your group)"
+            transitionName="zoom-big-fast"
+          >
+            <Button
+              block={false}
+              ghost={false}
+              htmlType="button"
+              loading={false}
+              type="link"
+            >
+              <Icon
+                type="question-circle"
+              />
+            </Button>
+          </Tooltip>
+          <Progress
+            format={[Function]}
+            gapDegree={0}
+            percent={60}
+            showInfo={true}
+            size="default"
+            strokeLinecap="round"
+            trailColor="#f3f3f3"
+            type="line"
+            width={80}
+          />
+        </Col>
+      </Row>
+      <Meta
+        description={
+          <CardExtra
+            timeCreated={123456}
+          />
+        }
+      />
+    </A>
+  </Card>
+</Div>
+`;

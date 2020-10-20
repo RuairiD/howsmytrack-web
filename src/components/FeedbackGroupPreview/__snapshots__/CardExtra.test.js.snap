@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardExtra renders the footer for a FeedbackGroupPreview with the formatted date 1`] = `
+<Div
+  className=""
+  style={
+    Object {
+      "display": "flex",
+      "marginTop": "1em",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "marginBottom": "auto",
+        "marginRight": "auto",
+        "marginTop": "auto",
+      }
+    }
+  >
+    January 1st 123456
+  </Text>
+  <Text
+    style={
+      Object {
+        "marginBottom": "auto",
+        "marginLeft": "auto",
+        "marginTop": "auto",
+      }
+    }
+  >
+    <Button
+      block={false}
+      ghost={false}
+      htmlType="button"
+      loading={false}
+      type="link"
+    >
+      View Group
+    </Button>
+  </Text>
+</Div>
+`;

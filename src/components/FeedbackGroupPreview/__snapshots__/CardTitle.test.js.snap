@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardTitle renders the header for a FeedbackGroupPreview with a formatted URL and badge for unread replies 1`] = `
+<A
+  className=""
+  href="/group/1901"
+>
+  <Div
+    className=""
+    style={
+      Object {
+        "display": "flex",
+      }
+    }
+  >
+    <Title
+      level={4}
+      style={
+        Object {
+          "marginBottom": "auto",
+          "marginRight": "auto",
+          "marginTop": "auto",
+        }
+      }
+    >
+      name
+    </Title>
+    <Badge
+      count={2}
+      dot={false}
+      overflowCount={99}
+      showZero={false}
+      style={
+        Object {
+          "marginBottom": "auto",
+          "marginLeft": "auto",
+          "marginTop": "auto",
+        }
+      }
+    />
+  </Div>
+</A>
+`;

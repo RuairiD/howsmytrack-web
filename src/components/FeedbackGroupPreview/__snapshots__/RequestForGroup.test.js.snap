@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RequestForGroup renders a trackless inline feedback request preview 1`] = `
+<Row
+  gutter={
+    Array [
+      16,
+      16,
+    ]
+  }
+>
+  <Col>
+    <Text
+      strong={true}
+    >
+      You did not submit a track for this group.
+    </Text>
+  </Col>
+</Row>
+`;
+
+exports[`RequestForGroup renders an inline feedback request media preview 1`] = `
+<Row
+  gutter={
+    Array [
+      16,
+      16,
+    ]
+  }
+>
+  <Col>
+    <Text
+      strong={true}
+    >
+      You submitted:
+    </Text>
+    <MediaEmbed
+      mediaType="mediaType"
+      mediaUrl="mediaUrl"
+      size="small"
+    />
+  </Col>
+</Row>
+`;
