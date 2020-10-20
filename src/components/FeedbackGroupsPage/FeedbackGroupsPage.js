@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
+import axios from "axios";
 
 import apiRoot from "../../apiRoot";
 
@@ -98,40 +99,33 @@ const formatUnassignedQueryResponse = (data) => ({
 const FeedbackGroupsPage = ({ isMobile }: Props) => {
     useEffect(() => {
         document.title = "how's my track? - Your Groups";
-    });
+    }, []);
 
-    const { isLoading: isLoadingFeedbackGroups, data: feedbackGroupsData } = useQuery([FEEDBACK_GROUPS_QUERY], () => (
+    const { isLoading: isLoadingFeedbackGroups, data: feedbackGroupsData } = (
         // Fetch user's assigned feedback groups
-        fetch(
-            `${apiRoot}/graphql/`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-                body: JSON.stringify({
+        useQuery(
+            [FEEDBACK_GROUPS_QUERY],
+            () => (
+                axios.post(`${apiRoot}/graphql/`, {
                     query: FEEDBACK_GROUPS_QUERY,
-                }),
-                credentials: "include",
-            },
-        ).then((result) => result.json()).then((response) => response.data.feedbackGroups)
-    ));
+                }).then((response) => response.data.data.feedbackGroups)
+            ),
+        )
+    );
 
-    const { isLoading: isLoadingUnassignedRequest, data: unassignedRequestData } = useQuery([UNASSIGNED_REQUEST_QUERY], () => (
+    const { isLoading: isLoadingUnassignedRequest, data: unassignedRequestData } = (
         // Fetch unassigned request, if any.
-        fetch(`${apiRoot}/graphql/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            body: JSON.stringify({
-                query: UNASSIGNED_REQUEST_QUERY,
-            }),
-            credentials: "include",
-        }).then((result) => result.json()).then((response) => response.data.unassignedRequest)
-    ));
+        useQuery(
+            [UNASSIGNED_REQUEST_QUERY],
+            () => (
+                axios.post(`${apiRoot}/graphql/`, {
+                    query: UNASSIGNED_REQUEST_QUERY,
+                }).then((response) => response.data.data.unassignedRequest)
+            ),
+        )
+    );
+
+    console.log(feedbackGroupsData, unassignedRequestData);
 
     if (isLoadingFeedbackGroups || isLoadingUnassignedRequest) {
         return (
