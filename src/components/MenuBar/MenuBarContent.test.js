@@ -73,6 +73,19 @@ describe("MenuBarContent", () => {
         expect(ReactGA.event.mock.calls[0][0].action).toBe("register");
     });
 
+    it("does nothing except log with GA when an option without an associated action is clicked", () => {
+        const wrapper = mount(
+            <MenuBarContent />,
+        );
+
+        act(() => wrapper.find("MainMenu").get(0).props.onMenuClick({
+            key: "faq",
+        }));
+
+        wrapper.update();
+        expect(ReactGA.event.mock.calls[0][0].action).toBe("faq");
+    });
+
     it("logs the user out when logout option is clicked", async () => {
         axios.get.mockImplementationOnce(() => Promise.resolve({}));
 
