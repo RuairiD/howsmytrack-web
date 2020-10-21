@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
+import axios from "axios";
 
-import { Button, Card, message, Popconfirm, Result, Spin } from "antd";
+import { Card, message, Result, Spin } from "antd";
 import apiRoot from "../../apiRoot";
 
 import EditFeedbackRequestModal from "../EditFeedbackRequestModal/EditFeedbackRequestModal";
 import FeedbackRequestSummaryContent from "./FeedbackRequestSummaryContent";
+import RequestButtons from "./RequestButtons";
 
 export type FeedbackRequestSummaryProps = {
     feedbackRequestId: number,
@@ -28,52 +30,13 @@ const DELETE_FEEDBACK_REQUEST_MUTATION = `mutation DeleteFeedbackRequest($feedba
     }
 }`;
 
-const getDeleteConfirmationText = (mediaUrl) => {
-    if (mediaUrl) {
-        return "This request has not been assigned to a group. If you delete it, you will not receive any feedback on it. Are you sure you want to delete this request?";
-    }
-    return "This request has not been assigned to a group. Are you sure you want to delete this request?";
-};
-
-const RequestButtons = ({ mediaUrl, showEditFeedbackRequestModal, deleteRequestMutate }) => (
-    <React.Fragment>
-        <Button
-            shape="circle"
-            icon="edit"
-            onClick={showEditFeedbackRequestModal}
-            style={{
-                marginRight: "0.5em",
-            }}
-        />
-        <Popconfirm
-            title={getDeleteConfirmationText(mediaUrl)}
-            onConfirm={deleteRequestMutate}
-            okText="Yes"
-            cancelText="No"
-        >
-            <Button
-                shape="circle"
-                icon="delete"
-            />
-        </Popconfirm>
-    </React.Fragment>
-);
-
 const deleteRequest = ({ feedbackRequestId }) => (
-    fetch(`${apiRoot}/graphql/`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
+    axios.post(`${apiRoot}/graphql/`, {
+        query: DELETE_FEEDBACK_REQUEST_MUTATION,
+        variables: {
+            feedbackRequestId,
         },
-        body: JSON.stringify({
-            query: DELETE_FEEDBACK_REQUEST_MUTATION,
-            variables: {
-                feedbackRequestId,
-            },
-        }),
-        credentials: "include",
-    }).then((result) => result.json()).then((response) => response.data.deleteFeedbackRequest)
+    }).then((response) => response.data.data.deleteFeedbackRequest)
 );
 
 const FeedbackRequestSummary = ({
@@ -115,8 +78,8 @@ const FeedbackRequestSummary = ({
                 extra={showButtons && (
                     <RequestButtons
                         mediaUrl={feedbackRequestSummary.mediaUrl}
-                        showEditFeedbackRequestModal={showEditFeedbackRequestModal}
-                        deleteRequestMutate={() => deleteRequestMutate({
+                        onEditClick={showEditFeedbackRequestModal}
+                        onDelete={() => deleteRequestMutate({
                             feedbackRequestId: feedbackRequestSummary.feedbackRequestId,
                         })}
                     />

@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackRequestSummaryContent renders a FeedbackRequestSummaryMedia and feedback prompt, if one is provided 1`] = `
+<Div
+  className=""
+>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <FeedbackRequestSummaryMedia
+        mediaUrl="mediaUrl"
+      />
+    </Col>
+  </Row>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <Text
+        strong={true}
+      >
+        Genre: 
+      </Text>
+      <Text />
+    </Col>
+  </Row>
+  <Row
+    gutter={0}
+  >
+    <Col>
+      <Text
+        strong={true}
+      >
+        You said: 
+      </Text>
+      <Text>
+        "
+        feedbackPrompt
+        "
+      </Text>
+    </Col>
+  </Row>
+</Div>
+`;
+
+exports[`FeedbackRequestSummaryContent renders a FeedbackRequestSummaryMedia and genre for a trackless request 1`] = `
+<Div
+  className=""
+>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <FeedbackRequestSummaryMedia />
+    </Col>
+  </Row>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <Text
+        strong={true}
+      >
+        Genre: 
+      </Text>
+      <Text />
+    </Col>
+  </Row>
+</Div>
+`;
+
+exports[`FeedbackRequestSummaryContent renders a FeedbackRequestSummaryMedia without a feedback prompt, if one is not provided 1`] = `
+<Div
+  className=""
+>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <FeedbackRequestSummaryMedia
+        mediaUrl="mediaUrl"
+      />
+    </Col>
+  </Row>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <Text
+        strong={true}
+      >
+        Genre: 
+      </Text>
+      <Text />
+    </Col>
+  </Row>
+  <Row
+    gutter={0}
+  >
+    <Col>
+      <Text
+        strong={true}
+      >
+        You did not provide any additional information for feedback.
+      </Text>
+    </Col>
+  </Row>
+</Div>
+`;

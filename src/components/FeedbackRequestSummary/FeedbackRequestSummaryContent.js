@@ -1,32 +1,10 @@
 import React from "react";
 
-import { Row, Alert, Col, Typography } from "antd";
+import { Row, Col, Typography } from "antd";
 import { Div } from "lemon-reset";
-import MediaEmbed from "../MediaEmbed/MediaEmbed";
 import GENRE_OPTIONS from "../../genres";
 import type { FeedbackRequestSummaryProps } from "./FeedbackRequestSummary";
-
-const Media = ({ mediaUrl, mediaType }) => {
-    if (!mediaUrl) {
-        return (
-            <Alert
-                message="No track has been provided for this request. You'll be able to join a group and provide feedback for others, but you won't receive any feedback for yourself."
-                type="info"
-                showIcon
-            />
-        );
-    }
-    if (!mediaType) {
-        return (
-            <Alert
-                message="Unable to play media. Invalid URL."
-                type="error"
-                showIcon
-            />
-        );
-    }
-    return <MediaEmbed mediaUrl={mediaUrl} mediaType={mediaType} />;
-};
+import FeedbackRequestSummaryMedia from "./FeedbackRequestSummaryMedia";
 
 type Props = {
     feedbackRequestSummary: FeedbackRequestSummaryProps,
@@ -39,7 +17,7 @@ const FeedbackRequestSummaryContent = ({ feedbackRequestSummary }: Props) => (
     <Div>
         <Row gutter={[16, 16]}>
             <Col>
-                <Media
+                <FeedbackRequestSummaryMedia
                     mediaUrl={feedbackRequestSummary.mediaUrl}
                     mediaType={feedbackRequestSummary.mediaType}
                 />

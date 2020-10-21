@@ -67,10 +67,10 @@
     "globalSetup": "<rootDir>/src/globalSetup.js",
     "coverageThreshold": {
       "global": {
-        "statements": 79,
-        "branches": 71,
-        "functions": 74,
-        "lines": 80
+        "statements": 81,
+        "branches": 74,
+        "functions": 76,
+        "lines": 81
       }
     }
   }

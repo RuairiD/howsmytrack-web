@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackRequestSummary renders a summary of an existing feedback request without buttons if showButtons is omitted 1`] = `
+<Spin
+  size="default"
+  spinning={false}
+  wrapperClassName=""
+>
+  <Card
+    title="You submitted:"
+  >
+    <FeedbackRequestSummaryContent
+      feedbackRequestSummary={
+        Object {
+          "emailWhenGrouped": true,
+          "feedbackPrompt": "feedbackPrompt",
+          "feedbackRequestId": 1901,
+          "genre": "genre",
+          "mediaType": "mediaType",
+          "mediaUrl": "mediaUrl",
+        }
+      }
+    />
+  </Card>
+  <EditFeedbackRequestModal
+    emailWhenGrouped={true}
+    feedbackPrompt="feedbackPrompt"
+    feedbackRequestId={1901}
+    genre="genre"
+    isVisible={false}
+    mediaUrl="mediaUrl"
+    onCancel={[Function]}
+  />
+</Spin>
+`;
+
+exports[`FeedbackRequestSummary renders a summary of an existing feedback request, including media and buttons to edit and delete the request 1`] = `
+<Spin
+  size="default"
+  spinning={false}
+  wrapperClassName=""
+>
+  <Card
+    extra={
+      <RequestButtons
+        mediaUrl="mediaUrl"
+        onDelete={[Function]}
+        onEditClick={[Function]}
+      />
+    }
+    title="You submitted:"
+  >
+    <FeedbackRequestSummaryContent
+      feedbackRequestSummary={
+        Object {
+          "emailWhenGrouped": true,
+          "feedbackPrompt": "feedbackPrompt",
+          "feedbackRequestId": 1901,
+          "genre": "genre",
+          "mediaType": "mediaType",
+          "mediaUrl": "mediaUrl",
+        }
+      }
+    />
+  </Card>
+  <EditFeedbackRequestModal
+    emailWhenGrouped={true}
+    feedbackPrompt="feedbackPrompt"
+    feedbackRequestId={1901}
+    genre="genre"
+    isVisible={false}
+    mediaUrl="mediaUrl"
+    onCancel={[Function]}
+  />
+</Spin>
+`;

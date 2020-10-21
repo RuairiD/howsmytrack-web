@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackRequestSummaryMedia renders a MediaEmbed for the given mediaUrl and mediaType 1`] = `
+<MediaEmbed
+  mediaType="mediaType"
+  mediaUrl="mediaUrl"
+/>
+`;
+
+exports[`FeedbackRequestSummaryMedia shows an error if mediaType is missing (implies the url is malformed or not supported) 1`] = `
+<Alert
+  message="Unable to play media. Invalid URL."
+  showIcon={true}
+  type="error"
+/>
+`;
+
+exports[`FeedbackRequestSummaryMedia shows an information message if mediaUrl is missing/request is trackless 1`] = `
+<Alert
+  message="No track has been provided for this request. You'll be able to join a group and provide feedback for others, but you won't receive any feedback for yourself."
+  showIcon={true}
+  type="info"
+/>
+`;
