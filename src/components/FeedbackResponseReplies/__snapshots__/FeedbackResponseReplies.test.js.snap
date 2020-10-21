@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackGroupPreview displays an empty loading state before replies load 1`] = `
+<Spin
+  size="default"
+  spinning={true}
+  wrapperClassName=""
+>
+  <Div
+    className="scrollable-container"
+  >
+    <Div
+      className="shadow shadow-top"
+      style={
+        Object {
+          "opacity": 0,
+        }
+      }
+    />
+    <Div
+      className={null}
+      onScroll={[Function]}
+      tagRef={
+        Object {
+          "current": null,
+        }
+      }
+    >
+      <Paragraph
+        style={
+          Object {
+            "overflowWrap": "break-word",
+            "wordWrap": "break-word",
+          }
+        }
+      >
+        <Text
+          strong={true}
+        >
+          Original Feedback: 
+        </Text>
+        "
+        feedback
+        "
+      </Paragraph>
+    </Div>
+    <Div
+      className="shadow shadow-bottom"
+      style={
+        Object {
+          "opacity": 0,
+        }
+      }
+    />
+  </Div>
+  <FeedbackResponseRepliesTextField
+    feedbackResponseId={1901}
+    isLoadingReplies={true}
+    refetchReplies={[Function]}
+  />
+</Spin>
+`;
