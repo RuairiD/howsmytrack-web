@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddReplyForm renders an an informational message if replies are not allowed for this thread 1`] = `
+<Div
+  className=""
+  style={
+    Object {
+      "padding": "0.5em 0",
+    }
+  }
+>
+  <Text
+    strong={true}
+  >
+    Additional replies have been disabled for this conversation.
+  </Text>
+</Div>
+`;
+
+exports[`AddReplyForm renders an empty text field if replies are allowed for this thread 1`] = `
+<Div
+  className=""
+  style={
+    Object {
+      "padding": "0.5em 0",
+    }
+  }
+>
+  <Div
+    className=""
+  >
+    <Row
+      gutter={
+        Array [
+          16,
+          16,
+        ]
+      }
+    >
+      <Col />
+    </Row>
+    <Row
+      gutter={
+        Array [
+          16,
+          16,
+        ]
+      }
+    >
+      <Col>
+        <TextArea
+          autoFocus={true}
+          onChange={[Function]}
+          placeholder="Write your reply..."
+          rows={2}
+          value=""
+        />
+      </Col>
+    </Row>
+    <Row
+      gutter={
+        Array [
+          16,
+          16,
+        ]
+      }
+    >
+      <Col
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      >
+        <Checkbox
+          checked={true}
+          indeterminate={false}
+          onChange={[Function]}
+          style={
+            Object {
+              "marginRight": "auto",
+            }
+          }
+        >
+          Allow additional replies.
+        </Checkbox>
+        <Button
+          block={false}
+          disabled={true}
+          ghost={false}
+          htmlType="button"
+          loading={false}
+          onClick={[Function]}
+          style={
+            Object {
+              "marginLeft": "auto",
+            }
+          }
+          type="primary"
+        >
+          Send Reply
+        </Button>
+      </Col>
+    </Row>
+  </Div>
+</Div>
+`;
+
+exports[`AddReplyForm renders nothing if replies are not allowed, but replies are still loading 1`] = `
+<Div
+  className=""
+  style={
+    Object {
+      "padding": "0.5em 0",
+    }
+  }
+/>
+`;

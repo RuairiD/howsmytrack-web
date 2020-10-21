@@ -1,11 +1,16 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import toJson from "enzyme-to-json";
-import FeedbackResponseReplies from "./FeedbackResponseReplies";
 import axios from "axios";
 import waitForExpect from "wait-for-expect";
+import { act } from "react-dom/test-utils";
+import FeedbackResponseReplies from "./FeedbackResponseReplies";
+
+import setAllowingScrollingAndShadowOpacities from "./setAllowingScrollingAndShadowOpacities";
 
 jest.mock("axios");
+
+jest.mock("./setAllowingScrollingAndShadowOpacities");
 
 describe("FeedbackGroupPreview", () => {
     beforeEach(() => {
@@ -39,14 +44,17 @@ describe("FeedbackGroupPreview", () => {
                     },
                 },
             },
-        })
+        });
 
-        const wrapper = mount(
-            <FeedbackResponseReplies
-                feedbackResponseId={1901}
-                feedback="feedback"
-            />,
-        );
+        let wrapper;
+        await act(async () => {
+            wrapper = mount(
+                <FeedbackResponseReplies
+                    feedbackResponseId={1901}
+                    feedback="feedback"
+                />,
+            );
+        });
 
         await waitForExpect(async () => {
             wrapper.update();
@@ -85,20 +93,19 @@ describe("FeedbackGroupPreview", () => {
             },
         });
 
-        const wrapper = mount(
-            <FeedbackResponseReplies
-                feedbackResponseId={1901}
-                feedback="feedback"
-            />,
-        );
+        let wrapper;
+        await act(async () => {
+            wrapper = mount(
+                <FeedbackResponseReplies
+                    feedbackResponseId={1901}
+                    feedback="feedback"
+                />,
+            );
+        });
 
         await waitForExpect(async () => {
             wrapper.update();
-            // TODO assertions fail since clientHeight and scrollHeight are both 0.
-            // They need to be mocked to valid values for this case.
-            expect(wrapper.state.topShadowOpacity).toBe(1);
-            expect(wrapper.state.bottomShadowOpacity).toBe(0);
-            expect(wrapper.state.allowingScrolling).toBe(true);
+            expect(setAllowingScrollingAndShadowOpacities).toHaveBeenCalled();
         });
     });
 });

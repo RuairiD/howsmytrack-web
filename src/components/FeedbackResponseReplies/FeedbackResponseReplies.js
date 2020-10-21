@@ -2,12 +2,13 @@ import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useQuery, useMutation } from "react-query";
 import axios from "axios";
 
-import { Alert, Button, Checkbox, Col, Input, Row, Spin, Typography } from "antd";
+import { Spin, Typography } from "antd";
 import { Div } from "lemon-reset";
 import apiRoot from "../../apiRoot";
 
 import FeedbackResponseReply from "../FeedbackResponseReply/FeedbackResponseReply";
-import FeedbackResponseRepliesTextField from"./FeedbackResponseRepliesTextField";
+import AddReplyForm from "./AddReplyForm";
+import setAllowingScrollingAndShadowOpacities from "./setAllowingScrollingAndShadowOpacities";
 
 type Props = {
     feedbackResponseId: number,
@@ -45,28 +46,18 @@ const FeedbackResponseReplies = ({
 
     const repliesContainer = useRef(null);
 
-    const onRepliesContainerScroll = (event) => {
-        // If there is content that isn't visible because it is being rendered above or
-        // below the visible portion of the scrollable container, display the shadows to
-        // make it clear there's content that's being hidden. Otherwise, hide them.
-        const scrollableHeight = event.target.scrollHeight - event.target.clientHeight;
-        if (scrollableHeight > 0) {
-            const opacity = event.target.scrollTop / scrollableHeight;
-            setAllowingScrolling(true);
-            setTopShadowOpacity(opacity);
-            setBottomShadowOpacity(1 - opacity);
-        } else {
-            setAllowingScrolling(false);
-            setTopShadowOpacity(0);
-            setBottomShadowOpacity(0);
-        }
+    const onRepliesContainerScroll = () => {
+        setAllowingScrollingAndShadowOpacities(
+            repliesContainer.current,
+            setAllowingScrolling,
+            setTopShadowOpacity,
+            setBottomShadowOpacity,
+        );
     };
 
     const scrollToBottomReply = useCallback(() => {
-        if (repliesContainer.current) {
-            repliesContainer.current.scrollTop = repliesContainer.current.scrollHeight;
-            onRepliesContainerScroll({ target: repliesContainer.current });
-        }
+        repliesContainer.current.scrollTop = repliesContainer.current.scrollHeight;
+        onRepliesContainerScroll();
     }, [repliesContainer]);
 
     const markRepliesAsRead = ({ replies }) => {
@@ -112,7 +103,7 @@ const FeedbackResponseReplies = ({
         }
     }, [repliesData, markRepliesAsReadMutate, scrollToBottomReply]);
 
-    let allowFurtherReplies = (repliesData && repliesData.allowFurtherReplies);
+    const allowFurtherReplies = (repliesData && repliesData.allowFurtherReplies);
 
     return (
         <Spin spinning={isLoadingReplies}>
@@ -151,7 +142,7 @@ const FeedbackResponseReplies = ({
                     }}
                 />
             </Div>
-            <FeedbackResponseRepliesTextField
+            <AddReplyForm
                 feedbackResponseId={feedbackResponseId}
                 refetchReplies={refetchReplies}
                 isLoadingReplies={isLoadingReplies}

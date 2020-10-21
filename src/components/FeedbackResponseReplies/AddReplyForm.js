@@ -1,13 +1,10 @@
-
-import React, { useCallback, useEffect, useState, useRef } from "react";
-import { useQuery, useMutation } from "react-query";
+import React, { useEffect, useState } from "react";
+import { useMutation } from "react-query";
 import axios from "axios";
 
-import { Alert, Button, Checkbox, Col, Input, Row, Spin, Typography } from "antd";
+import { Alert, Button, Checkbox, Col, Input, Row, Typography } from "antd";
 import { Div } from "lemon-reset";
 import apiRoot from "../../apiRoot";
-
-import FeedbackResponseReply from "../FeedbackResponseReply/FeedbackResponseReply";
 
 const ADD_FEEDBACK_RESPONSE_REPLY_MUTATION = `mutation AddFeedbackResponseReply($feedbackResponseId: Int!, $text: String!, $allowReplies: Boolean!) {
     addFeedbackResponseReply(feedbackResponseId: $feedbackResponseId, text: $text, allowReplies: $allowReplies) {
@@ -18,7 +15,7 @@ const ADD_FEEDBACK_RESPONSE_REPLY_MUTATION = `mutation AddFeedbackResponseReply(
     }
 }`;
 
-const FeedbackResponseRepliesTextField = ({
+const AddReplyForm = ({
     feedbackResponseId,
     refetchReplies,
     isLoadingReplies,
@@ -46,13 +43,14 @@ const FeedbackResponseRepliesTextField = ({
 
     useEffect(() => {
         if (data && data.reply) {
-            // Clear textfield
+            // Clear textfield after sending reply to prevent
+            // sending duplicate replies.
             setReplyText("");
             refetchReplies();
         }
     }, [data, refetchReplies]);
 
-    let canReply = allowFurtherReplies
+    let canReply = allowFurtherReplies;
     if (data && data.reply) {
         canReply = data.reply.allowReplies;
     }
@@ -114,6 +112,6 @@ const FeedbackResponseRepliesTextField = ({
             )}
         </Div>
     );
-}
+};
 
-export default FeedbackResponseRepliesTextField;
+export default AddReplyForm;

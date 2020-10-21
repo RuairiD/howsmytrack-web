@@ -53,7 +53,7 @@ exports[`FeedbackGroupPreview displays an empty loading state before replies loa
       }
     />
   </Div>
-  <FeedbackResponseRepliesTextField
+  <AddReplyForm
     feedbackResponseId={1901}
     isLoadingReplies={true}
     refetchReplies={[Function]}
