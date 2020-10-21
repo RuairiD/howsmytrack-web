@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMutation } from "react-query";
 import axios from "axios";
 
-import { Card, message, Result, Spin } from "antd";
+import { Alert, Card, Result, Spin } from "antd";
 import apiRoot from "../../apiRoot";
 
 import EditFeedbackRequestModal from "../EditFeedbackRequestModal/EditFeedbackRequestModal";
@@ -59,10 +59,6 @@ const FeedbackRequestSummary = ({
 
     const [deleteRequestMutate, { isLoading, data }] = useMutation(deleteRequest);
 
-    if (data && !data.success) {
-        message.error(data.error);
-    }
-
     if (data && data.success) {
         return (
             <Result
@@ -85,6 +81,7 @@ const FeedbackRequestSummary = ({
                     />
                 )}
             >
+                {data && !data.success && <Alert message={data.error} type="error" showIcon />}
                 <FeedbackRequestSummaryContent
                     feedbackRequestSummary={feedbackRequestSummary}
                 />

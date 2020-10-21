@@ -4,13 +4,10 @@ import toJson from "enzyme-to-json";
 import waitForExpect from "wait-for-expect";
 import { act } from "react-dom/test-utils";
 import axios from "axios";
-import { message } from "antd";
 import FeedbackRequestSummary from "./FeedbackRequestSummary";
 
 jest.mock("react-ga");
 jest.mock("axios");
-
-const errorMessageSpy = jest.spyOn(message, "error");
 
 describe("FeedbackRequestSummary", () => {
     beforeEach(() => {
@@ -160,7 +157,7 @@ describe("FeedbackRequestSummary", () => {
 
         await waitForExpect(() => {
             wrapper.update();
-            expect(errorMessageSpy).toHaveBeenCalled();
+            expect(wrapper.find("Alert").length).toBe(1);
         });
     });
 });
