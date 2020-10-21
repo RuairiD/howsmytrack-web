@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MenuBar renders MenuBarContent within an Affix for non-mobile clients 1`] = `
+<Affix
+  target={[Function]}
+>
+  <Div
+    className=""
+  >
+    <MenuBarContent />
+  </Div>
+</Affix>
+`;
+
+exports[`MenuBar renders solo MenuBarContent mobile clients 1`] = `
+<Div
+  className=""
+>
+  <MenuBarContent
+    isMobile={true}
+  />
+</Div>
+`;

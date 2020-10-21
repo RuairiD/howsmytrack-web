@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoggedInMenu renders menu for logged in users with New Request, Your Groups, FAQ, Settings and Sign Out options 1`] = `
+<Menu
+  onClick={[Function]}
+  style={
+    Object {
+      "borderRight": 0,
+      "marginBottom": "auto",
+    }
+  }
+  theme="light"
+>
+  <UserDetails
+    rating={4.321}
+    username="username"
+  />
+  <MenuItem
+    key="newRequest"
+  >
+    <Icon
+      type="plus"
+    />
+    <Span
+      className=""
+    >
+      New Request
+    </Span>
+  </MenuItem>
+  <MenuItem
+    key="feedbackGroups"
+  >
+    <A
+      className=""
+      href="/groups"
+    >
+      <Icon
+        type="team"
+      />
+      <Span
+        className=""
+      >
+        Your Groups
+      </Span>
+      <Badge
+        count={2}
+        dot={false}
+        overflowCount={99}
+        showZero={false}
+        style={
+          Object {
+            "marginLeft": "0.5em",
+          }
+        }
+      />
+    </A>
+  </MenuItem>
+  <MenuItem
+    key="faq"
+  >
+    <A
+      className=""
+      href="/faq"
+    >
+      <Icon
+        type="question-circle"
+      />
+      <Span
+        className=""
+      >
+        FAQ
+      </Span>
+    </A>
+  </MenuItem>
+  <MenuItem
+    key="settings"
+  >
+    <A
+      className=""
+      href="/settings"
+    >
+      <Icon
+        type="setting"
+      />
+      <Span
+        className=""
+      >
+        Settings
+      </Span>
+    </A>
+  </MenuItem>
+  <MenuItem
+    key="logout"
+  >
+    <Icon
+      type="user-delete"
+    />
+    <Span
+      className=""
+    >
+      Sign Out
+    </Span>
+  </MenuItem>
+</Menu>
+`;

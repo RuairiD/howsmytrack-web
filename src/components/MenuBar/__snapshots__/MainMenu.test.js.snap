@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MainMenu renders LoggedInMenu and SocialLinksMenu when a username is provided, implying that the user is logged in 1`] = `
+<Div
+  className=""
+>
+  <LoggedInMenu
+    notifications={2}
+    onMenuClick={[Function]}
+    rating={4.321}
+    username="username"
+  />
+  <SocialLinksMenu
+    onMenuClick={[Function]}
+  />
+</Div>
+`;
+
+exports[`MainMenu renders LoggedInMenu and SocialLinksMenu when a username is provided, implying that the user is logged in 2`] = `
+<Div
+  className=""
+>
+  <LoggedOutMenu
+    onMenuClick={[Function]}
+  />
+  <SocialLinksMenu
+    onMenuClick={[Function]}
+  />
+</Div>
+`;

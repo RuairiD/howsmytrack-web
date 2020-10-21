@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserDetails renders the user's username and rating rounded to 2 decimal places 1`] = `
+<MenuItem
+  className="ant-menu-item"
+  disabled={true}
+>
+  <Div
+    className=""
+    style={
+      Object {
+        "display": "flex",
+      }
+    }
+  >
+    <Text
+      ellipsis={true}
+      style={
+        Object {
+          "marginBottom": "auto",
+          "marginRight": "auto",
+          "marginTop": "auto",
+        }
+      }
+    >
+      username
+    </Text>
+    <Text
+      strong={true}
+      style={
+        Object {
+          "marginBottom": "auto",
+          "marginLeft": "auto",
+          "marginTop": "auto",
+        }
+      }
+    >
+      4.32
+      <Icon
+        type="star"
+      />
+    </Text>
+  </Div>
+</MenuItem>
+`;
+
+exports[`UserDetails renders the user's username only, if no rating is available 1`] = `
+<MenuItem
+  className="ant-menu-item"
+  disabled={true}
+>
+  <Div
+    className=""
+    style={
+      Object {
+        "display": "flex",
+      }
+    }
+  >
+    <Text
+      ellipsis={true}
+      style={
+        Object {
+          "marginBottom": "auto",
+          "marginRight": "auto",
+          "marginTop": "auto",
+        }
+      }
+    >
+      username
+    </Text>
+  </Div>
+</MenuItem>
+`;

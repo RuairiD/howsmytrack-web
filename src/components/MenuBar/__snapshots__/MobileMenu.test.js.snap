@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MobileMenu renders a MainMenu within a Collapse to allow mobile users to show/hide the menu at will 1`] = `
+<Collapse
+  bordered={false}
+  className="mobile-menu-collapse"
+  expandIcon={[Function]}
+  expandIconPosition="left"
+  onChange={[Function]}
+  openAnimation={
+    Object {
+      "appear": [Function],
+      "enter": [Function],
+      "leave": [Function],
+    }
+  }
+>
+  <CollapsePanel
+    header={
+      <MobileHeader
+        mobileMenuCollapsed={true}
+        notifications={2}
+      />
+    }
+    key="1"
+  >
+    <MainMenu
+      isMobile={true}
+      notifications={2}
+      onMenuClick={[Function]}
+      rating={4.321}
+      username="username"
+    />
+  </CollapsePanel>
+</Collapse>
+`;

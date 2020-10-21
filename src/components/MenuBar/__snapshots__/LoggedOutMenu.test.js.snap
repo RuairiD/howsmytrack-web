@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoggedOutMenu renders menu for logged out users with Sign In, Register and FAQ options 1`] = `
+<Menu
+  onClick={[Function]}
+  style={
+    Object {
+      "borderRight": 0,
+    }
+  }
+  theme="light"
+>
+  <MenuItem
+    disabled={true}
+  >
+    <Text>
+      Welcome!
+    </Text>
+  </MenuItem>
+  <MenuItem
+    key="login"
+  >
+    <Icon
+      type="user"
+    />
+    <Span
+      className=""
+    >
+      Sign In
+    </Span>
+  </MenuItem>
+  <MenuItem
+    key="register"
+  >
+    <Icon
+      type="user-add"
+    />
+    <Span
+      className=""
+    >
+      Register
+    </Span>
+  </MenuItem>
+  <MenuItem
+    key="faq"
+  >
+    <A
+      className=""
+      href="/faq"
+    >
+      <Icon
+        type="question-circle"
+      />
+      <Span
+        className=""
+      >
+        FAQ
+      </Span>
+    </A>
+  </MenuItem>
+</Menu>
+`;

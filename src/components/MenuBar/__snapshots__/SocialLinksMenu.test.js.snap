@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SocialLinksMenu renders Twitter and Discord links within a Menu 1`] = `
+<Div
+  className=""
+  style={
+    Object {
+      "bottom": "0px",
+      "position": "absolute",
+    }
+  }
+>
+  <Menu
+    onClick={[Function]}
+    style={
+      Object {
+        "borderRight": 0,
+      }
+    }
+    theme="light"
+  >
+    <MenuItem
+      className="ant-menu-item"
+    >
+      <A
+        className=""
+        href="https://twitter.com/howsmytrackcom"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <Icon
+          type="twitter"
+        />
+        <Span
+          className=""
+        >
+          Twitter
+        </Span>
+      </A>
+    </MenuItem>
+    <MenuItem
+      className="ant-menu-item"
+    >
+      <A
+        className=""
+        href="https://discord.gg/6jGFP6N"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <Icon
+          type="robot"
+        />
+        <Span
+          className=""
+        >
+          Discord
+        </Span>
+      </A>
+    </MenuItem>
+  </Menu>
+</Div>
+`;
+
+exports[`SocialLinksMenu renders without absolute positioning and includes an additional Divider for mobile clients 1`] = `
+<Div
+  className=""
+  style={Object {}}
+>
+  <Menu
+    onClick={[Function]}
+    style={
+      Object {
+        "borderRight": 0,
+      }
+    }
+    theme="light"
+  >
+    <Divider
+      className=""
+      disabled={true}
+      style={Object {}}
+    />
+    <MenuItem
+      className="ant-menu-item"
+    >
+      <A
+        className=""
+        href="https://twitter.com/howsmytrackcom"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <Icon
+          type="twitter"
+        />
+        <Span
+          className=""
+        >
+          Twitter
+        </Span>
+      </A>
+    </MenuItem>
+    <MenuItem
+      className="ant-menu-item"
+    >
+      <A
+        className=""
+        href="https://discord.gg/6jGFP6N"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <Icon
+          type="robot"
+        />
+        <Span
+          className=""
+        >
+          Discord
+        </Span>
+      </A>
+    </MenuItem>
+  </Menu>
+</Div>
+`;

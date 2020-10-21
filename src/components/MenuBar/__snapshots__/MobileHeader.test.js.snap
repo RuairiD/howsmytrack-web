@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MobileHeader does not render notifications Badge when relevant menu is open 1`] = `
+<Div
+  className=""
+  style={
+    Object {
+      "display": "flex",
+    }
+  }
+>
+  <Span
+    className=""
+    style={
+      Object {
+        "marginBottom": "auto",
+        "marginTop": "auto",
+      }
+    }
+  >
+    <Text>
+      how's my track?
+    </Text>
+  </Span>
+  <Img
+    alt=""
+    className=""
+    src="/logo128.png"
+    style={
+      Object {
+        "height": "32px",
+        "marginLeft": "auto",
+        "width": "32px",
+      }
+    }
+  />
+</Div>
+`;
+
+exports[`MobileHeader renders notifications Badge when relevant menu is collapsed 1`] = `
+<Div
+  className=""
+  style={
+    Object {
+      "display": "flex",
+    }
+  }
+>
+  <Span
+    className=""
+    style={
+      Object {
+        "marginBottom": "auto",
+        "marginTop": "auto",
+      }
+    }
+  >
+    <Text>
+      how's my track?
+    </Text>
+    <Badge
+      count={2}
+      dot={false}
+      overflowCount={99}
+      showZero={false}
+      style={
+        Object {
+          "marginLeft": "0.5em",
+        }
+      }
+    />
+  </Span>
+  <Img
+    alt=""
+    className=""
+    src="/logo128.png"
+    style={
+      Object {
+        "height": "32px",
+        "marginLeft": "auto",
+        "width": "32px",
+      }
+    }
+  />
+</Div>
+`;
