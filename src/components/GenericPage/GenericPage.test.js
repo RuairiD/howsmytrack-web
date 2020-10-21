@@ -9,7 +9,14 @@ import GenericPage from "./GenericPage";
 jest.mock("axios");
 
 describe("GenericPage", () => {
+    beforeEach(() => {
+        axios.post.mockClear();
+    });
+
     it("makes a request to refresh the JWT token on pageload", async () => {
+        // Sanity check to ensure mock cleared appropriately
+        expect(axios.post.mock.calls.length).toBe(0);
+
         const wrapper = mount(
             <GenericPage
                 title="title"
@@ -21,7 +28,7 @@ describe("GenericPage", () => {
 
         await waitForExpect(() => {
             wrapper.update();
-            expect(axios.post.mock.calls.length).toBe(1);
+            expect(axios.post.mock.calls.length).toBeGreaterThan(0);
         });
     });
 
