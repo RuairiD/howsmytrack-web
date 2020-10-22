@@ -2,12 +2,12 @@ import { Route, Switch } from "react-router-dom";
 import React from "react";
 import "./App.css";
 
-import FeedbackGroupPage from "./components/FeedbackGroupPage/FeedbackGroupPage";
-import FeedbackGroupsPage from "./components/FeedbackGroupsPage/FeedbackGroupsPage";
-import FaqPage from "./components/FaqPage/FaqPage";
-import TrackUrlHelpPage from "./components/TrackUrlHelpPage/TrackUrlHelpPage";
-import UserSettingsPage from "./components/UserSettingsPage/UserSettingsPage";
-import HomePage from "./components/HomePage/HomePage";
+import FeedbackGroupPage from "./pages/FeedbackGroupPage/FeedbackGroupPage";
+import FeedbackGroupsPage from "./pages/FeedbackGroupsPage/FeedbackGroupsPage";
+import FaqPage from "./pages/FaqPage/FaqPage";
+import TrackUrlHelpPage from "./pages/TrackUrlHelpPage/TrackUrlHelpPage";
+import UserSettingsPage from "./pages/UserSettingsPage/UserSettingsPage";
+import HomePage from "./pages/HomePage/HomePage";
 
 function isMobile() {
     // TODO: this is the root of some mobile friendly fixes added in about

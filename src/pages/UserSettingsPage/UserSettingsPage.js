@@ -5,8 +5,8 @@ import axios from "axios";
 import apiRoot from "../../apiRoot";
 
 import GenericPage from "../GenericPage/GenericPage";
-import UserSettings from "../UserSettings/UserSettings";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import UserSettings from "../../components/UserSettings/UserSettings";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 type Props = {
     isMobile: boolean,

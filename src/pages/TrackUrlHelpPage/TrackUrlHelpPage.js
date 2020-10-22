@@ -1,7 +1,7 @@
 import React from "react";
 
 import GenericPage from "../GenericPage/GenericPage";
-import TrackUrlHelp from "../TrackUrlHelp/TrackUrlHelp";
+import TrackUrlHelp from "../../components/TrackUrlHelp/TrackUrlHelp";
 
 type Props = {
     isMobile: boolean,

@@ -6,8 +6,8 @@ import axios from "axios";
 import apiRoot from "../../apiRoot";
 
 import GenericPage from "../GenericPage/GenericPage";
-import FeedbackGroup from "../FeedbackGroup/FeedbackGroup";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import FeedbackGroup from "../../components/FeedbackGroup/FeedbackGroup";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 type Props = {
     feedbackGroupId: number,

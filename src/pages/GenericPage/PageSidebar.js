@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Layout } from "antd";
-import MenuBar from "../MenuBar/MenuBar";
+import MenuBar from "../../components/MenuBar/MenuBar";
 
 const getSiderWidth = () => {
     // Ideally, 560px+ of content should be visible besides the Sider.

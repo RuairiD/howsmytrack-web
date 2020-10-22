@@ -4,7 +4,7 @@ import { Layout, PageHeader, Typography } from "antd";
 import { Div } from "lemon-reset";
 import axios from "axios";
 import apiRoot from "../../apiRoot";
-import MenuBar from "../MenuBar/MenuBar";
+import MenuBar from "../../components/MenuBar/MenuBar";
 import PageFooter from "./PageFooter";
 import PageSidebar from "./PageSidebar";
 

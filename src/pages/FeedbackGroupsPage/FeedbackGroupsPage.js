@@ -5,8 +5,8 @@ import axios from "axios";
 import apiRoot from "../../apiRoot";
 
 import GenericPage from "../GenericPage/GenericPage";
-import FeedbackGroups from "../FeedbackGroups/FeedbackGroups";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import FeedbackGroups from "../../components/FeedbackGroups/FeedbackGroups";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 type Props = {
     isMobile: boolean,

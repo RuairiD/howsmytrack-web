@@ -1,7 +1,7 @@
 import React from "react";
 
 import GenericPage from "../GenericPage/GenericPage";
-import Faq from "../Faq/Faq";
+import Faq from "../../components/Faq/Faq";
 
 type Props = {
     isMobile: boolean,

@@ -5,11 +5,11 @@ import axios from "axios";
 import { Divider } from "antd";
 import { Div } from "lemon-reset";
 import apiRoot from "../../apiRoot";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import FeedbackGroupsPage from "../FeedbackGroupsPage/FeedbackGroupsPage";
-import Faq from "../Faq/Faq";
 import GenericPage from "../GenericPage/GenericPage";
-import LandingPitch from "../LandingPitch/LandingPitch";
+import FeedbackGroupsPage from "../FeedbackGroupsPage/FeedbackGroupsPage";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import Faq from "../../components/Faq/Faq";
+import LandingPitch from "../../components/LandingPitch/LandingPitch";
 
 type Props = {
     isMobile: boolean,
