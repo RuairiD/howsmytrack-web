@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useMutation } from "react-query";
 import ReactGA from "react-ga";
+import axios from "axios";
 
-import { Alert, Button, Card, Checkbox, Col, Input, Row, Typography } from "antd";
+import { Alert, Button, Card, Checkbox, Col, Input, Row } from "antd";
 import { Div } from "lemon-reset";
 import apiRoot from "../../apiRoot";
 
 import ViewRepliesButton from "../ViewRepliesButton/ViewRepliesButton";
-import MediaEmbed from "../MediaEmbed/MediaEmbed";
 import FeedbackResponseRepliesModal from "../FeedbackResponseRepliesModal/FeedbackResponseRepliesModal";
+import OriginalRequest from "./OriginalRequest";
 
 export type FeedbackResponseFormProps = {
     feedbackResponseId: number,
@@ -30,27 +31,6 @@ const SUBMIT_FEEDBACK_RESPONSE_MUTATION = `mutation SubmitFeedbackResponse($feed
 }`;
 
 const GA_FEEDBACK_RESPONSE_CATEGORY = "feedbackResponse";
-
-const OriginalRequest = ({ mediaUrl, mediaType, feedbackPrompt }) => (
-    <Div>
-        <Row gutter={[16, 16]}>
-            <Col>
-                <MediaEmbed mediaUrl={mediaUrl} mediaType={mediaType} />
-            </Col>
-        </Row>
-        {
-            feedbackPrompt
-            && (
-                <Row gutter={[16, 16]}>
-                    <Col>
-                        <Typography.Text strong>The requester has said: </Typography.Text>
-                        <Typography.Text>"{feedbackPrompt}"</Typography.Text>
-                    </Col>
-                </Row>
-            )
-        }
-    </Div>
-);
 
 const FormRow = ({ children }) => (
     <Row gutter={[16, 16]}>
@@ -93,27 +73,20 @@ const FeedbackResponseForm = ({
         setAllowReplies(event.target.checked);
     };
 
-    const submitForm = () => {
+    const submitForm = async () => {
         ReactGA.event({
             category: GA_FEEDBACK_RESPONSE_CATEGORY,
             action: "submit",
         });
-        return fetch(`${apiRoot}/graphql/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
+        const response = await axios.post(`${apiRoot}/graphql/`, {
+            query: SUBMIT_FEEDBACK_RESPONSE_MUTATION,
+            variables: {
+                feedbackResponseId,
+                feedback,
+                allowReplies,
             },
-            body: JSON.stringify({
-                query: SUBMIT_FEEDBACK_RESPONSE_MUTATION,
-                variables: {
-                    feedbackResponseId,
-                    feedback,
-                    allowReplies,
-                },
-            }),
-            credentials: "include",
-        }).then((result) => result.json()).then((response) => response.data.submitFeedbackResponse);
+        });
+        return response.data.data.submitFeedbackResponse;
     };
 
     const [submitFormMutate, { isLoading, data }] = useMutation(submitForm);

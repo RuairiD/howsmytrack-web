@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OriginalRequest renders a MediaEmbed for the request's track 1`] = `
+<Div
+  className=""
+>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <MediaEmbed
+        mediaType="mediaType"
+        mediaUrl="mediaUrl"
+      />
+    </Col>
+  </Row>
+</Div>
+`;
+
+exports[`OriginalRequest renders a feedback prompt, if one exists 1`] = `
+<Div
+  className=""
+>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <MediaEmbed
+        mediaType="mediaType"
+        mediaUrl="mediaUrl"
+      />
+    </Col>
+  </Row>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <Text
+        strong={true}
+      >
+        The requester has said: 
+      </Text>
+      <Text>
+        "
+        feedbackPrompt
+        "
+      </Text>
+    </Col>
+  </Row>
+</Div>
+`;

@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackResponseForm renders an empty textfield for writing feedback 1`] = `
+<Card>
+  <OriginalRequest
+    feedbackPrompt="feedbackPrompt"
+    mediaType="mediaType"
+    mediaUrl="mediaUrl"
+  />
+  <Div
+    className=""
+  >
+    <FormRow>
+      <TextArea
+        onChange={[Function]}
+        rows={8}
+      />
+    </FormRow>
+    <FormRow>
+      <Checkbox
+        indeterminate={false}
+        onChange={[Function]}
+      >
+        Allow the recipient to anonymously reply to your feedback.
+      </Checkbox>
+    </FormRow>
+    <FormRow>
+      <Button
+        block={true}
+        disabled={true}
+        ghost={false}
+        htmlType="button"
+        loading={false}
+        onClick={[Function]}
+        type="primary"
+      >
+        Submit Feedback
+      </Button>
+    </FormRow>
+  </Div>
+</Card>
+`;
