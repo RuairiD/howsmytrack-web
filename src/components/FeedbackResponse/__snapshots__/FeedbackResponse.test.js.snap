@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackResponse does not render a ViewRepliesButton if replies were not allowed by the original feedback writer 1`] = `
+<Card>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <Paragraph
+        style={
+          Object {
+            "overflowWrap": "break-word",
+            "wordWrap": "break-word",
+          }
+        }
+      >
+        "
+        feedback
+        "
+      </Paragraph>
+    </Col>
+  </Row>
+  <Meta
+    description={
+      <Div
+        className=""
+        style={
+          Object {
+            "display": "inline",
+          }
+        }
+      >
+        <FeedbackResponseRater
+          currentRating={5}
+          feedbackResponseId={1901}
+        />
+      </Div>
+    }
+    title="How helpful was this feedback?"
+  />
+</Card>
+`;
+
+exports[`FeedbackResponse does not render a ViewRepliesButton if the feedback has not been rated 1`] = `
+<Card>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <Paragraph
+        style={
+          Object {
+            "overflowWrap": "break-word",
+            "wordWrap": "break-word",
+          }
+        }
+      >
+        "
+        feedback
+        "
+      </Paragraph>
+    </Col>
+  </Row>
+  <Meta
+    description={
+      <Div
+        className=""
+        style={
+          Object {
+            "display": "inline",
+          }
+        }
+      >
+        <FeedbackResponseRater
+          feedbackResponseId={1901}
+        />
+      </Div>
+    }
+    title="How helpful was this feedback?"
+  />
+</Card>
+`;
+
+exports[`FeedbackResponse renders a piece of received feedback and a FeedbackResponseRater for that feedback 1`] = `
+<Card>
+  <Row
+    gutter={
+      Array [
+        16,
+        16,
+      ]
+    }
+  >
+    <Col>
+      <Paragraph
+        style={
+          Object {
+            "overflowWrap": "break-word",
+            "wordWrap": "break-word",
+          }
+        }
+      >
+        "
+        feedback
+        "
+      </Paragraph>
+    </Col>
+  </Row>
+  <Meta
+    description={
+      <Div
+        className=""
+        style={
+          Object {
+            "display": "inline",
+          }
+        }
+      >
+        <FeedbackResponseRater
+          currentRating={5}
+          feedbackResponseId={1901}
+        />
+        <ViewRepliesButton
+          onClick={[Function]}
+          replies={3}
+          unreadReplies={2}
+        />
+      </Div>
+    }
+    title="How helpful was this feedback?"
+  />
+  <FeedbackResponseRepliesModal
+    feedback="feedback"
+    feedbackResponseId={1901}
+    isVisible={false}
+    onCancel={[Function]}
+  />
+</Card>
+`;

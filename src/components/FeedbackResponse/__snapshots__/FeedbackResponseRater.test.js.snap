@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackResponseRater renders a Rate preset with the currentRating and a disabled submission Button since the feedback has already been rated 1`] = `
+<Span
+  className=""
+  style={
+    Object {
+      "float": "left",
+      "paddingBottom": "0.25em",
+    }
+  }
+>
+  <Rate
+    allowClear={true}
+    character={
+      <Icon
+        theme="filled"
+        type="star"
+      />
+    }
+    disabled={true}
+    onChange={[Function]}
+    style={
+      Object {
+        "color": "#000000",
+        "marginRight": "1em",
+      }
+    }
+    tooltips={
+      Array [
+        "This feedback is irrelevant and completely unhelpful.",
+        "This feedback is vague, unhelpful, irrelevant or poorly written.",
+        "This feedback is useful.",
+        "This feedback is relevant, helpful and thoughtful.",
+        "This feedback is deeply thoughtful, well-written and very constructive.",
+      ]
+    }
+    value={5}
+  />
+  <Button
+    block={false}
+    disabled={true}
+    ghost={false}
+    htmlType="button"
+    loading={false}
+    onClick={[Function]}
+    type="primary"
+  >
+    Rated
+  </Button>
+</Span>
+`;
+
+exports[`FeedbackResponseRater renders an unset Rate and a disabled submission Button if no currentRating is provided 1`] = `
+<Span
+  className=""
+  style={
+    Object {
+      "float": "left",
+      "paddingBottom": "0.25em",
+    }
+  }
+>
+  <Rate
+    allowClear={true}
+    character={
+      <Icon
+        theme="filled"
+        type="star"
+      />
+    }
+    disabled={false}
+    onChange={[Function]}
+    style={
+      Object {
+        "color": "#000000",
+        "marginRight": "1em",
+      }
+    }
+    tooltips={
+      Array [
+        "This feedback is irrelevant and completely unhelpful.",
+        "This feedback is vague, unhelpful, irrelevant or poorly written.",
+        "This feedback is useful.",
+        "This feedback is relevant, helpful and thoughtful.",
+        "This feedback is deeply thoughtful, well-written and very constructive.",
+      ]
+    }
+  />
+  <Button
+    block={false}
+    disabled={true}
+    ghost={false}
+    htmlType="button"
+    loading={false}
+    onClick={[Function]}
+    type="primary"
+  >
+    Rate
+  </Button>
+</Span>
+`;
