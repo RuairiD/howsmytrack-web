@@ -115,7 +115,7 @@ const FeedbackRequestForm = ({
             mediaUrl: formMediaUrl,
             feedbackPrompt: formFeedbackPrompt,
             emailWhenGrouped: formEmailWhenGrouped,
-        }).then((result) => result.json()).then((data) => data.data[responseName]);
+        }).then((response) => response.data.data[responseName]);
     };
 
     const [submitFormMutate, { isLoading, data }] = useMutation(submitForm);
