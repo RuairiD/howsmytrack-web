@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnwrappedRegisterForm disables Submit button if disabled is set (e.g. if request is loading or form has already been submitted) 1`] = `
+<Form
+  className="hmt-form"
+  colon={true}
+  hideRequiredMark={false}
+  layout="horizontal"
+  onSubmit={[Function]}
+>
+  <FormItem
+    hasFeedback={false}
+  >
+    <Input
+      autoFocus={true}
+      placeholder="Email"
+      prefix={
+        <Icon
+          style={
+            Object {
+              "color": "rgba(0,0,0,.25)",
+            }
+          }
+          type="user"
+        />
+      }
+      type="text"
+    />
+  </FormItem>
+  <FormItem
+    hasFeedback={false}
+  >
+    <Input
+      placeholder="Password"
+      prefix={
+        <Icon
+          style={
+            Object {
+              "color": "rgba(0,0,0,.25)",
+            }
+          }
+          type="lock"
+        />
+      }
+      type="password"
+    />
+  </FormItem>
+  <FormItem
+    hasFeedback={false}
+  >
+    <Input
+      placeholder="Confirm Password"
+      prefix={
+        <Icon
+          style={
+            Object {
+              "color": "rgba(0,0,0,.25)",
+            }
+          }
+          type="lock"
+        />
+      }
+      type="password"
+    />
+  </FormItem>
+  <FormItem
+    hasFeedback={false}
+  >
+    <Button
+      block={true}
+      disabled={true}
+      ghost={false}
+      htmlType="submit"
+      loading={false}
+      type="primary"
+    >
+      Register
+    </Button>
+  </FormItem>
+</Form>
+`;
+
+exports[`UnwrappedRegisterForm renders a blank form for registering a new account 1`] = `
+<Form
+  className="hmt-form"
+  colon={true}
+  hideRequiredMark={false}
+  layout="horizontal"
+  onSubmit={[Function]}
+>
+  <FormItem
+    hasFeedback={false}
+  >
+    <Input
+      autoFocus={true}
+      placeholder="Email"
+      prefix={
+        <Icon
+          style={
+            Object {
+              "color": "rgba(0,0,0,.25)",
+            }
+          }
+          type="user"
+        />
+      }
+      type="text"
+    />
+  </FormItem>
+  <FormItem
+    hasFeedback={false}
+  >
+    <Input
+      placeholder="Password"
+      prefix={
+        <Icon
+          style={
+            Object {
+              "color": "rgba(0,0,0,.25)",
+            }
+          }
+          type="lock"
+        />
+      }
+      type="password"
+    />
+  </FormItem>
+  <FormItem
+    hasFeedback={false}
+  >
+    <Input
+      placeholder="Confirm Password"
+      prefix={
+        <Icon
+          style={
+            Object {
+              "color": "rgba(0,0,0,.25)",
+            }
+          }
+          type="lock"
+        />
+      }
+      type="password"
+    />
+  </FormItem>
+  <FormItem
+    hasFeedback={false}
+  >
+    <Button
+      block={true}
+      ghost={false}
+      htmlType="submit"
+      loading={false}
+      type="primary"
+    >
+      Register
+    </Button>
+  </FormItem>
+</Form>
+`;

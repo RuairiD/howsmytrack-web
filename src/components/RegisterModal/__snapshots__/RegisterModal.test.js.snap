@@ -14,6 +14,6 @@ exports[`RegisterModal renders a Modal containing a RegisterForm 1`] = `
   visible={true}
   width={520}
 >
-  <Form(UnwrappedRegisterForm) />
+  <Form(UnwrappedRegisterFormContainer) />
 </Modal>
 `;
