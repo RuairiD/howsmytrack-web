@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MissingGenreMessage renders an error message for a request with a track 1`] = `
+<Fragment>
+  Please select a genre for this track. If you are unsure or do not see your genre listed, just select 'No Genre'.
+</Fragment>
+`;
+
+exports[`MissingGenreMessage renders an error message for a trackless request 1`] = `
+<Fragment>
+  Please select the genre you would like to provide feedback for.
+</Fragment>
+`;

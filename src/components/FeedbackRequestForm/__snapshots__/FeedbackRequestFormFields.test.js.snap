@@ -1,0 +1,229 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeedbackRequestFormFields disables the submit button if a submission request is still loading 1`] = `
+<Spin
+  size="default"
+  spinning={true}
+  wrapperClassName=""
+>
+  <Form
+    className="hmt-form"
+    colon={true}
+    hideRequiredMark={false}
+    layout="horizontal"
+    onSubmit={[MockFunction]}
+  >
+    <FormItem
+      hasFeedback={false}
+    >
+      <TracklessRadioGroup
+        decorator={[Function]}
+      />
+    </FormItem>
+    <FormItem
+      hasFeedback={false}
+      label="Soundcloud/Google Drive/Dropbox/OneDrive URL"
+    >
+      <Input
+        autoFocus={true}
+        onChange={[MockFunction]}
+        type="text"
+      />
+    </FormItem>
+    <FormItem
+      hasFeedback={false}
+      label="Is there anything you would like specific feedback on? (optional)"
+    >
+      <TextArea
+        disabled={false}
+        placeholder="placeholder text"
+        rows={4}
+      />
+    </FormItem>
+    <FormItem
+      colon={false}
+      hasFeedback={false}
+      label={<GenreSelectLabel />}
+    >
+      <GenreSelect
+        decorator={[Function]}
+      />
+    </FormItem>
+    <FormItem
+      hasFeedback={false}
+    >
+      <Checkbox
+        indeterminate={false}
+      >
+        Email me when this request is added to a group.
+      </Checkbox>
+    </FormItem>
+    <FormItem
+      hasFeedback={false}
+    >
+      <Button
+        block={true}
+        disabled={true}
+        ghost={false}
+        htmlType="submit"
+        loading={false}
+        type="primary"
+      >
+        Submit Feedback Request
+      </Button>
+    </FormItem>
+  </Form>
+</Spin>
+`;
+
+exports[`FeedbackRequestFormFields renders an empty form for submitting a request 1`] = `
+<Spin
+  size="default"
+  spinning={false}
+  wrapperClassName=""
+>
+  <Form
+    className="hmt-form"
+    colon={true}
+    hideRequiredMark={false}
+    layout="horizontal"
+    onSubmit={[MockFunction]}
+  >
+    <FormItem
+      hasFeedback={false}
+    >
+      <TracklessRadioGroup
+        decorator={[Function]}
+      />
+    </FormItem>
+    <FormItem
+      hasFeedback={false}
+      label="Soundcloud/Google Drive/Dropbox/OneDrive URL"
+    >
+      <Input
+        autoFocus={true}
+        onChange={[MockFunction]}
+        type="text"
+      />
+    </FormItem>
+    <FormItem
+      hasFeedback={false}
+      label="Is there anything you would like specific feedback on? (optional)"
+    >
+      <TextArea
+        disabled={false}
+        placeholder="placeholder text"
+        rows={4}
+      />
+    </FormItem>
+    <FormItem
+      colon={false}
+      hasFeedback={false}
+      label={<GenreSelectLabel />}
+    >
+      <GenreSelect
+        decorator={[Function]}
+      />
+    </FormItem>
+    <FormItem
+      hasFeedback={false}
+    >
+      <Checkbox
+        indeterminate={false}
+      >
+        Email me when this request is added to a group.
+      </Checkbox>
+    </FormItem>
+    <FormItem
+      hasFeedback={false}
+    >
+      <Button
+        block={true}
+        disabled={false}
+        ghost={false}
+        htmlType="submit"
+        loading={false}
+        type="primary"
+      >
+        Submit Feedback Request
+      </Button>
+    </FormItem>
+  </Form>
+</Spin>
+`;
+
+exports[`FeedbackRequestFormFields skips mediaUrl and feedbackPrompt fields if request is trackless 1`] = `
+<Spin
+  size="default"
+  spinning={false}
+  wrapperClassName=""
+>
+  <Form
+    className="hmt-form"
+    colon={true}
+    hideRequiredMark={false}
+    layout="horizontal"
+    onSubmit={[MockFunction]}
+  >
+    <FormItem
+      hasFeedback={false}
+    >
+      <TracklessRadioGroup
+        decorator={[Function]}
+      />
+    </FormItem>
+    <FormItem
+      hasFeedback={false}
+      label="Soundcloud/Google Drive/Dropbox/OneDrive URL"
+    >
+      <Input
+        autoFocus={true}
+        onChange={[MockFunction]}
+        type="text"
+      />
+    </FormItem>
+    <FormItem
+      hasFeedback={false}
+      label="Is there anything you would like specific feedback on? (optional)"
+    >
+      <TextArea
+        disabled={false}
+        placeholder="placeholder text"
+        rows={4}
+      />
+    </FormItem>
+    <FormItem
+      colon={false}
+      hasFeedback={false}
+      label={<GenreSelectLabel />}
+    >
+      <GenreSelect
+        decorator={[Function]}
+      />
+    </FormItem>
+    <FormItem
+      hasFeedback={false}
+    >
+      <Checkbox
+        indeterminate={false}
+      >
+        Email me when this request is added to a group.
+      </Checkbox>
+    </FormItem>
+    <FormItem
+      hasFeedback={false}
+    >
+      <Button
+        block={true}
+        disabled={false}
+        ghost={false}
+        htmlType="submit"
+        loading={false}
+        type="primary"
+      >
+        Submit Feedback Request
+      </Button>
+    </FormItem>
+  </Form>
+</Spin>
+`;

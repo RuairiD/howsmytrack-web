@@ -27,6 +27,8 @@ describe("EditFeedbackRequestForm", () => {
         expect(wrapper.find("FeedbackRequestForm").get(0).props.gaCategory).toBe("editFeedbackRequest");
         expect(wrapper.find("FeedbackRequestForm").get(0).props.form).toBeTruthy();
 
+        // Clear the existing call made to fetch mediaInfo within FeedbackRequestForm
+        axios.post.mockRestore();
         wrapper.find("FeedbackRequestForm").get(0).props.makeRequest();
         expect(axios.post.mock.calls.length).toBe(1);
     });

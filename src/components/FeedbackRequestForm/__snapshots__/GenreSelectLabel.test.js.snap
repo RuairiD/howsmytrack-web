@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GenreSelectLabel renders a label for a GenreSelect, including informational tooltip 1`] = `
+<Fragment>
+  Genre :
+  <Tooltip
+    arrowPointAtCenter={false}
+    autoAdjustOverflow={true}
+    mouseEnterDelay={0.1}
+    mouseLeaveDelay={0.1}
+    placement="top"
+    title={
+      <Span
+        className=""
+      >
+        Requests of the same genre are assigned to the same groups in order to get you the most relevant and constructive feedback. Don't worry if your genre isn't listed though; just submit under 
+        <Strong
+          className=""
+        >
+          No Genre
+        </Strong>
+         and you'll still be grouped! 
+        <A
+          className=""
+          href="/faq#why-is-my-tracks-genre-not-listed"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Why is my genre not listed?
+        </A>
+      </Span>
+    }
+    transitionName="zoom-big-fast"
+  >
+    <Button
+      block={false}
+      ghost={false}
+      htmlType="button"
+      loading={false}
+      type="link"
+    >
+      <Icon
+        type="question-circle"
+      />
+      What is this for?
+    </Button>
+  </Tooltip>
+</Fragment>
+`;

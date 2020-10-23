@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GenreSelect renders a Select containing all available genre options 1`] = `
+<Select
+  choiceTransitionName="zoom"
+  showSearch={false}
+  transitionName="slide-up"
+>
+  <Option
+    key="NO_GENRE"
+    value="NO_GENRE"
+  >
+    No Genre
+  </Option>
+  <Option
+    key="ELECTRONIC"
+    value="ELECTRONIC"
+  >
+    Electronic
+  </Option>
+  <Option
+    key="HIPHOP"
+    value="HIPHOP"
+  >
+    Hip-Hop/Rap
+  </Option>
+  <Option
+    key="JAZZ"
+    value="JAZZ"
+  >
+    Jazz
+  </Option>
+  <Option
+    key="POP"
+    value="POP"
+  >
+    Pop
+  </Option>
+  <Option
+    key="ROCK_METAL_PUNK"
+    value="ROCK_METAL_PUNK"
+  >
+    Rock/Metal/Punk
+  </Option>
+  <Option
+    key="URBAN_RNB"
+    value="URBAN_RNB"
+  >
+    Urban/R&B
+  </Option>
+</Select>
+`;

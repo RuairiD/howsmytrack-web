@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TracklessRadioGroup renders a RadioGroup for selecting whether the request is trackless or not 1`] = `
+<RadioGroup
+  buttonStyle="solid"
+  className="trackless-radio"
+>
+  <RadioButton
+    value="track"
+  >
+    I have a track I would like feedback on
+  </RadioButton>
+  <RadioButton
+    value="trackless"
+  >
+    I don't have a track and would just like to provide feedback for others
+  </RadioButton>
+</RadioGroup>
+`;
