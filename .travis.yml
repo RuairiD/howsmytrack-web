@@ -8,10 +8,4 @@ before_install:
 install:
   - make venv
 script:
-  - make test
-
-deploy:
-  - provider: script
-    script: make coveralls
-    on:
-      branch: master
+  - make travis

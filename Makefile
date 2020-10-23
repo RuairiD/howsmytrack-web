@@ -8,6 +8,8 @@ test: venv
 coveralls:
 	./node_modules/.bin/coveralls < coverage/lcov.info
 
+travis: test coveralls
+
 lint: venv
 	./node_modules/.bin/eslint src --fix
 
