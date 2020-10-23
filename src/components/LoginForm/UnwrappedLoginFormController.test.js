@@ -4,7 +4,7 @@ import axios from "axios";
 import ReactGA from "react-ga";
 import waitForExpect from "wait-for-expect";
 import { act } from "react-dom/test-utils";
-import UnwrappedLoginFormContainer from "./UnwrappedLoginFormContainer";
+import UnwrappedLoginFormController from "./UnwrappedLoginFormController";
 
 jest.mock("axios");
 jest.mock("react-ga");
@@ -22,7 +22,7 @@ const mockInvalidForm = {
     validateFieldsAndScroll: jest.fn((afterValidation) => afterValidation(true)),
 };
 
-describe("UnwrappedLoginFormContainer", () => {
+describe("UnwrappedLoginFormController", () => {
     afterEach(() => {
         axios.post.mockRestore();
         ReactGA.event.mockRestore();
@@ -45,7 +45,7 @@ describe("UnwrappedLoginFormContainer", () => {
         );
 
         const wrapper = mount(
-            <UnwrappedLoginFormContainer
+            <UnwrappedLoginFormController
                 form={mockValidForm}
             />,
         );
@@ -74,7 +74,7 @@ describe("UnwrappedLoginFormContainer", () => {
         });
 
         const wrapper = mount(
-            <UnwrappedLoginFormContainer
+            <UnwrappedLoginFormController
                 form={mockValidForm}
             />,
         );
@@ -98,7 +98,7 @@ describe("UnwrappedLoginFormContainer", () => {
 
     it("does not attempt to post the form if it has invalid fields", async () => {
         const wrapper = mount(
-            <UnwrappedLoginFormContainer
+            <UnwrappedLoginFormController
                 form={mockInvalidForm}
             />,
         );

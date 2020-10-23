@@ -16,7 +16,7 @@ const TOKEN_AUTH_MUTATION = `mutation TokenAuth($username: String!, $password: S
 
 const GA_LOGIN_CATEGORY = "login";
 
-const UnwrappedLoginFormContainer = ({ form }) => {
+const UnwrappedLoginFormController = ({ form }) => {
     /*
      * Component for displaying login form.
      */
@@ -96,4 +96,4 @@ const UnwrappedLoginFormContainer = ({ form }) => {
     );
 };
 
-export default UnwrappedLoginFormContainer;
+export default UnwrappedLoginFormController;

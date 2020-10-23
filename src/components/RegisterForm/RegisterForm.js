@@ -1,4 +1,4 @@
 import { Form } from "antd";
-import UnwrappedRegisterFormContainer from "./UnwrappedRegisterFormContainer";
+import UnwrappedRegisterFormController from "./UnwrappedRegisterFormController";
 
-export default Form.create({ name: "register" })(UnwrappedRegisterFormContainer);
+export default Form.create({ name: "register" })(UnwrappedRegisterFormController);

@@ -4,7 +4,7 @@ import axios from "axios";
 import ReactGA from "react-ga";
 import waitForExpect from "wait-for-expect";
 import { act } from "react-dom/test-utils";
-import UnwrappedRegisterFormContainer from "./UnwrappedRegisterFormContainer";
+import UnwrappedRegisterFormController from "./UnwrappedRegisterFormController";
 
 jest.mock("axios");
 jest.mock("react-ga");
@@ -34,7 +34,7 @@ Object.defineProperty(
     },
 );
 
-describe("UnwrappedRegisterFormContainer", () => {
+describe("UnwrappedRegisterFormController", () => {
     afterEach(() => {
         axios.post.mockRestore();
         ReactGA.event.mockRestore();
@@ -54,7 +54,7 @@ describe("UnwrappedRegisterFormContainer", () => {
         });
 
         const wrapper = mount(
-            <UnwrappedRegisterFormContainer
+            <UnwrappedRegisterFormController
                 form={mockValidForm}
             />,
         );
@@ -89,7 +89,7 @@ describe("UnwrappedRegisterFormContainer", () => {
         });
 
         const wrapper = mount(
-            <UnwrappedRegisterFormContainer
+            <UnwrappedRegisterFormController
                 form={mockValidForm}
             />,
         );
@@ -122,7 +122,7 @@ describe("UnwrappedRegisterFormContainer", () => {
         });
 
         const wrapper = mount(
-            <UnwrappedRegisterFormContainer
+            <UnwrappedRegisterFormController
                 form={mockValidForm}
             />,
         );
@@ -146,7 +146,7 @@ describe("UnwrappedRegisterFormContainer", () => {
 
     it("does not attempt to post the form if it has invalid fields", async () => {
         const wrapper = mount(
-            <UnwrappedRegisterFormContainer
+            <UnwrappedRegisterFormController
                 form={mockInvalidForm}
             />,
         );

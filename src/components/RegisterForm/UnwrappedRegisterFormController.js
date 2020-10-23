@@ -23,7 +23,7 @@ const TOKEN_AUTH_MUTATION = `mutation TokenAuth($username: String!, $password: S
 
 const GA_REGISTER_CATEGORY = "register";
 
-const UnwrappedRegisterFormContainer = ({ form }) => {
+const UnwrappedRegisterFormController = ({ form }) => {
     /*
      * Component for displaying user registration form.
      */
@@ -126,4 +126,4 @@ const UnwrappedRegisterFormContainer = ({ form }) => {
     );
 };
 
-export default UnwrappedRegisterFormContainer;
+export default UnwrappedRegisterFormController;

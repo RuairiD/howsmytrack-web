@@ -1,4 +1,4 @@
 import { Form } from "antd";
-import UnwrappedLoginFormContainer from "./UnwrappedLoginFormContainer";
+import UnwrappedLoginFormController from "./UnwrappedLoginFormController";
 
-export default Form.create({ name: "login" })(UnwrappedLoginFormContainer);
+export default Form.create({ name: "login" })(UnwrappedLoginFormController);
