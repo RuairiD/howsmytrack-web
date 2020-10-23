@@ -12,6 +12,6 @@ script:
 
 deploy:
   - provider: script
-    script: make coverage
+    script: make coveralls
     on:
       branch: master
