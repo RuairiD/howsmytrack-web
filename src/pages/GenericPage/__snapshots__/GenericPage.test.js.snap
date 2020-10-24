@@ -35,6 +35,7 @@ exports[`GenericPage renders a collapsible menu when isMobile is true 1`] = `
             </Content>
             <Footer>
               <PageFooter />
+              <TransparentText />
             </Footer>
           </Layout>
         </Content>
@@ -77,6 +78,7 @@ exports[`GenericPage renders a sidebar menu when isMobile is false 1`] = `
             </Content>
             <Footer>
               <PageFooter />
+              <TransparentText />
             </Footer>
           </Layout>
         </Content>
@@ -108,6 +110,7 @@ exports[`GenericPage renders no menu or PageHeader when hideMenu is true 1`] = `
             </Content>
             <Footer>
               <PageFooter />
+              <TransparentText />
             </Footer>
           </Layout>
         </Content>
