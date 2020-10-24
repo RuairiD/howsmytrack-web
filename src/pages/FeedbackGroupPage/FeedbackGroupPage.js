@@ -50,12 +50,12 @@ const FEEDBACK_GROUP_QUERY = `query FeedbackGroup($feedbackGroupId: Int!) {
 }`;
 
 const formatQueryResponse = (data) => {
+    /*
+     * Reformat feedbackGroup response into props objects to pass to downstream components.
+     */
     const feedbackGroupProps = {
-        feedbackResponseForms: [],
-    };
-
-    for (const feedbackResponse of data.feedbackResponses) {
-        feedbackGroupProps.feedbackResponseForms.push({
+        feedbackRequestSummary: data.feedbackRequest,
+        feedbackResponseForms: data.feedbackResponses.map((feedbackResponse) => ({
             feedbackResponseId: feedbackResponse.id,
             currentFeedback: feedbackResponse.feedback,
             mediaUrl: feedbackResponse.feedbackRequest.mediaUrl,
@@ -65,25 +65,20 @@ const formatQueryResponse = (data) => {
             currentAllowReplies: feedbackResponse.allowReplies,
             replies: feedbackResponse.replies,
             unreadReplies: feedbackResponse.unreadReplies,
-        });
-    }
+        })),
+        feedbackReceived: null,
+    };
 
-    feedbackGroupProps.feedbackReceived = null;
     if (data.userFeedbackResponses) {
-        feedbackGroupProps.feedbackReceived = [];
-        for (const userFeedbackResponse of data.userFeedbackResponses) {
-            feedbackGroupProps.feedbackReceived.push({
-                feedbackResponseId: userFeedbackResponse.id,
-                feedback: userFeedbackResponse.feedback,
-                currentRating: userFeedbackResponse.rating,
-                allowReplies: userFeedbackResponse.allowReplies,
-                replies: userFeedbackResponse.replies,
-                unreadReplies: userFeedbackResponse.unreadReplies,
-            });
-        }
+        feedbackGroupProps.feedbackReceived = data.userFeedbackResponses.map((userFeedbackResponse) => ({
+            feedbackResponseId: userFeedbackResponse.id,
+            feedback: userFeedbackResponse.feedback,
+            currentRating: userFeedbackResponse.rating,
+            allowReplies: userFeedbackResponse.allowReplies,
+            replies: userFeedbackResponse.replies,
+            unreadReplies: userFeedbackResponse.unreadReplies,
+        }));
     }
-
-    feedbackGroupProps.feedbackRequestSummary = data.feedbackRequest;
 
     return feedbackGroupProps;
 };
@@ -94,10 +89,13 @@ const formatTimeCreated = (timeCreated) => dateFormat(
 );
 
 const FeedbackGroupPage = ({ feedbackGroupId, isMobile }: Props) => {
-    const { isLoading, data } = useQuery([FEEDBACK_GROUP_QUERY, { feedbackGroupId }], () => axios.post(`${apiRoot}/graphql/`, {
-        query: FEEDBACK_GROUP_QUERY,
-        variables: { feedbackGroupId },
-    }).then((response) => response.data.data.feedbackGroup));
+    const { isLoading, data } = useQuery(
+        [FEEDBACK_GROUP_QUERY, { feedbackGroupId }],
+        () => axios.post(`${apiRoot}/graphql/`, {
+            query: FEEDBACK_GROUP_QUERY,
+            variables: { feedbackGroupId },
+        }).then((response) => response.data.data.feedbackGroup),
+    );
 
     useEffect(() => {
         if (data) {

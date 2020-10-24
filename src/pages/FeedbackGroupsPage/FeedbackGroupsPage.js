@@ -46,46 +46,44 @@ const UNASSIGNED_REQUEST_QUERY = `query UnassignedRequest {
   }
 }`;
 
-const formatFeedbackGroupsQueryResponse = (data) => {
-    const feedbackGroups = [];
-
-    for (const feedbackGroup of data) {
-        let userFeedbackCount = 0;
-        if (feedbackGroup.feedbackResponses) {
-            for (const feedbackResponse of feedbackGroup.feedbackResponses) {
-                if (feedbackResponse.submitted) {
-                    userFeedbackCount++;
-                }
+const formatFeedbackGroup = (feedbackGroup) => {
+    let userFeedbackCount = 0;
+    if (feedbackGroup.feedbackResponses) {
+        for (const feedbackResponse of feedbackGroup.feedbackResponses) {
+            if (feedbackResponse.submitted) {
+                userFeedbackCount++;
             }
         }
-
-        let unreadReplies = 0;
-        if (feedbackGroup.feedbackResponses) {
-            for (const feedbackResponse of feedbackGroup.feedbackResponses) {
-                unreadReplies += feedbackResponse.unreadReplies;
-            }
-        }
-        if (feedbackGroup.userFeedbackResponses) {
-            for (const feedbackResponse of feedbackGroup.userFeedbackResponses) {
-                unreadReplies += feedbackResponse.unreadReplies;
-            }
-        }
-
-        feedbackGroups.push({
-            feedbackGroupId: feedbackGroup.id,
-            name: feedbackGroup.name,
-            timeCreated: feedbackGroup.timeCreated,
-            feedbackRequestSummary: feedbackGroup.feedbackRequest,
-            userCount: feedbackGroup.members,
-            tracklessUserCount: feedbackGroup.tracklessMembers,
-            userFeedbackCount,
-            feedbackResponseCount: feedbackGroup.userFeedbackResponseCount,
-            unreadReplies,
-        });
     }
 
-    return feedbackGroups;
+    let unreadReplies = 0;
+    if (feedbackGroup.feedbackResponses) {
+        for (const feedbackResponse of feedbackGroup.feedbackResponses) {
+            unreadReplies += feedbackResponse.unreadReplies;
+        }
+    }
+    if (feedbackGroup.userFeedbackResponses) {
+        for (const feedbackResponse of feedbackGroup.userFeedbackResponses) {
+            unreadReplies += feedbackResponse.unreadReplies;
+        }
+    }
+
+    return {
+        feedbackGroupId: feedbackGroup.id,
+        name: feedbackGroup.name,
+        timeCreated: feedbackGroup.timeCreated,
+        feedbackRequestSummary: feedbackGroup.feedbackRequest,
+        userCount: feedbackGroup.members,
+        tracklessUserCount: feedbackGroup.tracklessMembers,
+        userFeedbackCount,
+        feedbackResponseCount: feedbackGroup.userFeedbackResponseCount,
+        unreadReplies,
+    };
 };
+
+const formatFeedbackGroupsQueryResponse = (data) => data.map(
+    (feedbackGroup) => formatFeedbackGroup(feedbackGroup),
+);
 
 const formatUnassignedQueryResponse = (data) => ({
     feedbackRequestId: data.id,
@@ -133,16 +131,12 @@ const FeedbackGroupsPage = ({ isMobile }: Props) => {
 
     let feedbackGroups = [];
     if (feedbackGroupsData) {
-        feedbackGroups = formatFeedbackGroupsQueryResponse(
-            feedbackGroupsData,
-        );
+        feedbackGroups = formatFeedbackGroupsQueryResponse(feedbackGroupsData);
     }
 
     let unassignedRequest = null;
     if (unassignedRequestData) {
-        unassignedRequest = formatUnassignedQueryResponse(
-            unassignedRequestData,
-        );
+        unassignedRequest = formatUnassignedQueryResponse(unassignedRequestData);
     }
 
     return (
