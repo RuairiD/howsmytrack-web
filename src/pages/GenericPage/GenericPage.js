@@ -11,7 +11,7 @@ import PageSidebar from "./PageSidebar";
 // TODO: UserSettingsPage looks weird because it shrinks to fit the small amount of content.
 // Fix the CSS and remove this when you have time.
 const TransparentText = () => (
-    <Typography.Paragraph style={{ opacity: 0, height: 0, width: "100%", userSelect: "none" }}>
+    <Typography.Paragraph style={{ opacity: 0, height: 0, width: "100%", userSelect: "none", overflowY: "hidden" }}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sed hendrerit leo. Donec vitae risus et ante egestas sollicitudin at a mi. Duis fringilla a mi ut congue. Sed elit nunc, mollis sit amet interdum id, viverra vitae ligula. Proin eu risus vitae turpis fermentum maximus. Phasellus finibus enim nibh, non cursus lorem auctor interdum. Sed a ex id magna ultricies gravida. Proin sit amet sem at quam tristique tristique sit amet sed augue. Cras in bibendum risus, eu consequat turpis. In sed commodo augue. Donec nibh nulla, viverra quis mi tincidunt, pulvinar interdum neque.
     </Typography.Paragraph>
 );
