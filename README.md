@@ -7,7 +7,8 @@ The API portion of "How's My Track?" can be found [here](https://github.com/ruai
 
 ## Running
 
- 1. `yarn install`
- 2. `yarn run debug`
+A development instance of the app can be run with `make dev`. If you are also running a local API instance to debug against, update the URL in `src/apiRoot.js`.
 
-If you are also running a local API instance to debug against, update the URL in `apiRoot.js`.
+## Tests
+
+Tests can be run with jest using `make test`, which includes coverage reporting. To run a specific test, use `yarn test` e.g. `yarn test path/to/test`.
