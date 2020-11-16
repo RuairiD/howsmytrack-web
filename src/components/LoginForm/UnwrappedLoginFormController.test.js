@@ -29,8 +29,10 @@ describe("UnwrappedLoginFormController", () => {
     });
 
     it("renders a success indicator upon successful login, logs the submission and success and refreshes the page", async () => {
-        axios.post.mockReturnValue({
-            errors: null,
+        axios.post.mockResolvedValue({
+            data: {
+                errors: null,
+            },
         });
 
         const reload = jest.fn();
@@ -69,8 +71,10 @@ describe("UnwrappedLoginFormController", () => {
     });
 
     it("continues to render the form upon unsuccessful login and logs the submission and error", async () => {
-        axios.post.mockReturnValue({
-            errors: ["error"],
+        axios.post.mockResolvedValue({
+            data: {
+                errors: ["error"],
+            },
         });
 
         const wrapper = mount(
