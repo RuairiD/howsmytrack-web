@@ -10,7 +10,7 @@ import UnwrappedLoginForm from "./UnwrappedLoginForm";
 
 const TOKEN_AUTH_MUTATION = `mutation TokenAuth($username: String!, $password: String!) {
   tokenAuth(username: $username, password: $password) {
-    token
+    payload
   }
 }`;
 
@@ -32,10 +32,11 @@ const UnwrappedLoginFormController = ({ form }) => {
             category: GA_LOGIN_CATEGORY,
             action: "submit",
         });
-        return axios.post(`${apiRoot}/graphql/`, {
+        const response = await axios.post(`${apiRoot}/graphql/`, {
             query: TOKEN_AUTH_MUTATION,
             variables: { username, password },
         });
+        return response.data;
     };
 
     const [submitFormMutate, { isLoading, data }] = useMutation(submitForm);

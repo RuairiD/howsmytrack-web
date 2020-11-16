@@ -16,9 +16,9 @@ const TransparentText = () => (
     </Typography.Paragraph>
 );
 
-const REFRESH_TOKEN_FROM_COOKIE_MUTATION = `mutation RefreshTokenFromCookie {
-    refreshTokenFromCookie {
-        token
+const REFRESH_TOKEN_MUTATION = `mutation RefreshToken {
+    refreshToken {
+        payload
     }
 }`;
 
@@ -36,7 +36,7 @@ const GenericPage = ({ title, subTitle, hideMenu, isMobile, children }: Props) =
      */
     useEffect(() => {
         axios.post(`${apiRoot}/graphql/`, {
-            query: REFRESH_TOKEN_FROM_COOKIE_MUTATION,
+            query: REFRESH_TOKEN_MUTATION,
         });
     }, []);
 
