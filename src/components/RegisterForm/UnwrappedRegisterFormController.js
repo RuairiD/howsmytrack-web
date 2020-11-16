@@ -17,7 +17,7 @@ const REGISTER_USER_MUTATION = `mutation RegisterUser($email: String!, $password
 
 const TOKEN_AUTH_MUTATION = `mutation TokenAuth($username: String!, $password: String!) {
   tokenAuth(username: $username, password: $password) {
-    token
+    payload
   }
 }`;
 
