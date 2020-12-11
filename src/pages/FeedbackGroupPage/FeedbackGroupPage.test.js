@@ -184,4 +184,27 @@ describe("FeedbackGroupPage", () => {
             genre: "genre",
         });
     });
+
+    it("renders an error state if the group doesn't exist (or the user isn't permitted to access it)", async () => {
+        axios.post.mockResolvedValue({
+            data: {
+                data: {
+                    feedbackGroup: null,
+                },
+            },
+        });
+
+        const wrapper = mount(
+            <FeedbackGroupPage feedbackGroupId={1901} />,
+        );
+
+        await waitForExpect(async () => {
+            wrapper.update();
+            expect(wrapper.find("FeedbackGroup").length).toBe(1);
+        });
+
+        expect(wrapper.find("FeedbackGroup").get(0).props.feedbackResponseForms).toBe(undefined);
+        expect(wrapper.find("FeedbackGroup").get(0).props.feedbackReceived).toBe(undefined);
+        expect(wrapper.find("FeedbackGroup").get(0).props.feedbackRequestSummary).toBe(undefined);
+    });
 });

@@ -111,14 +111,25 @@ const FeedbackGroupPage = ({ feedbackGroupId, isMobile }: Props) => {
         );
     }
 
-    const feedbackGroup = formatQueryResponse(data);
+    if (data) {
+        const feedbackGroup = formatQueryResponse(data);
+
+        return (
+            <GenericPage title={data.name} subTitle={formatTimeCreated(data.timeCreated)} isMobile={isMobile}>
+                <FeedbackGroup
+                    feedbackResponseForms={feedbackGroup.feedbackResponseForms}
+                    feedbackReceived={feedbackGroup.feedbackReceived}
+                    feedbackRequestSummary={feedbackGroup.feedbackRequestSummary}
+                />
+            </GenericPage>
+        );
+    }
+
+    // If no data is returned, this implies either the group doesn't exist or the user
+    // is not part of the group and does not have access to it.
     return (
-        <GenericPage title={data.name} subTitle={formatTimeCreated(data.timeCreated)} isMobile={isMobile}>
-            <FeedbackGroup
-                feedbackResponseForms={feedbackGroup.feedbackResponseForms}
-                feedbackReceived={feedbackGroup.feedbackReceived}
-                feedbackRequestSummary={feedbackGroup.feedbackRequestSummary}
-            />
+        <GenericPage title="Feedback Group" isMobile={isMobile}>
+            <FeedbackGroup />
         </GenericPage>
     );
 };
