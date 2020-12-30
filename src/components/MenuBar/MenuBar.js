@@ -2,7 +2,7 @@ import React from "react";
 
 import { Affix } from "antd";
 import { Div } from "lemon-reset";
-import MenuBarContent from "./MenuBarContent";
+import MenuBarController from "./MenuBarController";
 
 type Props = {
     isMobile: boolean,
@@ -16,20 +16,20 @@ const MenuBar = ({ isMobile }: Props) => {
 
     // Wrapping this in Div prevents forwardRef related errors being raised by
     // ant-design; an inelegant solution but an unobtrusive one as well.
-    const menuBarContent = (
+    const menuBarController = (
         <Div>
-            <MenuBarContent
+            <MenuBarController
                 isMobile={isMobile}
             />
         </Div>
     );
 
     if (isMobile) {
-        return menuBarContent;
+        return menuBarController;
     }
     return (
         <Affix>
-            {menuBarContent}
+            {menuBarController}
         </Affix>
     );
 };

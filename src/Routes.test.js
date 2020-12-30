@@ -1,9 +1,60 @@
 import React from "react";
 import { mount } from "enzyme";
 import { MemoryRouter } from "react-router-dom";
-import Routes from "./Routes";
+import axios from "axios";
+import waitForExpect from "wait-for-expect";
 
-describe("App", () => {
+import Routes from "./Routes";
+import store from "./store";
+
+jest.mock("axios");
+jest.mock("react-redux");
+
+// TODO: this test doesn't mock out the Redux store in order to
+// interact with it. As a result, test runs have a lot of warnings
+// similar to:
+//      UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'then' of undefined
+// Ideally this should be fixed but the tests still pass and work.
+describe("Routes", () => {
+    beforeEach(() => {
+        axios.post.mockRestore();
+    });
+
+    it("fetches userDetails on pageload and stores the result with Redux", async () => {
+        axios.post.mockResolvedValue({
+            data: {
+                data: {
+                    userDetails: {
+                        username: "username",
+                        rating: 4.321,
+                        notifications: 2,
+                    },
+                },
+            },
+        });
+
+        const wrapper = mount(
+            <MemoryRouter initialEntries={["/"]}>
+                <Routes />
+            </MemoryRouter>,
+        );
+
+        await waitForExpect(() => {
+            wrapper.update();
+            expect(axios.post).toHaveBeenCalled();
+            expect(store.getState()).toEqual({
+                userDetails: {
+                    data: {
+                        username: "username",
+                        rating: 4.321,
+                        notifications: 2,
+                    },
+                    isLoading: false,
+                },
+            });
+        });
+    });
+
     it("renders the HomePage at /", async () => {
         const wrapper = mount(
             <MemoryRouter initialEntries={["/"]}>
