@@ -25,6 +25,7 @@ const MenuBarContent = ({
                         alt="how's my track"
                         src="/logo512.png"
                         width="200px"
+                        height="200px"
                         style={{
                             padding: "0.5em",
                             marginLeft: "auto",
