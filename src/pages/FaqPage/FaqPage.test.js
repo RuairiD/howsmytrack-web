@@ -2,6 +2,8 @@ import React from "react";
 import { shallow } from "enzyme";
 import FaqPage from "./FaqPage";
 
+jest.mock("react-redux");
+
 describe("FaqPage", () => {
     it("renders a GenericPage containing a Faq", () => {
         const wrapper = shallow(

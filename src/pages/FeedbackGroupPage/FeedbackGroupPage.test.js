@@ -6,6 +6,7 @@ import FeedbackGroupPage from "./FeedbackGroupPage";
 
 jest.mock("axios");
 jest.mock("react-ga");
+jest.mock("react-redux");
 
 const mockFeedbackGroup = {
     id: 1901,

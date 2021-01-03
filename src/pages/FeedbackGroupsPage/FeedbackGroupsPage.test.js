@@ -6,6 +6,7 @@ import { when } from "jest-when";
 import FeedbackGroupsPage from "./FeedbackGroupsPage";
 
 jest.mock("axios");
+jest.mock("react-redux");
 
 const mockFeedbackGroups = [
     {

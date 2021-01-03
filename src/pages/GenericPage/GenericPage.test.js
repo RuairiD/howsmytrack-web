@@ -7,6 +7,7 @@ import toJson from "enzyme-to-json";
 import GenericPage from "./GenericPage";
 
 jest.mock("axios");
+jest.mock("react-redux");
 
 describe("GenericPage", () => {
     beforeEach(() => {

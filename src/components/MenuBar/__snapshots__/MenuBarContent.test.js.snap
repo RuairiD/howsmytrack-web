@@ -1,83 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MenuBarContent renders a MobileMenu for mobile clients 1`] = `
-<Spin
-  size="default"
-  spinning={true}
-  wrapperClassName=""
+<Div
+  className="menu-bar"
 >
-  <Div
-    className="menu-bar"
-  >
-    <MobileMenu
-      mobileMenuCollapsed={true}
-      notifications={null}
-      onCollapseChange={[Function]}
-      onMenuClick={[Function]}
-      rating={null}
-      username={null}
-    />
-    <FeedbackRequestModal
-      isVisible={false}
-      onCancel={[Function]}
-    />
-    <LoginModal
-      isVisible={false}
-      onCancel={[Function]}
-    />
-    <RegisterModal
-      isVisible={false}
-      onCancel={[Function]}
-    />
-  </Div>
-</Spin>
+  <MobileMenu
+    mobileMenuCollapsed={true}
+    onCollapseChange={[Function]}
+  />
+</Div>
 `;
 
 exports[`MenuBarContent renders logo and MainMenu for non-mobile clients 1`] = `
-<Spin
-  size="default"
-  spinning={true}
-  wrapperClassName=""
+<Div
+  className="menu-bar"
 >
-  <Div
-    className="menu-bar"
+  <A
+    className="full-logo"
+    href="/"
   >
-    <A
-      className="full-logo"
-      href="/"
-    >
-      <Img
-        alt="how's my track"
-        className=""
-        src="/logo512.png"
-        style={
-          Object {
-            "marginLeft": "auto",
-            "marginRight": "auto",
-            "padding": "0.5em",
-          }
+    <Img
+      alt="how's my track"
+      className=""
+      src="/logo512.png"
+      style={
+        Object {
+          "marginLeft": "auto",
+          "marginRight": "auto",
+          "padding": "0.5em",
         }
-        width="200px"
-      />
-    </A>
-    <MainMenu
-      notifications={null}
-      onMenuClick={[Function]}
-      rating={null}
-      username={null}
+      }
+      width="200px"
     />
-    <FeedbackRequestModal
-      isVisible={false}
-      onCancel={[Function]}
-    />
-    <LoginModal
-      isVisible={false}
-      onCancel={[Function]}
-    />
-    <RegisterModal
-      isVisible={false}
-      onCancel={[Function]}
-    />
-  </Div>
-</Spin>
+  </A>
+  <MainMenu />
+</Div>
 `;

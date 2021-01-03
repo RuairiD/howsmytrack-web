@@ -1,10 +1,14 @@
 import React from "react";
-import { mount, shallow } from "enzyme";
+import { mount } from "enzyme";
 import axios from "axios";
+import { Provider } from "react-redux";
+import configureStore from "redux-mock-store";
 import waitForExpect from "wait-for-expect";
 import HomePage from "./HomePage";
 
 jest.mock("axios");
+
+const mockStore = configureStore();
 
 describe("HomePage", () => {
     afterEach(() => {
@@ -12,8 +16,17 @@ describe("HomePage", () => {
     });
 
     it("renders a LoadingSpinner while loading", async () => {
-        const wrapper = shallow(
-            <HomePage />,
+        const store = mockStore({
+            userDetails: {
+                data: null,
+                isLoading: true,
+            },
+        });
+
+        const wrapper = mount(
+            <Provider store={store}>
+                <HomePage />
+            </Provider>,
         );
 
         // Loading spinner will be present before POST request resolves.
@@ -21,21 +34,22 @@ describe("HomePage", () => {
     });
 
     it("renders a FeedbackGroupsPage for logged in users", async () => {
-        axios.post.mockImplementationOnce(() => Promise.resolve({
-            data: {
+        const store = mockStore({
+            userDetails: {
                 data: {
-                    userDetails: {
-                        username: "ybissouma@brightonandhovealbion.com",
-                    },
+                    username: "username",
+                    sendReminderEmails: true,
                 },
+                isLoading: false,
             },
-        }));
+        });
 
         const wrapper = mount(
-            <HomePage />,
+            <Provider store={store}>
+                <HomePage />
+            </Provider>,
         );
 
-        expect(axios.post).toHaveBeenCalled();
         await waitForExpect(() => {
             wrapper.update();
             expect(wrapper.find("FeedbackGroupsPage").length).toBe(1);
@@ -43,21 +57,21 @@ describe("HomePage", () => {
     });
 
     it("renders a LandingPitch and Faq for logged out users", async () => {
-        axios.post.mockImplementationOnce(() => Promise.resolve({
-            data: {
+        const store = mockStore({
+            userDetails: {
                 data: {
-                    userDetails: {
-                        username: null,
-                    },
+                    username: null,
                 },
+                isLoading: false,
             },
-        }));
+        });
 
         const wrapper = mount(
-            <HomePage />,
+            <Provider store={store}>
+                <HomePage />
+            </Provider>,
         );
 
-        expect(axios.post).toHaveBeenCalled();
         await waitForExpect(() => {
             wrapper.update();
             expect(wrapper.find("LandingPitch").length).toBe(1);

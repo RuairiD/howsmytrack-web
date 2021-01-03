@@ -1,31 +1,17 @@
 import React from "react";
-import { useQuery } from "react-query";
-
-import axios from "axios";
-import apiRoot from "../../apiRoot";
+import { useSelector } from "react-redux";
 
 import GenericPage from "../GenericPage/GenericPage";
 import UserSettings from "../../components/UserSettings/UserSettings";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import { selectUserDetailsData } from "../../reducers/userDetailsSlice";
 
 type Props = {
     isMobile: boolean,
 };
 
-const USER_DETAILS_QUERY = `query UserDetails {
-  userDetails {
-    username
-    sendReminderEmails
-  }
-}`;
-
 const UserSettingsPage = ({ isMobile }: Props) => {
-    const { data } = useQuery(
-        [USER_DETAILS_QUERY],
-        () => axios.post(`${apiRoot}/graphql/`, {
-            query: USER_DETAILS_QUERY,
-        }).then((response) => response.data.data.userDetails),
-    );
+    const data = useSelector(selectUserDetailsData);
 
     if (data) {
         return (

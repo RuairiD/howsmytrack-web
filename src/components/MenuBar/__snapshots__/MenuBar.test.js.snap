@@ -7,7 +7,7 @@ exports[`MenuBar renders MenuBarContent within an Affix for non-mobile clients 1
   <Div
     className=""
   >
-    <MenuBarContent />
+    <MenuBarController />
   </Div>
 </Affix>
 `;
@@ -16,7 +16,7 @@ exports[`MenuBar renders solo MenuBarContent mobile clients 1`] = `
 <Div
   className=""
 >
-  <MenuBarContent
+  <MenuBarController
     isMobile={true}
   />
 </Div>
