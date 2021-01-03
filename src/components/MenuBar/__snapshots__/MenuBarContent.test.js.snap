@@ -22,6 +22,7 @@ exports[`MenuBarContent renders logo and MainMenu for non-mobile clients 1`] = `
     <Img
       alt="how's my track"
       className=""
+      height="200px"
       src="/logo512.png"
       style={
         Object {
