@@ -10,11 +10,12 @@ describe("App", () => {
         ReactGA.pageview.mockRestore();
     });
 
-    it("renders router and logs pageview with GA", async () => {
+    it("renders MainContainer, Redux and Query providers, and logs pageview with GA", async () => {
         const wrapper = shallow(<App />);
 
-        expect(wrapper.find("Routes").length).toBe(1);
+        expect(wrapper.find("MainContainer").length).toBe(1);
         expect(wrapper.find("HttpsRedirect").length).toBe(1);
+        expect(wrapper.find("Provider").length).toBe(1);
         expect(wrapper.find("ReactQueryCacheProvider").length).toBe(1);
 
         expect(ReactGA.pageview.mock.calls.length).toBe(1);
