@@ -50,7 +50,14 @@ const LandingPitch = () => (
         />
         <Divider style={{ marginTop: 0 }} />
         <Div style={{ display: "flex" }}>
-            <Div style={{ width: "24em", marginLeft: "auto", marginRight: "auto" }}>
+            <Div
+                style={{
+                    width: "100%",
+                    maxWidth: "24em",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                }}
+            >
                 <LoginForm showRegisterButton largeButtons />
             </Div>
         </Div>

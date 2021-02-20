@@ -85,7 +85,8 @@ exports[`LandingPitch renders a login form, along with an explanation of how the
         Object {
           "marginLeft": "auto",
           "marginRight": "auto",
-          "width": "24em",
+          "maxWidth": "24em",
+          "width": "100%",
         }
       }
     >
