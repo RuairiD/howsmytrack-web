@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Button, Icon, Input, Form } from "antd";
-import { A, Div } from "lemon-reset";
+import { A, Div, Span } from "lemon-reset";
 import apiRoot from "../../apiRoot";
 import RegisterModal from "../RegisterModal/RegisterModal";
 
@@ -57,12 +57,19 @@ const UnwrappedLoginForm = ({ onSubmit, form, submitted, showRegisterButton, lar
                         <Button
                             block
                             size={largeButtons ? "large" : "default"}
-                            className="black-button"
+                            className="black-button d-flex"
                             onClick={showRegisterModal}
                             disabled={submitted}
                         >
-                            Don't have an account? Sign up free
-                            <Icon type="arrow-right" />
+                            <Div className="d-flex mx-auto">
+                                <Span className="d-none d-sm-inline-block my-auto">
+                                    Don't have an account? Sign up free
+                                </Span>
+                                <Span className="d-inline-block d-sm-none my-auto">
+                                    Sign up free
+                                </Span>
+                                <Icon type="arrow-right my-auto ms-1" />
+                            </Div>
                         </Button>
                     )}
                     <A href={`${apiRoot}/accounts/password_reset`} style={{ float: "right" }}>

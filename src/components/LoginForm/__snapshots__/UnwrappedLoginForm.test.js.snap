@@ -150,17 +150,30 @@ exports[`UnwrappedLoginForm renders an additional registration button if showReg
       </Button>
       <Button
         block={true}
-        className="black-button"
+        className="black-button d-flex"
         ghost={false}
         htmlType="button"
         loading={false}
         onClick={[Function]}
         size="default"
       >
-        Don't have an account? Sign up free
-        <Icon
-          type="arrow-right"
-        />
+        <Div
+          className="d-flex mx-auto"
+        >
+          <Span
+            className="d-none d-sm-inline-block my-auto"
+          >
+            Don't have an account? Sign up free
+          </Span>
+          <Span
+            className="d-inline-block d-sm-none my-auto"
+          >
+            Sign up free
+          </Span>
+          <Icon
+            type="arrow-right my-auto ms-1"
+          />
+        </Div>
       </Button>
       <A
         className=""
@@ -248,17 +261,30 @@ exports[`UnwrappedLoginForm renders large buttons if largeButtons is true 1`] = 
       </Button>
       <Button
         block={true}
-        className="black-button"
+        className="black-button d-flex"
         ghost={false}
         htmlType="button"
         loading={false}
         onClick={[Function]}
         size="large"
       >
-        Don't have an account? Sign up free
-        <Icon
-          type="arrow-right"
-        />
+        <Div
+          className="d-flex mx-auto"
+        >
+          <Span
+            className="d-none d-sm-inline-block my-auto"
+          >
+            Don't have an account? Sign up free
+          </Span>
+          <Span
+            className="d-inline-block d-sm-none my-auto"
+          >
+            Sign up free
+          </Span>
+          <Icon
+            type="arrow-right my-auto ms-1"
+          />
+        </Div>
       </Button>
       <A
         className=""
