@@ -68,7 +68,7 @@ const UnwrappedLoginForm = ({ onSubmit, form, submitted, showRegisterButton, lar
                                 <Span className="d-inline-block d-sm-none my-auto">
                                     Sign up free
                                 </Span>
-                                <Icon type="arrow-right my-auto ms-1" />
+                                <Icon type="arrow-right" className="my-auto ms-1" />
                             </Div>
                         </Button>
                     )}

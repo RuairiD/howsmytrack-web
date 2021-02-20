@@ -171,7 +171,8 @@ exports[`UnwrappedLoginForm renders an additional registration button if showReg
             Sign up free
           </Span>
           <Icon
-            type="arrow-right my-auto ms-1"
+            className="my-auto ms-1"
+            type="arrow-right"
           />
         </Div>
       </Button>
@@ -282,7 +283,8 @@ exports[`UnwrappedLoginForm renders large buttons if largeButtons is true 1`] = 
             Sign up free
           </Span>
           <Icon
-            type="arrow-right my-auto ms-1"
+            className="my-auto ms-1"
+            type="arrow-right"
           />
         </Div>
       </Button>
