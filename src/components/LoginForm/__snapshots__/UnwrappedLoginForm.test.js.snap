@@ -158,7 +158,7 @@ exports[`UnwrappedLoginForm renders an additional registration button if showReg
         size="default"
       >
         <Div
-          className="d-flex mx-auto"
+          className="d-flex m-auto"
         >
           <Span
             className="d-none d-sm-inline-block my-auto"
@@ -270,7 +270,7 @@ exports[`UnwrappedLoginForm renders large buttons if largeButtons is true 1`] = 
         size="large"
       >
         <Div
-          className="d-flex mx-auto"
+          className="d-flex m-auto"
         >
           <Span
             className="d-none d-sm-inline-block my-auto"
