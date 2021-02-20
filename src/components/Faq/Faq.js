@@ -1,21 +1,29 @@
 import React from "react";
 
 import { List, Typography } from "antd";
-import { A, Em, Strong } from "lemon-reset";
+import { A, Em, Span, Strong } from "lemon-reset";
+
+const HowsMyTrackName = () => (
+    <Em>how's my track?</Em>
+);
+
+const HowsMyTrackNameText = () => (
+    <Strong><HowsMyTrackName /></Strong>
+);
 
 const FAQS = [
     {
         id: "what-is-hows-my-track",
-        question: "But actually, what is How's My Track?",
-        answer: (<Typography.Paragraph><Em>how's my track?</Em> is a website for musicians to share their work and solicit feedback from each other. Users may submit one track for feedback per day. Users are then put into groups of around four. Each user can then listen to each other's submitted track and leave feedback. Once a user has left feedback for everyone in their group, the feedback left for their own track will be visible to them. </Typography.Paragraph>),
+        question: <Span>But actually, what is <HowsMyTrackName /></Span>,
+        answer: (<Typography.Paragraph><HowsMyTrackNameText /> is a website for musicians to share their work and solicit feedback from each other. Users may submit one track for feedback per day. Users are then put into groups of around four. Each user can then listen to each other's submitted track and leave feedback. Once a user has left feedback for everyone in their group, the feedback left for their own track will be visible to them. </Typography.Paragraph>),
     },
     {
         id: "why-does-hows-my-track-exist",
-        question: "Why does How's My Track? exist?",
+        question: <Span>Why does <HowsMyTrackName /> exist?</Span>,
         answer: (
             <React.Fragment>
                 <Typography.Paragraph>
-                    I noticed there were two primary ways musicians would solicit feedback in Discord channels.
+                    I noticed there were two primary ways musicians would solicit feedback in Discord servers.
                 </Typography.Paragraph>
                 <Typography.Paragraph>
                     The first is through some sort of #feedback channel where users can post a track for feedback, but only after providing feedback for the last submitter. I often found this tit-for-tat system a bit crap; there was very little enforcing constructive feedback and often users would leave pretty useless feedback just so they could post their own track. The cycle would continue and nobody would really get any good feedback.
@@ -24,7 +32,7 @@ const FAQS = [
                     The second method was via feedback streams (co-ordinated conference calls where users would play their tracks one-by-one, with feedback to follow). While more effective than tit-for-tat channels, feedback streams are logistically impractical and require a lot of organisation. In addition, there was often an asymmetrical element that made things a bit weird e.g. some 'senior' users having microphone privileges, but not others.
                 </Typography.Paragraph>
                 <Typography.Paragraph>
-                    How's My Track? was designed to take the group mentality of a feedback stream but make it decentralised, avoiding the logistical nonsense, and enforce feedback standards via a rating system.
+                    <HowsMyTrackNameText /> was designed to take the group mentality of a feedback stream but make it decentralised, avoiding the logistical nonsense, while also enforcing feedback standards via a rating system.
                 </Typography.Paragraph>
             </React.Fragment>
         ),
@@ -40,7 +48,7 @@ const FAQS = [
         answer: (
             <React.Fragment>
                 <Typography.Paragraph>
-                    Firstly, <Strong>all</Strong> track submissions are welcome on <Em>how's my track?</Em>;if the genre you think best fits your track isn't listed, just pick <Strong>No Genre</Strong> and your submission will still be accepted and grouped.
+                    Firstly, <Strong>all</Strong> track submissions are welcome on <HowsMyTrackNameText />; if the genre you think best fits your track isn't listed, just pick <Strong>No Genre</Strong> and your submission will still be accepted and grouped.
                 </Typography.Paragraph>
                 <Typography.Paragraph>
                     To answer the question, groups can only be formed if 3 or more feedback submissions are received, we restrict genres that don't have enough daily submissions to form at least one group. In the event that genres only receive one submission, a multi-genre group will be formed to ensure that as many people as possible get a group within 24 hours. We also regularly audit submissions to see if it's possible to add more genres, and we're always open to suggestions as well.
@@ -67,7 +75,7 @@ const FAQS = [
     },
     {
         question: "Can I add links to my Soundcloud/Spotify/Bandcamp etc. in case people like my stuff?",
-        answer: (<Typography.Paragraph>No. How's My Track? is about one thing: feedback. I don't want it being used for anything resembling promotion. </Typography.Paragraph>),
+        answer: (<Typography.Paragraph>No. <HowsMyTrackNameText /> is about one thing: feedback. I don't want it being used for anything resembling promotion. </Typography.Paragraph>),
     },
     {
         question: "How can my feedback be anonymous if my track is linked from my Soundcloud account?",
@@ -80,7 +88,7 @@ const FAQS = [
 ];
 
 const FaqItem = (faq) => (
-    <List.Item id={faq.id}>
+    <List.Item className="mt-2" id={faq.id}>
         <List.Item.Meta
             style={{
                 // 'textAlign: left' included as FAQ text is 'justify' by

@@ -32,7 +32,7 @@ const HomePage = ({ isMobile }: Props) => {
                 <Div style={{ textAlign: "center" }}>
                     <Div className="home-container">
                         <LandingPitch isMobile={isMobile} />
-                        <Divider />
+                        <Divider className="my-2" />
                         <Faq />
                     </Div>
                 </Div>
