@@ -14,6 +14,7 @@ import { selectUserDetailsData, selectUserDetailsIsLoading } from "../../reducer
 const GA_MENU_BAR_CATEGORY = "menubar";
 
 const MenuBarController = ({ isMobile }) => {
+    // TODO this should just be `MenuBar` now, and the existing `MenuBar` should be deleted.
     const [isFeedbackRequestModalVisible, setIsFeedbackRequestModalVisible] = useState(false);
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
     const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(false);
@@ -79,7 +80,7 @@ const MenuBarController = ({ isMobile }) => {
     };
 
     return (
-        <Spin spinning={isLoading}>
+        <Spin spinning={isLoading} wrapperClassName={isMobile ? "w-100" : null}>
             <MenuBarContent
                 isMobile={isMobile}
                 onMenuClick={onMenuClick}

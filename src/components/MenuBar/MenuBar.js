@@ -12,6 +12,8 @@ const MenuBar = ({ isMobile }: Props) => {
     /*
      * Component for displaying page sidebar with menu links, or for mobile,
      * displaying a menu at the top of the screen.
+     *
+     * TODO: delete and replace with MenuBarController content; this file is now unused.
      */
 
     // Wrapping this in Div prevents forwardRef related errors being raised by
