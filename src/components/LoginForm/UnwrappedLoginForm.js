@@ -61,7 +61,7 @@ const UnwrappedLoginForm = ({ onSubmit, form, submitted, showRegisterButton, lar
                             onClick={showRegisterModal}
                             disabled={submitted}
                         >
-                            <Div className="d-flex mx-auto">
+                            <Div className="d-flex m-auto">
                                 <Span className="d-none d-sm-inline-block my-auto">
                                     Don't have an account? Sign up free
                                 </Span>
