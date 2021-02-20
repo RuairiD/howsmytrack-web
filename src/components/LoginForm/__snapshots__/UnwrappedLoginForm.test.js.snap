@@ -15,6 +15,7 @@ exports[`UnwrappedLoginForm renders a blank form for logging in on pageload 1`] 
       hasFeedback={false}
     >
       <Input
+        aria-label="Email"
         autoFocus={true}
         placeholder="Email"
         prefix={
@@ -34,6 +35,7 @@ exports[`UnwrappedLoginForm renders a blank form for logging in on pageload 1`] 
       hasFeedback={false}
     >
       <Input
+        aria-label="Password"
         placeholder="Password"
         prefix={
           <Icon
@@ -97,6 +99,7 @@ exports[`UnwrappedLoginForm renders an additional registration button if showReg
       hasFeedback={false}
     >
       <Input
+        aria-label="Email"
         autoFocus={true}
         placeholder="Email"
         prefix={
@@ -116,6 +119,7 @@ exports[`UnwrappedLoginForm renders an additional registration button if showReg
       hasFeedback={false}
     >
       <Input
+        aria-label="Password"
         placeholder="Password"
         prefix={
           <Icon
@@ -193,6 +197,7 @@ exports[`UnwrappedLoginForm renders large buttons if largeButtons is true 1`] = 
       hasFeedback={false}
     >
       <Input
+        aria-label="Email"
         autoFocus={true}
         placeholder="Email"
         prefix={
@@ -212,6 +217,7 @@ exports[`UnwrappedLoginForm renders large buttons if largeButtons is true 1`] = 
       hasFeedback={false}
     >
       <Input
+        aria-label="Password"
         placeholder="Password"
         prefix={
           <Icon

@@ -40,13 +40,15 @@ const LandingPitch = () => (
             itemLayout="vertical"
             dataSource={STEPS}
             renderItem={(step) => (
-                <Typography.Title level={4} style={{ display: "flex" }}>
-                    <Icon type={step.icon} style={{ marginRight: "2em" }} />
-                    <Div>{step.text}</Div>
-                </Typography.Title>
+                <li style={{ marginBottom: "1.5em" }}>
+                    <Typography.Title level={4} style={{ display: "flex" }}>
+                        <Icon type={step.icon} style={{ marginRight: "2em", marginTop: "auto", marginBottom: "auto" }} />
+                        <Div style={{ marginTop: "auto", marginBottom: "auto" }}>{step.text}</Div>
+                    </Typography.Title>
+                </li>
             )}
         />
-        <Divider />
+        <Divider style={{ marginTop: 0 }} />
         <Div style={{ display: "flex" }}>
             <Div style={{ width: "24em", marginLeft: "auto", marginRight: "auto" }}>
                 <LoginForm showRegisterButton largeButtons />

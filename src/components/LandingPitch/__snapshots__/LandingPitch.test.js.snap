@@ -64,7 +64,13 @@ exports[`LandingPitch renders a login form, along with an explanation of how the
       }
     }
   />
-  <Divider />
+  <Divider
+    style={
+      Object {
+        "marginTop": 0,
+      }
+    }
+  />
   <Div
     className=""
     style={

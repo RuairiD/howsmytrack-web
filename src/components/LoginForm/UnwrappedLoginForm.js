@@ -25,6 +25,7 @@ const UnwrappedLoginForm = ({ onSubmit, form, submitted, showRegisterButton, lar
                         <Input
                             prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
                             placeholder="Email"
+                            aria-label="Email"
                             autoFocus
                         />,
                     )}
@@ -37,6 +38,7 @@ const UnwrappedLoginForm = ({ onSubmit, form, submitted, showRegisterButton, lar
                             prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
                             type="password"
                             placeholder="Password"
+                            aria-label="Password"
                         />,
                     )}
                 </Form.Item>
