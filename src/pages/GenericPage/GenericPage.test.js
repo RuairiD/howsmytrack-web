@@ -33,25 +33,11 @@ describe("GenericPage", () => {
         });
     });
 
-    it("renders a sidebar menu when isMobile is false", () => {
+    it("renders a sidebar menu and a collapsible menu with desktop/mobile utility classes", () => {
         const wrapper = shallow(
             <GenericPage
                 title="title"
                 subTitle="subTitle"
-            >
-                <Div className="test-children" />
-            </GenericPage>,
-        );
-
-        expect(toJson(wrapper)).toMatchSnapshot();
-    });
-
-    it("renders a collapsible menu when isMobile is true", () => {
-        const wrapper = shallow(
-            <GenericPage
-                title="title"
-                subTitle="subTitle"
-                isMobile
             >
                 <Div className="test-children" />
             </GenericPage>,

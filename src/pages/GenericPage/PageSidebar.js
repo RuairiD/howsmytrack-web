@@ -1,12 +1,14 @@
 import React from "react";
 
-import { Layout } from "antd";
-import MenuBar from "../../components/MenuBar/MenuBar";
+import { Affix, Layout } from "antd";
+import { Div } from "lemon-reset";
+import MenuBarController from "../../components/MenuBar/MenuBarController";
 
 const getSiderWidth = () => {
     // Ideally, 560px+ of content should be visible besides the Sider.
     // A Sider of <200px is awkward though and similarly, a Sider of >256px
     // is redundant.
+    // TODO: not truly responsive
     let siderWidth = window.screen.width - 560;
     if (siderWidth < 200) {
         siderWidth = 200;
@@ -18,7 +20,11 @@ const getSiderWidth = () => {
 
 const PageSidebar = () => (
     <Layout.Sider theme="light" width={getSiderWidth()}>
-        <MenuBar />
+        <Affix>
+            <Div>
+                <MenuBarController />
+            </Div>
+        </Affix>
     </Layout.Sider>
 );
 

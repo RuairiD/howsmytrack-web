@@ -1,60 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GenericPage renders a collapsible menu when isMobile is true 1`] = `
+exports[`GenericPage renders a sidebar menu and a collapsible menu with desktop/mobile utility classes 1`] = `
 <Layout
   className="page-container"
 >
   <Div
     className="page-container-inner"
   >
-    <MenuBar
-      isMobile={true}
-    />
+    <Div
+      className="d-flex d-sm-none"
+    >
+      <MenuBarController
+        isMobile={true}
+      />
+    </Div>
     <Content>
       <Layout>
-        <Content
-          className="page-content"
+        <Div
+          className="d-none d-sm-flex"
         >
-          <PageHeader
-            backIcon={
-              <Icon
-                type="arrow-left"
-              />
-            }
-            ghost={false}
-            subTitle="subTitle"
-            title="title"
-          />
-          <Layout
-            className="content"
-          >
-            <Content>
-              <Div
-                className="test-children"
-              />
-            </Content>
-            <Footer>
-              <PageFooter />
-              <TransparentText />
-            </Footer>
-          </Layout>
-        </Content>
-      </Layout>
-    </Content>
-  </Div>
-</Layout>
-`;
-
-exports[`GenericPage renders a sidebar menu when isMobile is false 1`] = `
-<Layout
-  className="page-container"
->
-  <Div
-    className="page-container-inner"
-  >
-    <Content>
-      <Layout>
-        <PageSidebar />
+          <PageSidebar />
+        </Div>
         <Content
           className="page-content"
         >

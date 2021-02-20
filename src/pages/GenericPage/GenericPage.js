@@ -4,7 +4,7 @@ import { Layout, PageHeader, Typography } from "antd";
 import { Div } from "lemon-reset";
 import axios from "axios";
 import apiRoot from "../../apiRoot";
-import MenuBar from "../../components/MenuBar/MenuBar";
+import MenuBarController from "../../components/MenuBar/MenuBarController";
 import PageFooter from "./PageFooter";
 import PageSidebar from "./PageSidebar";
 
@@ -26,10 +26,9 @@ type Props = {
     title: string,
     subTitle: string,
     hideMenu: boolean,
-    isMobile: boolean,
 };
 
-const GenericPage = ({ title, subTitle, hideMenu, isMobile, children }: Props) => {
+const GenericPage = ({ title, subTitle, hideMenu, children }: Props) => {
     /*
      * Component for displaying generic page with children.
      * Also responsible for refreshing JWT token on pageload.
@@ -43,11 +42,17 @@ const GenericPage = ({ title, subTitle, hideMenu, isMobile, children }: Props) =
     return (
         <Layout className="page-container">
             <Div className="page-container-inner">
-                {!hideMenu && isMobile && <MenuBar isMobile={isMobile} />}
+                {!hideMenu && (
+                    <Div className="d-flex d-sm-none">
+                        <MenuBarController isMobile />
+                    </Div>
+                )}
                 <Layout.Content>
                     <Layout>
-                        {!hideMenu && !isMobile && (
-                            <PageSidebar />
+                        {!hideMenu && (
+                            <Div className="d-none d-sm-flex">
+                                <PageSidebar />
+                            </Div>
                         )}
                         <Layout.Content className="page-content">
                             {!hideMenu && (
