@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LandingPitch renders login and register buttons, along with an explanation of how the site works 1`] = `
+exports[`LandingPitch renders a login form, along with an explanation of how the site works 1`] = `
 <Div
   className=""
   style={
@@ -15,6 +15,7 @@ exports[`LandingPitch renders login and register buttons, along with an explanat
     <Img
       alt="how's my track"
       className=""
+      height="256px"
       src="/logo512.png"
       style={
         Object {
@@ -23,49 +24,6 @@ exports[`LandingPitch renders login and register buttons, along with an explanat
       }
       width="256px"
     />
-  </Div>
-  <Div
-    className=""
-    style={
-      Object {
-        "display": "flex",
-        "margin": "1em",
-        "textAlign": "center",
-      }
-    }
-  >
-    <Button
-      block={false}
-      className="home-action-button"
-      ghost={false}
-      htmlType="button"
-      loading={false}
-      onClick={[Function]}
-      size="large"
-      style={
-        Object {
-          "marginLeft": "auto",
-        }
-      }
-    >
-      Register
-    </Button>
-    <Button
-      block={false}
-      className="home-action-button"
-      ghost={false}
-      htmlType="button"
-      loading={false}
-      onClick={[Function]}
-      size="large"
-      style={
-        Object {
-          "marginRight": "auto",
-        }
-      }
-    >
-      Sign In
-    </Button>
   </Div>
   <List
     bordered={false}
@@ -101,17 +59,35 @@ exports[`LandingPitch renders login and register buttons, along with an explanat
     style={
       Object {
         "display": "inline-block",
+        "marginBottom": "1em",
         "textAlign": "left",
       }
     }
   />
-  <LoginModal
-    isVisible={false}
-    onCancel={[Function]}
-  />
-  <RegisterModal
-    isVisible={false}
-    onCancel={[Function]}
-  />
+  <Divider />
+  <Div
+    className=""
+    style={
+      Object {
+        "display": "flex",
+      }
+    }
+  >
+    <Div
+      className=""
+      style={
+        Object {
+          "marginLeft": "auto",
+          "marginRight": "auto",
+          "width": "24em",
+        }
+      }
+    >
+      <Form(UnwrappedLoginFormController)
+        largeButtons={true}
+        showRegisterButton={true}
+      />
+    </Div>
+  </Div>
 </Div>
 `;

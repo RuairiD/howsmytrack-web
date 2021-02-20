@@ -16,7 +16,7 @@ const TOKEN_AUTH_MUTATION = `mutation TokenAuth($username: String!, $password: S
 
 const GA_LOGIN_CATEGORY = "login";
 
-const UnwrappedLoginFormController = ({ form }) => {
+const UnwrappedLoginFormController = ({ form, showRegisterButton, largeButtons }) => {
     /*
      * Component for displaying login form.
      */
@@ -81,7 +81,13 @@ const UnwrappedLoginFormController = ({ form }) => {
                 <Col>
                     {!submitted && (
                         <Spin spinning={isLoading}>
-                            <UnwrappedLoginForm form={form} onSubmit={onSubmit} submitted={submitted} />
+                            <UnwrappedLoginForm
+                                form={form}
+                                onSubmit={onSubmit}
+                                submitted={submitted}
+                                showRegisterButton={showRegisterButton}
+                                largeButtons={largeButtons}
+                            />
                         </Spin>
                     )}
                     {submitted && (

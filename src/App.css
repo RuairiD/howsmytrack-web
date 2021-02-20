@@ -112,18 +112,14 @@ html, body, #root, #root>div {
     max-width: 720px;
 }
 
-.home-action-button {
+.black-button {
     color: #FFFFFF;
     background-color: #000000;
-    margin: 0.5em;
-    margin-top: 0;
-    margin-bottom: 2em;
-    height: 100%;
-    width: 160px;
     border-color: #FFFFFF;
+    margin-bottom: 0.5em;
 }
 
-.home-action-button:hover {
+.black-button:hover {
     color: #000000;
     background-color: #FFFFFF;
     border-color: #000000;
