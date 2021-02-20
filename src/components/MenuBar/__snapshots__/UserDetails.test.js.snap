@@ -6,39 +6,27 @@ exports[`UserDetails renders the user's username and rating rounded to 2 decimal
   disabled={true}
 >
   <Div
-    className=""
-    style={
-      Object {
-        "display": "flex",
-      }
-    }
+    className="d-flex"
   >
     <Text
+      className="my-auto me-auto"
       ellipsis={true}
-      style={
-        Object {
-          "marginBottom": "auto",
-          "marginRight": "auto",
-          "marginTop": "auto",
-        }
-      }
     >
       username
     </Text>
     <Text
+      className="my-auto ms-auto"
       strong={true}
-      style={
-        Object {
-          "marginBottom": "auto",
-          "marginLeft": "auto",
-          "marginTop": "auto",
-        }
-      }
     >
-      4.32
-      <Icon
-        type="star"
-      />
+      <Div
+        className="d-flex"
+      >
+        4.32
+        <Icon
+          className="my-auto align-middle"
+          type="star"
+        />
+      </Div>
     </Text>
   </Div>
 </MenuItem>
@@ -50,22 +38,11 @@ exports[`UserDetails renders the user's username only, if no rating is available
   disabled={true}
 >
   <Div
-    className=""
-    style={
-      Object {
-        "display": "flex",
-      }
-    }
+    className="d-flex"
   >
     <Text
+      className="my-auto me-auto"
       ellipsis={true}
-      style={
-        Object {
-          "marginBottom": "auto",
-          "marginRight": "auto",
-          "marginTop": "auto",
-        }
-      }
     >
       username
     </Text>

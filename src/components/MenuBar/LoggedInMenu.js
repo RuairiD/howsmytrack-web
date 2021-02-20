@@ -18,34 +18,35 @@ const LoggedInMenu = ({ onMenuClick, username, rating, notifications }) => (
             username={username}
             rating={rating}
         />
-        <Menu.Item key="newRequest">
-            <Icon type="plus" />
+        <Menu.Item key="newRequest" className="d-flex">
+            <Icon className="align-middle my-auto" type="plus" />
             <Span>New Request</Span>
         </Menu.Item>
         <Menu.Item key="feedbackGroups">
-            <A href="/groups">
-                <Icon type="team" />
+            <A href="/groups" className="d-flex">
+                <Icon className="align-middle my-auto" type="team" />
                 <Span>Your Groups</Span>
                 <Badge
                     count={notifications}
                     style={{ marginLeft: "0.5em" }}
+                    className="align-middle my-auto"
                 />
             </A>
         </Menu.Item>
         <Menu.Item key="faq">
-            <A href="/faq">
-                <Icon type="question-circle" />
+            <A href="/faq" className="d-flex">
+                <Icon className="align-middle my-auto" type="question-circle" />
                 <Span>FAQ</Span>
             </A>
         </Menu.Item>
         <Menu.Item key="settings">
-            <A href="/settings">
-                <Icon type="setting" />
+            <A href="/settings" className="d-flex">
+                <Icon className="align-middle my-auto" type="setting" />
                 <Span>Settings</Span>
             </A>
         </Menu.Item>
-        <Menu.Item key="logout">
-            <Icon type="user-delete" />
+        <Menu.Item key="logout" className="d-flex">
+            <Icon className="align-middle my-auto" type="user-delete" />
             <Span>Sign Out</Span>
         </Menu.Item>
     </Menu>

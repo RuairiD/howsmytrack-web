@@ -16,9 +16,11 @@ exports[`LoggedInMenu renders menu for logged in users with New Request, Your Gr
     username="username"
   />
   <MenuItem
+    className="d-flex"
     key="newRequest"
   >
     <Icon
+      className="align-middle my-auto"
       type="plus"
     />
     <Span
@@ -31,10 +33,11 @@ exports[`LoggedInMenu renders menu for logged in users with New Request, Your Gr
     key="feedbackGroups"
   >
     <A
-      className=""
+      className="d-flex"
       href="/groups"
     >
       <Icon
+        className="align-middle my-auto"
         type="team"
       />
       <Span
@@ -43,6 +46,7 @@ exports[`LoggedInMenu renders menu for logged in users with New Request, Your Gr
         Your Groups
       </Span>
       <Badge
+        className="align-middle my-auto"
         count={2}
         dot={false}
         overflowCount={99}
@@ -59,10 +63,11 @@ exports[`LoggedInMenu renders menu for logged in users with New Request, Your Gr
     key="faq"
   >
     <A
-      className=""
+      className="d-flex"
       href="/faq"
     >
       <Icon
+        className="align-middle my-auto"
         type="question-circle"
       />
       <Span
@@ -76,10 +81,11 @@ exports[`LoggedInMenu renders menu for logged in users with New Request, Your Gr
     key="settings"
   >
     <A
-      className=""
+      className="d-flex"
       href="/settings"
     >
       <Icon
+        className="align-middle my-auto"
         type="setting"
       />
       <Span
@@ -90,9 +96,11 @@ exports[`LoggedInMenu renders menu for logged in users with New Request, Your Gr
     </A>
   </MenuItem>
   <MenuItem
+    className="d-flex"
     key="logout"
   >
     <Icon
+      className="align-middle my-auto"
       type="user-delete"
     />
     <Span

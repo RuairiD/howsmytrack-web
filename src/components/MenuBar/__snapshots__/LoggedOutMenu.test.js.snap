@@ -18,9 +18,11 @@ exports[`LoggedOutMenu renders menu for logged out users with Sign In, Register 
     </Text>
   </MenuItem>
   <MenuItem
+    className="d-flex"
     key="login"
   >
     <Icon
+      className="align-middle my-auto"
       type="user"
     />
     <Span
@@ -30,9 +32,11 @@ exports[`LoggedOutMenu renders menu for logged out users with Sign In, Register 
     </Span>
   </MenuItem>
   <MenuItem
+    className="d-flex"
     key="register"
   >
     <Icon
+      className="align-middle my-auto"
       type="user-add"
     />
     <Span
@@ -45,10 +49,11 @@ exports[`LoggedOutMenu renders menu for logged out users with Sign In, Register 
     key="faq"
   >
     <A
-      className=""
+      className="d-flex"
       href="/faq"
     >
       <Icon
+        className="align-middle my-auto"
         type="question-circle"
       />
       <Span

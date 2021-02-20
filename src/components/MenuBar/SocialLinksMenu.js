@@ -22,14 +22,14 @@ const SocialLinksMenu = ({ isMobile, onMenuClick }) => {
             >
                 {isMobile && <Menu.Divider />}
                 <Menu.Item className="ant-menu-item">
-                    <A href="https://twitter.com/howsmytrackcom" target="_blank" rel="noopener noreferrer">
-                        <Icon type="twitter" />
+                    <A href="https://twitter.com/howsmytrackcom" target="_blank" rel="noopener noreferrer" className="d-flex">
+                        <Icon className="align-middle my-auto" type="twitter" />
                         <Span>Twitter</Span>
                     </A>
                 </Menu.Item>
                 <Menu.Item className="ant-menu-item">
-                    <A href="https://discord.gg/6jGFP6N" target="_blank" rel="noopener noreferrer">
-                        <Icon type="robot" />
+                    <A href="https://discord.gg/6jGFP6N" target="_blank" rel="noopener noreferrer" className="d-flex">
+                        <Icon className="align-middle my-auto" type="robot" />
                         <Span>Discord</Span>
                     </A>
                 </Menu.Item>

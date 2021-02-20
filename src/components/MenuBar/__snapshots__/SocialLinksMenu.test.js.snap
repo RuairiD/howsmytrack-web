@@ -23,12 +23,13 @@ exports[`SocialLinksMenu renders Twitter and Discord links within a Menu 1`] = `
       className="ant-menu-item"
     >
       <A
-        className=""
+        className="d-flex"
         href="https://twitter.com/howsmytrackcom"
         rel="noopener noreferrer"
         target="_blank"
       >
         <Icon
+          className="align-middle my-auto"
           type="twitter"
         />
         <Span
@@ -42,12 +43,13 @@ exports[`SocialLinksMenu renders Twitter and Discord links within a Menu 1`] = `
       className="ant-menu-item"
     >
       <A
-        className=""
+        className="d-flex"
         href="https://discord.gg/6jGFP6N"
         rel="noopener noreferrer"
         target="_blank"
       >
         <Icon
+          className="align-middle my-auto"
           type="robot"
         />
         <Span
@@ -84,12 +86,13 @@ exports[`SocialLinksMenu renders without absolute positioning and includes an ad
       className="ant-menu-item"
     >
       <A
-        className=""
+        className="d-flex"
         href="https://twitter.com/howsmytrackcom"
         rel="noopener noreferrer"
         target="_blank"
       >
         <Icon
+          className="align-middle my-auto"
           type="twitter"
         />
         <Span
@@ -103,12 +106,13 @@ exports[`SocialLinksMenu renders without absolute positioning and includes an ad
       className="ant-menu-item"
     >
       <A
-        className=""
+        className="d-flex"
         href="https://discord.gg/6jGFP6N"
         rel="noopener noreferrer"
         target="_blank"
       >
         <Icon
+          className="align-middle my-auto"
           type="robot"
         />
         <Span

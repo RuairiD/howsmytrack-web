@@ -7,26 +7,21 @@ const UserDetails = ({ username, rating }) => {
     if (rating) {
         return (
             <Menu.Item disabled className="ant-menu-item">
-                <Div style={{ display: "flex" }}>
+                <Div className="d-flex">
                     <Typography.Text
                         ellipsis
-                        style={{
-                            marginRight: "auto",
-                            marginTop: "auto",
-                            marginBottom: "auto",
-                        }}
+                        className="my-auto me-auto"
                     >
                         {username}
                     </Typography.Text>
                     <Typography.Text
                         strong
-                        style={{
-                            marginLeft: "auto",
-                            marginTop: "auto",
-                            marginBottom: "auto",
-                        }}
+                        className="my-auto ms-auto"
                     >
-                        {rating.toFixed(2)}<Icon type="star" />
+                        <Div className="d-flex">
+                            {rating.toFixed(2)}
+                            <Icon className="my-auto align-middle" type="star" />
+                        </Div>
                     </Typography.Text>
                 </Div>
             </Menu.Item>
@@ -34,14 +29,10 @@ const UserDetails = ({ username, rating }) => {
     }
     return (
         <Menu.Item disabled className="ant-menu-item">
-            <Div style={{ display: "flex" }}>
+            <Div className="d-flex">
                 <Typography.Text
                     ellipsis
-                    style={{
-                        marginRight: "auto",
-                        marginTop: "auto",
-                        marginBottom: "auto",
-                    }}
+                    className="my-auto me-auto"
                 >
                     {username}
                 </Typography.Text>
