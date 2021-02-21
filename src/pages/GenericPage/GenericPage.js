@@ -54,7 +54,14 @@ const GenericPage = ({ title, subTitle, hideMenu, children }: Props) => {
                                 <PageSidebar />
                             </Div>
                         )}
-                        <Layout.Content className="page-content">
+                        <Layout.Content
+                            className="page-content"
+                            style={{
+                                // Fixes weird bug where multiple containers on the page
+                                // scroll at once, causing erratic scrolling behaviour.
+                                overflowX: "visible",
+                            }}
+                        >
                             {!hideMenu && (
                                 <PageHeader
                                     ghost={false}
