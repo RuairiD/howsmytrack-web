@@ -18,7 +18,7 @@ const renderFeedbackGroup = (match, isMobile) => {
 };
 
 const RoutesContainer = ({ isMobile }) => (
-    <Suspense fallback={LoadingSpinner}>
+    <Suspense fallback={<LoadingSpinner />}>
         <Switch>
             <Route
                 exact
