@@ -3,8 +3,8 @@ import React, { lazy, Suspense } from "react";
 
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
-const FeedbackGroupPage = lazy(() => import("../../pages/FeedbackGroupsPage/FeedbackGroupsPage"));
-const FeedbackGroupsPage = lazy(() => import("../../pages/FeedbackGroupPage/FeedbackGroupPage"));
+const FeedbackGroupsPage = lazy(() => import("../../pages/FeedbackGroupsPage/FeedbackGroupsPage"));
+const FeedbackGroupPage = lazy(() => import("../../pages/FeedbackGroupPage/FeedbackGroupPage"));
 const FaqPage = lazy(() => import("../../pages/FaqPage/FaqPage"));
 const TrackUrlHelpPage = lazy(() => import("../../pages/TrackUrlHelpPage/TrackUrlHelpPage"));
 const UserSettingsPage = lazy(() => import("../../pages/UserSettingsPage/UserSettingsPage"));
