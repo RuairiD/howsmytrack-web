@@ -1,12 +1,14 @@
 import { Route, Switch } from "react-router-dom";
-import React from "react";
+import React, { lazy, Suspense } from "react";
 
-import FeedbackGroupPage from "../../pages/FeedbackGroupPage/FeedbackGroupPage";
-import FeedbackGroupsPage from "../../pages/FeedbackGroupsPage/FeedbackGroupsPage";
-import FaqPage from "../../pages/FaqPage/FaqPage";
-import TrackUrlHelpPage from "../../pages/TrackUrlHelpPage/TrackUrlHelpPage";
-import UserSettingsPage from "../../pages/UserSettingsPage/UserSettingsPage";
-import HomePage from "../../pages/HomePage/HomePage";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+
+const FeedbackGroupPage = lazy(() => import("../../pages/FeedbackGroupsPage/FeedbackGroupsPage"));
+const FeedbackGroupsPage = lazy(() => import("../../pages/FeedbackGroupPage/FeedbackGroupPage"));
+const FaqPage = lazy(() => import("../../pages/FaqPage/FaqPage"));
+const TrackUrlHelpPage = lazy(() => import("../../pages/TrackUrlHelpPage/TrackUrlHelpPage"));
+const UserSettingsPage = lazy(() => import("../../pages/UserSettingsPage/UserSettingsPage"));
+const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
 
 const renderFeedbackGroup = (match, isMobile) => {
     const { feedbackGroupId } = match.params;
@@ -16,37 +18,39 @@ const renderFeedbackGroup = (match, isMobile) => {
 };
 
 const RoutesContainer = ({ isMobile }) => (
-    <Switch>
-        <Route
-            exact
-            path="/"
-            render={() => <HomePage isMobile={isMobile} />}
-        />
-        <Route
-            exact
-            path="/faq"
-            render={() => <FaqPage isMobile={isMobile} />}
-        />
-        <Route
-            exact
-            path="/trackurlhelp"
-            render={() => <TrackUrlHelpPage isMobile={isMobile} />}
-        />
-        <Route
-            exact
-            path="/groups"
-            render={() => <FeedbackGroupsPage isMobile={isMobile} />}
-        />
-        <Route
-            path="/group/:feedbackGroupId"
-            render={({ match }) => renderFeedbackGroup(match, isMobile)}
-        />
-        <Route
-            exact
-            path="/settings"
-            render={() => <UserSettingsPage isMobile={isMobile} />}
-        />
-    </Switch>
+    <Suspense fallback={LoadingSpinner}>
+        <Switch>
+            <Route
+                exact
+                path="/"
+                render={() => <HomePage isMobile={isMobile} />}
+            />
+            <Route
+                exact
+                path="/faq"
+                render={() => <FaqPage isMobile={isMobile} />}
+            />
+            <Route
+                exact
+                path="/trackurlhelp"
+                render={() => <TrackUrlHelpPage isMobile={isMobile} />}
+            />
+            <Route
+                exact
+                path="/groups"
+                render={() => <FeedbackGroupsPage isMobile={isMobile} />}
+            />
+            <Route
+                path="/group/:feedbackGroupId"
+                render={({ match }) => renderFeedbackGroup(match, isMobile)}
+            />
+            <Route
+                exact
+                path="/settings"
+                render={() => <UserSettingsPage isMobile={isMobile} />}
+            />
+        </Switch>
+    </Suspense>
 );
 
 export default RoutesContainer;
