@@ -9,19 +9,21 @@ const app = express();
 
 app.set("trust proxy");
 
-app.use(express.static(BUILD_PATH));
-app.use(morgan("combined"));
-
-const requestHandler = (req, res) => {
+// Force HTTPS redirection for HTTP requests.
+app.use((req, res, next) => {
     // Force HTTPS redirection for HTTP requests.
     if (req.headers["x-forwarded-proto"] === "https") {
-        res.sendFile(path.join(BUILD_PATH, "index.html"));
+        next();
     } else {
         res.redirect(`https://${req.headers.host}${req.url}`);
     }
-};
+});
 
-app.get("/", requestHandler);
-app.get("*", requestHandler);
+app.use(express.static(BUILD_PATH));
+app.use(morgan("combined"));
+
+app.get("*", (_req, res) => {
+    res.sendFile(path.join(BUILD_PATH, "index.html"));
+});
 
 app.listen(PORT, () => {});
