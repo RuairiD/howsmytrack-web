@@ -1,7 +1,10 @@
-dev: venv
+build:
+	yarn build
+
+dev: venv build
 	yarn run debug
 
-test: venv
+test: venv build
 	yarn test:nowatch src --coverage
 	pre-commit run --all-files
 
@@ -23,3 +26,4 @@ venv:
 clean:
 	rm -rf node_modules
 	rm -rf venv
+	rm -rf build
