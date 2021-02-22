@@ -11,17 +11,14 @@ app.set("trust proxy");
 
 app.use(express.static(BUILD_PATH));
 app.use(morgan("combined"));
-// Force HTTPS redirection for HTTP requests.
-app.use((req, res, next) => {
+
+app.get("*", (req, res) => {
+    // Force HTTPS redirection for HTTP requests.
     if (req.headers["x-forwarded-proto"] === "https") {
-        next();
+        res.sendFile(path.join(BUILD_PATH, "index.html"));
     } else {
         res.redirect(`https://${req.headers.host}${req.url}`);
     }
-});
-
-app.get("*", (_req, res) => {
-    res.sendFile(path.join(BUILD_PATH, "index.html"));
 });
 
 app.listen(PORT, () => {});
