@@ -11,7 +11,6 @@ app.set("trust proxy");
 
 // Force HTTPS redirection for HTTP requests.
 app.use((req, res, next) => {
-    // Force HTTPS redirection for HTTP requests.
     if (req.headers["x-forwarded-proto"] === "https") {
         next();
     } else {
