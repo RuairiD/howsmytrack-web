@@ -1,14 +1,15 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
 
 import { Divider } from "antd";
 import { Div } from "lemon-reset";
 import GenericPage from "../GenericPage/GenericPage";
-import FeedbackGroupsPage from "../FeedbackGroupsPage/FeedbackGroupsPage";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Faq from "../../components/Faq/Faq";
 import LandingPitch from "../../components/LandingPitch/LandingPitch";
 import { selectUserDetailsData, selectUserDetailsIsLoading } from "../../reducers/userDetailsSlice";
+
+const FeedbackGroupsPage = lazy(() => import("../../pages/FeedbackGroupsPage/FeedbackGroupsPage"));
 
 type Props = {
     isMobile: boolean,
@@ -24,7 +25,11 @@ const HomePage = ({ isMobile }: Props) => {
         );
     }
     if (data && !!data.username) {
-        return (<FeedbackGroupsPage isMobile={isMobile} />);
+        return (
+            <Suspense fallback={<LoadingSpinner />}>
+                <FeedbackGroupsPage isMobile={isMobile} />
+            </Suspense>
+        );
     }
     return (
         <Div className="home">

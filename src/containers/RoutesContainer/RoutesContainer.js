@@ -2,13 +2,13 @@ import { Route, Switch } from "react-router-dom";
 import React, { lazy, Suspense } from "react";
 
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import HomePage from "../../pages/HomePage/HomePage";
 
 const FeedbackGroupsPage = lazy(() => import("../../pages/FeedbackGroupsPage/FeedbackGroupsPage"));
 const FeedbackGroupPage = lazy(() => import("../../pages/FeedbackGroupPage/FeedbackGroupPage"));
 const FaqPage = lazy(() => import("../../pages/FaqPage/FaqPage"));
 const TrackUrlHelpPage = lazy(() => import("../../pages/TrackUrlHelpPage/TrackUrlHelpPage"));
 const UserSettingsPage = lazy(() => import("../../pages/UserSettingsPage/UserSettingsPage"));
-const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
 
 const renderFeedbackGroup = (match, isMobile) => {
     const { feedbackGroupId } = match.params;

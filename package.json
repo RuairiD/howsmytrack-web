@@ -10,6 +10,7 @@
     "antd": "^3.26.7",
     "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
+    "compression": "^1.7.4",
     "dateformat": "^3.0.3",
     "enzyme-adapter-react-16": "^1.15.5",
     "enzyme-to-json": "^3.6.1",
