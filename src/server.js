@@ -7,6 +7,8 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 
+app.set("trust proxy");
+
 app.use(express.static(BUILD_PATH));
 app.use(morgan("combined"));
 // Force HTTPS redirection for HTTP requests.
