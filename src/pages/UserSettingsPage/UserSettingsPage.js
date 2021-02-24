@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import GenericPage from "../GenericPage/GenericPage";
 import UserSettings from "../../components/UserSettings/UserSettings";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-import { selectUserDetailsData } from "../../reducers/userDetailsSlice";
+import { selectUserDetailsData, selectUserDetailsIsLoading } from "../../reducers/userDetailsSlice";
 
 type Props = {
     isMobile: boolean,
@@ -12,19 +12,28 @@ type Props = {
 
 const UserSettingsPage = ({ isMobile }: Props) => {
     const data = useSelector(selectUserDetailsData);
+    const isLoading = useSelector(selectUserDetailsIsLoading);
 
-    if (data) {
+    if (isLoading) {
         return (
-            <GenericPage title="Settings" isMobile={isMobile}>
-                <UserSettings
-                    currentEmail={data.username}
-                    currentSendReminderEmails={data.sendReminderEmails}
-                />
-            </GenericPage>
+            <LoadingSpinner />
         );
     }
 
-    return <LoadingSpinner />;
+    if (!data) {
+        // No data means user isn't logged in.
+        window.location.assign("/");
+        return null;
+    }
+
+    return (
+        <GenericPage title="Settings" isMobile={isMobile}>
+            <UserSettings
+                currentEmail={data.username}
+                currentSendReminderEmails={data.sendReminderEmails}
+            />
+        </GenericPage>
+    );
 };
 
 export default UserSettingsPage;
