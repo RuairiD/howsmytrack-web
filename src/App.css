@@ -181,7 +181,7 @@ html, body, #root, #root>div {
 
 /* Desktop styles */
 @media only screen
-  and (min-device-width: 601px) {
+  and (min-width: 768px) {
     .menu-bar .ant-menu-item {
         font-weight: bold;
         font-size: 16px;
@@ -192,7 +192,7 @@ html, body, #root, #root>div {
 
 /* Mobile styles */
 @media only screen
-  and (max-device-width: 600px) {
+  and (max-width: 768px) {
     .page-container {
         min-width: 100vw;
     }

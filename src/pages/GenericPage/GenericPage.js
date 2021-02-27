@@ -43,14 +43,14 @@ const GenericPage = ({ title, subTitle, hideMenu, children }: Props) => {
         <Layout className="page-container">
             <Div className="page-container-inner">
                 {!hideMenu && (
-                    <Div className="d-flex d-sm-none">
+                    <Div className="d-flex d-md-none">
                         <MenuBarController isMobile />
                     </Div>
                 )}
                 <Layout.Content>
                     <Layout>
                         {!hideMenu && (
-                            <Div className="d-none d-sm-flex">
+                            <Div className="d-none d-md-flex">
                                 <PageSidebar />
                             </Div>
                         )}
