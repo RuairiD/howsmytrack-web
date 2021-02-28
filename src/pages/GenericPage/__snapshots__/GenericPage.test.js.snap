@@ -8,7 +8,7 @@ exports[`GenericPage renders a sidebar menu and a collapsible menu with desktop/
     className="page-container-inner"
   >
     <Div
-      className="d-flex d-sm-none"
+      className="d-flex d-md-none"
     >
       <MenuBarController
         isMobile={true}
@@ -17,7 +17,7 @@ exports[`GenericPage renders a sidebar menu and a collapsible menu with desktop/
     <Content>
       <Layout>
         <Div
-          className="d-none d-sm-flex"
+          className="d-none d-md-flex"
         >
           <PageSidebar />
         </Div>
