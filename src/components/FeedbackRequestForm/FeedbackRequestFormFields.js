@@ -34,7 +34,7 @@ const FeedbackRequestFormFields = ({
     }
 
     const fieldDecorators = {
-        mediaUrl: (isRequestTrackless) => form.getFieldDecorator(
+        mediaUrl: (isTrackless) => form.getFieldDecorator(
             "mediaUrl",
             {
                 rules: [
@@ -42,7 +42,7 @@ const FeedbackRequestFormFields = ({
                         // A media url isn't required if the user has declared that
                         // they are making a 'trackless' request i.e. only giving
                         // feedback, not receiving it.
-                        required: isRequestTrackless,
+                        required: isTrackless,
                         message: "Please provide a track URL",
                     },
                 ],

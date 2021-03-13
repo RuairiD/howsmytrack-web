@@ -6,7 +6,7 @@ dev: venv build
 
 test: venv build
 	yarn test:nowatch src --coverage
-	pre-commit run --all-files
+	venv/bin/pre-commit run --all-files
 
 coveralls:
 	./node_modules/.bin/coveralls < coverage/lcov.info
