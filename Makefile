@@ -18,8 +18,7 @@ lint: venv
 
 venv:
 	virtualenv -p python3 venv
-	. venv/bin/activate
-	pip install -r requirements.txt
+	. venv/bin/activate && pip install -r requirements.txt
 	pre-commit install
 	yarn install
 

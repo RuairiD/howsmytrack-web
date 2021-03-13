@@ -34,7 +34,7 @@ const FeedbackRequestFormFields = ({
     }
 
     const fieldDecorators = {
-        mediaUrl: form.getFieldDecorator(
+        mediaUrl: (isRequestTrackless) => form.getFieldDecorator(
             "mediaUrl",
             {
                 rules: [
@@ -91,7 +91,7 @@ const FeedbackRequestFormFields = ({
                 {!isRequestTrackless && (
                     <React.Fragment>
                         <Form.Item label="Soundcloud/Google Drive/Dropbox/OneDrive URL">
-                            {fieldDecorators.mediaUrl(
+                            {fieldDecorators.mediaUrl(isRequestTrackless)(
                                 <Input
                                     onChange={onMediaUrlChange}
                                     autoFocus
