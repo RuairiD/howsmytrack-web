@@ -4,6 +4,7 @@ exports[`RequestButtons renders edit and delete buttons with a gentler warning f
 <Fragment>
   <Button
     block={false}
+    className="request-button"
     ghost={false}
     htmlType="button"
     icon="edit"
@@ -35,6 +36,7 @@ exports[`RequestButtons renders edit and delete buttons with a gentler warning f
   >
     <Button
       block={false}
+      className="request-button"
       ghost={false}
       htmlType="button"
       icon="delete"
@@ -49,6 +51,7 @@ exports[`RequestButtons renders edit and delete buttons with a warning for delet
 <Fragment>
   <Button
     block={false}
+    className="request-button"
     ghost={false}
     htmlType="button"
     icon="edit"
@@ -80,6 +83,7 @@ exports[`RequestButtons renders edit and delete buttons with a warning for delet
   >
     <Button
       block={false}
+      className="request-button"
       ghost={false}
       htmlType="button"
       icon="delete"
