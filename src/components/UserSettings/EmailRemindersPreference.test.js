@@ -7,6 +7,7 @@ import waitForExpect from "wait-for-expect";
 import EmailRemindersPreference from "./EmailRemindersPreference";
 
 jest.mock("axios");
+jest.mock("../../apiRoot", () => "http://localhost:8000");
 
 describe("EmailRemindersPreference", () => {
     afterEach(() => {

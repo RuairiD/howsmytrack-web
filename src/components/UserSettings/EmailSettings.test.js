@@ -10,6 +10,7 @@ import EmailSettings from "./EmailSettings";
 const modalConfirmSpy = jest.spyOn(Modal, "confirm");
 
 jest.mock("axios");
+jest.mock("../../apiRoot", () => "http://localhost:8000");
 
 describe("EmailSettings", () => {
     afterEach(() => {

@@ -3,6 +3,8 @@ import { shallow } from "enzyme";
 import toJson from "enzyme-to-json";
 import UnwrappedRegisterForm from "./UnwrappedRegisterForm";
 
+jest.mock("../../apiRoot", () => "http://localhost:8000");
+
 const mockValidForm = {
     getFieldDecorator: jest.fn(() => (c) => c),
     validateFieldsAndScroll: jest.fn((afterValidation) => afterValidation(false, {
