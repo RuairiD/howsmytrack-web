@@ -11,7 +11,7 @@ exports[`PageSidebar does not render a sidebar narrower than 200px 1`] = `
     <Div
       className=""
     >
-      <MenuBarController />
+      <MenuBar />
     </Div>
   </Affix>
 </Sider>
@@ -28,7 +28,7 @@ exports[`PageSidebar does not render a sidebar wider than 256px 1`] = `
     <Div
       className=""
     >
-      <MenuBarController />
+      <MenuBar />
     </Div>
   </Affix>
 </Sider>
@@ -45,7 +45,7 @@ exports[`PageSidebar renders a sidebar menu with width relative to the screen si
     <Div
       className=""
     >
-      <MenuBarController />
+      <MenuBar />
     </Div>
   </Affix>
 </Sider>

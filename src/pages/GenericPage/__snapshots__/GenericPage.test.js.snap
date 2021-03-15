@@ -10,7 +10,7 @@ exports[`GenericPage renders a sidebar menu and a collapsible menu with desktop/
     <Div
       className="d-flex d-md-none"
     >
-      <MenuBarController
+      <MenuBar
         isMobile={true}
       />
     </Div>

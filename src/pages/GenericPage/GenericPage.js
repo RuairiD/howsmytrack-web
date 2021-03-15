@@ -4,7 +4,7 @@ import { Layout, PageHeader, Typography } from "antd";
 import { Div } from "lemon-reset";
 import axios from "axios";
 import apiRoot from "../../apiRoot";
-import MenuBarController from "../../components/MenuBar/MenuBarController";
+import MenuBar from "../../components/MenuBar/MenuBar";
 import PageFooter from "./PageFooter";
 import PageSidebar from "./PageSidebar";
 
@@ -44,7 +44,7 @@ const GenericPage = ({ title, subTitle, hideMenu, children }: Props) => {
             <Div className="page-container-inner">
                 {!hideMenu && (
                     <Div className="d-flex d-md-none">
-                        <MenuBarController isMobile />
+                        <MenuBar isMobile />
                     </Div>
                 )}
                 <Layout.Content>

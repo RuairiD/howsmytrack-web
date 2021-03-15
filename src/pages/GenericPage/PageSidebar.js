@@ -2,7 +2,7 @@ import React from "react";
 
 import { Affix, Layout } from "antd";
 import { Div } from "lemon-reset";
-import MenuBarController from "../../components/MenuBar/MenuBarController";
+import MenuBar from "../../components/MenuBar/MenuBar";
 
 const getSiderWidth = () => {
     // Ideally, 560px+ of content should be visible besides the Sider.
@@ -22,7 +22,7 @@ const PageSidebar = () => (
     <Layout.Sider theme="light" width={getSiderWidth()}>
         <Affix>
             <Div>
-                <MenuBarController />
+                <MenuBar />
             </Div>
         </Affix>
     </Layout.Sider>
