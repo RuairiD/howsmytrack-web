@@ -179,6 +179,10 @@ html, body, #root, #root>div {
     padding: 0.25em 0;
 }
 
+.request-button {
+    line-height: 0;
+}
+
 /* Desktop styles */
 @media only screen
   and (min-width: 768px) {

@@ -18,6 +18,7 @@ const RequestButtons = ({ mediaUrl, onEditClick, onDelete }) => (
             style={{
                 marginRight: "0.5em",
             }}
+            className="request-button"
         />
         <Popconfirm
             title={getDeleteConfirmationText(mediaUrl)}
@@ -28,6 +29,7 @@ const RequestButtons = ({ mediaUrl, onEditClick, onDelete }) => (
             <Button
                 shape="circle"
                 icon="delete"
+                className="request-button"
             />
         </Popconfirm>
     </React.Fragment>
