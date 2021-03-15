@@ -104,7 +104,7 @@ const FeedbackGroupsPage = ({ isMobile }: Props) => {
         useQuery(
             [FEEDBACK_GROUPS_QUERY],
             () => (
-                axios.post(`${apiRoot}/graphql/`, {
+                axios.post(`${apiRoot()}/graphql/`, {
                     query: FEEDBACK_GROUPS_QUERY,
                 }).then((response) => response.data.data.feedbackGroups)
             ),
@@ -116,7 +116,7 @@ const FeedbackGroupsPage = ({ isMobile }: Props) => {
         useQuery(
             [UNASSIGNED_REQUEST_QUERY],
             () => (
-                axios.post(`${apiRoot}/graphql/`, {
+                axios.post(`${apiRoot()}/graphql/`, {
                     query: UNASSIGNED_REQUEST_QUERY,
                 }).then((response) => response.data.data.unassignedRequest)
             ),

@@ -25,7 +25,7 @@ const AddReplyForm = ({
     const [allowReplies, setAllowReplies] = useState(true);
 
     const addReply = () => (
-        axios.post(`${apiRoot}/graphql/`, {
+        axios.post(`${apiRoot()}/graphql/`, {
             query: ADD_FEEDBACK_RESPONSE_REPLY_MUTATION,
             variables: {
                 feedbackResponseId,

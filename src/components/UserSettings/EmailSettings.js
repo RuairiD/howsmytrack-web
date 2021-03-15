@@ -23,7 +23,7 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const sendUpdateEmailRequest = (newEmail) => (
-        axios.post(`${apiRoot}/graphql/`, {
+        axios.post(`${apiRoot()}/graphql/`, {
             query: UPDATE_EMAIL_MUTATION,
             variables: {
                 email: newEmail,
@@ -61,7 +61,7 @@ const EmailSettings = ({ currentEmail }: EmailSettingsProps) => {
     // Log the user out and ask them to log back in with their new email address.
     // Necessary since JWT cookie will be invalid with a different username.
     if (data && data.success) {
-        axios.get(`${apiRoot}/logout/`).then(() => window.location.assign("/"));
+        axios.get(`${apiRoot()}/logout/`).then(() => window.location.assign("/"));
     }
 
     return (

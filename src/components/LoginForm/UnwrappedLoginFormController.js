@@ -32,7 +32,7 @@ const UnwrappedLoginFormController = ({ form, showRegisterButton, largeButtons }
             category: GA_LOGIN_CATEGORY,
             action: "submit",
         });
-        const response = await axios.post(`${apiRoot}/graphql/`, {
+        const response = await axios.post(`${apiRoot()}/graphql/`, {
             query: TOKEN_AUTH_MUTATION,
             variables: { username, password },
         });

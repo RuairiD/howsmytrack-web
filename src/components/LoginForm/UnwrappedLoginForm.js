@@ -72,7 +72,7 @@ const UnwrappedLoginForm = ({ onSubmit, form, submitted, showRegisterButton, lar
                             </Div>
                         </Button>
                     )}
-                    <A href={`${apiRoot}/accounts/password_reset`} style={{ float: "right" }}>
+                    <A href={`${apiRoot()}/accounts/password_reset`} style={{ float: "right" }}>
                         Forgot password?
                     </A>
                 </Form.Item>

@@ -18,7 +18,7 @@ const MenuBar = ({ isMobile }) => {
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
     const [isRegisterModalVisible, setIsRegisterModalVisible] = useState(false);
 
-    const logout = () => axios.get(`${apiRoot}/logout/`);
+    const logout = () => axios.get(`${apiRoot()}/logout/`);
 
     const menuActions = {
         newRequest: () => {

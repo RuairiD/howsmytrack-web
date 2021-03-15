@@ -47,7 +47,7 @@ const UnwrappedRegisterFormController = ({ form }) => {
         });
         setEmail(formEmail);
         setPassword(formPassword);
-        const response = await axios.post(`${apiRoot}/graphql/`, {
+        const response = await axios.post(`${apiRoot()}/graphql/`, {
             query: REGISTER_USER_MUTATION,
             variables: { email: formEmail, password: formPassword, passwordRepeat },
         });
@@ -63,7 +63,7 @@ const UnwrappedRegisterFormController = ({ form }) => {
                 category: GA_REGISTER_CATEGORY,
                 action: "success",
             });
-            axios.post(`${apiRoot}/graphql/`, {
+            axios.post(`${apiRoot()}/graphql/`, {
                 query: TOKEN_AUTH_MUTATION,
                 variables: {
                     username: email,

@@ -19,7 +19,7 @@ const UserSettings = ({ currentEmail, currentSendReminderEmails }: UserSettingsP
             <EmailSettings
                 currentEmail={currentEmail}
             />
-            <A href={`${apiRoot}/accounts/password_reset`}>
+            <A href={`${apiRoot()}/accounts/password_reset`}>
                 Request password reset email
             </A>
         </Form.Item>

@@ -50,7 +50,7 @@ const FeedbackRequestForm = ({
      * Component for displaying generic feedback request form for both creation and editing.
      * Enforces URL existence check locally but relies on backend to check user is eligible to make a request.
      */
-    const getMediaInfo = () => axios.post(`${apiRoot}/graphql/`, {
+    const getMediaInfo = () => axios.post(`${apiRoot()}/graphql/`, {
         query: MEDIA_INFO_QUERY,
         variables: {
             mediaUrl: form.getFieldValue("mediaUrl"),

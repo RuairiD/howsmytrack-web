@@ -30,7 +30,7 @@ const fetchUserDetails = async (dispatch) => {
     * store, which is better for pageload time and conserving user data.
     */
     dispatch(setIsLoading(true));
-    const data = await axios.post(`${apiRoot}/graphql/`, {
+    const data = await axios.post(`${apiRoot()}/graphql/`, {
         query: USER_DETAILS_QUERY,
     }).then((response) => response.data.data.userDetails);
     dispatch(setData(data));

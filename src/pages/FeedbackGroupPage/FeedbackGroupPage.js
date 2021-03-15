@@ -91,7 +91,7 @@ const formatTimeCreated = (timeCreated) => dateFormat(
 const FeedbackGroupPage = ({ feedbackGroupId, isMobile }: Props) => {
     const { isLoading, data } = useQuery(
         [FEEDBACK_GROUP_QUERY, { feedbackGroupId }],
-        () => axios.post(`${apiRoot}/graphql/`, {
+        () => axios.post(`${apiRoot()}/graphql/`, {
             query: FEEDBACK_GROUP_QUERY,
             variables: { feedbackGroupId },
         }).then((response) => response.data.data.feedbackGroup),

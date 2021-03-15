@@ -70,7 +70,7 @@ const FeedbackResponseReplies = ({
         for (const reply of replies) {
             replyIds.push(reply.id);
         }
-        return axios.post(`${apiRoot}/graphql/`, {
+        return axios.post(`${apiRoot()}/graphql/`, {
             query: MARK_REPLIES_AS_READ_MUTATION,
             variables: {
                 replyIds,
@@ -81,7 +81,7 @@ const FeedbackResponseReplies = ({
     const [markRepliesAsReadMutate] = useMutation(markRepliesAsRead);
 
     const getReplies = () => (
-        axios.post(`${apiRoot}/graphql/`, {
+        axios.post(`${apiRoot()}/graphql/`, {
             query: REPLIES_QUERY,
             variables: {
                 feedbackResponseId,

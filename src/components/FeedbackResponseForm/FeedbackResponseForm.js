@@ -78,7 +78,7 @@ const FeedbackResponseForm = ({
             category: GA_FEEDBACK_RESPONSE_CATEGORY,
             action: "submit",
         });
-        const response = await axios.post(`${apiRoot}/graphql/`, {
+        const response = await axios.post(`${apiRoot()}/graphql/`, {
             query: SUBMIT_FEEDBACK_RESPONSE_MUTATION,
             variables: {
                 feedbackResponseId,

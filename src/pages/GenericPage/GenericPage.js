@@ -34,7 +34,7 @@ const GenericPage = ({ title, subTitle, hideMenu, children }: Props) => {
      * Also responsible for refreshing JWT token on pageload.
      */
     useEffect(() => {
-        axios.post(`${apiRoot}/graphql/`, {
+        axios.post(`${apiRoot()}/graphql/`, {
             query: REFRESH_TOKEN_MUTATION,
         });
     }, []);

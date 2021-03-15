@@ -18,7 +18,7 @@ const UPDATE_SEND_REMINDER_EMAILS_MUTATION = `mutation UpdateSendReminderEmails(
 
 const EmailRemindersPreference = ({ currentSendReminderEmails }: EmailRemindersPreferenceProps) => {
     const sendReminderEmailsRequest = (checked) => (
-        axios.post(`${apiRoot}/graphql/`, {
+        axios.post(`${apiRoot()}/graphql/`, {
             query: UPDATE_SEND_REMINDER_EMAILS_MUTATION,
             variables: {
                 sendReminderEmails: checked,
