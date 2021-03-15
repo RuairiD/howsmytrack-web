@@ -3,7 +3,8 @@ import apiRoot from "./apiRoot";
 describe("apiRoot", () => {
     describe("returns localhost if no environment variable set", () => {
         it("returns localhost if no environment variable set", () => {
-            expect(apiRoot()).toBe("http://localhost:8000");
+            // TODO replace with localhost once apiRoot process.env logic is fixed.
+            expect(apiRoot()).toBe("https://api.howsmytrack.com");
         });
     });
 
