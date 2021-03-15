@@ -49,20 +49,20 @@ const FeedbackRequestFormFields = ({
                 initialValue: mediaUrl,
             },
         ),
-        feedbackPrompt: form.getFieldDecorator(
+        feedbackPrompt: () => form.getFieldDecorator(
             "feedbackPrompt",
             {
                 initialValue: feedbackPrompt,
             },
         ),
-        emailWhenGrouped: form.getFieldDecorator(
+        emailWhenGrouped: () => form.getFieldDecorator(
             "emailWhenGrouped",
             {
                 valuePropName: "checked",
                 initialValue: emailWhenGroupedValue,
             },
         ),
-        genre: form.getFieldDecorator(
+        genre: () => form.getFieldDecorator(
             "genre",
             {
                 initialValue: genre,
@@ -74,7 +74,7 @@ const FeedbackRequestFormFields = ({
                 ],
             },
         ),
-        trackless: form.getFieldDecorator(
+        trackless: () => form.getFieldDecorator(
             "trackless",
             {
                 initialValue: tracklessValue,
@@ -86,7 +86,7 @@ const FeedbackRequestFormFields = ({
         <Spin spinning={isLoading}>
             <Form onSubmit={onSubmit} className="hmt-form">
                 <Form.Item>
-                    <TracklessRadioGroup decorator={fieldDecorators.trackless} />
+                    <TracklessRadioGroup decorator={fieldDecorators.trackless()} />
                 </Form.Item>
                 {!isRequestTrackless && (
                     <React.Fragment>
@@ -99,7 +99,7 @@ const FeedbackRequestFormFields = ({
                             )}
                         </Form.Item>
                         <Form.Item label="Is there anything you would like specific feedback on? (optional)">
-                            {fieldDecorators.feedbackPrompt(
+                            {fieldDecorators.feedbackPrompt()(
                                 <Input.TextArea
                                     rows={4}
                                     placeholder={feedbackPromptPlaceholder}
@@ -113,10 +113,10 @@ const FeedbackRequestFormFields = ({
                     colon={false}
                     label={<GenreSelectLabel />}
                 >
-                    <GenreSelect decorator={fieldDecorators.genre} />
+                    <GenreSelect decorator={fieldDecorators.genre()} />
                 </Form.Item>
                 <Form.Item>
-                    {fieldDecorators.emailWhenGrouped(<Checkbox>Email me when this request is added to a group.</Checkbox>)}
+                    {fieldDecorators.emailWhenGrouped()(<Checkbox>Email me when this request is added to a group.</Checkbox>)}
                 </Form.Item>
                 <Form.Item>
                     <Button
