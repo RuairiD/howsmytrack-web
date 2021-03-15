@@ -31,7 +31,7 @@ const DELETE_FEEDBACK_REQUEST_MUTATION = `mutation DeleteFeedbackRequest($feedba
 }`;
 
 const deleteRequest = ({ feedbackRequestId }) => (
-    axios.post(`${apiRoot()}/graphql/`, {
+    axios.post(`${apiRoot}/graphql/`, {
         query: DELETE_FEEDBACK_REQUEST_MUTATION,
         variables: {
             feedbackRequestId,

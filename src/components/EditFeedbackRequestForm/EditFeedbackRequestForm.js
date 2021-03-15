@@ -21,7 +21,7 @@ const EDIT_FEEDBACK_REQUEST_MUTATION = `mutation EditFeedbackRequest($feedbackRe
     }
 }`;
 
-const makeEditFeedbackRequest = (params) => axios.post(`${apiRoot()}/graphql/`, {
+const makeEditFeedbackRequest = (params) => axios.post(`${apiRoot}/graphql/`, {
     query: EDIT_FEEDBACK_REQUEST_MUTATION,
     variables: params,
 });

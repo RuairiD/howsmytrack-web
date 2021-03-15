@@ -14,7 +14,7 @@ const CREATE_FEEDBACK_REQUEST_MUTATION = `mutation CreateFeedbackRequest($mediaU
     }
 }`;
 
-const makeCreateFeedbackRequest = (params) => axios.post(`${apiRoot()}/graphql/`, {
+const makeCreateFeedbackRequest = (params) => axios.post(`${apiRoot}/graphql/`, {
     query: CREATE_FEEDBACK_REQUEST_MUTATION,
     variables: params,
 });

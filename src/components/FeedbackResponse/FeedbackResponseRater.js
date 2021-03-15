@@ -32,7 +32,7 @@ const FeedbackResponseRater = ({
     };
 
     const submitRating = () => (
-        axios.post(`${apiRoot()}/graphql/`, {
+        axios.post(`${apiRoot}/graphql/`, {
             query: RATE_FEEDBACK_RESPONSE_MUTATION,
             variables: {
                 feedbackResponseId,
