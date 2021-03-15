@@ -3,6 +3,5 @@ export default () => {
     if (process.env.API_ROOT !== null && process.env.API_ROOT !== undefined) {
         return process.env.API_ROOT;
     }
-    // TODO: replace with process.env logic.
-    return "https://api.howsmytrack.com";
+    return "http://localhost:8000";
 };
