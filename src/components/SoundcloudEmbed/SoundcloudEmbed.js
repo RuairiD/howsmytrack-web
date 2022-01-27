@@ -12,10 +12,12 @@ const formatMediaUrl = (mediaUrl) => {
     /*
      * Format track URL for embedded iframe by separating out secret token.
      */
-    const urlParts = mediaUrl.split("/");
+    // Remove query string.
+    const cleanedMediaUrl = mediaUrl.split("?")[0];
+    const urlParts = cleanedMediaUrl.split("/");
     if (urlParts.length < 6) {
         // No secret token provided; leave it as a public track.
-        return mediaUrl;
+        return cleanedMediaUrl;
     }
     const secretToken = urlParts[5];
     let secretlessUrl = "";
