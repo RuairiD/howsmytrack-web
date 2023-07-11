@@ -9,7 +9,7 @@ import Faq from "../../components/Faq/Faq";
 import LandingPitch from "../../components/LandingPitch/LandingPitch";
 import { selectUserDetailsData, selectUserDetailsIsLoading } from "../../reducers/userDetailsSlice";
 
-const FeedbackGroupsPage = lazy(() => import("../../pages/FeedbackGroupsPage/FeedbackGroupsPage"));
+const FeedbackGroupsPage = lazy(() => import("../FeedbackGroupsPage/FeedbackGroupsPage"));
 
 type Props = {
     isMobile: boolean,
